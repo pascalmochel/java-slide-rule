@@ -16,7 +16,7 @@ public class SlideMouseListener implements MouseListener, MouseMotionListener {
 	protected float lastxSlideIncrement = 0.0f;
 	protected float xSlideIncrement = 0.0f;
 
-	protected float lastxCursorIncrement = 100.0f;
+	protected float lastxCursorIncrement = 500.0f;
 	protected float xCursorIncrement = 0.0f;
 
 	protected Panel panel;
