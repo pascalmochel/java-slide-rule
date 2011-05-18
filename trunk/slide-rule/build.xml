@@ -48,6 +48,7 @@
 		<antcall target="package-src" />
 		<antcall target="post-clean" />
 		<copydir src="./src/main/resources" dest="${build-dir}" />
+		<zip destfile="${build-dir}/sliderule.zip" basedir="${build-dir}" />
 	</target>
 
 </project>
