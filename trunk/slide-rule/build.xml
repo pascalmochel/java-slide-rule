@@ -1,0 +1,53 @@
+<!DOCTYPE project>
+
+<project name="slide-rule" basedir="." default="build-frijoles">
+
+	<property name="jarname" value="martinson-slide-rule" />
+
+	<property name="maven-repo-base-dir" value="/home/mhoms/Desktop/mhoms/.m2/repository" />
+
+	<property name="main-root" value="./src/main/java" />
+	<property name="build-dir" value="./ant-build" />
+	<property name="main-classes-dir" value="${build-dir}/classes" />
+
+
+	<target name="clean">
+		<delete dir="${build-dir}">
+			<exclude name=".svn"/>
+		</delete>
+	</target>
+
+	<target name="compile-src">
+		<mkdir dir="${main-classes-dir}" />
+		<javac srcdir="${main-root}" destdir="${main-classes-dir}" debug="on">
+			<classpath>
+				<!--
+				<pathelement path="${maven-repo-base-dir}/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar" />
+				<pathelement path="${maven-repo-base-dir}/junit/junit/4.7/junit-4.7.jar" />
+				<pathelement path="${maven-repo-base-dir}/org/springframework/spring/2.5.6/spring-2.5.6.jar" />
+				-->
+				<pathelement path="${main-classes-dir}" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="package-src">
+		<jar basedir="${main-classes-dir}" destfile="${build-dir}/${jarname}.jar" compress="true" />
+		<length file="${build-dir}/${jarname}.jar" property="jar-src-size" />
+		<echo message="Done, jar size: ${jar-src-size} bytes." />
+	</target>
+
+	<target name="post-clean">
+		<delete dir="${main-classes-dir}" />
+		<delete dir="${test-classes-dir}" />
+	</target>
+
+	<target name="build-frijoles">
+		<antcall target="clean" />
+		<antcall target="compile-src" />
+		<antcall target="package-src" />
+		<antcall target="post-clean" />
+		<copydir src="./src/main/resources" dest="${build-dir}" />
+	</target>
+
+</project>
