@@ -1,16 +1,8 @@
 package org.homs.slide;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Checkbox;
 import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.Panel;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 import org.homs.slide.awt.WL;
 
@@ -61,15 +53,15 @@ public class SlideRuleMain {
 
 	protected Frame frameFactory() {
 		final Frame f = new Frame("K A [B S T CI CF C] D DF L R1 R2 LL0 LL1 LL2 LL3");
-		f.setBounds(new Rectangle(100, 100, 100 + 1000, 100 + 255 + 60 + 100 + 30));
+		f.setBounds(new Rectangle(100, 100, 100 + 1000, 100 + 255 + 60 + 100));
 
 		f.addWindowListener(new WL());
 
 		f.setLayout(new BorderLayout());
 
 		final CPanel slideRulePanel = new CPanel();
-		final ControlPanel controlPanel = new ControlPanel(slideRulePanel);
-		f.add(controlPanel, "North");
+		// final ControlPanel controlPanel = new ControlPanel(slideRulePanel);
+		// f.add(controlPanel, "North");
 		f.add(slideRulePanel, "Center");
 		f.setResizable(false);
 
@@ -78,71 +70,38 @@ public class SlideRuleMain {
 		return f;
 	}
 
-	class ControlPanel extends Panel implements ActionListener, ItemListener {
-
-		private static final long serialVersionUID = 427067401599660412L;
-
-		protected final Button resetButton;
-		protected final Checkbox renderLL;
-		protected final Checkbox renderR;
-		protected final Checkbox renderST;
-		protected final Checkbox renderCFDF;
-
-		protected final CPanel slideRulePanel;
-
-		public ControlPanel(final CPanel slideRulePanel) {
-			super();
-			this.slideRulePanel = slideRulePanel;
-
-			this.setLayout(new GridLayout(1, 2));
-
-			resetButton = new Button("Reset");
-			resetButton.addActionListener(this);
-			this.add(resetButton);
-
-			renderLL = new Checkbox("LL", true);
-			renderLL.addItemListener(this);
-			this.add(renderLL);
-
-			renderR = new Checkbox("R1,R2", true);
-			renderR.addItemListener(this);
-			this.add(renderR);
-
-			renderST = new Checkbox("S,T", true);
-			renderST.addItemListener(this);
-			this.add(renderST);
-
-			renderCFDF = new Checkbox("CF,DF", true);
-			renderCFDF.addItemListener(this);
-			this.add(renderCFDF);
-		}
-
-		public void actionPerformed(final ActionEvent e) {
-			if (e.getSource().equals(resetButton)) {
-				slideRulePanel.reset();
-			}
-		}
-
-		public void itemStateChanged(final ItemEvent e) {
-			if (e.getSource() == renderLL) {
-				final boolean activate = e.getStateChange() == ItemEvent.SELECTED;
-				slideRulePanel.slideRule.setRenderLL(activate);
-				slideRulePanel.repaint();
-			} else if (e.getSource() == renderR) {
-				final boolean activate = e.getStateChange() == ItemEvent.SELECTED;
-				slideRulePanel.slideRule.setRenderR(activate);
-				slideRulePanel.repaint();
-			} else if (e.getSource() == renderST) {
-				final boolean activate = e.getStateChange() == ItemEvent.SELECTED;
-				slideRulePanel.slideRule.setRenderST(activate);
-				slideRulePanel.repaint();
-			} else if (e.getSource() == renderCFDF) {
-				final boolean activate = e.getStateChange() == ItemEvent.SELECTED;
-				slideRulePanel.slideRule.setRenderCFDF(activate);
-				slideRulePanel.repaint();
-			}
-		}
-
-	}
+	// class ControlPanel extends Panel implements ActionListener {
+	//
+	// private static final long serialVersionUID = 427067401599660412L;
+	//
+	// protected final Button resetButton;
+	// protected final Button zoomInButton;
+	//
+	// protected final CPanel slideRulePanel;
+	//
+	// public ControlPanel(final CPanel slideRulePanel) {
+	// super();
+	// this.slideRulePanel = slideRulePanel;
+	//
+	// this.setLayout(new GridLayout(1, 2));
+	//
+	// resetButton = new Button("Reset");
+	// resetButton.addActionListener(this);
+	// this.add(resetButton);
+	//
+	// zoomInButton = new Button("Zoom In");
+	// zoomInButton.addActionListener(this);
+	// this.add(zoomInButton);
+	// }
+	//
+	// public void actionPerformed(final ActionEvent e) {
+	// if (e.getSource().equals(resetButton)) {
+	// slideRulePanel.reset();
+	// } else if (e.getSource().equals(zoomInButton)) {
+	// slideRulePanel.zoomIn();
+	// }
+	// }
+	//
+	// }
 
 }

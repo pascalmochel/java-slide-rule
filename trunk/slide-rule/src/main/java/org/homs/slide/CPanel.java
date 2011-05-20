@@ -30,10 +30,10 @@ public class CPanel extends Panel {
 	// repaint();
 	// }
 	//
-	public void reset() {
-		mouseListener.reset();
-		repaint();
-	}
+	// public void reset() {
+	// mouseListener.reset();
+	// repaint();
+	// }
 
 	@Override
 	public void paint(final Graphics g) {

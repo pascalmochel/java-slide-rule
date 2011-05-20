@@ -42,11 +42,6 @@ public class SlideRule {
 	protected final F ll2 = new LL2();
 	protected final F ll3 = new LL3();
 
-	protected boolean renderLL = true;
-	protected boolean renderR = true;
-	protected boolean renderST = true;
-	protected boolean renderCFDF = true;
-
 	public SlideRule(final int width) {
 		super();
 		this.FACTOR = width - 100;
@@ -141,39 +136,36 @@ public class SlideRule {
 			plotB.plotUPi(gra, abcd);
 			plotB.plotUE(gra, abcd);
 		}
-		if (renderST) {
-			y += 55;
-			{
-				// S arcsin(x)
-				gra.drawScaleLabel("S", "asin", STARTX + displecementBar, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.UP);
+		y += 55;
+		{
+			// S arcsin(x)
+			gra.drawScaleLabel("S", "asin", STARTX + displecementBar, y);
+			final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.UP);
 
-				p.plotTwice(gra, 10, 45, 5, S, Size.MAX, Label.INT);
-				p.plotTwice(gra, STARTX, 90, 15, S, Size.MAX, Label.INT);
+			p.plotTwice(gra, 10, 45, 5, S, Size.MAX, Label.INT);
+			p.plotTwice(gra, STARTX, 90, 15, S, Size.MAX, Label.INT);
 
-				p.plot(gra, 6, STARTX, 1, S, Size.NORMAL, Label.NONE);
-				p.plot(gra, STARTX, 90, 5, S, Size.NORMAL, Label.NONE);
+			p.plot(gra, 6, STARTX, 1, S, Size.NORMAL, Label.NONE);
+			p.plot(gra, STARTX, 90, 5, S, Size.NORMAL, Label.NONE);
 
-				p.plot(gra, 6, STARTX, 0.5, S, Size.SMALL, Label.NONE);
-				p.plot(gra, STARTX, 70, 1, S, Size.SMALL, Label.NONE);
+			p.plot(gra, 6, STARTX, 0.5, S, Size.SMALL, Label.NONE);
+			p.plot(gra, STARTX, 70, 1, S, Size.SMALL, Label.NONE);
 
-				p.plot(gra, 5.8, 15, 0.1, S, Size.TINY, Label.NONE);
+			p.plot(gra, 5.8, 15, 0.1, S, Size.TINY, Label.NONE);
 
-			}
-			y += 1;
-			gra.getG().setColor(Color.BLACK);
-			gra.getG().drawLine((int) (STARTX + displecementBar), y,
-					(int) (width - STARTX + displecementBar), y);
-			y += 1;
-			{
-				// T arctan(x)
-				gra.drawUScaleLabel("T", "atan", STARTX + displecementBar, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.DOWN);
+		}
+		y += 1;
+		gra.getG().setColor(Color.BLACK);
+		gra.getG().drawLine((int) (STARTX + displecementBar), y, (int) (width - STARTX + displecementBar), y);
+		y += 1;
+		{
+			// T arctan(x)
+			gra.drawUScaleLabel("T", "atan", STARTX + displecementBar, y);
+			final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.DOWN);
 
-				p.plotTwice(gra, 10, 45, 5, T, Size.NORMAL, Label.INT);
-				p.plot(gra, 6, 45, 1, T, Size.SMALL, Label.NONE);
-				p.plot(gra, 5.8, 45, 0.2, T, Size.TINY, Label.NONE);
-			}
+			p.plotTwice(gra, 10, 45, 5, T, Size.NORMAL, Label.INT);
+			p.plot(gra, 6, 45, 1, T, Size.SMALL, Label.NONE);
+			p.plot(gra, 5.8, 45, 0.2, T, Size.TINY, Label.NONE);
 		}
 		y += 55;
 		{
@@ -197,35 +189,33 @@ public class SlideRule {
 		gra.getG().setColor(Color.BLACK);
 		gra.getG().drawLine((int) (STARTX + displecementBar), y, (int) (width - STARTX + displecementBar), y);
 		y += 1;
-		if (renderCFDF) {
-			{
-				// CF (pi-folded)
-				gra.drawUScaleLabel("CF", "", STARTX + displecementBar, y);
+		{
+			// CF (pi-folded)
+			gra.drawUScaleLabel("CF", "", STARTX + displecementBar, y);
 
-				Plot2 p = new Plot2(FACTOR, (float) (STARTX - log10(abcd.yi(PI)) * FACTOR) + displecementBar,
-						y, Direction.DOWN);
-				p.plot(gra, 4, 9, 1.0, abcd, Size.NORMAL, Label.INT);
-				p.plot(gra, 3.2, 9.9, 0.1, abcd, Size.SMALL, Label.NONE);
-				p.plot(gra, 3.15, 5, 0.05, abcd, Size.TINY, Label.NONE);
+			Plot2 p = new Plot2(FACTOR, (float) (STARTX - log10(abcd.yi(PI)) * FACTOR) + displecementBar, y,
+					Direction.DOWN);
+			p.plot(gra, 4, 9, 1.0, abcd, Size.NORMAL, Label.INT);
+			p.plot(gra, 3.2, 9.9, 0.1, abcd, Size.SMALL, Label.NONE);
+			p.plot(gra, 3.15, 5, 0.05, abcd, Size.TINY, Label.NONE);
 
-				p.plotUPi(gra, abcd);
+			p.plotUPi(gra, abcd);
 
-				p = new Plot2(FACTOR, (float) (//
-						STARTX //
-								+ log10(abcd.yi(10)) * FACTOR//
-								- log10(abcd.yi(PI)) * FACTOR//
-						+ displecementBar), y, Direction.DOWN);
-				p.plot(gra, 1.0, 3, 1.0, abcd, Size.NORMAL, Label.INT);
-				p.plot(gra, 1.0, 3.1, 0.1, abcd, Size.SMALL, Label.NONE);
-				p.plot(gra, 1.0, 3.10, 0.05, abcd, Size.TINY, Label.NONE);
+			p = new Plot2(FACTOR, (float) (//
+					STARTX //
+							+ log10(abcd.yi(10)) * FACTOR//
+							- log10(abcd.yi(PI)) * FACTOR//
+					+ displecementBar), y, Direction.DOWN);
+			p.plot(gra, 1.0, 3, 1.0, abcd, Size.NORMAL, Label.INT);
+			p.plot(gra, 1.0, 3.1, 0.1, abcd, Size.SMALL, Label.NONE);
+			p.plot(gra, 1.0, 3.10, 0.05, abcd, Size.TINY, Label.NONE);
 
-				p.plotUPi(gra, abcd);
-				p.plotUE(gra, abcd);
+			p.plotUPi(gra, abcd);
+			p.plotUE(gra, abcd);
 
-				p.plot(gra, abcd, 1.5, Size.NORMAL, Direction.DOWN, "1.5");
-				p.plot(gra, abcd, 2.5, Size.NORMAL, Direction.DOWN, "2.5");
+			p.plot(gra, abcd, 1.5, Size.NORMAL, Direction.DOWN, "1.5");
+			p.plot(gra, abcd, 2.5, Size.NORMAL, Direction.DOWN, "2.5");
 
-			}
 		}
 		y += 55;
 		{
@@ -268,34 +258,32 @@ public class SlideRule {
 			p.plotUE(gra, abcd);
 		}
 		y += 55;
-		if (renderCFDF) {
-			{
-				// DF (pi-folded)
-				gra.drawScaleLabel("DF", "", STARTX, y);
+		{
+			// DF (pi-folded)
+			gra.drawScaleLabel("DF", "", STARTX, y);
 
-				Plot2 p = new Plot2(FACTOR, (float) (STARTX - log10(abcd.yi(PI)) * FACTOR), y, Direction.UP);
-				p.plot(gra, 4, 9, 1.0, abcd, Size.NORMAL, Label.INT);
-				p.plot(gra, 3.2, 9.9, 0.1, abcd, Size.SMALL, Label.NONE);
-				p.plot(gra, 3.15, 5, 0.05, abcd, Size.TINY, Label.NONE);
+			Plot2 p = new Plot2(FACTOR, (float) (STARTX - log10(abcd.yi(PI)) * FACTOR), y, Direction.UP);
+			p.plot(gra, 4, 9, 1.0, abcd, Size.NORMAL, Label.INT);
+			p.plot(gra, 3.2, 9.9, 0.1, abcd, Size.SMALL, Label.NONE);
+			p.plot(gra, 3.15, 5, 0.05, abcd, Size.TINY, Label.NONE);
 
-				p.plotPi(gra, abcd);
+			p.plotPi(gra, abcd);
 
-				p = new Plot2(FACTOR, (float) (//
-						STARTX //
-								+ log10(abcd.yi(10)) * FACTOR//
-						- log10(abcd.yi(PI)) * FACTOR//
-						), y, Direction.UP);
-				p.plot(gra, 1.0, 3, 1.0, abcd, Size.NORMAL, Label.INT);
-				p.plot(gra, 1.0, 3.1, 0.1, abcd, Size.SMALL, Label.NONE);
-				p.plot(gra, 1.0, 3.10, 0.05, abcd, Size.TINY, Label.NONE);
+			p = new Plot2(FACTOR, (float) (//
+					STARTX //
+							+ log10(abcd.yi(10)) * FACTOR//
+					- log10(abcd.yi(PI)) * FACTOR//
+					), y, Direction.UP);
+			p.plot(gra, 1.0, 3, 1.0, abcd, Size.NORMAL, Label.INT);
+			p.plot(gra, 1.0, 3.1, 0.1, abcd, Size.SMALL, Label.NONE);
+			p.plot(gra, 1.0, 3.10, 0.05, abcd, Size.TINY, Label.NONE);
 
-				p.plotPi(gra, abcd);
-				p.plotE(gra, abcd);
+			p.plotPi(gra, abcd);
+			p.plotE(gra, abcd);
 
-				p.plot(gra, abcd, 1.5, Size.NORMAL, Direction.UP, "1.5");
-				p.plot(gra, abcd, 2.5, Size.NORMAL, Direction.UP, "2.5");
+			p.plot(gra, abcd, 1.5, Size.NORMAL, Direction.UP, "1.5");
+			p.plot(gra, abcd, 2.5, Size.NORMAL, Direction.UP, "2.5");
 
-			}
 		}
 		y += 1;
 		gra.getG().setColor(Color.BLACK);
@@ -311,125 +299,106 @@ public class SlideRule {
 
 			p.plot(gra, 0.0, 1.0, 0.005, L, Size.TINY, Label.NONE);
 		}
-		if (renderR) {
-			y += 55;
-			{
-				// R1 sqrt
-				gra.drawScaleLabel("R1", "√x", STARTX, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
-				p.plot(gra, 1.0, sqrt(10.0), 0.5, R1, Size.MAX, Label.FLOAT);
-				p.plot(gra, 1.0, sqrt(10.0), 0.1, R1, Size.NORMAL, Label.NONE);
-				p.plot(gra, 1.0, sqrt(10.0), 0.05, R1, Size.SMALL, Label.NONE);
-				p.plot(gra, 1.0, sqrt(4.0), 0.01, R1, Size.TINY, Label.NONE);
-				p.plot(gra, sqrt(4.0), sqrt(10), 0.01, R1, Size.TINY, Label.NONE);
+		y += 55;
+		{
+			// R1 sqrt
+			gra.drawScaleLabel("R1", "√x", STARTX, y);
+			final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
+			p.plot(gra, 1.0, sqrt(10.0), 0.5, R1, Size.MAX, Label.FLOAT);
+			p.plot(gra, 1.0, sqrt(10.0), 0.1, R1, Size.NORMAL, Label.NONE);
+			p.plot(gra, 1.0, sqrt(10.0), 0.05, R1, Size.SMALL, Label.NONE);
+			p.plot(gra, 1.0, sqrt(4.0), 0.01, R1, Size.TINY, Label.NONE);
+			p.plot(gra, sqrt(4.0), sqrt(10), 0.01, R1, Size.TINY, Label.NONE);
 
-				p.plotPi(gra, R1);
-			}
-			y += 1;
-			gra.getG().setColor(Color.BLACK);
-			gra.getG().drawLine(STARTX, y, (width - STARTX), y);
-			y += 1;
-			{
-				// R2 sqrt
-				gra.drawUScaleLabel("R2", "√10x", STARTX, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.DOWN);
-				p.plot(gra, 3.5, 10, 0.5, R2, Size.MAX, Label.FLOAT);
-				p.plot(gra, 3.2, 10, 0.1, R2, Size.SMALL, Label.NONE);
-				p.plot(gra, 3.15, 10, 0.05, R2, Size.TINY, Label.NONE);
-			}
+			p.plotPi(gra, R1);
 		}
-		if (renderLL) {
-			y += 55;
-			{
-				// LL0
-				gra.drawScaleLabel("LL0", "", STARTX, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
-				p.plot(gra, 1.001, 1.01, 0.001, ll0, Size.NORMAL, Label.FLOAT);
-				p.plot(gra, 1.001, 1.01, 0.0001, ll0, Size.SMALL, Label.NONE);
-				p.plot(gra, 1.001, 1.005, 0.00005, ll0, Size.TINY, Label.NONE);
-			}
-			y += 25;
-			{
-				// LL1
-				gra.drawScaleLabel("LL1", "", STARTX, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
-				p.plot(gra, 1.01, 1.1, 0.01, ll1, Size.SMALL, Label.FLOAT);
-				p.plot(gra, 1.01, 1.02, 0.005, ll1, Size.SMALL, Label.FLOAT);
-
-				p.plot(gra, 1.01, 1.105, 0.005, ll1, Size.SMALL, Label.NONE);
-				p.plot(gra, 1.01, 1.105, 0.001, ll1, Size.TINY, Label.NONE);
-				p.plot(gra, 1.01, 1.05, 0.0005, ll1, Size.TINY, Label.NONE);
-			}
-			y += 25;
-			{
-				// LL2
-				gra.drawScaleLabel("LL2", "", STARTX, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
-				p.plot(gra, 1.2, 2.7, 0.1, ll2, Size.NORMAL, Label.FLOAT);
-				p.plot(gra, 1.15, 1.2, 0.05, ll2, Size.NORMAL, Label.FLOAT);
-				p.plot(gra, 1.11, 1.11, 0.05, ll2, Size.NORMAL, Label.FLOAT);
-
-				p.plot(gra, 1.11, 1.9, 0.01, ll2, Size.SMALL, Label.NONE);
-				p.plot(gra, 1.9, 2.7, 0.025, ll2, Size.SMALL, Label.NONE);
-
-				p.plot(gra, 1.105, 1.5, 0.005, ll2, Size.TINY, Label.NONE);
-
-				p.plot(gra, ll2, 1.105, "1.105");
-			}
-			y += 25;
-			{
-				// LL3
-				gra.drawScaleLabel("LL3", "", STARTX, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
-				p.plot(gra, 2.7, 2.9, 1, ll3, Size.NORMAL, Label.FLOAT);
-				p.plot(gra, 3, 10, 1, ll3, Size.NORMAL, Label.INT);
-				p.plot(gra, 10, 100, 10, ll3, Size.NORMAL, Label.INT);
-				p.plot(gra, 200, 1000, 400, ll3, Size.NORMAL, Label.INT);
-				p.plot(gra, 1000, 3000, 1000, ll3, Size.NORMAL, Label.NONE);
-				p.plot(gra, 5000, 15000, 10000, ll3, Size.NORMAL, Label.NONE);
-
-				p.plot(gra, ll3, 2000, "2K");
-				p.plot(gra, ll3, 3000, "3K");
-				p.plot(gra, ll3, 5000, "5K");
-				p.plot(gra, ll3, 10000, "10K");
-				p.plot(gra, ll3, 15000, "15");
-				p.plot(gra, ll3, 20000, "20K");
-
-				p.plot(gra, 3, 10, 0.5, ll3, Size.SMALL, Label.NONE);
-				p.plot(gra, 10, 100, 5, ll3, Size.SMALL, Label.NONE);
-				p.plot(gra, 200, 1000, 100, ll3, Size.SMALL, Label.NONE);
-				p.plot(gra, 1000, 3000, 500, ll3, Size.SMALL, Label.NONE);
-				p.plot(gra, 3000, 5000, 1000, ll3, Size.SMALL, Label.NONE);
-				p.plot(gra, 5000, 15000, 5000, ll3, Size.SMALL, Label.NONE);
-
-				p.plot(gra, 2.7, 7, 0.1, ll3, Size.TINY, Label.NONE);
-				p.plot(gra, 7, 10, 0.25, ll3, Size.TINY, Label.NONE);
-				p.plot(gra, 10, 40, 1, ll3, Size.TINY, Label.NONE);
-				p.plot(gra, 40, 70, 2.5, ll3, Size.TINY, Label.NONE);
-				p.plot(gra, 100, 600, 25, ll3, Size.TINY, Label.NONE);
-				p.plot(gra, 1000, 5000, 250, ll3, Size.TINY, Label.NONE);
-				p.plot(gra, 5000, 15000, 1000, ll3, Size.TINY, Label.NONE);
-
-				p.plotPi(gra, ll3);
-				p.plotE(gra, ll3);
-			}
+		y += 1;
+		gra.getG().setColor(Color.BLACK);
+		gra.getG().drawLine(STARTX, y, (width - STARTX), y);
+		y += 1;
+		{
+			// R2 sqrt
+			gra.drawUScaleLabel("R2", "√10x", STARTX, y);
+			final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.DOWN);
+			p.plot(gra, 3.5, 10, 0.5, R2, Size.MAX, Label.FLOAT);
+			p.plot(gra, 3.2, 10, 0.1, R2, Size.SMALL, Label.NONE);
+			p.plot(gra, 3.15, 10, 0.05, R2, Size.TINY, Label.NONE);
 		}
-	}
 
-	public void setRenderLL(final boolean activate) {
-		this.renderLL = activate;
-	}
+		y += 55;
+		{
+			// LL0
+			gra.drawScaleLabel("LL0", "", STARTX, y);
+			final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
+			p.plot(gra, 1.001, 1.01, 0.001, ll0, Size.NORMAL, Label.FLOAT);
+			p.plot(gra, 1.001, 1.01, 0.0001, ll0, Size.SMALL, Label.NONE);
+			p.plot(gra, 1.001, 1.005, 0.00005, ll0, Size.TINY, Label.NONE);
+		}
+		y += 25;
+		{
+			// LL1
+			gra.drawScaleLabel("LL1", "", STARTX, y);
+			final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
+			p.plot(gra, 1.01, 1.1, 0.01, ll1, Size.SMALL, Label.FLOAT);
+			p.plot(gra, 1.01, 1.02, 0.005, ll1, Size.SMALL, Label.FLOAT);
 
-	public void setRenderR(final boolean activate) {
-		this.renderR = activate;
-	}
+			p.plot(gra, 1.01, 1.105, 0.005, ll1, Size.SMALL, Label.NONE);
+			p.plot(gra, 1.01, 1.105, 0.001, ll1, Size.TINY, Label.NONE);
+			p.plot(gra, 1.01, 1.05, 0.0005, ll1, Size.TINY, Label.NONE);
+		}
+		y += 25;
+		{
+			// LL2
+			gra.drawScaleLabel("LL2", "", STARTX, y);
+			final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
+			p.plot(gra, 1.2, 2.7, 0.1, ll2, Size.NORMAL, Label.FLOAT);
+			p.plot(gra, 1.15, 1.2, 0.05, ll2, Size.NORMAL, Label.FLOAT);
+			p.plot(gra, 1.11, 1.11, 0.05, ll2, Size.NORMAL, Label.FLOAT);
 
-	public void setRenderST(final boolean activate) {
-		this.renderST = activate;
-	}
+			p.plot(gra, 1.11, 1.9, 0.01, ll2, Size.SMALL, Label.NONE);
+			p.plot(gra, 1.9, 2.7, 0.025, ll2, Size.SMALL, Label.NONE);
 
-	public void setRenderCFDF(final boolean activate) {
-		this.renderCFDF = activate;
-	}
+			p.plot(gra, 1.105, 1.5, 0.005, ll2, Size.TINY, Label.NONE);
 
+			p.plot(gra, ll2, 1.105, "1.105");
+		}
+		y += 25;
+		{
+			// LL3
+			gra.drawScaleLabel("LL3", "", STARTX, y);
+			final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
+			p.plot(gra, 2.7, 2.9, 1, ll3, Size.NORMAL, Label.FLOAT);
+			p.plot(gra, 3, 10, 1, ll3, Size.NORMAL, Label.INT);
+			p.plot(gra, 10, 100, 10, ll3, Size.NORMAL, Label.INT);
+			p.plot(gra, 200, 1000, 400, ll3, Size.NORMAL, Label.INT);
+			p.plot(gra, 1000, 3000, 1000, ll3, Size.NORMAL, Label.NONE);
+			p.plot(gra, 5000, 15000, 10000, ll3, Size.NORMAL, Label.NONE);
+
+			p.plot(gra, ll3, 2000, "2K");
+			p.plot(gra, ll3, 3000, "3K");
+			p.plot(gra, ll3, 5000, "5K");
+			p.plot(gra, ll3, 10000, "10K");
+			p.plot(gra, ll3, 15000, "15");
+			p.plot(gra, ll3, 20000, "20K");
+
+			p.plot(gra, 3, 10, 0.5, ll3, Size.SMALL, Label.NONE);
+			p.plot(gra, 10, 100, 5, ll3, Size.SMALL, Label.NONE);
+			p.plot(gra, 200, 1000, 100, ll3, Size.SMALL, Label.NONE);
+			p.plot(gra, 1000, 3000, 500, ll3, Size.SMALL, Label.NONE);
+			p.plot(gra, 3000, 5000, 1000, ll3, Size.SMALL, Label.NONE);
+			p.plot(gra, 5000, 15000, 5000, ll3, Size.SMALL, Label.NONE);
+
+			p.plot(gra, 2.7, 7, 0.1, ll3, Size.TINY, Label.NONE);
+			p.plot(gra, 7, 10, 0.25, ll3, Size.TINY, Label.NONE);
+			p.plot(gra, 10, 40, 1, ll3, Size.TINY, Label.NONE);
+			p.plot(gra, 40, 70, 2.5, ll3, Size.TINY, Label.NONE);
+			p.plot(gra, 100, 600, 25, ll3, Size.TINY, Label.NONE);
+			p.plot(gra, 1000, 5000, 250, ll3, Size.TINY, Label.NONE);
+			p.plot(gra, 5000, 15000, 1000, ll3, Size.TINY, Label.NONE);
+
+			p.plotPi(gra, ll3);
+			p.plotE(gra, ll3);
+		}
+
+	}
 }
