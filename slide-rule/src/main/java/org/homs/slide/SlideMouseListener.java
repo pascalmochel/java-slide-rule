@@ -90,11 +90,11 @@ public class SlideMouseListener implements MouseListener, MouseMotionListener {
 	// return mouseX;
 	// }
 
-	public void reset() {
-		this.lastxSlideIncrement = 0;
-		this.xSlideIncrement = 0;
-		this.lastxCursorIncrement = 500;
-		this.xCursorIncrement = 0;
-	}
+	// public void reset() {
+	// this.lastxSlideIncrement = 0;
+	// this.xSlideIncrement = 0;
+	// this.lastxCursorIncrement = 100;
+	// this.xCursorIncrement = 0;
+	// }
 
 }
