@@ -239,7 +239,8 @@ public class SlideRule {
 
 			Plot2 p = new Plot2(FACTOR, (float) (STARTX - log10(abcd.yi(PI)) * FACTOR) + displecementBar, y,
 					Direction.DOWN);
-			p.plot(gra, 4, 9, 1.0, abcd, Size.NORMAL, Label.INT);
+			p.plot(gra, 4, 9, 1.0, abcd, Size.MAX, Label.INT);
+			p.plot(gra, 3.5, 9.5, 1.0, abcd, Size.NORMAL, Label.FLOAT);
 			p.plot(gra, 3.2, 9.9, 0.1, abcd, Size.SMALL, Label.NONE);
 			p.plot(gra, 3.15, 5, 0.05, abcd, Size.TINY, Label.NONE);
 
@@ -268,10 +269,11 @@ public class SlideRule {
 			final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.UP);
 			p.plot(gra, 1.0, 10.0, 1.0, abcd, Size.MAX, Label.INT);
 
-			p.plot(gra, abcd, 1.5, Size.NORMAL, "1.5");
-			p.plot(gra, abcd, 2.5, Size.NORMAL, "2.5");
-			p.plot(gra, abcd, 3.5, Size.NORMAL, "3.5");
-			p.plot(gra, abcd, 4.5, Size.NORMAL, "4.5");
+			p.plot(gra, 1.5, 9.5, 1.0, abcd, Size.NORMAL, Label.FLOAT);
+			// p.plot(gra, abcd, 1.5, Size.NORMAL, "1.5");
+			// p.plot(gra, abcd, 2.5, Size.NORMAL, "2.5");
+			// p.plot(gra, abcd, 3.5, Size.NORMAL, "3.5");
+			// p.plot(gra, abcd, 4.5, Size.NORMAL, "4.5");
 
 			p.plot(gra, 1.0, 10.0, 0.5, abcd, Size.NORMAL, Label.NONE);
 			p.plot(gra, 1.0, 10.0, 0.1, abcd, Size.SMALL, Label.NONE);
@@ -291,10 +293,11 @@ public class SlideRule {
 			final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.DOWN);
 			p.plot(gra, 1.0, 10.0, 1.0, abcd, Size.MAX, Label.INT);
 
-			p.plot(gra, abcd, 1.5, Size.NORMAL, Direction.DOWN, "1.5");
-			p.plot(gra, abcd, 2.5, Size.NORMAL, Direction.DOWN, "2.5");
-			p.plot(gra, abcd, 3.5, Size.NORMAL, Direction.DOWN, "3.5");
-			p.plot(gra, abcd, 4.5, Size.NORMAL, Direction.DOWN, "4.5");
+			p.plot(gra, 1.5, 9.5, 1.0, abcd, Size.NORMAL, Label.FLOAT);
+			// p.plot(gra, abcd, 1.5, Size.NORMAL, Direction.DOWN, "1.5");
+			// p.plot(gra, abcd, 2.5, Size.NORMAL, Direction.DOWN, "2.5");
+			// p.plot(gra, abcd, 3.5, Size.NORMAL, Direction.DOWN, "3.5");
+			// p.plot(gra, abcd, 4.5, Size.NORMAL, Direction.DOWN, "4.5");
 
 			p.plot(gra, 1.0, 10.0, 0.1, abcd, Size.SMALL, Label.NONE);
 			p.plot(gra, 1.0, 5.0, 0.05, abcd, Size.TINY, Label.NONE);
@@ -307,7 +310,8 @@ public class SlideRule {
 			gra.drawScaleLabel("DF", "", STARTX, y);
 
 			Plot2 p = new Plot2(FACTOR, (float) (STARTX - log10(abcd.yi(PI)) * FACTOR), y, Direction.UP);
-			p.plot(gra, 4, 9, 1.0, abcd, Size.NORMAL, Label.INT);
+			p.plot(gra, 4, 9, 1.0, abcd, Size.MAX, Label.INT);
+			p.plot(gra, 3.5, 9.5, 1.0, abcd, Size.NORMAL, Label.FLOAT);
 			p.plot(gra, 3.2, 9.9, 0.1, abcd, Size.SMALL, Label.NONE);
 			p.plot(gra, 3.15, 5, 0.05, abcd, Size.TINY, Label.NONE);
 
