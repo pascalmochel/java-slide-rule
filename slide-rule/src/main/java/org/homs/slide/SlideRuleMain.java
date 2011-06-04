@@ -53,7 +53,7 @@ public class SlideRuleMain {
 
 	protected Frame frameFactory() {
 		final Frame f = new Frame("K A [B S T ST CI CF C] D DF L R1 R2 LL0 LL1 LL2 LL3");
-		f.setBounds(new Rectangle(100, 100, 100 + 1000, 100 + 255 + 60 + 100 + 40));
+		f.setBounds(new Rectangle(100, 100, 100 + 1000, 100 + 255 + 60 + 100 + 40 + 25));
 
 		f.addWindowListener(new WL());
 
