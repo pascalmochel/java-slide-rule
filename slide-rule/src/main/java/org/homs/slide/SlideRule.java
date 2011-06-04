@@ -176,12 +176,14 @@ public class SlideRule {
 			final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.UP);
 
 			p.plot(gra, 1, 5.0, 0.5, ST, Size.NORMAL, Label.FLOAT);
-			p.plot(gra, ST, 0.573, Size.NORMAL, Direction.UP, ".573");
+			p.plot(gra, ST, 0.573, Size.TINY, Direction.UP, ".573");
 			p.plot(gra, ST, 0.6, Size.NORMAL, Direction.UP, "0.6");
 			p.plot(gra, ST, 5.74, Size.NORMAL, Direction.UP, "5.74");
 
 			p.plot(gra, 0.6, 5.7, 0.1, ST, Size.SMALL, Label.NONE);
 			p.plot(gra, 0.6, 5.7, 0.05, ST, Size.TINY, Label.NONE);
+
+			p.plotPi(gra, ST);
 		}
 		y += 35;
 		{
@@ -369,7 +371,7 @@ public class SlideRule {
 			final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
 			p.plot(gra, 1.2, 2.7, 0.1, ll2, Size.NORMAL, Label.FLOAT);
 			p.plot(gra, 1.15, 1.2, 0.05, ll2, Size.NORMAL, Label.FLOAT);
-			p.plot(gra, 1.11, 1.11, 0.05, ll2, Size.NORMAL, Label.FLOAT);
+			p.plot(gra, 1.11, 1.11, 0.05, ll2, Size.TINY, Label.FLOAT);
 
 			p.plot(gra, 1.11, 1.9, 0.01, ll2, Size.SMALL, Label.NONE);
 			p.plot(gra, 1.9, 2.7, 0.025, ll2, Size.SMALL, Label.NONE);
@@ -383,7 +385,7 @@ public class SlideRule {
 			// LL3
 			gra.drawScaleLabel("LL3", "", STARTX, y);
 			final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
-			p.plot(gra, 2.7, 2.9, 1, ll3, Size.NORMAL, Label.FLOAT);
+			p.plot(gra, 2.7, 2.9, 1, ll3, Size.TINY, Label.FLOAT);
 			p.plot(gra, 3, 10, 1, ll3, Size.NORMAL, Label.INT);
 			p.plot(gra, 10, 100, 10, ll3, Size.NORMAL, Label.INT);
 			p.plot(gra, 200, 1000, 400, ll3, Size.NORMAL, Label.INT);
