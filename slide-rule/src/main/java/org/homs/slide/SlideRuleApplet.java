@@ -13,7 +13,7 @@ public class SlideRuleApplet extends Applet {
 	public SlideRuleApplet() {
 		super();
 		final int xsize = 1000;
-		final int ysize = 355 + 40 + 100;
+		final int ysize = 355 + 40 + 100 + 40;
 		this.setBounds(0, 0, xsize, ysize);
 		panel.setBounds(0, 0, xsize, ysize);
 
