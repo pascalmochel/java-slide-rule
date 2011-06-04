@@ -10,6 +10,7 @@ import org.homs.slide.plotter.impl.k.Size;
 import org.homs.slide.scale.F;
 import org.homs.slide.scale.impl.ABCD;
 import org.homs.slide.scale.impl.CIDI;
+import org.homs.slide.scale.impl.CT;
 import org.homs.slide.scale.impl.K;
 import org.homs.slide.scale.impl.L;
 import org.homs.slide.scale.impl.LL0;
@@ -39,6 +40,7 @@ public class SlideRule {
 	protected final F S = new S();
 	protected final F T = new T();
 	protected final F ST = new ST();
+	protected final F CT = new CT();
 	protected final F ll0 = new LL0();
 	protected final F ll1 = new LL1();
 	protected final F ll2 = new LL2();
@@ -61,9 +63,9 @@ public class SlideRule {
 	public void drawSlideRule(final Gra gra, final float displecementBar) {
 
 		gra.getG().setColor(lightGrey);
-		gra.getG().fillRect(0, 67, (int) displecementBar, 237 - 67 + 35);
+		gra.getG().fillRect(0, 67, (int) displecementBar, 237 - 67 + 35 + 22);
 		final int a = (int) (STARTX + (FACTOR));
-		gra.getG().fillRect((int) (67 + a + displecementBar), 67, 1000, 237 - 67 + 35);
+		gra.getG().fillRect((int) (67 + a + displecementBar), 67, 1000, 237 - 67 + 35 + 22);
 
 		int y = 30;
 		{
@@ -175,7 +177,9 @@ public class SlideRule {
 			gra.drawScaleLabel("ST", "sin", STARTX + displecementBar, y);
 			final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.UP);
 
-			p.plot(gra, 1, 5.0, 0.5, ST, Size.NORMAL, Label.FLOAT);
+			p.plot(gra, 1, 5.0, 1, ST, Size.NORMAL, Label.INT);
+			p.plot(gra, 1.5, 5.0, 1, ST, Size.NORMAL, Label.FLOAT);
+
 			p.plot(gra, ST, 0.573, Size.TINY, Direction.UP, ".573");
 			p.plot(gra, ST, 0.6, Size.NORMAL, Direction.UP, "0.6");
 			p.plot(gra, ST, 5.74, Size.NORMAL, Direction.UP, "5.74");
@@ -185,7 +189,29 @@ public class SlideRule {
 
 			p.plotPi(gra, ST);
 		}
-		y += 35;
+		y += 1;
+		gra.getG().setColor(Color.BLACK);
+		gra.getG().drawLine((int) (STARTX + displecementBar), y, (int) (width - STARTX + displecementBar), y);
+		y += 1;
+		{
+			// CT arcsin(x/100)
+			gra.drawUScaleLabel("CT", "cos", STARTX + displecementBar, y);
+			final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.DOWN);
+
+			p.plot(gra, 85, 89, 1, CT, Size.NORMAL, Label.INT);
+			p.plot(gra, 85.5, 89, 1, CT, Size.NORMAL, Label.FLOAT);
+
+			p.plot(gra, CT, 84.3, Size.NORMAL, Direction.DOWN, "84.3");
+			p.plot(gra, CT, 89.4, Size.NORMAL, Direction.DOWN, "89.4");
+			// p.plot(gra, CT, 5.74, Size.NORMAL, Direction.DOWN, "5.74");
+
+			p.plot(gra, 84.3, 89.4, 0.1, CT, Size.SMALL, Label.NONE);
+			p.plot(gra, 84.3, 89.4, 0.05, CT, Size.TINY, Label.NONE);
+			//
+			// p.plotUPi(gra, CT);
+		}
+
+		y += 55;
 		{
 			// CI
 			gra.drawScaleLabel("CI", "10/x", STARTX + displecementBar, y);
