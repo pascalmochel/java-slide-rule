@@ -1,5 +1,6 @@
 package org.homs.slide;
 
+import java.awt.Cursor;
 import java.awt.Panel;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -44,6 +45,9 @@ public class SlideMouseListener implements MouseListener, MouseMotionListener {
 		slow = e.getButton() == MouseEvent.BUTTON3;
 
 		isMovingCursor = Math.abs(p.x - lastxCursorIncrement) < 50;
+
+		final Cursor normalCursor = new Cursor(Cursor.MOVE_CURSOR);
+		panel.setCursor(normalCursor);
 	}
 
 	public void mouseReleased(final MouseEvent e) {
@@ -55,6 +59,8 @@ public class SlideMouseListener implements MouseListener, MouseMotionListener {
 			lastxSlideIncrement = lastxSlideIncrement + xSlideIncrement;
 			xSlideIncrement = 0.0f;
 		}
+		final Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
+		panel.setCursor(normalCursor);
 	}
 
 	public void mouseDragged(final MouseEvent e) {
