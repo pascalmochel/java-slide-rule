@@ -29,11 +29,11 @@ public class ControlPanel extends Panel implements ItemListener, ActionListener 
 		reset.addActionListener(this);
 		this.add(reset);
 
-		trig = new Checkbox("trig", true);
+		trig = new Checkbox("S, T", true);
 		trig.addItemListener(this);
 		this.add(trig);
 
-		exp = new Checkbox("exp", true);
+		exp = new Checkbox("LL0..3", true);
 		exp.addItemListener(this);
 		this.add(exp);
 	}
