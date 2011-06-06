@@ -42,6 +42,10 @@ public class CPanel extends Panel {
 		final int width = dim.width;
 		final int height = dim.height;
 
+		draw(g, width, height, true);
+	}
+
+	public void draw(final Graphics g, final int width, final int height, final boolean doubleBuffered) {
 		if (slideRule == null) {
 			slideRule = new SlideRule(width);
 		}
@@ -50,7 +54,7 @@ public class CPanel extends Panel {
 			offscreen = new BufferedImage(getSize().width, getSize().height, BufferedImage.TYPE_INT_RGB);
 			// createImage(getSize().width, getSize().height);
 		}
-		final Graphics og = offscreen.getGraphics();
+		final Graphics og = doubleBuffered ? offscreen.getGraphics() : g;
 		og.setColor(Color.WHITE);
 		og.fillRect(0, 0, width, height);
 		super.paint(og);
@@ -81,7 +85,9 @@ public class CPanel extends Panel {
 		og.drawLine(cursorX + 51, 0, cursorX + 51, height);
 		og.drawLine(cursorX - 51, 0, cursorX - 51, height);
 
-		g.drawImage(offscreen, 0, 0, this);
+		if (doubleBuffered) {
+			g.drawImage(offscreen, 0, 0, this);
+		}
 
 		og.dispose();
 	}
