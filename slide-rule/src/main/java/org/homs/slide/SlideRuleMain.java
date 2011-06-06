@@ -67,6 +67,11 @@ public class SlideRuleMain {
 
 		f.setVisible(true);
 		f.repaint();
+
+		// final PdfRenderer pdfr = new PdfRenderer("./a.pdf");
+		// slideRulePanel.draw(pdfr.getGraphics2D(), 1200, 1000, false);
+		// pdfr.commit();
+
 		return f;
 	}
 
