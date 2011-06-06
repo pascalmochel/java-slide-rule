@@ -1,32 +1,15 @@
 package org.homs.slide.awt;
 
 import java.awt.Frame;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
-public class WL implements WindowListener {
+public class WL extends WindowAdapter {
 
-	public void windowActivated(final WindowEvent e) {
-	}
-
-	public void windowClosed(final WindowEvent e) {
-	}
-
+	@Override
 	public void windowClosing(final WindowEvent e) {
 		((Frame) e.getComponent()).setVisible(false);
 		System.exit(1);
-	}
-
-	public void windowDeactivated(final WindowEvent e) {
-	}
-
-	public void windowDeiconified(final WindowEvent e) {
-	}
-
-	public void windowIconified(final WindowEvent e) {
-	}
-
-	public void windowOpened(final WindowEvent e) {
 	}
 
 }
