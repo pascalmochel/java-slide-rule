@@ -1,6 +1,7 @@
 package org.homs.slide;
 
 import java.applet.Applet;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -13,7 +14,10 @@ public class SlideRuleApplet extends Applet {
 	public SlideRuleApplet() {
 		super();
 		final int xsize = 1000;
-		final int ysize = 355 + 40 + 100 + 40 + 22;
+		final int ysize = 355 + 40 + 100 + 40 + 22 + 30;
+
+		this.setLayout(new BorderLayout());
+
 		this.setBounds(0, 0, xsize, ysize);
 		panel.setBounds(0, 0, xsize, ysize);
 
@@ -23,7 +27,10 @@ public class SlideRuleApplet extends Applet {
 		this.setPreferredSize(new Dimension(xsize, ysize));
 		panel.setPreferredSize(new Dimension(xsize, ysize));
 
-		this.add(panel);
+		final ControlPanel controlPanel = new ControlPanel(panel);
+		this.add(controlPanel, "North");
+
+		this.add(panel, "Center");
 
 		panel.setVisible(true);
 		this.setVisible(true);
@@ -37,4 +44,5 @@ public class SlideRuleApplet extends Applet {
 		super.init();
 		panel.repaint();
 	}
+
 }

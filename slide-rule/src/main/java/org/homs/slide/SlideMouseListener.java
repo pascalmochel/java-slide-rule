@@ -12,7 +12,6 @@ public class SlideMouseListener implements MouseListener, MouseMotionListener {
 	protected boolean pressed = false;
 	protected Point p;
 	protected boolean slow = false;
-	// protected int mouseX = 200;
 
 	protected float lastxSlideIncrement = 0.0f;
 	protected float xSlideIncrement = 0.0f;
@@ -29,7 +28,6 @@ public class SlideMouseListener implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseClicked(final MouseEvent e) {
-		// mouseX = e.getPoint().x;
 		panel.repaint();
 	}
 
@@ -92,15 +90,11 @@ public class SlideMouseListener implements MouseListener, MouseMotionListener {
 		return lastxCursorIncrement + xCursorIncrement;
 	}
 
-	// public int getMouseX() {
-	// return mouseX;
-	// }
-
-	// public void reset() {
-	// this.lastxSlideIncrement = 0;
-	// this.xSlideIncrement = 0;
-	// this.lastxCursorIncrement = 100;
-	// this.xCursorIncrement = 0;
-	// }
+	public void reset() {
+		this.lastxSlideIncrement = 0;
+		this.xSlideIncrement = 0;
+		this.lastxCursorIncrement = 500;
+		this.xCursorIncrement = 0;
+	}
 
 }
