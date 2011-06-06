@@ -174,7 +174,7 @@ public class SlideRule {
 		y += 55;
 		{
 			// ST arcsin(x/100)
-			gra.drawScaleLabel("ST", "sin", STARTX + displecementBar, y);
+			gra.drawScaleLabel("ST", "sin/tg", STARTX + displecementBar, y);
 			final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.UP);
 
 			p.plot(gra, 1, 5.0, 1, ST, Size.NORMAL, Label.INT);
@@ -270,11 +270,6 @@ public class SlideRule {
 			p.plot(gra, 1.0, 10.0, 1.0, abcd, Size.MAX, Label.INT);
 
 			p.plot(gra, 1.5, 9.5, 1.0, abcd, Size.NORMAL, Label.FLOAT);
-			// p.plot(gra, abcd, 1.5, Size.NORMAL, "1.5");
-			// p.plot(gra, abcd, 2.5, Size.NORMAL, "2.5");
-			// p.plot(gra, abcd, 3.5, Size.NORMAL, "3.5");
-			// p.plot(gra, abcd, 4.5, Size.NORMAL, "4.5");
-
 			p.plot(gra, 1.0, 10.0, 0.5, abcd, Size.NORMAL, Label.NONE);
 			p.plot(gra, 1.0, 10.0, 0.1, abcd, Size.SMALL, Label.NONE);
 			p.plot(gra, 1.0, 5.0, 0.05, abcd, Size.TINY, Label.NONE);
@@ -294,11 +289,6 @@ public class SlideRule {
 			p.plot(gra, 1.0, 10.0, 1.0, abcd, Size.MAX, Label.INT);
 
 			p.plot(gra, 1.5, 9.5, 1.0, abcd, Size.NORMAL, Label.FLOAT);
-			// p.plot(gra, abcd, 1.5, Size.NORMAL, Direction.DOWN, "1.5");
-			// p.plot(gra, abcd, 2.5, Size.NORMAL, Direction.DOWN, "2.5");
-			// p.plot(gra, abcd, 3.5, Size.NORMAL, Direction.DOWN, "3.5");
-			// p.plot(gra, abcd, 4.5, Size.NORMAL, Direction.DOWN, "4.5");
-
 			p.plot(gra, 1.0, 10.0, 0.1, abcd, Size.SMALL, Label.NONE);
 			p.plot(gra, 1.0, 5.0, 0.05, abcd, Size.TINY, Label.NONE);
 			p.plotUPi(gra, abcd);
