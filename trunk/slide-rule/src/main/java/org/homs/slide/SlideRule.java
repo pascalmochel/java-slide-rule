@@ -27,8 +27,8 @@ import static java.lang.Math.*;
 
 public class SlideRule {
 
-	protected int STARTX = 50;
-	protected double FACTOR;
+	protected final int startx = 50;
+	protected final double factor;
 	protected final int width;
 
 	protected final F abcd = new ABCD();
@@ -51,14 +51,8 @@ public class SlideRule {
 
 	public SlideRule(final int width) {
 		super();
-		this.FACTOR = width - 100;
+		this.factor = width - 100;
 		this.width = width;
-	}
-
-	public void zoomIn(final int startX) {
-		final int K = 1000;
-		this.FACTOR = K * 2;
-		this.STARTX = startX - K;
 	}
 
 	public static Color lightGrey = new Color(0.9f, 0.9f, 0.9f);
@@ -68,9 +62,9 @@ public class SlideRule {
 		int y = 30;
 		{
 			// K
-			gra.drawScaleLabel("K", "^3", STARTX, y);
+			gra.drawScaleLabel("K", "^3", startx, y);
 			for (int i = 0; i < 1 * 3; i += 1) {
-				final Plot2 p = new Plot2(FACTOR, (float) (STARTX + i * FACTOR / 3.0), y, Direction.UP);
+				final Plot2 p = new Plot2(factor, (float) (startx + i * factor / 3.0), y, Direction.UP);
 				p.plot(gra, 1.0, 10.0, 1, K, Size.NORMAL, Label.INT);
 				p.plot(gra, 1.0, 10.0, 0.5, K, Size.SMALL, Label.NONE);
 
@@ -83,9 +77,9 @@ public class SlideRule {
 		y += 35;
 		{
 			// A
-			final Plot2 plotA = new Plot2(FACTOR / 2.0, STARTX, y, Direction.UP);
+			final Plot2 plotA = new Plot2(factor / 2.0, startx, y, Direction.UP);
 
-			gra.drawScaleLabel("A", "", STARTX, y);
+			gra.drawScaleLabel("A", "", startx, y);
 			plotA.plotPi(gra, abcd);
 			plotA.plotE(gra, abcd);
 
@@ -115,9 +109,9 @@ public class SlideRule {
 		final int bary1 = y;
 		{
 			// B
-			gra.drawUScaleLabel("B", "", STARTX + displecementBar, y);
+			gra.drawUScaleLabel("B", "", startx + displecementBar, y);
 
-			final Plot2 plotB = new Plot2(FACTOR / 2.0, STARTX + displecementBar, y, Direction.DOWN);
+			final Plot2 plotB = new Plot2(factor / 2.0, startx + displecementBar, y, Direction.DOWN);
 
 			plotB.plot(gra, 1.0, 10.0, 1.0, abcd, Size.MAX, Label.INT);
 			plotB.plot(gra, 10.0, 100.0, 10.0, abcd, Size.MAX, Label.INT);
@@ -144,30 +138,30 @@ public class SlideRule {
 		if (this.plotTrigScales) {
 			{
 				// S arcsin(x)
-				gra.drawScaleLabel("S", "sin/cos", STARTX + displecementBar, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.UP);
+				gra.drawScaleLabel("S", "sin/cos", startx + displecementBar, y);
+				final Plot2 p = new Plot2(factor, startx + displecementBar, y, Direction.UP);
 
 				p.plotTwice(gra, 10, 45, 5, S, Size.MAX, Label.INT);
-				p.plotTwice(gra, STARTX, 90, 15, S, Size.MAX, Label.INT);
+				p.plotTwice(gra, startx, 90, 15, S, Size.MAX, Label.INT);
 
-				p.plot(gra, 6, STARTX, 1, S, Size.NORMAL, Label.NONE);
-				p.plot(gra, STARTX, 90, 5, S, Size.NORMAL, Label.NONE);
+				p.plot(gra, 6, startx, 1, S, Size.NORMAL, Label.NONE);
+				p.plot(gra, startx, 90, 5, S, Size.NORMAL, Label.NONE);
 
-				p.plot(gra, 6, STARTX, 0.5, S, Size.SMALL, Label.NONE);
-				p.plot(gra, STARTX, 70, 1, S, Size.SMALL, Label.NONE);
+				p.plot(gra, 6, startx, 0.5, S, Size.SMALL, Label.NONE);
+				p.plot(gra, startx, 70, 1, S, Size.SMALL, Label.NONE);
 
 				p.plot(gra, 5.8, 15, 0.1, S, Size.TINY, Label.NONE);
 
 			}
 			y += 1;
 			gra.getG().setColor(Color.BLACK);
-			gra.getG().drawLine((int) (STARTX + displecementBar), y,
-					(int) (width - STARTX + displecementBar), y);
+			gra.getG().drawLine((int) (startx + displecementBar), y,
+					(int) (width - startx + displecementBar), y);
 			y += 1;
 			{
 				// T arctan(x)
-				gra.drawUScaleLabel("T", "tg/ctg", STARTX + displecementBar, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.DOWN);
+				gra.drawUScaleLabel("T", "tg/ctg", startx + displecementBar, y);
+				final Plot2 p = new Plot2(factor, startx + displecementBar, y, Direction.DOWN);
 
 				p.plotTwice(gra, 10, 45, 5, T, Size.NORMAL, Label.INT);
 				p.plot(gra, 6, 45, 1, T, Size.SMALL, Label.NONE);
@@ -176,8 +170,8 @@ public class SlideRule {
 			y += 55;
 			{
 				// ST arcsin(x/100)
-				gra.drawScaleLabel("ST", "sin/tg", STARTX + displecementBar, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.UP);
+				gra.drawScaleLabel("ST", "sin/tg", startx + displecementBar, y);
+				final Plot2 p = new Plot2(factor, startx + displecementBar, y, Direction.UP);
 
 				p.plot(gra, 1, 5.0, 1, ST, Size.NORMAL, Label.INT);
 				p.plot(gra, 1.5, 5.0, 1, ST, Size.NORMAL, Label.FLOAT);
@@ -193,13 +187,13 @@ public class SlideRule {
 			}
 			y += 1;
 			gra.getG().setColor(Color.BLACK);
-			gra.getG().drawLine((int) (STARTX + displecementBar), y,
-					(int) (width - STARTX + displecementBar), y);
+			gra.getG().drawLine((int) (startx + displecementBar), y,
+					(int) (width - startx + displecementBar), y);
 			y += 1;
 			{
 				// CT arcsin(x/100)
-				gra.drawUScaleLabel("CT", "cos", STARTX + displecementBar, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.DOWN);
+				gra.drawUScaleLabel("CT", "cos", startx + displecementBar, y);
+				final Plot2 p = new Plot2(factor, startx + displecementBar, y, Direction.DOWN);
 
 				p.plot(gra, 85, 89, 1, CT, Size.NORMAL, Label.INT);
 				p.plot(gra, 85.5, 89, 1, CT, Size.NORMAL, Label.FLOAT);
@@ -214,8 +208,8 @@ public class SlideRule {
 		}
 		{
 			// CI
-			gra.drawScaleLabel("CI", "10/x", STARTX + displecementBar, y);
-			final Plot2 p = new Plot2(FACTOR, (float) (FACTOR + STARTX + displecementBar), y, Direction.UP);
+			gra.drawScaleLabel("CI", "10/x", startx + displecementBar, y);
+			final Plot2 p = new Plot2(factor, (float) (factor + startx + displecementBar), y, Direction.UP);
 			p.plot(gra, 1.0, 10.0, 1.0, cidi, Size.NORMAL, Label.INT);
 			p.plot(gra, cidi, 1.5, Size.NORMAL, "1.5");
 			p.plot(gra, cidi, 2.5, Size.NORMAL, "2.5");
@@ -231,13 +225,13 @@ public class SlideRule {
 		}
 		y += 1;
 		gra.getG().setColor(Color.BLACK);
-		gra.getG().drawLine((int) (STARTX + displecementBar), y, (int) (width - STARTX + displecementBar), y);
+		gra.getG().drawLine((int) (startx + displecementBar), y, (int) (width - startx + displecementBar), y);
 		y += 1;
 		{
 			// CF (pi-folded)
-			gra.drawUScaleLabel("CF", "", STARTX + displecementBar, y);
+			gra.drawUScaleLabel("CF", "", startx + displecementBar, y);
 
-			Plot2 p = new Plot2(FACTOR, (float) (STARTX - log10(abcd.yi(PI)) * FACTOR) + displecementBar, y,
+			Plot2 p = new Plot2(factor, (float) (startx - log10(abcd.yi(PI)) * factor) + displecementBar, y,
 					Direction.DOWN);
 			p.plot(gra, 4, 9, 1.0, abcd, Size.MAX, Label.INT);
 			p.plot(gra, 3.5, 9.5, 1.0, abcd, Size.NORMAL, Label.FLOAT);
@@ -246,10 +240,10 @@ public class SlideRule {
 
 			p.plotUPi(gra, abcd);
 
-			p = new Plot2(FACTOR, (float) (//
-					STARTX //
-							+ log10(abcd.yi(10)) * FACTOR//
-							- log10(abcd.yi(PI)) * FACTOR//
+			p = new Plot2(factor, (float) (//
+					startx //
+							+ log10(abcd.yi(10)) * factor//
+							- log10(abcd.yi(PI)) * factor//
 					+ displecementBar), y, Direction.DOWN);
 			p.plot(gra, 1.0, 3, 1.0, abcd, Size.NORMAL, Label.INT);
 			p.plot(gra, 1.0, 3.1, 0.1, abcd, Size.SMALL, Label.NONE);
@@ -265,8 +259,8 @@ public class SlideRule {
 		y += 55;
 		{
 			// C
-			gra.drawScaleLabel("C", "", STARTX + displecementBar, y);
-			final Plot2 p = new Plot2(FACTOR, STARTX + displecementBar, y, Direction.UP);
+			gra.drawScaleLabel("C", "", startx + displecementBar, y);
+			final Plot2 p = new Plot2(factor, startx + displecementBar, y, Direction.UP);
 			p.plot(gra, 1.0, 10.0, 1.0, abcd, Size.MAX, Label.INT);
 
 			p.plot(gra, 1.5, 9.5, 1.0, abcd, Size.NORMAL, Label.FLOAT);
@@ -281,12 +275,12 @@ public class SlideRule {
 		final int bary2 = y;
 		gra.getG().setColor(Color.BLACK);
 		gra.getG().drawLine(0, y, width, y);
-		gra.getG().drawLine(STARTX, y, width - STARTX, y);
+		gra.getG().drawLine(startx, y, width - startx, y);
 		y += 1;
 		{
 			// D
-			gra.drawUScaleLabel("D", "", STARTX, y);
-			final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.DOWN);
+			gra.drawUScaleLabel("D", "", startx, y);
+			final Plot2 p = new Plot2(factor, startx, y, Direction.DOWN);
 			p.plot(gra, 1.0, 10.0, 1.0, abcd, Size.MAX, Label.INT);
 
 			p.plot(gra, 1.5, 9.5, 1.0, abcd, Size.NORMAL, Label.FLOAT);
@@ -298,9 +292,9 @@ public class SlideRule {
 		y += 55;
 		{
 			// DF (pi-folded)
-			gra.drawScaleLabel("DF", "", STARTX, y);
+			gra.drawScaleLabel("DF", "", startx, y);
 
-			Plot2 p = new Plot2(FACTOR, (float) (STARTX - log10(abcd.yi(PI)) * FACTOR), y, Direction.UP);
+			Plot2 p = new Plot2(factor, (float) (startx - log10(abcd.yi(PI)) * factor), y, Direction.UP);
 			p.plot(gra, 4, 9, 1.0, abcd, Size.MAX, Label.INT);
 			p.plot(gra, 3.5, 9.5, 1.0, abcd, Size.NORMAL, Label.FLOAT);
 			p.plot(gra, 3.2, 9.9, 0.1, abcd, Size.SMALL, Label.NONE);
@@ -308,10 +302,10 @@ public class SlideRule {
 
 			p.plotPi(gra, abcd);
 
-			p = new Plot2(FACTOR, (float) (//
-					STARTX //
-							+ log10(abcd.yi(10)) * FACTOR//
-					- log10(abcd.yi(PI)) * FACTOR//
+			p = new Plot2(factor, (float) (//
+					startx //
+							+ log10(abcd.yi(10)) * factor//
+					- log10(abcd.yi(PI)) * factor//
 					), y, Direction.UP);
 			p.plot(gra, 1.0, 3, 1.0, abcd, Size.NORMAL, Label.INT);
 			p.plot(gra, 1.0, 3.1, 0.1, abcd, Size.SMALL, Label.NONE);
@@ -326,12 +320,12 @@ public class SlideRule {
 		}
 		y += 1;
 		gra.getG().setColor(Color.BLACK);
-		gra.getG().drawLine(STARTX, y, (width - STARTX), y);
+		gra.getG().drawLine(startx, y, (width - startx), y);
 		y += 1;
 		{
 			// L
-			gra.drawUScaleLabel("L", "log", STARTX, y);
-			final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.DOWN);
+			gra.drawUScaleLabel("L", "log", startx, y);
+			final Plot2 p = new Plot2(factor, startx, y, Direction.DOWN);
 			p.plot(gra, 0.0, 1.0, 0.1, L, Size.MAX, Label.FLOAT);
 			p.plot(gra, 0.0, 1.0, 0.05, L, Size.NORMAL, Label.NONE);
 			p.plot(gra, 0.0, 1.0, 0.01, L, Size.SMALL, Label.NONE);
@@ -341,8 +335,8 @@ public class SlideRule {
 		y += 55;
 		{
 			// R1 sqrt
-			gra.drawScaleLabel("R1", "√x", STARTX, y);
-			final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
+			gra.drawScaleLabel("R1", "√x", startx, y);
+			final Plot2 p = new Plot2(factor, startx, y, Direction.UP);
 			p.plot(gra, 1.0, sqrt(10.0), 0.5, R1, Size.MAX, Label.FLOAT);
 			p.plot(gra, 1.0, sqrt(10.0), 0.1, R1, Size.NORMAL, Label.NONE);
 			p.plot(gra, 1.0, sqrt(10.0), 0.05, R1, Size.SMALL, Label.NONE);
@@ -353,12 +347,12 @@ public class SlideRule {
 		}
 		y += 1;
 		gra.getG().setColor(Color.BLACK);
-		gra.getG().drawLine(STARTX, y, (width - STARTX), y);
+		gra.getG().drawLine(startx, y, (width - startx), y);
 		y += 1;
 		{
 			// R2 sqrt
-			gra.drawUScaleLabel("R2", "√10x", STARTX, y);
-			final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.DOWN);
+			gra.drawUScaleLabel("R2", "√10x", startx, y);
+			final Plot2 p = new Plot2(factor, startx, y, Direction.DOWN);
 			p.plot(gra, 3.5, 10, 0.5, R2, Size.MAX, Label.FLOAT);
 			p.plot(gra, 3.2, 10, 0.1, R2, Size.SMALL, Label.NONE);
 			p.plot(gra, 3.15, 10, 0.05, R2, Size.TINY, Label.NONE);
@@ -367,8 +361,8 @@ public class SlideRule {
 			y += 55;
 			{
 				// LL0
-				gra.drawScaleLabel("LL0", "", STARTX, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
+				gra.drawScaleLabel("LL0", "", startx, y);
+				final Plot2 p = new Plot2(factor, startx, y, Direction.UP);
 				p.plot(gra, 1.001, 1.01, 0.001, ll0, Size.NORMAL, Label.FLOAT);
 				p.plot(gra, 1.001, 1.01, 0.0001, ll0, Size.SMALL, Label.NONE);
 				p.plot(gra, 1.001, 1.005, 0.00005, ll0, Size.TINY, Label.NONE);
@@ -376,8 +370,8 @@ public class SlideRule {
 			y += 25;
 			{
 				// LL1
-				gra.drawScaleLabel("LL1", "", STARTX, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
+				gra.drawScaleLabel("LL1", "", startx, y);
+				final Plot2 p = new Plot2(factor, startx, y, Direction.UP);
 				p.plot(gra, 1.01, 1.1, 0.01, ll1, Size.SMALL, Label.FLOAT);
 				p.plot(gra, 1.01, 1.02, 0.005, ll1, Size.SMALL, Label.FLOAT);
 
@@ -388,8 +382,8 @@ public class SlideRule {
 			y += 25;
 			{
 				// LL2
-				gra.drawScaleLabel("LL2", "", STARTX, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
+				gra.drawScaleLabel("LL2", "", startx, y);
+				final Plot2 p = new Plot2(factor, startx, y, Direction.UP);
 				p.plot(gra, 1.2, 2.7, 0.1, ll2, Size.NORMAL, Label.FLOAT);
 				p.plot(gra, 1.15, 1.2, 0.05, ll2, Size.NORMAL, Label.FLOAT);
 				p.plot(gra, 1.11, 1.11, 0.05, ll2, Size.TINY, Label.FLOAT);
@@ -404,8 +398,8 @@ public class SlideRule {
 			y += 25;
 			{
 				// LL3
-				gra.drawScaleLabel("LL3", "", STARTX, y);
-				final Plot2 p = new Plot2(FACTOR, STARTX, y, Direction.UP);
+				gra.drawScaleLabel("LL3", "", startx, y);
+				final Plot2 p = new Plot2(factor, startx, y, Direction.UP);
 				p.plot(gra, 2.7, 2.9, 1, ll3, Size.TINY, Label.FLOAT);
 				p.plot(gra, 3, 10, 1, ll3, Size.NORMAL, Label.INT);
 				p.plot(gra, 10, 100, 10, ll3, Size.NORMAL, Label.INT);
@@ -442,7 +436,7 @@ public class SlideRule {
 
 		gra.getG().setColor(lightGrey);
 		gra.getG().fillRect(0, bary1, (int) displecementBar, bary2 - bary1);
-		final int a = (int) (STARTX + (FACTOR));
+		final int a = (int) (startx + (factor));
 		gra.getG().fillRect((int) (67 + a + displecementBar), bary1, 1000, bary2 - bary1);
 	}
 
