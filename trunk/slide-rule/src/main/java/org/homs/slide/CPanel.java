@@ -25,16 +25,6 @@ public class CPanel extends Panel {
 		this.addMouseMotionListener(this.mouseListener);
 	}
 
-	// public void zoomIn() {
-	// slideRule.zoomIn(mouseListener.getMouseX());
-	// repaint();
-	// }
-	//
-	// public void reset() {
-	// mouseListener.reset();
-	// repaint();
-	// }
-
 	@Override
 	public void paint(final Graphics g) {
 
@@ -52,7 +42,6 @@ public class CPanel extends Panel {
 
 		if (offscreen == null) {
 			offscreen = new BufferedImage(getSize().width, getSize().height, BufferedImage.TYPE_INT_RGB);
-			// createImage(getSize().width, getSize().height);
 		}
 		final Graphics og = doubleBuffered ? offscreen.getGraphics() : g;
 		og.setColor(Color.WHITE);
@@ -62,18 +51,6 @@ public class CPanel extends Panel {
 		// slide rule
 		final Gra gra = new Gra(og);
 		slideRule.drawSlideRule(gra, mouseListener.getSlideDisplecement());
-
-		// final BufferedImage cursorImage = offscreen
-		// .getSubimage(mouseListener.getMouseX() - 25, 0, 50, height);
-		//
-		// og.drawImage(cursorImage, mouseListener.getMouseX() - 50, 0, 100,
-		// height, this);
-		//
-		// og.setColor(Color.BLACK);
-		// og.drawLine(mouseListener.getMouseX() - 50, 0,
-		// mouseListener.getMouseX() - 50, height);
-		// og.drawLine(mouseListener.getMouseX() + 50, 0,
-		// mouseListener.getMouseX() + 50, height);
 
 		// cursor
 		final int cursorX = (int) mouseListener.getCursorDisplecement();
@@ -95,6 +72,21 @@ public class CPanel extends Panel {
 	@Override
 	public void update(final Graphics g) {
 		paint(g);
+	}
+
+	public void setTrigScales(final boolean b) {
+		this.slideRule.setTrigScales(b);
+		this.repaint();
+	}
+
+	public void setExpScales(final boolean b) {
+		this.slideRule.setExpScales(b);
+		this.repaint();
+	}
+
+	public void reset() {
+		this.mouseListener.reset();
+		this.repaint();
 	}
 
 }
