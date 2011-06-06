@@ -10,6 +10,10 @@ import org.homs.slide.plotter.impl.k.Size;
 
 public class GenericPlotter {
 
+	protected GenericPlotter() {
+
+	}
+
 	public static void plot(final Gra gra, final float OX, final float OY, final double y, final double x,
 			final double scale, final Size size, final Direction dir, final Label label) {
 

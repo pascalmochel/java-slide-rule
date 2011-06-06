@@ -16,15 +16,15 @@ import static java.lang.Math.*;
 public class Plot2 {
 
 	protected double scale;
-	protected float OX;
-	protected float OY;
+	protected float ox;
+	protected float oy;
 	protected Direction direction;
 
 	public Plot2(final double scale, final float oX, final float oY, final Direction direction) {
 		super();
 		this.scale = scale;
-		OX = oX;
-		OY = oY;
+		ox = oX;
+		oy = oY;
 		this.direction = direction;
 	}
 
@@ -33,7 +33,7 @@ public class Plot2 {
 
 		for (double y = miny; y <= maxy; y += step) {
 			final double x = log10(fi.yi(y));
-			GenericPlotter.plot(gra, OX, OY, y, x, scale, size, direction, label);
+			GenericPlotter.plot(gra, ox, oy, y, x, scale, size, direction, label);
 		}
 	}
 
@@ -44,7 +44,7 @@ public class Plot2 {
 
 			final double x = log10(fi.yi(y));
 
-			GenericPlotter.plot(gra, OX, OY, y, x, scale, size, direction, Label.NONE);
+			GenericPlotter.plot(gra, ox, oy, y, x, scale, size, direction, Label.NONE);
 
 			if (label.isShowLabel()) {
 
@@ -57,12 +57,12 @@ public class Plot2 {
 
 				gra.getG().setColor(Color.RED);
 				gra.getG().setFont(new Font("Monospaced", Font.PLAIN, 9));
-				gra.getG().drawString(String.valueOf((int) y), (float) (x * scale + OX - 2) - 8, OY + fonty);
+				gra.getG().drawString(String.valueOf((int) y), (float) (x * scale + ox - 2) - 8, oy + fonty);
 
 				gra.getG().setColor(Color.BLUE);
 				gra.getG().setFont(new Font("Monospaced", Font.PLAIN, 9));
 				gra.getG().drawString(String.valueOf((int) Math.abs(90 - y)),
-						(float) (x * scale + OX - 2) + 2, OY + fonty);
+						(float) (x * scale + ox - 2) + 2, oy + fonty);
 			}
 		}
 	}
@@ -70,50 +70,50 @@ public class Plot2 {
 	public void plotPi(final Gra gra, final F fi) {
 		final double y = PI;
 		final double x = log10(fi.yi(y));
-		new PiPlotter().plot(gra, OX, OY, y, x, scale, "π");
+		new PiPlotter().plot(gra, ox, oy, y, x, scale, "π");
 	}
 
 	public void plotUPi(final Gra gra, final F fi) {
 		final double y = PI;
 		final double x = log10(fi.yi(y));
-		new PiUPlotter().plot(gra, OX, OY, y, x, scale, "π");
+		new PiUPlotter().plot(gra, ox, oy, y, x, scale, "π");
 	}
 
 	public void plotE(final Gra gra, final F fi) {
 		final double y = E;
 		final double x = log10(fi.yi(y));
-		new PiPlotter().plot(gra, OX, OY, y, x, scale, "e");
+		new PiPlotter().plot(gra, ox, oy, y, x, scale, "e");
 	}
 
 	public void plotUE(final Gra gra, final F fi) {
 		final double y = E;
 		final double x = log10(fi.yi(y));
-		new PiUPlotter().plot(gra, OX, OY, y, x, scale, "e");
+		new PiUPlotter().plot(gra, ox, oy, y, x, scale, "e");
 	}
 
 	public void plot(final Gra gra, final F fi, final double atY, final String label) {
 		final double y = atY;
 		final double x = log10(fi.yi(y));
-		GenericPlotter.plot(gra, OX, OY, y, x, scale, Size.MAX, Direction.UP, label);
+		GenericPlotter.plot(gra, ox, oy, y, x, scale, Size.MAX, Direction.UP, label);
 	}
 
 	public void plot(final Gra gra, final F fi, final double atY, final Size size, final String label) {
 		final double y = atY;
 		final double x = log10(fi.yi(y));
-		GenericPlotter.plot(gra, OX, OY, y, x, scale, size, Direction.UP, label);
+		GenericPlotter.plot(gra, ox, oy, y, x, scale, size, Direction.UP, label);
 	}
 
 	public void plot(final Gra gra, final F fi, final double atY, final Size size, final Direction dir,
 			final String label) {
 		final double y = atY;
 		final double x = log10(fi.yi(y));
-		GenericPlotter.plot(gra, OX, OY, y, x, scale, size, dir, label);
+		GenericPlotter.plot(gra, ox, oy, y, x, scale, size, dir, label);
 	}
 
 	public void plotU(final Gra gra, final F fi, final double atY, final String label) {
 		final double y = atY;
 		final double x = log10(fi.yi(y));
-		// new PiUPlotter().plot(gra, OX, OY, y, x, scale, label);
-		GenericPlotter.plot(gra, OX, OY, y, x, scale, Size.MAX, Direction.DOWN, label);
+		// new PiUPlotter().plot(gra, ox, oy, y, x, scale, label);
+		GenericPlotter.plot(gra, ox, oy, y, x, scale, Size.MAX, Direction.DOWN, label);
 	}
 }
