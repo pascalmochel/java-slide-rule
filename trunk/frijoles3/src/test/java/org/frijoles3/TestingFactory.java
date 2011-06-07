@@ -2,6 +2,8 @@ package org.frijoles3;
 
 import java.awt.Color;
 
+import org.frijoles3.ents.Dog;
+import org.frijoles3.ents.Person;
 import org.junit.Ignore;
 
 @Ignore
@@ -25,6 +27,21 @@ public class TestingFactory implements ITestingFactory {
 
 	public Color getSingleRedColor(final ITestingFactory f) {
 		return new Color(0);
+	}
+
+	// @Singleton("chucho")
+	public Dog getChucho(final ITestingFactory f) {
+		final Dog r = new Dog();
+		r.setName("singleton-chucho");
+		return r;
+	}
+
+	// @ThreadSingleton("person")
+	public Person getPerson(final ITestingFactory f) {
+		final Person r = new Person();
+		r.setName("thread-mhc");
+		r.setDog(f.getChucho(null));
+		return r;
 	}
 
 }

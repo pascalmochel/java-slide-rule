@@ -3,8 +3,11 @@ package org.frijoles3;
 import java.awt.Color;
 
 import org.frijoles3.anno.Scope;
+import org.frijoles3.ents.Dog;
+import org.frijoles3.ents.Person;
 import org.frijoles3.holder.impl.Prototype;
 import org.frijoles3.holder.impl.Singleton;
+import org.frijoles3.holder.impl.Thread;
 
 public interface ITestingFactory {
 
@@ -22,4 +25,11 @@ public interface ITestingFactory {
 
 	@Scope(Singleton.class)
 	Color getSingleRedColor(final ITestingFactory f);
+
+	@Scope(Singleton.class)
+	Dog getChucho(final ITestingFactory f);
+
+	@Scope(Thread.class)
+	Person getPerson(final ITestingFactory f);
+
 }
