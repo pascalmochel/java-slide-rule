@@ -6,8 +6,8 @@ import org.frijoles3.holder.Holder;
 
 public class Prototype extends Holder {
 
-	public Prototype(final Object factoryObject, final Object factoryProxy) {
-		super(factoryObject, factoryProxy);
+	public Prototype(final String alias, final Object factoryObject, final Object factoryProxy) {
+		super(alias, factoryObject, factoryProxy);
 	}
 
 	@Override
@@ -15,4 +15,8 @@ public class Prototype extends Holder {
 		return buildInstance(method);
 	}
 
+	@Override
+	public String toString() {
+		return getAlias() + "{prototype}";
+	}
 }

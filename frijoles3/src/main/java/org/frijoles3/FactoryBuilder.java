@@ -37,6 +37,10 @@ public class FactoryBuilder implements InvocationHandler {
 
 	public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
 
+		if (method.getName().equals("toString") && method.getParameterTypes().length == 0) {
+			return beansMap.values().toString();
+		}
+
 		if (beansMap.containsKey(method)) {
 
 			final Holder holder = beansMap.get(method);
@@ -51,12 +55,12 @@ public class FactoryBuilder implements InvocationHandler {
 			// System.out.println(method.getName());
 			final Class<? extends Holder> holderClass = scope.value();
 			final Constructor<? extends Holder> constructor = ReflectUtils.holderConstructor(holderClass);
-			final Holder holder = ReflectUtils.constructHolder(constructor, factoryObject, proxy);
+			final Holder holder = ReflectUtils.constructHolder(constructor, method.getName(), factoryObject,
+					proxy);
 			beansMap.put(method, holder);
 			// System.out.println("holding: " + method.getName() + " as " +
 			// holderClass.getSimpleName());
 			return holder.getBean(method);
 		}
 	}
-
 }

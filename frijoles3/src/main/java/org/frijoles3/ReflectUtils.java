@@ -19,11 +19,11 @@ public class ReflectUtils {
 		return r;
 	}
 
-	public static Holder constructHolder(final Constructor<? extends Holder> constructor,
+	public static Holder constructHolder(final Constructor<? extends Holder> constructor, final String alias,
 			final Object factoryObject, final Object proxy) {
 		final Holder holder;
 		try {
-			holder = constructor.newInstance(factoryObject, proxy);
+			holder = constructor.newInstance(alias, factoryObject, proxy);
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -32,7 +32,7 @@ public class ReflectUtils {
 
 	public static Constructor<? extends Holder> holderConstructor(final Class<? extends Holder> holderClass) {
 		try {
-			return holderClass.getConstructor(Object.class, Object.class);
+			return holderClass.getConstructor(String.class, Object.class, Object.class);
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
