@@ -13,5 +13,14 @@ public abstract class Holder {
 		this.factoryProxy = factoryProxy;
 	}
 
+	protected Object buildInstance(final Method method) {
+		try {
+			System.out.println("building: " + method.getName());
+			return method.invoke(factoryObject, factoryProxy);
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public abstract Object getBean(final Method method);
 }
