@@ -1,13 +1,13 @@
-package org.frijoles3;
+package org.frijoles3.test;
 
 import java.awt.Color;
 
 import org.frijoles3.anno.Scope;
-import org.frijoles3.ents.Dog;
-import org.frijoles3.ents.Person;
 import org.frijoles3.holder.impl.Prototype;
 import org.frijoles3.holder.impl.Singleton;
 import org.frijoles3.holder.impl.Thread;
+import org.frijoles3.test.ents.Dog;
+import org.frijoles3.test.ents.Person;
 
 public interface ITestingFactory {
 
