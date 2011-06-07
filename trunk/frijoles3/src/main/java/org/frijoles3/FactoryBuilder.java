@@ -18,17 +18,12 @@ public class FactoryBuilder implements InvocationHandler {
 	protected final Map<Method, Holder> beansMap;
 
 	@SuppressWarnings("unchecked")
-	public static <T> T newInstance(final Class<? extends T> factoryClassToProx) {
+	public static <T> T build(final Class<? extends T> factoryClassToProx) {
 
 		if (factoryClassToProx.isInterface()) {
 			throw new RuntimeException("factory must be a class, not interface");
 		}
-		Object factoryObject;
-		try {
-			factoryObject = factoryClassToProx.newInstance();
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
-		}
+		final Object factoryObject = ReflectUtils.newInstanceOf(factoryClassToProx);
 
 		return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), factoryClassToProx
 				.getInterfaces(), new FactoryBuilder(factoryObject));
@@ -55,14 +50,8 @@ public class FactoryBuilder implements InvocationHandler {
 			}
 			// System.out.println(method.getName());
 			final Class<? extends Holder> holderClass = scope.value();
-			final Holder holder;
-			try {
-				final Constructor<? extends Holder> c = holderClass
-						.getConstructor(Object.class, Object.class);
-				holder = c.newInstance(factoryObject, proxy);
-			} catch (final Exception e) {
-				throw new RuntimeException(e);
-			}
+			final Constructor<? extends Holder> constructor = ReflectUtils.holderConstructor(holderClass);
+			final Holder holder = ReflectUtils.constructHolder(constructor, factoryObject, proxy);
 			beansMap.put(method, holder);
 			System.out.println("holding: " + method.getName() + " as " + holderClass.getSimpleName());
 			return holder.getBean(method);

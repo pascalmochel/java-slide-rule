@@ -20,7 +20,7 @@ public class ThreadTest {
 
 	@Before
 	public void before() {
-		this.ctx = FactoryBuilder.newInstance(TestingFactory.class);
+		this.ctx = FactoryBuilder.build(TestingFactory.class);
 		this.persons = new ArrayList<Person>();
 	}
 

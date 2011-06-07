@@ -14,17 +14,6 @@ public class Thread extends Holder {
 	};
 	protected final ThreadLocal<Singleton> threadBean;
 
-	// public ThreadScopedBean(final String alias, final Object factory, final
-	// Method method) {
-	// super(alias, factory, method);
-	// this.threadBean = new ThreadLocal<SingletonScopedBean>() {
-	// @Override
-	// protected SingletonScopedBean initialValue() {
-	// return new SingletonScopedBean(alias, factory, method);
-	// }
-	// };
-	// }
-
 	public Thread(final Object factoryObject, final Object factoryProxy) {
 		super(factoryObject, factoryProxy);
 		this.threadBean = new ThreadLocal<Singleton>() {
@@ -37,15 +26,7 @@ public class Thread extends Holder {
 
 	@Override
 	public Object getBean(final Method method) {
-		// if (!initializated) {
-		// synchronized (beanMutex) {
-		// if (!initializated) {
-		// this.bean = buildInstance(method);
-		// initializated = true;
-		// }
-		// }
-		// }
-		// return this.bean;
+
 		initializated.set(Boolean.TRUE);
 		return threadBean.get().getBean(method);
 	}
