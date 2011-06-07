@@ -2,6 +2,9 @@ package org.frijoles3;
 
 import java.awt.Color;
 
+import org.junit.Ignore;
+
+@Ignore
 public class TestingFactory implements ITestingFactory {
 
 	public Long getResult(final ITestingFactory f) {
