@@ -1,5 +1,7 @@
 package org.frijoles3;
 
+import java.awt.Color;
+
 public class TestingFactory implements ITestingFactory {
 
 	public Long getResult(final ITestingFactory f) {
@@ -13,4 +15,13 @@ public class TestingFactory implements ITestingFactory {
 	public Long getOperand2(final ITestingFactory f) {
 		return 3L;
 	}
+
+	public Color getPrototypeBlueColor(final ITestingFactory f) {
+		return new Color(255);
+	}
+
+	public Color getSingleRedColor(final ITestingFactory f) {
+		return new Color(0);
+	}
+
 }

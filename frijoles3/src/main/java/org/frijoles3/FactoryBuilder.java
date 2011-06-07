@@ -63,7 +63,7 @@ public class FactoryBuilder implements InvocationHandler {
 				throw new RuntimeException(e);
 			}
 			beansMap.put(method, holder);
-			System.out.println("holding: " + method.getName());
+			System.out.println("holding: " + method.getName() + " as " + holderClass.getSimpleName());
 			return holder.getBean(method);
 		}
 	}

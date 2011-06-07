@@ -12,12 +12,7 @@ public class Prototype extends Holder {
 
 	@Override
 	public Object getBean(final Method method) {
-		try {
-			System.out.println("deholding: " + method.getName());
-			return method.invoke(factoryObject, factoryProxy);
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
-		}
+		return buildInstance(method);
 	}
 
 }
