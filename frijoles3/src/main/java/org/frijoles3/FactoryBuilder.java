@@ -8,6 +8,7 @@ import java.lang.reflect.Proxy;
 import org.frijoles3.anno.Scope;
 import org.frijoles3.holder.Holder;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public class FactoryBuilder implements InvocationHandler {
 
 	private FactoryBuilder(final Object factoryObject) {
 		super();
-		this.beansMap = new HashMap<Method, Holder>();
+		this.beansMap = Collections.synchronizedMap(new HashMap<Method, Holder>());
 		this.factoryObject = factoryObject;
 	}
 
@@ -66,10 +67,6 @@ public class FactoryBuilder implements InvocationHandler {
 			System.out.println("holding: " + method.getName() + " as " + holderClass.getSimpleName());
 			return holder.getBean(method);
 		}
-	}
-
-	public Object getFactoryObject() {
-		return factoryObject;
 	}
 
 }
