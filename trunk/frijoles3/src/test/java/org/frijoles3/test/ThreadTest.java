@@ -46,6 +46,7 @@ public class ThreadTest {
 			}
 		} while (anyAlive);
 
+		assertEquals("[getChucho{singleton}[init=true], getPerson{thread}[init=false]]", ctx.toString());
 	}
 
 	@After

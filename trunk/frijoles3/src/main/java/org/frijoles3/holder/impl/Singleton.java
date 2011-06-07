@@ -10,8 +10,8 @@ public class Singleton extends Holder {
 	protected boolean initializated;
 	protected Object beanMutex = new Object();
 
-	public Singleton(final Object factoryObject, final Object factoryProxy) {
-		super(factoryObject, factoryProxy);
+	public Singleton(final String alias, final Object factoryObject, final Object factoryProxy) {
+		super(alias, factoryObject, factoryProxy);
 	}
 
 	@Override
@@ -37,10 +37,9 @@ public class Singleton extends Holder {
 	// return "singleton";
 	// }
 	//
-	// @Override
-	// public String toString() {
-	// return alias + "{" + getScopedBeanNature() + "}" + "[init=" +
-	// isInitializated() + "]";
-	// }
+	@Override
+	public String toString() {
+		return getAlias() + "{singleton}[init=" + initializated + "]";
+	}
 
 }
