@@ -1,4 +1,4 @@
-package org.frijoles3.ents;
+package org.frijoles3.test.ents;
 
 public class Dog {
 

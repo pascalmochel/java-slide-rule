@@ -1,6 +1,7 @@
-package org.frijoles3;
+package org.frijoles3.test;
 
-import org.frijoles3.ents.Person;
+import org.frijoles3.FactoryBuilder;
+import org.frijoles3.test.ents.Person;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;

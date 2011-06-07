@@ -1,9 +1,9 @@
-package org.frijoles3;
+package org.frijoles3.test;
 
 import java.awt.Color;
 
-import org.frijoles3.ents.Dog;
-import org.frijoles3.ents.Person;
+import org.frijoles3.test.ents.Dog;
+import org.frijoles3.test.ents.Person;
 import org.junit.Ignore;
 
 @Ignore

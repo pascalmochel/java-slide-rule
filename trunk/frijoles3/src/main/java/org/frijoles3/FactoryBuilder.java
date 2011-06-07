@@ -53,7 +53,8 @@ public class FactoryBuilder implements InvocationHandler {
 			final Constructor<? extends Holder> constructor = ReflectUtils.holderConstructor(holderClass);
 			final Holder holder = ReflectUtils.constructHolder(constructor, factoryObject, proxy);
 			beansMap.put(method, holder);
-			System.out.println("holding: " + method.getName() + " as " + holderClass.getSimpleName());
+			// System.out.println("holding: " + method.getName() + " as " +
+			// holderClass.getSimpleName());
 			return holder.getBean(method);
 		}
 	}
