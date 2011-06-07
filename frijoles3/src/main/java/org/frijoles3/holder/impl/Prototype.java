@@ -19,4 +19,5 @@ public class Prototype extends Holder {
 	public String toString() {
 		return getAlias() + "{prototype}";
 	}
+
 }

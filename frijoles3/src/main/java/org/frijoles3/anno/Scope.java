@@ -10,5 +10,7 @@ import org.frijoles3.holder.Holder;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Scope {
+
 	Class<? extends Holder> value();
+
 }
