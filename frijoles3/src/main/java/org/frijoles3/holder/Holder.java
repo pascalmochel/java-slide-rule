@@ -23,4 +23,5 @@ public abstract class Holder {
 	}
 
 	public abstract Object getBean(final Method method);
+
 }
