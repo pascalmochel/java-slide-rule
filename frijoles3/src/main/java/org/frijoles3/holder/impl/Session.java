@@ -27,7 +27,9 @@ public class Session extends AbstractHolder {
 			}
 		}
 		if (session == null) {
-			throw new RuntimeException();
+			throw new RuntimeException("one of the factory method arguments must be an "
+					+ HttpSession.class.getSimpleName() + " instance, in factory method: "
+					+ method.toString());
 		}
 
 		if (session.getAttribute(method.getName()) == null) {
