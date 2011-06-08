@@ -40,12 +40,7 @@ public class FactoryBuilder implements InvocationHandler {
 	public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
 
 		if (method.getName().equals("toString") && method.getParameterTypes().length == 0) {
-
-			final Set<String> m = new TreeSet<String>();
-			for (final Holder h : beansMap.values()) {
-				m.add(h.toString());
-			}
-			return m.toString();
+			return factoryStateToString();
 		}
 
 		if (beansMap.containsKey(method)) {
@@ -69,6 +64,14 @@ public class FactoryBuilder implements InvocationHandler {
 			// holderClass.getSimpleName());
 			return holder.getBean(method);
 		}
+	}
+
+	protected Object factoryStateToString() {
+		final Set<String> m = new TreeSet<String>();
+		for (final Holder h : beansMap.values()) {
+			m.add(h.toString());
+		}
+		return m.toString();
 	}
 
 }

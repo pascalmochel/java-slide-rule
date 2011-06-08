@@ -1,5 +1,8 @@
 package org.frijoles3.test.ents;
 
+import org.junit.Ignore;
+
+@Ignore
 public class Person {
 
 	protected String name;

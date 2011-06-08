@@ -1,6 +1,8 @@
-package org.frijoles3.test;
+package org.frijoles3.test.thread;
 
 import org.frijoles3.FactoryBuilder;
+import org.frijoles3.test.basic.ITestingFactory;
+import org.frijoles3.test.basic.TestingFactory;
 import org.frijoles3.test.ents.Person;
 import org.junit.After;
 import org.junit.Before;

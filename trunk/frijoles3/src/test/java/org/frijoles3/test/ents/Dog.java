@@ -1,11 +1,13 @@
 package org.frijoles3.test.ents;
 
+import org.junit.Ignore;
+
+@Ignore
 public class Dog {
 
 	protected String name;
 
 	public Dog() {
-
 	}
 
 	public Dog(final String name) {
