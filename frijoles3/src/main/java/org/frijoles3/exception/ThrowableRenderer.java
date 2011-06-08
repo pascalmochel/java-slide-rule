@@ -5,6 +5,9 @@ import java.io.PrintStream;
 
 public class ThrowableRenderer {
 
+	protected ThrowableRenderer() {
+	}
+
 	public static String stackTraceToString(final Throwable t) {
 		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		final PrintStream p = new PrintStream(baos);

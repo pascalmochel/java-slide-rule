@@ -7,7 +7,7 @@ import java.lang.reflect.Proxy;
 
 import org.frijoles3.anno.Scope;
 import org.frijoles3.exception.FrijolesException;
-import org.frijoles3.holder.Holder;
+import org.frijoles3.holder.AbstractHolder;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.TreeSet;
 public class FactoryBuilder implements InvocationHandler {
 
 	protected final Object factoryObject;
-	protected final Map<Method, Holder> beansMap;
+	protected final Map<Method, AbstractHolder> beansMap;
 
 	@SuppressWarnings("unchecked")
 	public static <T> T build(final Class<? extends T> factoryClassToProx) {
@@ -33,9 +33,9 @@ public class FactoryBuilder implements InvocationHandler {
 				.getInterfaces(), new FactoryBuilder(factoryObject));
 	}
 
-	private FactoryBuilder(final Object factoryObject) {
+	protected FactoryBuilder(final Object factoryObject) {
 		super();
-		this.beansMap = Collections.synchronizedMap(new HashMap<Method, Holder>());
+		this.beansMap = Collections.synchronizedMap(new HashMap<Method, AbstractHolder>());
 		this.factoryObject = factoryObject;
 	}
 
@@ -45,11 +45,15 @@ public class FactoryBuilder implements InvocationHandler {
 			return factoryStateToString();
 		}
 
+		if (method.getReturnType() == void.class || method.getParameterTypes().length != 1) {
+			throw new FrijolesException("this method factory has an invalid signature: " + method.toString());
+		}
+
 		Object resultingBean;
 		if (beansMap.containsKey(method)) {
 
-			final Holder holder = beansMap.get(method);
-			resultingBean = holder.getBean(method);
+			final AbstractHolder abstractHolder = beansMap.get(method);
+			resultingBean = abstractHolder.getBean(method);
 		} else {
 
 			final Scope scope = method.getAnnotation(Scope.class);
@@ -58,12 +62,13 @@ public class FactoryBuilder implements InvocationHandler {
 						+ method.toString());
 			}
 
-			final Class<? extends Holder> holderClass = scope.value();
-			final Constructor<? extends Holder> constructor = ReflectUtils.holderConstructor(holderClass);
-			final Holder holder = ReflectUtils.constructHolder(constructor, method.getName(), factoryObject,
-					proxy);
-			beansMap.put(method, holder);
-			resultingBean = holder.getBean(method);
+			final Class<? extends AbstractHolder> holderClass = scope.value();
+			final Constructor<? extends AbstractHolder> constructor = ReflectUtils
+					.holderConstructor(holderClass);
+			final AbstractHolder abstractHolder = ReflectUtils.constructHolder(constructor, method.getName(),
+					factoryObject, proxy);
+			beansMap.put(method, abstractHolder);
+			resultingBean = abstractHolder.getBean(method);
 		}
 
 		return resultingBean;
@@ -71,7 +76,7 @@ public class FactoryBuilder implements InvocationHandler {
 
 	protected Object factoryStateToString() {
 		final Set<String> m = new TreeSet<String>();
-		for (final Holder h : beansMap.values()) {
+		for (final AbstractHolder h : beansMap.values()) {
 			m.add(h.toString());
 		}
 		return m.toString();

@@ -2,12 +2,12 @@ package org.frijoles3.holder.impl;
 
 import java.lang.reflect.Method;
 
-import org.frijoles3.holder.Holder;
+import org.frijoles3.holder.AbstractHolder;
 
-public class Singleton extends Holder {
+public class Singleton extends AbstractHolder {
 
 	protected Object bean;
-	protected boolean initializated;
+	protected volatile boolean initializated;
 	protected Object beanMutex = new Object();
 
 	public Singleton(final String alias, final Object factoryObject, final Object factoryProxy) {

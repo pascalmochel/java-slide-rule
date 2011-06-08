@@ -5,12 +5,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.frijoles3.holder.Holder;
+import org.frijoles3.holder.AbstractHolder;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Scope {
 
-	Class<? extends Holder> value();
+	Class<? extends AbstractHolder> value();
 
 }

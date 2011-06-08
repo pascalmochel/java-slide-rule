@@ -2,9 +2,9 @@ package org.frijoles3.holder.impl;
 
 import java.lang.reflect.Method;
 
-import org.frijoles3.holder.Holder;
+import org.frijoles3.holder.AbstractHolder;
 
-public class Thread extends Holder {
+public class Thread extends AbstractHolder {
 
 	protected ThreadLocal<Boolean> initializated = new ThreadLocal<Boolean>() {
 		@Override

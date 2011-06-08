@@ -4,13 +4,13 @@ import java.lang.reflect.Method;
 
 import org.frijoles3.exception.FrijolesException;
 
-public abstract class Holder {
+public abstract class AbstractHolder {
 
 	protected final String alias;
 	protected final Object factoryProxy;
 	protected final Object factoryObject;
 
-	public Holder(final String alias, final Object factoryObject, final Object factoryProxy) {
+	public AbstractHolder(final String alias, final Object factoryObject, final Object factoryProxy) {
 		super();
 		this.alias = alias;
 		this.factoryObject = factoryObject;
