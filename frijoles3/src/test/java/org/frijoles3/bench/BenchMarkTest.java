@@ -12,7 +12,16 @@ import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
-//@Ignore
+/**
+ * <h2>INFO: Frijoles:73ms/Spring:1192ms (1:16)</h2>
+ * <p>
+ * <ul>
+ * <li>73ms ~ 1192ms
+ * <li>1 min~ 16min
+ * </ul>
+ * 
+ * @author mhoms
+ */
 public class BenchMarkTest {
 
 	protected static final Logger LOG = Logger.getLogger(BenchMarkTest.class.getName());
