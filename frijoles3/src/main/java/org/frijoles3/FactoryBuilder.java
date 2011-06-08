@@ -45,9 +45,7 @@ public class FactoryBuilder implements InvocationHandler {
 			return factoryStateToString();
 		}
 
-		if (method.getReturnType() == void.class || method.getParameterTypes().length < 1) {
-			throw new FrijolesException("this method factory has an invalid signature: " + method.toString());
-		}
+		checkMethodSignature(method);
 
 		Object resultingBean;
 		if (beansMap.containsKey(method)) {
@@ -71,7 +69,33 @@ public class FactoryBuilder implements InvocationHandler {
 			resultingBean = abstractHolder.getBean(method, args);
 		}
 
+		// System.out.println(Arrays.toString(proxy.getClass().getMethods()));
+
+		// if (method.getAnnotation(InterceptBy.class) != null) {
+		// final InterceptBy ia = method.getAnnotation(InterceptBy.class);
+		// final String methodFactoryName = ia.value();
+		// final Method[] ms = proxy.getClass().getMethods();
+		// Method candidate = null;
+		// for (final Method m : ms) {
+		// if (m.getName().equals(methodFactoryName) && m.getReturnType() ==
+		// void.class) {
+		// candidate = m;
+		// break;
+		// }
+		// }
+		// if (candidate == null) {
+		// throw new RuntimeException();
+		// }
+		// candidate.invoke(proxy, args)
+		// }
+
 		return resultingBean;
+	}
+
+	protected void checkMethodSignature(final Method method) {
+		if (method.getReturnType() == void.class || method.getParameterTypes().length < 1) {
+			throw new FrijolesException("this method factory has an invalid signature: " + method.toString());
+		}
 	}
 
 	protected Object factoryStateToString() {
