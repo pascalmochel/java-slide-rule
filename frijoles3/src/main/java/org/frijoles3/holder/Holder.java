@@ -2,6 +2,8 @@ package org.frijoles3.holder;
 
 import java.lang.reflect.Method;
 
+import org.frijoles3.exception.FrijolesException;
+
 public abstract class Holder {
 
 	protected final String alias;
@@ -17,10 +19,9 @@ public abstract class Holder {
 
 	protected Object buildInstance(final Method method) {
 		try {
-			// System.out.println("building: " + method.getName());
 			return method.invoke(factoryObject, factoryProxy);
 		} catch (final Exception e) {
-			throw new RuntimeException(e);
+			throw new FrijolesException("building bean instance invoking: " + method.toString(), e);
 		}
 	}
 

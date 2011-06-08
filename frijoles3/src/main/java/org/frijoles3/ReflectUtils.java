@@ -2,6 +2,7 @@ package org.frijoles3;
 
 import java.lang.reflect.Constructor;
 
+import org.frijoles3.exception.FrijolesException;
 import org.frijoles3.holder.Holder;
 
 public class ReflectUtils {
@@ -14,7 +15,8 @@ public class ReflectUtils {
 		try {
 			r = claz.newInstance();
 		} catch (final Exception e) {
-			throw new RuntimeException(e);
+			throw new FrijolesException("cannot create " + claz.toString()
+					+ ", it is visible, with a public default constructor?", e);
 		}
 		return r;
 	}
@@ -25,7 +27,9 @@ public class ReflectUtils {
 		try {
 			holder = constructor.newInstance(alias, factoryObject, proxy);
 		} catch (final Exception e) {
-			throw new RuntimeException(e);
+			throw new FrijolesException("cannot construct Holder implementation: "
+					+ constructor.getDeclaringClass().toString() + "; error during constructor invocations: "
+					+ constructor.toGenericString(), e);
 		}
 		return holder;
 	}
@@ -34,7 +38,8 @@ public class ReflectUtils {
 		try {
 			return holderClass.getConstructor(String.class, Object.class, Object.class);
 		} catch (final Exception e) {
-			throw new RuntimeException(e);
+			throw new FrijolesException("valid constructor not found for Holder implementation: "
+					+ holderClass, e);
 		}
 	}
 

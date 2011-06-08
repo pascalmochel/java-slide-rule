@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import org.frijoles3.anno.Scope;
+import org.frijoles3.exception.FrijolesException;
 import org.frijoles3.holder.Holder;
 
 import java.util.Collections;
@@ -23,7 +24,8 @@ public class FactoryBuilder implements InvocationHandler {
 	public static <T> T build(final Class<? extends T> factoryClassToProx) {
 
 		if (factoryClassToProx.isInterface()) {
-			throw new RuntimeException("factory must be a class, not interface");
+			throw new FrijolesException("factory must be a class, not an interface; offending object is "
+					+ factoryClassToProx.toString());
 		}
 		final Object factoryObject = ReflectUtils.newInstanceOf(factoryClassToProx);
 
@@ -52,17 +54,15 @@ public class FactoryBuilder implements InvocationHandler {
 
 			final Scope scope = method.getAnnotation(Scope.class);
 			if (scope == null) {
-				throw new RuntimeException("annotation @Scope not found in factory method: "
+				throw new FrijolesException("@Scope annotation not found in factory method: "
 						+ method.toString());
 			}
-			// System.out.println(method.getName());
+
 			final Class<? extends Holder> holderClass = scope.value();
 			final Constructor<? extends Holder> constructor = ReflectUtils.holderConstructor(holderClass);
 			final Holder holder = ReflectUtils.constructHolder(constructor, method.getName(), factoryObject,
 					proxy);
 			beansMap.put(method, holder);
-			// System.out.println("holding: " + method.getName() + " as " +
-			// holderClass.getSimpleName());
 			resultingBean = holder.getBean(method);
 		}
 

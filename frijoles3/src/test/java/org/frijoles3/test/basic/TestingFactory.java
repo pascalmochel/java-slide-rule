@@ -29,14 +29,12 @@ public class TestingFactory implements ITestingFactory {
 		return new Color(0);
 	}
 
-	// @Singleton("chucho")
 	public Dog getChucho(final ITestingFactory f) {
 		final Dog r = new Dog();
 		r.setName("singleton-chucho");
 		return r;
 	}
 
-	// @ThreadSingleton("person")
 	public Person getPerson(final ITestingFactory f) {
 		final Person r = new Person();
 		r.setName("thread-mhc");
