@@ -2,6 +2,8 @@ package org.frijoles3.aop;
 
 import java.lang.reflect.Method;
 
+import org.frijoles3.exception.FrijolesException;
+
 public class MethodCall {
 
 	protected final Object bean;
@@ -31,7 +33,8 @@ public class MethodCall {
 		try {
 			return method.invoke(bean, arguments);
 		} catch (final Exception e) {
-			throw new RuntimeException("exception invoking " + method.toGenericString(), e);
+			throw new FrijolesException("exception invoking the intercepted bean method: "
+					+ method.toGenericString(), e);
 		}
 	}
 

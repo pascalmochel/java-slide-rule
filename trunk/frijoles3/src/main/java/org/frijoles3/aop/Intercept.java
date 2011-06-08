@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import org.frijoles3.exception.FrijolesException;
+
 public class Intercept implements InvocationHandler {
 
 	protected Object bean;
@@ -31,7 +33,8 @@ public class Intercept implements InvocationHandler {
 		try {
 			return interceptor.intercept(new MethodCall(bean, method, arguments));
 		} catch (final Exception e) {
-			throw new RuntimeException("error during execution of bean method: " + method.getName(), e);
+			throw new FrijolesException("error during execution of intercepted bean method: "
+					+ method.getName(), e);
 		}
 	}
 
