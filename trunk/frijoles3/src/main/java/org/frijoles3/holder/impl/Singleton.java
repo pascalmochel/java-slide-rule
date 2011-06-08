@@ -15,11 +15,11 @@ public class Singleton extends AbstractHolder {
 	}
 
 	@Override
-	public Object getBean(final Method method) {
+	public Object getBean(final Method method, final Object[] extraParameters) {
 		if (!initializated) {
 			synchronized (beanMutex) {
 				if (!initializated) {
-					this.bean = buildInstance(method);
+					this.bean = buildInstance(method, extraParameters);
 					initializated = true;
 				}
 			}

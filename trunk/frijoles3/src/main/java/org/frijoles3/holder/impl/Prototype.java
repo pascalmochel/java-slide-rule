@@ -11,8 +11,8 @@ public class Prototype extends AbstractHolder {
 	}
 
 	@Override
-	public Object getBean(final Method method) {
-		return buildInstance(method);
+	public Object getBean(final Method method, final Object[] extraParameters) {
+		return buildInstance(method, extraParameters);
 	}
 
 	@Override

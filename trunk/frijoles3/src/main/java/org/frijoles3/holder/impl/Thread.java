@@ -25,10 +25,10 @@ public class Thread extends AbstractHolder {
 	}
 
 	@Override
-	public Object getBean(final Method method) {
+	public Object getBean(final Method method, final Object[] extraParameters) {
 
 		initializated.set(Boolean.TRUE);
-		return threadBean.get().getBean(method);
+		return threadBean.get().getBean(method, extraParameters);
 	}
 
 	// @Override
