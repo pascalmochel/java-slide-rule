@@ -1,4 +1,4 @@
-package org.frijoles3.test;
+package org.frijoles3.test.basic;
 
 import java.awt.Color;
 
