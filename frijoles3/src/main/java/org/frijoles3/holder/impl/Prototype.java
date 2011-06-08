@@ -17,7 +17,7 @@ public class Prototype extends Holder {
 
 	@Override
 	public String toString() {
-		return getAlias() + "{prototype}";
+		return getAlias() + "={prototype}";
 	}
 
 }

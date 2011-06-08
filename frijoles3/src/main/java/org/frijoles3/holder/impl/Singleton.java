@@ -39,7 +39,7 @@ public class Singleton extends Holder {
 	//
 	@Override
 	public String toString() {
-		return getAlias() + "{singleton}[init=" + initializated + "]";
+		return getAlias() + "={singleton}[init:" + initializated + "]";
 	}
 
 }
