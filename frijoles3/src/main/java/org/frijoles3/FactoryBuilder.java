@@ -43,10 +43,11 @@ public class FactoryBuilder implements InvocationHandler {
 			return factoryStateToString();
 		}
 
+		Object resultingBean;
 		if (beansMap.containsKey(method)) {
 
 			final Holder holder = beansMap.get(method);
-			return holder.getBean(method);
+			resultingBean = holder.getBean(method);
 		} else {
 
 			final Scope scope = method.getAnnotation(Scope.class);
@@ -62,8 +63,10 @@ public class FactoryBuilder implements InvocationHandler {
 			beansMap.put(method, holder);
 			// System.out.println("holding: " + method.getName() + " as " +
 			// holderClass.getSimpleName());
-			return holder.getBean(method);
+			resultingBean = holder.getBean(method);
 		}
+
+		return resultingBean;
 	}
 
 	protected Object factoryStateToString() {
