@@ -43,7 +43,7 @@ public class Thread extends Holder {
 	//
 	@Override
 	public String toString() {
-		return getAlias() + "{thread}[init=" + initializated.get() + "]";
+		return getAlias() + "={thread}[init:" + initializated.get() + "]";
 	}
 
 }

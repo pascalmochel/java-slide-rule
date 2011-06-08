@@ -11,6 +11,8 @@ import org.frijoles3.holder.Holder;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class FactoryBuilder implements InvocationHandler {
 
@@ -38,7 +40,12 @@ public class FactoryBuilder implements InvocationHandler {
 	public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
 
 		if (method.getName().equals("toString") && method.getParameterTypes().length == 0) {
-			return beansMap.values().toString();
+
+			final Set<String> m = new TreeSet<String>();
+			for (final Holder h : beansMap.values()) {
+				m.add(h.toString());
+			}
+			return m.toString();
 		}
 
 		if (beansMap.containsKey(method)) {
