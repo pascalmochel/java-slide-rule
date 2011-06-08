@@ -1,4 +1,4 @@
-package org.frijoles3.args;
+package org.frijoles3.test.args;
 
 import org.frijoles3.test.ents.Person;
 
