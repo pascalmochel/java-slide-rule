@@ -27,7 +27,9 @@ public class Request extends AbstractHolder {
 			}
 		}
 		if (req == null) {
-			throw new RuntimeException();
+			throw new RuntimeException("one of the factory method arguments must be an "
+					+ ServletRequest.class.getSimpleName() + " instance, in factory method: "
+					+ method.toString());
 		}
 
 		if (req.getAttribute(method.getName()) == null) {
