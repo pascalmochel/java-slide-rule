@@ -3,6 +3,7 @@ package org.frijoles3.test.aop;
 import org.frijoles3.anno.InterceptBy;
 import org.frijoles3.anno.Scope;
 import org.frijoles3.aop.Interceptor;
+import org.frijoles3.holder.impl.Advice;
 import org.frijoles3.holder.impl.Prototype;
 import org.frijoles3.holder.impl.Singleton;
 
@@ -11,7 +12,7 @@ import java.util.Map;
 
 public interface IAopFactory {
 
-	@Scope(Singleton.class)
+	@Scope(Advice.class)
 	Interceptor getInterceptor(IAopFactory self);
 
 	@Scope(Prototype.class)
