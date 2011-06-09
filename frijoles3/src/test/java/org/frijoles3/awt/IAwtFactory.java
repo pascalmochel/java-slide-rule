@@ -8,11 +8,10 @@ import java.awt.event.WindowListener;
 
 import org.frijoles3.anno.Scope;
 import org.frijoles3.holder.impl.Prototype;
-import org.frijoles3.holder.impl.Singleton;
 
 public interface IAwtFactory {
 
-	@Scope(Singleton.class)
+	@Scope
 	Frame getFrame(IAwtFactory self);
 
 	@Scope(Prototype.class)
@@ -24,7 +23,7 @@ public interface IAwtFactory {
 	@Scope(Prototype.class)
 	ActionListener getButtonListener(IAwtFactory self);
 
-	@Scope(Singleton.class)
+	@Scope
 	WindowListener getFrameWindowListener(IAwtFactory self);
 
 }

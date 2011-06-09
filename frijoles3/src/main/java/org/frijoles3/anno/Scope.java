@@ -6,11 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.frijoles3.holder.AbstractHolder;
+import org.frijoles3.holder.impl.Singleton;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Scope {
 
-	Class<? extends AbstractHolder> value();
+	Class<? extends AbstractHolder> value() default Singleton.class;
 
 }
