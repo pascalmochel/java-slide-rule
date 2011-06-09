@@ -1,5 +1,6 @@
 package org.frijoles3.test.aop;
 
+import org.frijoles3.anno.InterceptBy;
 import org.frijoles3.anno.Scope;
 import org.frijoles3.aop.Interceptor;
 import org.frijoles3.holder.impl.Prototype;
@@ -14,9 +15,11 @@ public interface IAopFactory {
 	Interceptor getInterceptor(IAopFactory self);
 
 	@Scope(Prototype.class)
+	@InterceptBy("getInterceptor")
 	List<String> getList(IAopFactory self);
 
 	@Scope(Singleton.class)
+	@InterceptBy("getInterceptor")
 	Map<String, String> getMap(IAopFactory self);
 
 }

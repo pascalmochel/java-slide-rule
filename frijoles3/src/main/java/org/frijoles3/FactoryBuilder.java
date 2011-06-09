@@ -4,7 +4,10 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import org.frijoles3.anno.InterceptBy;
 import org.frijoles3.anno.Scope;
+import org.frijoles3.aop.Intercept;
+import org.frijoles3.aop.Interceptor;
 import org.frijoles3.exception.FrijolesException;
 import org.frijoles3.holder.AbstractHolder;
 
@@ -28,6 +31,11 @@ public class FactoryBuilder implements InvocationHandler {
 	protected final Object factoryObject;
 	protected final Map<Method, AbstractHolder> beansMap;
 
+	/**
+	 * informa de si una crida és interceptada
+	 */
+	protected final Map<Method, Boolean> interceptorsSet;
+
 	@SuppressWarnings("unchecked")
 	public static <T> T build(final Class<? extends T> factoryClassToProx) {
 
@@ -44,10 +52,11 @@ public class FactoryBuilder implements InvocationHandler {
 	protected FactoryBuilder(final Object factoryObject) {
 		super();
 		this.beansMap = Collections.synchronizedMap(new HashMap<Method, AbstractHolder>());
+		this.interceptorsSet = new HashMap<Method, Boolean>();
 		this.factoryObject = factoryObject;
 	}
 
-	public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+	public Object invoke(final Object proxy, final Method method, final Object[] args) {
 
 		if (method.getName().equals("toString") && method.getParameterTypes().length == 0) {
 			return factoryStateToString();
@@ -77,25 +86,41 @@ public class FactoryBuilder implements InvocationHandler {
 			resultingBean = abstractHolder.getBean(method, callArguments);
 		}
 
-		// System.out.println(Arrays.toString(proxy.getClass().getMethods()));
+		if (!interceptorsSet.containsKey(method)) {
+			final boolean isInterceptor = method.getAnnotation(InterceptBy.class) != null;
+			interceptorsSet.put(method, isInterceptor);
+		}
 
 		// if (method.getAnnotation(InterceptBy.class) != null) {
-		// final InterceptBy ia = method.getAnnotation(InterceptBy.class);
-		// final String methodFactoryName = ia.value();
-		// final Method[] ms = proxy.getClass().getMethods();
-		// Method candidate = null;
-		// for (final Method m : ms) {
-		// if (m.getName().equals(methodFactoryName) && m.getReturnType() ==
-		// void.class) {
-		// candidate = m;
-		// break;
-		// }
-		// }
-		// if (candidate == null) {
-		// throw new RuntimeException();
-		// }
-		// return candidate.invoke(proxy, new Object[] {});
-		// }
+		if (interceptorsSet.get(method)) {
+			final InterceptBy ia = method.getAnnotation(InterceptBy.class);
+			final String methodFactoryName = ia.value();
+			final Method[] ms = proxy.getClass().getMethods();
+			Method candidate = null;
+			for (final Method m : ms) {
+				if (m.getName().equals(methodFactoryName) && m.getReturnType() != void.class) {
+					candidate = m;
+					break;
+				}
+			}
+			if (candidate == null) {
+				throw new FrijolesException("interceptor factory method not found: " + methodFactoryName
+						+ " or not have the proper method signature");
+			}
+
+			Object interceptor;
+			try {
+				interceptor = candidate.invoke(proxy, new Object[] { args[0] });
+			} catch (final Exception e) {
+				throw new FrijolesException(
+						"interceptor factory method must have signature: Interceptor method(I)");
+			}
+			if (!(interceptor instanceof Interceptor)) {
+				throw new FrijolesException("interceptor factory method must have to return a "
+						+ Interceptor.class.getSimpleName() + ": " + methodFactoryName);
+			}
+			return Intercept.with(resultingBean, (Interceptor) interceptor);
+		}
 
 		return resultingBean;
 	}
