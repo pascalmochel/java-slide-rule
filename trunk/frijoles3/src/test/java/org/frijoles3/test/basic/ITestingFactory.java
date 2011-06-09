@@ -4,7 +4,6 @@ import java.awt.Color;
 
 import org.frijoles3.anno.Scope;
 import org.frijoles3.holder.impl.Prototype;
-import org.frijoles3.holder.impl.Singleton;
 import org.frijoles3.holder.impl.Thread;
 import org.frijoles3.test.ents.Dog;
 import org.frijoles3.test.ents.Person;
@@ -23,10 +22,10 @@ public interface ITestingFactory {
 	@Scope(Prototype.class)
 	Color getPrototypeBlueColor(final ITestingFactory f);
 
-	@Scope(Singleton.class)
+	@Scope
 	Color getSingleRedColor(final ITestingFactory f);
 
-	@Scope(Singleton.class)
+	@Scope
 	Dog getChucho(final ITestingFactory f);
 
 	@Scope(Thread.class)
