@@ -95,7 +95,7 @@ public class FactoryBuilder implements InvocationHandler {
 					interceptor = candidate.invoke(proxy, NULL_ARRAY);
 				} catch (final Exception e) {
 					throw new FrijolesException(
-							"interceptor factory method must have signature: Interceptor method(I)");
+							"interceptor factory method must have signature: Interceptor method(I)", e);
 				}
 				if (!(interceptor instanceof Interceptor)) {
 					throw new FrijolesException("interceptor factory method must have to return a "
