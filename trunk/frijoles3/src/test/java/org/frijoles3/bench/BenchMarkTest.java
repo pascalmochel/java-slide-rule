@@ -25,7 +25,7 @@ public class BenchMarkTest {
 
 	protected static final Logger LOG = Logger.getLogger(BenchMarkTest.class.getName());
 
-	protected final int TEST_ITERATIONS = 100000;
+	protected final int TEST_ITERATIONS = 10000;
 
 	protected static long springTime;
 	protected static long frijolesTime;

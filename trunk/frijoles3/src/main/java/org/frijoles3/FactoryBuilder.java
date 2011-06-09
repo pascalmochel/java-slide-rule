@@ -14,6 +14,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * <ul>
+ * <li>no has d'apendre una sintaxi (XML), la instanciació és pure java
+ * <li>escrius una factoria, i f. gestiona el cicle de vida dels objectes
+ * <li>=> menys reflect i més type-safe java
+ * </ul>
+ * 
+ * @author mhoms
+ */
 public class FactoryBuilder implements InvocationHandler {
 
 	protected final Object factoryObject;
@@ -62,7 +71,7 @@ public class FactoryBuilder implements InvocationHandler {
 			}
 
 			final Class<? extends AbstractHolder> holderClass = scope.value();
-			final AbstractHolder abstractHolder = ReflectUtils.buildHolder(holderClass, method.getName(),
+			final AbstractHolder abstractHolder = AbstractHolder.buildHolder(holderClass, method.getName(),
 					factoryObject, proxy);
 			beansMap.put(method, abstractHolder);
 			resultingBean = abstractHolder.getBean(method, callArguments);
@@ -85,7 +94,7 @@ public class FactoryBuilder implements InvocationHandler {
 		// if (candidate == null) {
 		// throw new RuntimeException();
 		// }
-		// candidate.invoke(proxy, args)
+		// return candidate.invoke(proxy, new Object[] {});
 		// }
 
 		return resultingBean;
