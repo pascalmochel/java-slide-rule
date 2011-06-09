@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpSession;
 
+import org.frijoles3.exception.FrijolesException;
 import org.frijoles3.holder.AbstractHolder;
 
 public class Session extends AbstractHolder {
@@ -27,11 +28,12 @@ public class Session extends AbstractHolder {
 			}
 		}
 		if (session == null) {
-			throw new RuntimeException("one of the factory method arguments must be an "
+			throw new FrijolesException("one of the factory method arguments must be an "
 					+ HttpSession.class.getSimpleName() + " instance, in factory method: "
 					+ method.toString());
 		}
 
+		// l'objecte null serà prototype
 		if (session.getAttribute(method.getName()) == null) {
 			final Object bean = buildInstance(method, extraParameters);
 			session.setAttribute(method.getName(), bean);

@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import javax.servlet.ServletRequest;
 
+import org.frijoles3.exception.FrijolesException;
 import org.frijoles3.holder.AbstractHolder;
 
 public class Request extends AbstractHolder {
@@ -27,11 +28,12 @@ public class Request extends AbstractHolder {
 			}
 		}
 		if (req == null) {
-			throw new RuntimeException("one of the factory method arguments must be an "
+			throw new FrijolesException("one of the factory method arguments must be an "
 					+ ServletRequest.class.getSimpleName() + " instance, in factory method: "
 					+ method.toString());
 		}
 
+		// l'objecte null serà prototype
 		if (req.getAttribute(method.getName()) == null) {
 			final Object bean = buildInstance(method, extraParameters);
 			req.setAttribute(method.getName(), bean);
