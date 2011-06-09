@@ -5,7 +5,11 @@
 	<property name="jarname" value="frijoles3" />
 	<property name="version" value="0.1.1" />
 
+	<!--
+	<property name="maven-repo-base-dir" value="C:\Documents and Settings\mhoms\.m2\repository" />
+	-->
 	<property name="maven-repo-base-dir" value="/home/mhoms/Desktop/mhoms/.m2/repository" />
+
 
 	<property name="main-root" value="./src/main/java" />
 	<property name="build-dir" value="./ant-build" />
