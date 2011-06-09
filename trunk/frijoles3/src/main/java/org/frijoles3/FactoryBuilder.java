@@ -28,6 +28,8 @@ import java.util.TreeSet;
  */
 public class FactoryBuilder implements InvocationHandler {
 
+	private static final Object[] NULL_ARRAY = new Object[] { null };
+
 	protected final Object factoryObject;
 	protected final Map<Method, AbstractHolder> beansMap;
 
@@ -52,7 +54,7 @@ public class FactoryBuilder implements InvocationHandler {
 	protected FactoryBuilder(final Object factoryObject) {
 		super();
 		this.beansMap = Collections.synchronizedMap(new HashMap<Method, AbstractHolder>());
-		this.interceptorsSet = new HashMap<Method, Boolean>();
+		this.interceptorsSet = Collections.synchronizedMap(new HashMap<Method, Boolean>());
 		this.factoryObject = factoryObject;
 	}
 
@@ -110,7 +112,7 @@ public class FactoryBuilder implements InvocationHandler {
 
 			Object interceptor;
 			try {
-				interceptor = candidate.invoke(proxy, new Object[] { args[0] });
+				interceptor = candidate.invoke(proxy, NULL_ARRAY);
 			} catch (final Exception e) {
 				throw new FrijolesException(
 						"interceptor factory method must have signature: Interceptor method(I)");
