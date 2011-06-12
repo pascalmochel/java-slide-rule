@@ -7,12 +7,15 @@ import java.lang.reflect.Proxy;
 import org.frijoles3.anno.Scope;
 import org.frijoles3.exception.FrijolesException;
 import org.frijoles3.holder.AbstractHolder;
+import org.frijoles3.web.FactoryWebLoader;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Logger;
 
 /**
  * <ul>
@@ -20,10 +23,19 @@ import java.util.TreeSet;
  * <li>escrius una factoria, i f. gestiona el cicle de vida dels objectes
  * <li>=> menys reflect i més type-safe java
  * </ul>
+ * <p>
+ * <ul>
+ * <li>configuració d'aplicació
+ * <li>obtenció de resources: Properties, i18n
+ * <li>binding de formulari
+ * <li>config de daos
+ * </ul>
  * 
  * @author mhoms
  */
-public class FactoryBuilder implements InvocationHandler {
+public class FactoryBuilder implements InvocationHandler, Deproxable {
+
+	protected static final Logger LOG = Logger.getLogger(FactoryWebLoader.class.getName());
 
 	protected final Object factoryObject;
 	protected final Map<Method, AbstractHolder> beansMap;
@@ -37,12 +49,18 @@ public class FactoryBuilder implements InvocationHandler {
 		}
 		final Object factoryObject = ReflectUtils.newInstanceOf(factoryClassToProx);
 
-		return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), factoryClassToProx
-				.getInterfaces(), new FactoryBuilder(factoryObject));
+		final Class<?>[] interfaces = cons(Deproxable.class, factoryClassToProx.getInterfaces());
+		// final Class<?>[] interfaces = factoryClassToProx.getInterfaces();
+		final T newProxyInstance = (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+				interfaces, new FactoryBuilder(factoryObject));
+
+		LOG.config("initializated factory: " + factoryClassToProx.getSimpleName());
+		return newProxyInstance;
 	}
 
 	protected FactoryBuilder(final Object factoryObject) {
 		super();
+
 		this.beansMap = Collections.synchronizedMap(new HashMap<Method, AbstractHolder>());
 		this.factoryObject = factoryObject;
 	}
@@ -50,17 +68,17 @@ public class FactoryBuilder implements InvocationHandler {
 	public Object invoke(final Object proxy, final Method method, final Object[] args) {
 
 		if (method.getName().equals("toString") && method.getParameterTypes().length == 0) {
-			return factoryStateToString();
+			return toString();
+		}
+		if (method.getName().equals("deprox") && method.getParameterTypes().length == 0) {
+			return deprox();
 		}
 
-		final Object[] callArguments = cons(proxy, args);
+		final Object[] callArguments = setFirst(proxy, args);
 
 		Object resultingBean;
 		final AbstractHolder abstractHolder = beansMap.get(method);
-		if (abstractHolder != null) {
-
-			resultingBean = abstractHolder.getBean(method, callArguments);
-		} else {
+		if (abstractHolder == null) {
 
 			final Scope scope = method.getAnnotation(Scope.class);
 			if (scope == null) {
@@ -73,12 +91,16 @@ public class FactoryBuilder implements InvocationHandler {
 					method.getName(), factoryObject, proxy);
 			beansMap.put(method, newAbstractHolder);
 			resultingBean = newAbstractHolder.getBean(method, callArguments);
+		} else {
+
+			resultingBean = abstractHolder.getBean(method, callArguments);
 		}
 
 		return resultingBean;
 	}
 
-	protected Object factoryStateToString() {
+	@Override
+	public String toString() {
 		final Set<String> m = new TreeSet<String>();
 		for (final AbstractHolder h : beansMap.values()) {
 			m.add(h.toString());
@@ -86,15 +108,30 @@ public class FactoryBuilder implements InvocationHandler {
 		return m.toString();
 	}
 
-	private static <T> T[] cons(final T e, final T[] ts) {
+	private static <T> T[] setFirst(final T e, final T[] ts) {
 		if (ts != null && ts.length > 0) {
 			ts[0] = e;
 		}
 		return ts;
 	}
 
+	/**
+	 * add a new element at array ending
+	 * <p>
+	 * features a <tt>push(element)</tt>
+	 */
+	public static <T> T[] cons(final T element, final T[] array) {
+		final T[] r = Arrays.copyOf(array, array.length + 1);
+		r[array.length] = element;
+		return r;
+	}
+
 	public Map<Method, AbstractHolder> getBeansMap() {
 		return beansMap;
+	}
+
+	public Object deprox() {
+		return this.factoryObject;
 	}
 
 }

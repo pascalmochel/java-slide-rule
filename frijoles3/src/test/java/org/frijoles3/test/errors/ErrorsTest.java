@@ -60,4 +60,18 @@ public class ErrorsTest {
 		}
 	}
 
+	@Test
+	public void testname5() throws Exception {
+
+		try {
+			final IErrorsFactory f = FactoryBuilder.build(ErrorsFactory.class);
+			f.getValue2(null);
+			fail();
+		} catch (final Exception e) {
+			assertEquals(
+					"building bean instance invoking: public abstract java.lang.Long org.frijoles3.test.errors.IErrorsFactory.getValue2(org.frijoles3.test.errors.IErrorsFactory)",
+					e.getMessage());
+		}
+	}
+
 }

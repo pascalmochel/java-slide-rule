@@ -22,7 +22,7 @@ public class ThrowableRenderer {
 		Throwable throwable = t;
 		while (throwable != null) {
 			if (throwable != t) {
-				strb.append("; cause is: ");
+				strb.append("; [cause is:] ");
 			}
 			strb.append(throwable.getClass().getSimpleName()) //
 					.append(": ") //

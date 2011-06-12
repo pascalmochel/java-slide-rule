@@ -4,7 +4,6 @@ import java.awt.Color;
 
 import org.frijoles3.FactoryBuilder;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
@@ -35,10 +34,10 @@ public class BenchMarkTest {
 		super();
 	}
 
-	@Before
-	public void before() {
-		System.gc();
-	}
+	// @Before
+	// public void before() {
+	// System.gc();
+	// }
 
 	@Test
 	public void testJavaInjection() throws Exception {
@@ -115,7 +114,7 @@ public class BenchMarkTest {
 
 	@AfterClass
 	public static void afterClass() throws Exception {
-		final long minTime = Math.min(Math.min(javaTime, frijolesTime), springTime);
+		final long minTime = (long) (Math.min(Math.min(javaTime, frijolesTime), springTime) / 10.0);
 		final long nJavaTime = javaTime / minTime;
 		final long nFrijolesTime = frijolesTime / minTime;
 		final long nSpringTime = springTime / minTime;
