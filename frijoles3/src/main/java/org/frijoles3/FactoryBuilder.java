@@ -93,4 +93,8 @@ public class FactoryBuilder implements InvocationHandler {
 		return ts;
 	}
 
+	public Map<Method, AbstractHolder> getBeansMap() {
+		return beansMap;
+	}
+
 }
