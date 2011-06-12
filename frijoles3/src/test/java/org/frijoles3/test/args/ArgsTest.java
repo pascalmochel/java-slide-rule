@@ -11,6 +11,8 @@ public class ArgsTest {
 	public void testname() throws Exception {
 
 		final IArgsF f = FactoryBuilder.build(ArgsF.class);
+		assertEquals("PersonImpl [dog=null, name=mhc]", f.getPerson().toString());
+		assertEquals("PersonImpl [dog=null, name=mhc]", f.getPerson(null).toString());
 		assertEquals("PersonImpl [dog=null, name=mhc]", f.getPerson(null, "mhc").toString());
 	}
 
