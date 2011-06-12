@@ -11,19 +11,10 @@ import java.util.Arrays;
 public class ProxyUtils {
 
 	public static Object buildProxy(final Object bean, final InvocationHandler o) {
+
 		final Class<? extends Object> beanClass = bean.getClass();
 
-		// final Class<?>[] is = beanClass.getInterfaces();
-		// boolean deproxableFound = false;
-		// for (final Class<?> i : is) {
-		// if (i.equals(Deproxable.class)) {
-		// deproxableFound = true;
-		// break;
-		// }
-		// }
-
 		final Class<?>[] allInterfaces;
-		// if (deproxableFound) {
 		if (bean instanceof Deproxable) {
 			allInterfaces = beanClass.getInterfaces();
 		} else {

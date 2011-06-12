@@ -51,7 +51,7 @@ public class FactoryWebLoader implements ServletContextListener {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T getFactory(final HttpServletRequest request) {
+	public static <T> T getFactory(final HttpServletRequest request) {
 		return (T) request.getSession().getServletContext().getAttribute(
 				FactoryWebLoader.FRIJOLES_CONTEXT_ATTR_NAME);
 	}
