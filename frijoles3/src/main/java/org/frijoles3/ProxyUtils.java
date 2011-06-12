@@ -13,17 +13,18 @@ public class ProxyUtils {
 	public static Object buildProxy(final Object bean, final InvocationHandler o) {
 		final Class<? extends Object> beanClass = bean.getClass();
 
-		final Class<?>[] is = beanClass.getInterfaces();
-		boolean deproxableFound = false;
-		for (final Class<?> i : is) {
-			if (i.equals(Deproxable.class)) {
-				deproxableFound = true;
-				break;
-			}
-		}
+		// final Class<?>[] is = beanClass.getInterfaces();
+		// boolean deproxableFound = false;
+		// for (final Class<?> i : is) {
+		// if (i.equals(Deproxable.class)) {
+		// deproxableFound = true;
+		// break;
+		// }
+		// }
 
 		final Class<?>[] allInterfaces;
-		if (deproxableFound) {
+		// if (deproxableFound) {
+		if (bean instanceof Deproxable) {
 			allInterfaces = beanClass.getInterfaces();
 		} else {
 			allInterfaces = cons(Deproxable.class, beanClass.getInterfaces());// TODO
@@ -50,11 +51,11 @@ public class ProxyUtils {
 	}
 
 	public static boolean isDeproxMethod(final Method method) {
-		try {
-			return Deproxable.class.getMethod("deprox").equals(method);
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
-		}
+		return method.getName().equals("deprox") && method.getParameterTypes().length == 0;
+		// try {
+		// return Deproxable.class.getMethod("deprox").equals(method);
+		// } catch (final Exception e) {
+		// throw new RuntimeException(e);
+		// }
 	}
-
 }

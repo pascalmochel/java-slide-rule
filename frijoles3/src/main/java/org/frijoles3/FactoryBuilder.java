@@ -78,9 +78,8 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 						+ method.toString());
 			}
 
-			final Class<? extends AbstractHolder> holderClass = scope.value();
-			final AbstractHolder newAbstractHolder = AbstractHolder.buildHolder(holderClass,
-					method.getName(), factoryObject, proxy);
+			final AbstractHolder newAbstractHolder = AbstractHolder.buildHolder(scope.value(), method
+					.getName(), factoryObject, proxy);
 			beansMap.put(method, newAbstractHolder);
 			resultingBean = newAbstractHolder.getBean(method, callArguments);
 		} else {
