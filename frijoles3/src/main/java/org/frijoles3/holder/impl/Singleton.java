@@ -27,16 +27,6 @@ public class Singleton extends AbstractHolder {
 		return this.bean;
 	}
 
-	// @Override
-	// public boolean isInitializated() {
-	// return initializated;
-	// }
-	//
-	// @Override
-	// public String getScopedBeanNature() {
-	// return "singleton";
-	// }
-	//
 	@Override
 	public String toString() {
 		return getAlias() + "={singleton}[init:" + initializated + "]";

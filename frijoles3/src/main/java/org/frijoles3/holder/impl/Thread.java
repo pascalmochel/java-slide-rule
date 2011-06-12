@@ -31,16 +31,6 @@ public class Thread extends AbstractHolder {
 		return threadBean.get().getBean(method, extraParameters);
 	}
 
-	// @Override
-	// public boolean isInitializated() {
-	// return initializated;
-	// }
-	//
-	// @Override
-	// public String getScopedBeanNature() {
-	// return "singleton";
-	// }
-	//
 	@Override
 	public String toString() {
 		return getAlias() + "={thread}[init:" + initializated.get() + "]";
