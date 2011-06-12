@@ -19,6 +19,7 @@ public class ServletScopeTest {
 		final Person person2 = f.getPerson(null, request);
 
 		assertTrue(request.getAttribute("getPerson") == person1);
+		assertTrue(person1 == person2);
 		assertEquals(person1.toString(), person2.toString());
 		assertEquals("PersonImpl [dog=null, name=mhc]", person1.toString());
 	}

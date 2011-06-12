@@ -1,5 +1,7 @@
 package org.frijoles3.bench;
 
+import java.awt.Color;
+
 import org.frijoles3.FactoryBuilder;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -8,16 +10,14 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
 /**
- * <h2>INFO: Frijoles:424ms/Spring:8790ms (1:20)</h2>
- * <p>
- * <ul>
- * <li>3 sec ~ 1 min
- * </ul>
+ * <h2>INFO: Java:47ms/Frijoles:62ms/Spring:1214ms (1:1:25)</h2>
  * 
  * @author mhoms
  */
@@ -27,6 +27,7 @@ public class BenchMarkTest {
 
 	protected final int TEST_ITERATIONS = 10000;
 
+	protected static long javaTime;
 	protected static long springTime;
 	protected static long frijolesTime;
 
@@ -37,6 +38,27 @@ public class BenchMarkTest {
 	@Before
 	public void before() {
 		System.gc();
+	}
+
+	@Test
+	public void testJavaInjection() throws Exception {
+
+		assertColorsMap(getJavaColorsMap());
+
+		final long t1 = System.currentTimeMillis();
+		for (int i = 0; i < TEST_ITERATIONS; i++) {
+			getJavaColorsMap();
+		}
+		BenchMarkTest.javaTime = System.currentTimeMillis() - t1;
+	}
+
+	private ColorsMap getJavaColorsMap() {
+		final Map<String, Color> colors = new HashMap<String, Color>();
+		colors.put("red", new Color(255, 0, 0));
+		colors.put("green", new Color(0, 255, 0));
+		colors.put("blue", new Color(0, 0, 255));
+		final ColorsMap colorsMap = new ColorsMap(colors);
+		return colorsMap;
 	}
 
 	@Test
@@ -93,11 +115,12 @@ public class BenchMarkTest {
 
 	@AfterClass
 	public static void afterClass() throws Exception {
-		final long minTime = Math.min(frijolesTime, springTime);
+		final long minTime = Math.min(Math.min(javaTime, frijolesTime), springTime);
+		final long nJavaTime = javaTime / minTime;
 		final long nFrijolesTime = frijolesTime / minTime;
 		final long nSpringTime = springTime / minTime;
-		LOG.info("Frijoles:" + frijolesTime + "ms/Spring:" + springTime + "ms (" + nFrijolesTime + ":"
-				+ nSpringTime + ")");
+		LOG.info("Java:" + javaTime + "ms/Frijoles:" + frijolesTime + "ms/Spring:" + springTime + "ms ("
+				+ nJavaTime + ":" + nFrijolesTime + ":" + nSpringTime + ")");
 	}
 
 }
