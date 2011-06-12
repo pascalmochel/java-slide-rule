@@ -2,14 +2,12 @@ package org.frijoles3;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 import org.frijoles3.anno.Scope;
 import org.frijoles3.exception.FrijolesException;
 import org.frijoles3.holder.AbstractHolder;
 import org.frijoles3.web.FactoryWebLoader;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,15 +45,9 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 			throw new FrijolesException("factory must be a class, not an interface; offending object is "
 					+ factoryClassToProx.toString());
 		}
-		final Object factoryObject = newInstanceOf(factoryClassToProx);
 
-		final Class<?>[] interfaces = cons(Deproxable.class, factoryClassToProx.getInterfaces());
-		// final Class<?>[] interfaces = factoryClassToProx.getInterfaces();
-		final T newProxyInstance = (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-				interfaces, new FactoryBuilder(factoryObject));
-
-		LOG.config("initializated factory: " + factoryClassToProx.getSimpleName());
-		return newProxyInstance;
+		final Object factoryObject = ProxyUtils.newInstanceOf(factoryClassToProx);
+		return (T) ProxyUtils.buildProxy(factoryObject, new FactoryBuilder(factoryObject));
 	}
 
 	protected FactoryBuilder(final Object factoryObject) {
@@ -70,7 +62,7 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		if (method.getName().equals("toString") && method.getParameterTypes().length == 0) {
 			return toString();
 		}
-		if (method.getName().equals("deprox") && method.getParameterTypes().length == 0) {
+		if (ProxyUtils.isDeproxMethod(method)) {
 			return deprox();
 		}
 
@@ -113,28 +105,6 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 			ts[0] = e;
 		}
 		return ts;
-	}
-
-	/**
-	 * add a new element at array ending
-	 * <p>
-	 * features a <tt>push(element)</tt>
-	 */
-	private static <T> T[] cons(final T element, final T[] array) {
-		final T[] r = Arrays.copyOf(array, array.length + 1);
-		r[array.length] = element;
-		return r;
-	}
-
-	private static <T> T newInstanceOf(final Class<? extends T> claz) {
-		T r;
-		try {
-			r = claz.newInstance();
-		} catch (final Exception e) {
-			throw new FrijolesException("cannot create " + claz.toString()
-					+ ", it is visible, with a public default constructor?", e);
-		}
-		return r;
 	}
 
 	public Map<Method, AbstractHolder> getBeansMap() {
