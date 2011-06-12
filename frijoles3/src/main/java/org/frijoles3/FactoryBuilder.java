@@ -47,7 +47,7 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 			throw new FrijolesException("factory must be a class, not an interface; offending object is "
 					+ factoryClassToProx.toString());
 		}
-		final Object factoryObject = ReflectUtils.newInstanceOf(factoryClassToProx);
+		final Object factoryObject = newInstanceOf(factoryClassToProx);
 
 		final Class<?>[] interfaces = cons(Deproxable.class, factoryClassToProx.getInterfaces());
 		// final Class<?>[] interfaces = factoryClassToProx.getInterfaces();
@@ -120,9 +120,20 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 	 * <p>
 	 * features a <tt>push(element)</tt>
 	 */
-	public static <T> T[] cons(final T element, final T[] array) {
+	private static <T> T[] cons(final T element, final T[] array) {
 		final T[] r = Arrays.copyOf(array, array.length + 1);
 		r[array.length] = element;
+		return r;
+	}
+
+	private static <T> T newInstanceOf(final Class<? extends T> claz) {
+		T r;
+		try {
+			r = claz.newInstance();
+		} catch (final Exception e) {
+			throw new FrijolesException("cannot create " + claz.toString()
+					+ ", it is visible, with a public default constructor?", e);
+		}
 		return r;
 	}
 

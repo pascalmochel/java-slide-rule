@@ -5,8 +5,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import org.frijoles3.Deproxable;
-import org.frijoles3.FactoryBuilder;
 import org.frijoles3.exception.FrijolesException;
+
+import java.util.Arrays;
 
 public class Intercept implements InvocationHandler, Deproxable {
 
@@ -27,7 +28,7 @@ public class Intercept implements InvocationHandler, Deproxable {
 
 		final Class<? extends Object> beanClass = bean.getClass();
 		// final Class<?>[] allInterfaces = beanClass.getInterfaces();
-		final Class<?>[] allInterfaces = FactoryBuilder.cons(Deproxable.class, beanClass.getInterfaces());// TODO
+		final Class<?>[] allInterfaces = cons(Deproxable.class, beanClass.getInterfaces());// TODO
 
 		return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), allInterfaces,
 				new Intercept(bean, interceptor));
@@ -51,4 +52,9 @@ public class Intercept implements InvocationHandler, Deproxable {
 		return bean;
 	}
 
+	private static <T> T[] cons(final T element, final T[] array) {
+		final T[] r = Arrays.copyOf(array, array.length + 1);
+		r[array.length] = element;
+		return r;
+	}
 }
