@@ -18,12 +18,15 @@ public class Intercept implements InvocationHandler {
 		this.interceptor = interceptor;
 	}
 
-	public static Object with(final Object bean, final Interceptor interceptor) {
+	@SuppressWarnings("unchecked")
+	public static <T> T with(final T bean, final Interceptor interceptor) {
+		// public static Object with(final Object bean, final Interceptor
+		// interceptor) {
 
 		final Class<? extends Object> beanClass = bean.getClass();
 		final Class<?>[] allInterfaces = beanClass.getInterfaces();
 
-		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), allInterfaces,
+		return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), allInterfaces,
 				new Intercept(bean, interceptor));
 	}
 

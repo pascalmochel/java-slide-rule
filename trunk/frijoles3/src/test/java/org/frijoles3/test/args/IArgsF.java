@@ -7,5 +7,11 @@ import org.frijoles3.test.ents.Person;
 public interface IArgsF {
 
 	@Scope(Singleton.class)
+	Person getPerson();
+
+	@Scope(Singleton.class)
+	Person getPerson(IArgsF self);
+
+	@Scope(Singleton.class)
 	Person getPerson(IArgsF self, String name);
 }
