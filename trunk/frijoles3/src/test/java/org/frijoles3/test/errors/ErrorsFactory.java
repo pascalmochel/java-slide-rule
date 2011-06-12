@@ -9,4 +9,8 @@ public class ErrorsFactory implements IErrorsFactory {
 		return 1L;
 	}
 
+	public Long getValue2(final IErrorsFactory f) {
+		throw new RuntimeException("jou");
+	}
+
 }

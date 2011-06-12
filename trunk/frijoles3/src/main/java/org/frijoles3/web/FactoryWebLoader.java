@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 
 public class FactoryWebLoader implements ServletContextListener {
 
-	public static final String FRIJOLES_CONTEXT_ATTR_NAME = "frijoles-factory";
 	public static final String CONTEXT_CLASS_INIT_PARAMETER = "factory-class";
+	public static final String FRIJOLES_CONTEXT_ATTR_NAME = "frijoles-factory";
 
 	protected static final Logger LOG = Logger.getLogger(FactoryWebLoader.class.getName());
 
@@ -55,4 +55,5 @@ public class FactoryWebLoader implements ServletContextListener {
 		return (T) request.getSession().getServletContext().getAttribute(
 				FactoryWebLoader.FRIJOLES_CONTEXT_ATTR_NAME);
 	}
+
 }

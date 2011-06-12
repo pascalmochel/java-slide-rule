@@ -1,5 +1,6 @@
 package org.frijoles3.test.aop;
 
+import org.frijoles3.Deproxable;
 import org.frijoles3.FactoryBuilder;
 import org.junit.Test;
 
@@ -10,6 +11,7 @@ import static org.junit.Assert.*;
 
 public class AopTest {
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void test() throws Throwable {
 
@@ -18,13 +20,14 @@ public class AopTest {
 		final List<String> list = ctx.getList(null);
 		assertEquals("<mhc>", list.get(0));
 		assertEquals("<arb>", list.get(1));
-		// assertTrue(list != ctx.getList(null));
 
-		final Map<String, String> map = ctx.getMap(null);
+		Map<String, String> map = ctx.getMap(null);
 		assertEquals("<mhc>", map.get("mhc"));
 		assertEquals("<arb>", map.get("arb"));
-		// assertTrue(((InterceptorAccessor) map) == ((InterceptorAccessor)
-		// ctx.getMap(null)));
+
+		map = (Map<String, String>) ((Deproxable) map).deprox();
+		assertEquals("mhc", map.get("mhc"));
+		assertEquals("arb", map.get("arb"));
 	}
 
 }
