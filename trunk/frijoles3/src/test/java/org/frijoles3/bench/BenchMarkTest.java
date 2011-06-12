@@ -119,7 +119,8 @@ public class BenchMarkTest {
 		final long nFrijolesTime = frijolesTime / minTime;
 		final long nSpringTime = springTime / minTime;
 		LOG.info("Java:" + javaTime + "ms/Frijoles:" + frijolesTime + "ms/Spring:" + springTime + "ms ("
-				+ nJavaTime + ":" + nFrijolesTime + ":" + nSpringTime + ")");
+				+ nJavaTime + ":" + nFrijolesTime + ":" + nSpringTime + ") (1:" + springTime / frijolesTime
+				+ ")");
 	}
 
 }
