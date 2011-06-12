@@ -9,10 +9,6 @@ import org.frijoles3.holder.AbstractHolder;
 
 public class Request extends AbstractHolder {
 
-	// protected Object bean;
-	// protected volatile boolean initializated;
-	// protected Object beanMutex = new Object();
-
 	public Request(final String alias, final Object factoryObject) {
 		super(alias, factoryObject);
 	}
@@ -44,16 +40,6 @@ public class Request extends AbstractHolder {
 
 	}
 
-	// @Override
-	// public boolean isInitializated() {
-	// return initializated;
-	// }
-	//
-	// @Override
-	// public String getScopedBeanNature() {
-	// return "singleton";
-	// }
-	//
 	@Override
 	public String toString() {
 		return getAlias() + "={request}";
