@@ -13,7 +13,7 @@ import org.frijoles3.jetty.servlet.ents.IDog;
 
 public interface ITestingWebContext {
 
-	@Scope(Prototype.class)
+	@Scope
 	DogsLister getDogsLister(ITestingWebContext self, HttpServletRequest request);
 
 	@Scope(Request.class)

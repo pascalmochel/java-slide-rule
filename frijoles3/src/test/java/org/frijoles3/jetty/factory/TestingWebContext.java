@@ -13,7 +13,6 @@ import java.util.List;
 @Ignore
 public class TestingWebContext implements ITestingWebContext {
 
-	// proto
 	public DogsLister getDogsLister(final ITestingWebContext self, final HttpServletRequest request) {
 		final List<IDog> dogsList = new ArrayList<IDog>();
 		dogsList.add(self.requestChucho(null, request));
