@@ -63,14 +63,6 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 
 	public Object invoke(final Object proxy, final Method method, final Object[] args) {
 
-		// if (method.getName().equals("toString") &&
-		// method.getParameterTypes().length == 0) {
-		// return toString();
-		// }
-		// if (ProxyUtils.isDeproxMethod(method)) {
-		// return deprox();
-		// }
-
 		Boolean isDeprox = deproxMap.get(method);
 		if (isDeprox == null) {
 			isDeprox = ProxyUtils.isDeproxMethod(method);
