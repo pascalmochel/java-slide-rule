@@ -1,7 +1,6 @@
 package org.frijoles3;
 
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import org.frijoles3.exception.FrijolesException;
@@ -39,24 +38,6 @@ public class ProxyUtils {
 					+ ", it is visible, with a public default constructor?", e);
 		}
 		return r;
-	}
-
-	public static boolean isDeproxMethod(final Method method) {
-		// return method.getName().equals("deprox") &&
-		// method.getParameterTypes().length == 0;
-		try {
-			return Deproxable.class.getMethod("deprox").equals(method);
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public static Boolean isToStringMethod(final Method method) {
-		try {
-			return Object.class.getMethod("toString").equals(method);
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 }
