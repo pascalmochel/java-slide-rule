@@ -16,8 +16,7 @@ public class SpringAdapterTest {
 		final ClassPathResource resource = new ClassPathResource("spring-adapter-context.xml");
 		final BeanFactory springFactory = new XmlBeanFactory(resource);
 
-		final ITestingFactory frijolesfactory = (ITestingFactory) springFactory
-				.getBean("frijoles-factory-builder");
+		final ITestingFactory frijolesfactory = (ITestingFactory) springFactory.getBean("frijoles-factory");
 
 		assertTrue(frijolesfactory.getPrototypeBlueColor(null) != frijolesfactory.getPrototypeBlueColor(null));
 		assertTrue(frijolesfactory.getSingleRedColor(null) == frijolesfactory.getSingleRedColor(null));
