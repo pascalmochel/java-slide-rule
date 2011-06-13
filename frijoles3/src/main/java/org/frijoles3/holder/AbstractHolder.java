@@ -16,13 +16,6 @@ public abstract class AbstractHolder {
 		this.factoryObject = factoryObject;
 	}
 
-	/**
-	 * @param method mètode de factoria, interceptat per el container
-	 * @param extraParameters paràmetres amb què es fa la crida; el primer pot
-	 *            ser null, i sempre serà sobreescrit per la instància
-	 *            <tt>factoryProxy</tt>
-	 * @return la instància de bean ja construida i montada
-	 */
 	protected Object buildInstance(final Method method, final Object[] extraParameters) {
 		try {
 			return method.invoke(factoryObject, extraParameters);
@@ -54,7 +47,7 @@ public abstract class AbstractHolder {
 		} catch (final Exception e) {
 			throw new FrijolesException("cannot construct " + AbstractHolder.class.getSimpleName()
 					+ " implementation: " + constructor.getDeclaringClass().toString()
-					+ "; error during constructor invocations: " + constructor.toGenericString(), e);
+					+ "; error during constructor invocation: " + constructor.toGenericString(), e);
 		}
 
 		return abstractHolder;

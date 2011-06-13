@@ -27,6 +27,7 @@ import java.util.logging.Logger;
  * <li>obtenció de resources: Properties, i18n
  * <li>binding de formulari
  * <li>config de daos
+ * <li>datasource provider
  * </ul>
  * 
  * @author mhoms
