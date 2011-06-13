@@ -2,6 +2,7 @@ package org.frijoles3.holder.impl;
 
 import java.lang.reflect.Method;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.frijoles3.exception.FrijolesException;
@@ -20,6 +21,10 @@ public class Session extends AbstractHolder {
 		for (int i = 1; i < extraParameters.length; i++) {
 			if (extraParameters[i] instanceof HttpSession) {
 				session = (HttpSession) extraParameters[i];
+				break;
+			}
+			if (extraParameters[i] instanceof HttpServletRequest) {
+				session = ((HttpServletRequest) extraParameters[i]).getSession();
 				break;
 			}
 		}

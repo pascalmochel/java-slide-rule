@@ -12,9 +12,8 @@
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd">
 
 
-	<bean id="frijoles-factory-builder"
-	      class="org.frijoles3.FactoryBuilder"
-	      factory-method="build">
+	<bean id="frijoles-factory" scope="singleton"
+	      class="org.frijoles3.FactoryBuilder" factory-method="build">
 	      <constructor-arg value="org.frijoles3.test.basic.TestingFactory" />
     </bean>
 
