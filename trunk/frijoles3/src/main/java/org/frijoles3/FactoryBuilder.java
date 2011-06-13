@@ -37,6 +37,8 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 
 	protected final Object factoryObject;
 	protected final Map<Method, AbstractHolder> beansMap;
+	protected final Map<Method, Boolean> deproxMap;
+	protected final Map<Method, Boolean> toStringMap;
 
 	@SuppressWarnings("unchecked")
 	public static <T> T build(final Class<? extends T> factoryClassToProx) {
@@ -54,16 +56,37 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		super();
 
 		this.beansMap = Collections.synchronizedMap(new HashMap<Method, AbstractHolder>());
+		this.deproxMap = Collections.synchronizedMap(new HashMap<Method, Boolean>());
+		this.toStringMap = Collections.synchronizedMap(new HashMap<Method, Boolean>());
 		this.factoryObject = factoryObject;
 	}
 
 	public Object invoke(final Object proxy, final Method method, final Object[] args) {
 
-		if (method.getName().equals("toString") && method.getParameterTypes().length == 0) {
-			return toString();
+		// if (method.getName().equals("toString") &&
+		// method.getParameterTypes().length == 0) {
+		// return toString();
+		// }
+		// if (ProxyUtils.isDeproxMethod(method)) {
+		// return deprox();
+		// }
+
+		Boolean isDeprox = deproxMap.get(method);
+		if (isDeprox == null) {
+			isDeprox = ProxyUtils.isDeproxMethod(method);
+			deproxMap.put(method, isDeprox);
 		}
-		if (ProxyUtils.isDeproxMethod(method)) {
+		if (isDeprox) {
 			return deprox();
+		}
+
+		Boolean isToString = toStringMap.get(method);
+		if (isToString == null) {
+			isToString = ProxyUtils.isToStringMethod(method);
+			toStringMap.put(method, isToString);
+		}
+		if (isToString) {
+			return toString();
 		}
 
 		final Object[] callArguments = setFirst(proxy, args);
@@ -107,7 +130,7 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 	}
 
 	public Map<Method, AbstractHolder> getBeansMap() {
-		return beansMap;
+		return Collections.unmodifiableMap(beansMap);
 	}
 
 	public Object deprox() {
