@@ -14,10 +14,11 @@ public class DeproxTest {
 	public void testname1() throws Exception {
 
 		ITestingFactory f = FactoryBuilder.build(TestingFactory.class);
-		assertEquals("[]", f.toString());
+		assertEquals("TestingFactory: []", f.toString());
 
 		f.getPerson(null);
-		assertEquals("[getChucho={singleton}[init:true], getPerson={thread}[init:true]]", f.toString());
+		assertEquals("TestingFactory: [getChucho={singleton}[init:true], getPerson={thread}[init:true]]", f
+				.toString());
 
 		f = (ITestingFactory) ((Deproxable) f).deprox();
 		assertEquals("org.frijoles3.test.basic.TestingFactory@x", f.toString().replaceAll("\\@.+$", "@x"));

@@ -15,8 +15,9 @@ public class BasicTest {
 		assertEquals("15", f.getResult(null).toString());
 		assertEquals("15", f.getResult(null).toString());
 
-		assertEquals("[getOperand1={prototype}, getOperand2={prototype}, getResult={prototype}]", f
-				.toString());
+		assertEquals(
+				"TestingFactory: [getOperand1={prototype}, getOperand2={prototype}, getResult={prototype}]",
+				f.toString());
 	}
 
 	@Test
@@ -27,8 +28,9 @@ public class BasicTest {
 		assertTrue(f.getPrototypeBlueColor(null) != f.getPrototypeBlueColor(null));
 		assertTrue(f.getSingleRedColor(null) == f.getSingleRedColor(null));
 
-		assertEquals("[getPrototypeBlueColor={prototype}, getSingleRedColor={singleton}[init:true]]", f
-				.toString());
+		assertEquals(
+				"TestingFactory: [getPrototypeBlueColor={prototype}, getSingleRedColor={singleton}[init:true]]",
+				f.toString());
 	}
 
 }

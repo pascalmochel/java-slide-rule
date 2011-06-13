@@ -119,7 +119,7 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		for (final AbstractHolder h : beansMap.values()) {
 			m.add(h.toString());
 		}
-		return m.toString();
+		return factoryObject.getClass().getSimpleName() + ": " + m.toString();
 	}
 
 	private static <T> T[] setFirst(final T e, final T[] ts) {
