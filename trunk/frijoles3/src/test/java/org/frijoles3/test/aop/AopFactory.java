@@ -1,8 +1,9 @@
 package org.frijoles3.test.aop;
 
+import java.lang.reflect.Method;
+
 import org.frijoles3.aop.Intercept;
 import org.frijoles3.aop.Interceptor;
-import org.frijoles3.aop.MethodCall;
 import org.junit.Ignore;
 
 import java.util.ArrayList;
@@ -15,8 +16,9 @@ public class AopFactory implements IAopFactory {
 
 	public Interceptor getInterceptor(final IAopFactory self) {
 		return new Interceptor() {
-			public Object intercept(final MethodCall methodCall) {
-				return '<' + methodCall.invoke().toString() + '>';
+			public Object intercept(final Object targetBean, final Method method, final Object[] arguments)
+					throws Exception {
+				return '<' + method.invoke(targetBean, arguments).toString() + '>';
 			}
 		};
 	}

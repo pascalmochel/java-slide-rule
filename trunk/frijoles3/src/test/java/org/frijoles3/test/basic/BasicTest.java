@@ -33,4 +33,26 @@ public class BasicTest {
 				f.toString());
 	}
 
+	// @Test
+	// public void testname() throws Exception {
+	//
+	// final Color c = createProxy(Color.class);
+	// }
+	//
+	// /**
+	// * Create a proxy using NoOp callback. The target class must have a
+	// default
+	// * zero-argument constructor.
+	// *
+	// * @param targetClass the super class of the proxy
+	// * @return a new proxy for a target class instance
+	// */
+	// @SuppressWarnings("unchecked")
+	// public <T> T createProxy(final Class<T> targetClass) {
+	// final Enhancer enhancer = new Enhancer();
+	// enhancer.setSuperclass(targetClass);
+	// enhancer.setCallback(NoOp.INSTANCE);
+	// return (T) enhancer.create();
+	// }
+
 }

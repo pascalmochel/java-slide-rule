@@ -27,30 +27,30 @@ public class FrijolesException extends RuntimeException {
 		super(msg, exc);
 	}
 
-	/**
-	 * shows a brief resume of nested exceptions
-	 * 
-	 * @see java.lang.Throwable#toString()
-	 */
-	@Override
-	public String toString() {
-
-		return new StringBuilder(200)//
-				.append(getBriefListTrace()) //
-				.append(super.toString())//
-				.toString();
-	}
-
-	public String stackTraceToString() {
-		return ThrowableRenderer.stackTraceToString(this);
-	}
-
-	public String getBriefListTrace() {
-		return ThrowableRenderer.getBriefListTrace(this);
-	}
-
-	public String getHtmlStackTrace() {
-		return ThrowableRenderer.getHtmlStackTrace(this);
-	}
+	// /**
+	// * shows a brief resume of nested exceptions
+	// *
+	// * @see java.lang.Throwable#toString()
+	// */
+	// @Override
+	// public String toString() {
+	//
+	// return new StringBuilder(200)//
+	// .append(getBriefListTrace()) //
+	// .append(super.toString())//
+	// .toString();
+	// }
+	//
+	// public String stackTraceToString() {
+	// return ThrowableRenderer.stackTraceToString(this);
+	// }
+	//
+	// public String getBriefListTrace() {
+	// return ThrowableRenderer.getBriefListTrace(this);
+	// }
+	//
+	// public String getHtmlStackTrace() {
+	// return ThrowableRenderer.getHtmlStackTrace(this);
+	// }
 
 }
