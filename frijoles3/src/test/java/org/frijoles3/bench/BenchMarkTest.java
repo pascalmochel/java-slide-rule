@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import static org.junit.Assert.*;
 
 /**
- * <h2>INFO: Java:47ms/Frijoles:62ms/Spring:1214ms (1:1:25)</h2>
+ * <h2>INFO: Java:37ms/Frijoles:62ms/Spring:1450ms (12:20:483) (1:23)</h2>
  * 
  * @author mhoms
  */
