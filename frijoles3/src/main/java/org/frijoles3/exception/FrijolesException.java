@@ -34,11 +34,7 @@ public class FrijolesException extends RuntimeException {
 	 */
 	@Override
 	public String toString() {
-
-		return new StringBuilder(200)//
-				.append(getBriefListTrace()) //
-				.append(super.toString())//
-				.toString();
+		return getBriefListTrace() + super.toString();
 	}
 
 	public String stackTraceToString() {
