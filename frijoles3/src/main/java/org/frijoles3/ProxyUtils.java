@@ -18,7 +18,7 @@ public class ProxyUtils {
 		if (bean instanceof Deproxable) {
 			allInterfaces = beanClass.getInterfaces();
 		} else {
-			allInterfaces = cons(Deproxable.class, beanClass.getInterfaces());// TODO
+			allInterfaces = cons(Deproxable.class, beanClass.getInterfaces());
 		}
 
 		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), allInterfaces, o);
@@ -42,11 +42,21 @@ public class ProxyUtils {
 	}
 
 	public static boolean isDeproxMethod(final Method method) {
-		return method.getName().equals("deprox") && method.getParameterTypes().length == 0;
-		// try {
-		// return Deproxable.class.getMethod("deprox").equals(method);
-		// } catch (final Exception e) {
-		// throw new RuntimeException(e);
-		// }
+		// return method.getName().equals("deprox") &&
+		// method.getParameterTypes().length == 0;
+		try {
+			return Deproxable.class.getMethod("deprox").equals(method);
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
+
+	public static Boolean isToStringMethod(final Method method) {
+		try {
+			return Object.class.getMethod("toString").equals(method);
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }
