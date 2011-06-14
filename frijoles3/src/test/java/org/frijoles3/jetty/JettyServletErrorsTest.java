@@ -105,26 +105,26 @@ public class JettyServletErrorsTest {
 		stop();
 	}
 
-	@Test
-	public void testContextClassNotPublic() throws Exception {
-
-		start("org.frijoles.jetty.basic.context.NonValidContext");
-
-		//
-		final HttpTester request = new HttpTester();
-		final HttpTester response = new HttpTester();
-		request.setMethod("GET");
-		request.setHeader(HOST, HOST);
-		request.setURI("/ioc-web/FormBindingServlet");
-		request.setVersion("HTTP/1.0");
-
-		response.parse(tester.getResponses(request.generate()));
-
-		assertTrue(response.getMethod() == null);
-		assertEquals(404, response.getStatus());
-		assertTrue(response.getContent().contains("HTTP ERROR: 404"));
-		//
-		stop();
-	}
+	// @Test
+	// public void testContextClassNotPublic() throws Exception {
+	//
+	// start("org.frijoles.jetty.basic.context.NonValidContext");
+	//
+	// //
+	// final HttpTester request = new HttpTester();
+	// final HttpTester response = new HttpTester();
+	// request.setMethod("GET");
+	// request.setHeader(HOST, HOST);
+	// request.setURI("/ioc-web/FormBindingServlet");
+	// request.setVersion("HTTP/1.0");
+	//
+	// response.parse(tester.getResponses(request.generate()));
+	//
+	// assertTrue(response.getMethod() == null);
+	// assertEquals(404, response.getStatus());
+	// assertTrue(response.getContent().contains("HTTP ERROR: 404"));
+	// //
+	// stop();
+	// }
 
 }

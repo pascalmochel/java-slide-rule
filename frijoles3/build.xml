@@ -22,7 +22,7 @@
 
 	<target name="compile-src">
 		<mkdir dir="${main-classes-dir}" />
-		<javac srcdir="${main-root}" destdir="${main-classes-dir}" debug="on" target="1.6">
+		<javac srcdir="${main-root}" destdir="${main-classes-dir}" debug="on" target="1.5">
 			<classpath>
 				<!--
 				<pathelement path="${maven-repo-base-dir}/org/mhoms/logging-utils/0.0.1/logging-utils-0.0.1.jar" />

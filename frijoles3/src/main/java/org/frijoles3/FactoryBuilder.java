@@ -23,11 +23,11 @@ import java.util.logging.Logger;
  * </ul>
  * <p>
  * <ul>
- * <li>configuració d'aplicació
- * <li>obtenció de resources: Properties, i18n
- * <li>binding de formulari
- * <li>config de daos
- * <li>datasource provider
+ * <li>X configuració d'aplicació (exemples, awt, ...)
+ * <li>X obtenció de resources: Properties, i18n
+ * <li>X binding de formulari
+ * <li>- transaction interception, dao dependencies, datasource...
+ * <li>X datasource provider
  * </ul>
  * 
  * @author mhoms
@@ -60,7 +60,7 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		this.factoryObject = factoryObject;
 
 		try {
-			this.deproxMethod = Deproxable.class.getMethod("deprox");
+			this.deproxMethod = Deproxable.class.getMethod(Deproxable.DEPROX_METHOD_NAME);
 			this.toStringMethod = Object.class.getMethod("toString");
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
@@ -82,14 +82,11 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		final AbstractHolder abstractHolder = beansMap.get(method);
 		if (abstractHolder == null) {
 
-			final Scope scope = method.getAnnotation(Scope.class);
-			if (scope == null) {
-				throw new FrijolesException("@Scope annotation not found in factory method: "
-						+ method.toString());
-			}
+			final Scope scope = getScopeAnnotation(method);
 
 			final AbstractHolder newAbstractHolder = AbstractHolder.buildHolder(scope.value(), method
 					.getName(), factoryObject, proxy);
+
 			beansMap.put(method, newAbstractHolder);
 			resultingBean = newAbstractHolder.getBean(method, callArguments);
 		} else {
@@ -98,6 +95,26 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		}
 
 		return resultingBean;
+	}
+
+	protected Scope getScopeAnnotation(final Method method) {
+
+		Scope scope = method.getAnnotation(Scope.class);
+		if (scope != null) {
+			return scope;
+		}
+
+		try {
+			final Method m2 = factoryObject.getClass()
+					.getMethod(method.getName(), method.getParameterTypes());
+			scope = m2.getAnnotation(Scope.class);
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
+		if (scope == null) {
+			throw new FrijolesException("@Scope annotation not found in factory method: " + method.toString());
+		}
+		return scope;
 	}
 
 	@Override
@@ -109,16 +126,16 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		return factoryObject.getClass().getSimpleName() + ": " + m.toString();
 	}
 
-	private static <T> T[] setFirst(final T e, final T[] ts) {
+	protected static <T> T[] setFirst(final T e, final T[] ts) {
 		if (ts != null && ts.length > 0) {
 			ts[0] = e;
 		}
 		return ts;
 	}
 
-	public Map<Method, AbstractHolder> getBeansMap() {
-		return Collections.unmodifiableMap(beansMap);
-	}
+	// public Map<Method, AbstractHolder> getBeansMap() {
+	// return Collections.unmodifiableMap(beansMap);
+	// }
 
 	public Object deprox() {
 		return this.factoryObject;

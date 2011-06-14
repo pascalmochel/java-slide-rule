@@ -19,7 +19,7 @@ public class Intercept implements InvocationHandler, Deproxable {
 		this.bean = bean;
 		this.interceptor = interceptor;
 		try {
-			this.deproxMethod = Deproxable.class.getMethod("deprox");
+			this.deproxMethod = Deproxable.class.getMethod(Deproxable.DEPROX_METHOD_NAME);
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
