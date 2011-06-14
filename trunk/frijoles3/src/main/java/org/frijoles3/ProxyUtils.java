@@ -1,11 +1,10 @@
 package org.frijoles3;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
 import org.frijoles3.exception.FrijolesException;
-
-import java.util.Arrays;
 
 public class ProxyUtils {
 
@@ -23,8 +22,9 @@ public class ProxyUtils {
 		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), allInterfaces, o);
 	}
 
-	protected static <T> T[] cons(final T element, final T[] array) {
-		final T[] r = Arrays.copyOf(array, array.length + 1);
+	protected static Class<?>[] cons(final Class<?> element, final Class<?>[] array) {
+		final Class<?>[] r = (Class<?>[]) Array.newInstance(Class.class, array.length + 1);
+		System.arraycopy(array, 0, r, 0, array.length);
 		r[array.length] = element;
 		return r;
 	}
