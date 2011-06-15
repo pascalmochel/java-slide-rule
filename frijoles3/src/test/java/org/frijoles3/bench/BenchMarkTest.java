@@ -114,10 +114,13 @@ public class BenchMarkTest {
 
 	@AfterClass
 	public static void afterClass() throws Exception {
+
 		final long minTime = (long) (Math.min(Math.min(javaTime, frijolesTime), springTime) / 10.0);
+
 		final long nJavaTime = javaTime / minTime;
 		final long nFrijolesTime = frijolesTime / minTime;
 		final long nSpringTime = springTime / minTime;
+
 		LOG.info("Java:" + javaTime + "ms/Frijoles:" + frijolesTime + "ms/Spring:" + springTime + "ms ("
 				+ nJavaTime + ":" + nFrijolesTime + ":" + nSpringTime + ") (1:" + springTime / frijolesTime
 				+ ")");

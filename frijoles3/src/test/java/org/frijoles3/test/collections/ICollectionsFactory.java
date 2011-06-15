@@ -1,23 +1,16 @@
 package org.frijoles3.test.collections;
 
-import org.frijoles3.anno.Scope;
-import org.frijoles3.holder.impl.Singleton;
-
 import java.util.List;
 import java.util.Map;
 
 public interface ICollectionsFactory {
 
-	@Scope(Singleton.class)
-	int getAge(ICollectionsFactory f);
+	int getAge();
 
-	@Scope(Singleton.class)
-	int[] getAgesArray(ICollectionsFactory f);
+	int[] getAgesArray();
 
-	@Scope(Singleton.class)
-	List<Integer> getAgesList(ICollectionsFactory f);
+	List<Integer> getAgesList();
 
-	@Scope(Singleton.class)
-	Map<String, Integer> getAgesMap(ICollectionsFactory f);
+	Map<String, Integer> getAgesMap();
 
 }

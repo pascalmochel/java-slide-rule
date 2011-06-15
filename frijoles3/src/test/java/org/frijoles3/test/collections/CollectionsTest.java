@@ -18,10 +18,10 @@ public class CollectionsTest {
 
 		final ICollectionsFactory ctx = FactoryBuilder.build(CollectionsFactory.class);
 
-		assertEquals("28", String.valueOf(ctx.getAge(null)));
-		assertEquals("[26, 28]", Arrays.toString(ctx.getAgesArray(null)));
-		assertEquals("[26, 28]", ctx.getAgesList(null).toString());
-		assertEquals("[26, 28]", sortedValueList(ctx.getAgesMap(null)).toString());
+		assertEquals("28", String.valueOf(ctx.getAge()));
+		assertEquals("[26, 28]", Arrays.toString(ctx.getAgesArray()));
+		assertEquals("[26, 28]", ctx.getAgesList().toString());
+		assertEquals("[26, 28]", sortedValueList(ctx.getAgesMap()).toString());
 
 	}
 
