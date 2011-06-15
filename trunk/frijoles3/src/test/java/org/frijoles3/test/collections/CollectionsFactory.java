@@ -1,5 +1,6 @@
 package org.frijoles3.test.collections;
 
+import org.frijoles3.anno.Scope;
 import org.junit.Ignore;
 
 import java.util.Arrays;
@@ -10,19 +11,23 @@ import java.util.Map;
 @Ignore
 public class CollectionsFactory implements ICollectionsFactory {
 
-	public int getAge(final ICollectionsFactory f) {
+	@Scope
+	public int getAge() {
 		return 28;
 	}
 
-	public int[] getAgesArray(final ICollectionsFactory f) {
+	@Scope
+	public int[] getAgesArray() {
 		return new int[] { 26, 28 };
 	}
 
-	public List<Integer> getAgesList(final ICollectionsFactory f) {
+	@Scope
+	public List<Integer> getAgesList() {
 		return Arrays.asList(26, 28);
 	}
 
-	public Map<String, Integer> getAgesMap(final ICollectionsFactory f) {
+	@Scope
+	public Map<String, Integer> getAgesMap() {
 		final Map<String, Integer> r = new HashMap<String, Integer>();
 		r.put("a", 26);
 		r.put("b", 28);

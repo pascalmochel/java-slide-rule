@@ -65,6 +65,8 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
+
+		LOG.info("factory " + factoryObject.getClass().getSimpleName() + " successfully builded");
 	}
 
 	public Object invoke(final Object proxy, final Method method, final Object[] args) {
@@ -78,7 +80,7 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 
 		final Object[] callArguments = setFirst(proxy, args);
 
-		Object resultingBean;
+		final Object resultingBean;
 		final AbstractHolder abstractHolder = beansMap.get(method);
 		if (abstractHolder == null) {
 
