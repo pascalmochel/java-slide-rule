@@ -12,11 +12,17 @@ public class ProxyUtils {
 
 		final Class<? extends Object> beanClass = bean.getClass();
 
+		final Class<?>[] interfaces = beanClass.getInterfaces();
+		if (interfaces.length == 0) {
+			throw new FrijolesException("object factory must implements almost one interface: "
+					+ beanClass.getSimpleName());
+		}
+
 		final Class<?>[] allInterfaces;
 		if (bean instanceof Deproxable) {
-			allInterfaces = beanClass.getInterfaces();
+			allInterfaces = interfaces;
 		} else {
-			allInterfaces = cons(Deproxable.class, beanClass.getInterfaces());
+			allInterfaces = cons(Deproxable.class, interfaces);
 		}
 
 		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), allInterfaces, o);

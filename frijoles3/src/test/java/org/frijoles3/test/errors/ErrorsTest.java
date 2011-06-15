@@ -1,6 +1,7 @@
 package org.frijoles3.test.errors;
 
 import org.frijoles3.FactoryBuilder;
+import org.frijoles3.exception.FrijolesException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,7 +14,7 @@ public class ErrorsTest {
 		try {
 			FactoryBuilder.build(IErrorsFactory.class);
 			fail();
-		} catch (final Exception e) {
+		} catch (final FrijolesException e) {
 			assertEquals(
 					"factory must be a class, not an interface; offending object is interface org.frijoles3.test.errors.IErrorsFactory",
 					e.getMessage());
@@ -27,9 +28,9 @@ public class ErrorsTest {
 			@SuppressWarnings("unused")
 			final ErrorsFactory1 f = FactoryBuilder.build(ErrorsFactory1.class);
 			fail();
-		} catch (final Exception e) {
-			assertEquals("$Proxy cannot be cast to org.frijoles.test.errors.ErrorsFactory", e.getMessage()
-					.replaceAll("\\d", ""));
+		} catch (final FrijolesException e) {
+			assertEquals("object factory must implements almost one interface: ErrorsFactory1", e
+					.getMessage());
 		}
 	}
 
@@ -39,7 +40,7 @@ public class ErrorsTest {
 		try {
 			FactoryBuilder.build(ErrorsFactory2.class);
 			fail();
-		} catch (final Exception e) {
+		} catch (final FrijolesException e) {
 			assertEquals(
 					"cannot create class org.frijoles3.test.errors.ErrorsFactory2, it is visible, with a public default constructor?",
 					e.getMessage());
@@ -53,7 +54,7 @@ public class ErrorsTest {
 			final IErrorsFactory f = FactoryBuilder.build(ErrorsFactory.class);
 			f.getValue1(null);
 			fail();
-		} catch (final Exception e) {
+		} catch (final FrijolesException e) {
 			assertEquals(
 					"@Scope annotation not found in factory method: public abstract java.lang.Long org.frijoles3.test.errors.IErrorsFactory.getValue1(org.frijoles3.test.errors.IErrorsFactory)",
 					e.getMessage());
@@ -67,7 +68,7 @@ public class ErrorsTest {
 			final IErrorsFactory f = FactoryBuilder.build(ErrorsFactory.class);
 			f.getValue2(null);
 			fail();
-		} catch (final Exception e) {
+		} catch (final FrijolesException e) {
 			assertEquals(
 					"building bean instance invoking: public abstract java.lang.Long org.frijoles3.test.errors.IErrorsFactory.getValue2(org.frijoles3.test.errors.IErrorsFactory)",
 					e.getMessage());
