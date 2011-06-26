@@ -42,7 +42,7 @@ public class FactoryWebLoader implements ServletContextListener {
 
 		sce.getServletContext().setAttribute(FRIJOLES_CONTEXT_ATTR_NAME, factory);
 
-		LOG.info("factory " + factory.getClass().getSimpleName() + " successfully loaded in servlet context");
+		LOG.info("factory " + factoryClass.getSimpleName() + " successfully loaded in servlet context");
 	}
 
 	public void contextDestroyed(final ServletContextEvent sce) {

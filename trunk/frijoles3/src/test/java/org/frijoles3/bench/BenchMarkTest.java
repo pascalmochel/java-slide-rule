@@ -16,7 +16,9 @@ import java.util.logging.Logger;
 import static org.junit.Assert.*;
 
 /**
- * <h2>INFO: Java:37ms/Frijoles:62ms/Spring:1450ms (12:20:483) (1:23)</h2>
+ * <h2>INFO: Java:1150ms/Frijoles:3361ms/Spring:108500ms (10:29:943) (1:32)</h2>
+ * <p>
+ * <tt>2 sec ~ 1 min</tt>
  * 
  * @author mhoms
  */
@@ -33,11 +35,6 @@ public class BenchMarkTest {
 	public BenchMarkTest() {
 		super();
 	}
-
-	// @Before
-	// public void before() {
-	// System.gc();
-	// }
 
 	@Test
 	public void testJavaInjection() throws Exception {
