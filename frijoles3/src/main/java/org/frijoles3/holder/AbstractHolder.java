@@ -1,6 +1,7 @@
 package org.frijoles3.holder;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.frijoles3.exception.FrijolesException;
@@ -20,7 +21,8 @@ public abstract class AbstractHolder {
 		try {
 			return method.invoke(factoryObject, extraParameters);
 		} catch (final Exception e) {
-			throw new FrijolesException("building bean instance invoking: " + method.toString(), e);
+			final Throwable cause = e instanceof InvocationTargetException ? e.getCause() : e;
+			throw new FrijolesException("building bean instance invoking: " + method.toString(), cause);
 		}
 	}
 
