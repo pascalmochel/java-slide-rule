@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	<!-- Generated 16-feb-2009 15:17:24 by Hibernate Tools 3.2.2.GA -->
+
+<hibernate-mapping>
+
+	<class name="org.frijoles3.properties.Dog" table="DOGS">
+		<id name="idDog" type="java.lang.Long" column="ID_DOG">
+			<generator class="sequence">
+				<param name="sequence">DOGS_SEQ</param>
+			</generator>
+		</id>
+		<property name="name" type="java.lang.String" column="NAME" />
+	</class>
+
+</hibernate-mapping>
