@@ -1,4 +1,4 @@
-package org.frijoles3.test.aop;
+package org.frijoles3.test.aop.factory;
 
 import java.lang.reflect.Method;
 
