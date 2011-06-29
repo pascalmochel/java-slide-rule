@@ -23,15 +23,27 @@ public class Business extends PropertiesHolder implements IBusiness {
 		return ds;
 	}
 
+	// TODO jaja, no hi ha problemes amb els retorns void!!! (deu passar null)
 	@Scope
-	public SessionFactory getSessionFactory(final IBusiness self) throws Exception {
+	public void configureSessionFactory(final IBusiness self) throws Exception {
 
 		final LocalSessionFactoryBean r = new LocalSessionFactoryBean();
 		r.setDataSource(self.getDataSource(X));
 		r.setMappingResources(new String[] { ("./hbm/dog.hbm.xml") });
 		r.setHibernateProperties(props);
 		r.afterPropertiesSet();
-		return (SessionFactory) r.getObject();
+		HibernateSessionFactory.setSessionFactory((SessionFactory) r.getObject());
+	}
+
+	@Scope
+	public DogBo getDogBo(final IBusiness self) {
+		final DogBo bo = new DogBo(self.getDogDao(X));
+		return bo;
+	}
+
+	@Scope
+	public DogDao getDogDao(final IBusiness self) {
+		return new DogDao();
 	}
 
 }

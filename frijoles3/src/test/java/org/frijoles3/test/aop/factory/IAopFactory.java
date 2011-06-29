@@ -1,4 +1,4 @@
-package org.frijoles3.test.aop;
+package org.frijoles3.test.aop.factory;
 
 import org.frijoles3.anno.Scope;
 import org.frijoles3.aop.Interceptor;

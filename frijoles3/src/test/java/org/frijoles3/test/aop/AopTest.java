@@ -1,33 +1,80 @@
 package org.frijoles3.test.aop;
 
-import org.frijoles3.Deproxable;
-import org.frijoles3.FactoryBuilder;
+import java.lang.reflect.Method;
+
+import org.frijoles3.aop.Intercept;
+import org.frijoles3.aop.Interceptor;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 
 public class AopTest {
 
-	@SuppressWarnings("unchecked")
 	@Test
-	public void test() throws Throwable {
+	public void testTots() throws Exception {
 
-		final IAopFactory ctx = FactoryBuilder.build(AopFactory.class);
+		final Interceptor interceptor = new MyInterceptor();
+		final IBean bean = Intercept.with(new Bean(), interceptor, ".*");
 
-		final List<String> list = ctx.getList(null);
-		assertEquals("<mhc>", list.get(0));
-		assertEquals("<arb>", list.get(1));
+		bean.getOne();
+		bean.findThree();
 
-		Map<String, String> map = ctx.getMap(null);
-		assertEquals("<mhc>", map.get("mhc"));
-		assertEquals("<arb>", map.get("arb"));
-
-		map = (Map<String, String>) ((Deproxable) map).deprox();
-		assertEquals("mhc", map.get("mhc"));
-		assertEquals("arb", map.get("arb"));
+		assertEquals("[getOne, findThree]", interceptor.toString());
 	}
 
+	@Test
+	public void testGets() throws Exception {
+
+		final Interceptor interceptor = new MyInterceptor();
+		final IBean bean = Intercept.with(new Bean(), interceptor, "get.*");
+
+		bean.getOne();
+		bean.findThree();
+
+		assertEquals("[getOne]", interceptor.toString());
+	}
+
+	@Test
+	public void testFinds() throws Exception {
+
+		final Interceptor interceptor = new MyInterceptor();
+		final IBean bean = Intercept.with(new Bean(), interceptor, "find.*");
+
+		bean.getOne();
+		bean.findThree();
+
+		assertEquals("[findThree]", interceptor.toString());
+	}
+
+	@Test
+	public void testNone() throws Exception {
+
+		final Interceptor interceptor = new MyInterceptor();
+		final IBean bean = Intercept.with(new Bean(), interceptor, "jou.*");
+
+		bean.getOne();
+		bean.findThree();
+
+		assertEquals("[]", interceptor.toString());
+	}
+
+	static class MyInterceptor implements Interceptor {
+
+		protected List<String> ms = new ArrayList<String>();
+
+		public Object intercept(final Object targetBean, final Method method, final Object[] arguments)
+				throws Exception {
+			ms.add(method.getName());
+			return method.invoke(targetBean, arguments);
+		}
+
+		@Override
+		public String toString() {
+			return ms.toString();
+		}
+
+	}
 }
