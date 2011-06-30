@@ -42,7 +42,7 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 	protected final Method toStringMethod;
 
 	@SuppressWarnings("unchecked")
-	public static <T> T build(final Class<? extends T> factoryClassToProx) {
+	public static <T> T build(final Class<T> factoryClassToProx) {
 
 		if (factoryClassToProx.isInterface()) {
 			throw new FrijolesException("factory must be a class, not an interface; offending object is "
@@ -51,6 +51,10 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 
 		final Object factoryObject = ProxyUtils.newInstanceOf(factoryClassToProx);
 		return (T) ProxyUtils.buildProxy(factoryObject, new FactoryBuilder(factoryObject));
+	}
+
+	public static <T> T build(final Class<? extends T> factoryClassToProx, final Class<T> interfaceToCast) {
+		return build(factoryClassToProx);
 	}
 
 	protected FactoryBuilder(final Object factoryObject) {
