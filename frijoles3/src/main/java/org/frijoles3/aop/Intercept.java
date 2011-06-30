@@ -7,15 +7,12 @@ import org.frijoles3.Deproxable;
 import org.frijoles3.ProxyUtils;
 import org.frijoles3.exception.FrijolesException;
 
-import java.util.regex.Pattern;
-
 // TODO interceptar si methodName.matches(regexp)
 public class Intercept implements InvocationHandler, Deproxable {
 
 	protected Object bean;
 	protected Interceptor interceptor;
 	protected final Method deproxMethod;
-	protected Pattern methodNamePattern;
 
 	protected Intercept(final Object bean, final Interceptor interceptor) {
 		// non-visible constructor
@@ -27,23 +24,11 @@ public class Intercept implements InvocationHandler, Deproxable {
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
-		this.methodNamePattern = null;
-	}
-
-	protected Intercept(final Object bean, final Interceptor interceptor, final String methodNameregexp) {
-		// non-visible constructor
-		this(bean, interceptor);
-		this.methodNamePattern = Pattern.compile(methodNameregexp);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T> T with(final T bean, final Interceptor interceptor) {
 		return (T) ProxyUtils.buildProxy(bean, new Intercept(bean, interceptor));
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> T with(final T bean, final Interceptor interceptor, final String methodNameregexp) {
-		return (T) ProxyUtils.buildProxy(bean, new Intercept(bean, interceptor, methodNameregexp));
 	}
 
 	public Object invoke(final Object proxy, final Method method, final Object[] arguments) {
@@ -53,11 +38,7 @@ public class Intercept implements InvocationHandler, Deproxable {
 		}
 
 		try {
-			if (this.methodNamePattern == null || this.methodNamePattern.matcher(method.getName()).matches()) {
-				return interceptor.intercept(bean, method, arguments);
-			} else {
-				return method.invoke(bean, arguments);
-			}
+			return interceptor.intercept(bean, method, arguments);
 		} catch (final Exception e) {
 			throw new FrijolesException("error during execution of intercepted bean method: "
 					+ method.getName(), e);

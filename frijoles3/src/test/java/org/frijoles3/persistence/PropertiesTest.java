@@ -1,8 +1,9 @@
-package org.frijoles3.properties;
+package org.frijoles3.persistence;
 
 import javax.sql.DataSource;
 
 import org.frijoles3.FactoryBuilder;
+import org.frijoles3.persistence.hibernate.HibernateSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.Test;

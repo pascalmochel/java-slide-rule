@@ -6,24 +6,24 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.Properties;
 
-public class PropertiesHolder {
+public class PropertiesHolder extends Properties {
 
-	protected final Properties props;
+	private static final long serialVersionUID = -8086127675176348896L;
 
 	public PropertiesHolder(final Properties props) {
-		this.props = props;
+		super(props);
 	}
 
 	public PropertiesHolder(final InputStream is) throws IOException {
-		this.props = PropertiesLoader.load(is);
+		super(PropertiesLoader.load(is));
 	}
 
 	public PropertiesHolder(final String propertiesBaseName) {
-		this.props = PropertiesLoader.load(propertiesBaseName);
+		super(PropertiesLoader.load(propertiesBaseName));
 	}
 
 	public PropertiesHolder(final String propertiesBaseName, final Locale locale) {
-		this.props = PropertiesLoader.load(propertiesBaseName, locale);
+		super(PropertiesLoader.load(propertiesBaseName, locale));
 	}
 
 }

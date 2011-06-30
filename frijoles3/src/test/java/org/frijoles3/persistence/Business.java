@@ -1,16 +1,23 @@
-package org.frijoles3.properties;
+package org.frijoles3.persistence;
 
 import javax.sql.DataSource;
 
 import org.frijoles3.anno.Scope;
+import org.frijoles3.aop.Intercept;
+import org.frijoles3.aop.Interceptor;
+import org.frijoles3.persistence.hibernate.HibernateSessionFactory;
+import org.frijoles3.persistence.hibernate.TransactionalInterceptor;
+import org.frijoles3.properties.PropertiesHolder;
 import org.hibernate.SessionFactory;
 import org.hsqldb.jdbc.jdbcDataSource;
 import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
 
-public class Business extends PropertiesHolder implements IBusiness {
+public class Business implements IBusiness {
+
+	protected PropertiesHolder props;
 
 	public Business() {
-		super("frijoles-test");
+		this.props = new PropertiesHolder("frijoles-hibernate");
 	}
 
 	@Scope
@@ -36,14 +43,18 @@ public class Business extends PropertiesHolder implements IBusiness {
 	}
 
 	@Scope
-	public DogBo getDogBo(final IBusiness self) {
-		final DogBo bo = new DogBo(self.getDogDao(X));
-		return bo;
+	public DogDao getDogDao(final IBusiness self) {
+		return new DogDao();
 	}
 
 	@Scope
-	public DogDao getDogDao(final IBusiness self) {
-		return new DogDao();
+	public Interceptor getTransactionalInterceptor(final IBusiness self) {
+		return new TransactionalInterceptor();
+	}
+
+	@Scope
+	public IDogBo getDogBo(final IBusiness self) {
+		return Intercept.with(new DogBo(self.getDogDao(X)), self.getTransactionalInterceptor(X));
 	}
 
 }
