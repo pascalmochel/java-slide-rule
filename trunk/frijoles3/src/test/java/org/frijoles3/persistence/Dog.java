@@ -1,4 +1,4 @@
-package org.frijoles3.properties;
+package org.frijoles3.persistence;
 
 public class Dog {
 

@@ -1,6 +1,8 @@
-package org.frijoles3.properties;
+package org.frijoles3.persistence;
 
 import javax.sql.DataSource;
+
+import org.frijoles3.aop.Interceptor;
 
 public interface IBusiness {
 
@@ -10,8 +12,10 @@ public interface IBusiness {
 
 	void configureSessionFactory(IBusiness self) throws Exception;
 
-	DogBo getDogBo(final IBusiness self);
+	IDogBo getDogBo(final IBusiness self);
 
 	DogDao getDogDao(IBusiness self);
+
+	Interceptor getTransactionalInterceptor(IBusiness self);
 
 }

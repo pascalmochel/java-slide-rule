@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
 
-	<class name="org.frijoles3.properties.Dog" table="DOGS">
+	<class name="org.frijoles3.persistence.Dog" table="DOGS">
 		<id name="idDog" type="java.lang.Long" column="ID_DOG">
 			<generator class="sequence">
 				<param name="sequence">DOGS_SEQ</param>

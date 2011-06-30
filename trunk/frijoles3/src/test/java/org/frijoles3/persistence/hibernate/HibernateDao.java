@@ -4,7 +4,7 @@
  *
  * Març 2009
  */
-package org.frijoles3.properties;
+package org.frijoles3.persistence.hibernate;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
