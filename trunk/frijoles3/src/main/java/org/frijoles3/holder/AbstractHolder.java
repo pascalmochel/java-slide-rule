@@ -20,9 +20,10 @@ public abstract class AbstractHolder {
 	protected Object buildInstance(final Method method, final Object[] extraParameters) {
 		try {
 			return method.invoke(factoryObject, extraParameters);
+		} catch (final InvocationTargetException e) {
+			throw new FrijolesException("building bean instance invoking: " + method.toString(), e.getCause());
 		} catch (final Exception e) {
-			final Throwable cause = e instanceof InvocationTargetException ? e.getCause() : e;
-			throw new FrijolesException("building bean instance invoking: " + method.toString(), cause);
+			throw new FrijolesException("building bean instance invoking: " + method.toString(), e);
 		}
 	}
 
