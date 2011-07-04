@@ -26,8 +26,7 @@ import java.util.logging.Logger;
  * <li>X configuració d'aplicació (exemples, awt, ...)
  * <li>X obtenció de resources: Properties, i18n
  * <li>X binding de formulari
- * <li>- transaction interception, dao dependencies, datasource...
- * <li>X datasource provider
+ * <li>X transaction interception, dao dependencies, datasource...
  * </ul>
  * 
  * @author mhoms

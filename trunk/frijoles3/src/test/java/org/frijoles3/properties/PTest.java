@@ -11,11 +11,11 @@ public class PTest {
 	public void testname() throws Exception {
 
 		try {
-			FactoryBuilder.build(F.class).getSalute();
+			FactoryBuilder.build(F.class).getSalute(null);
 			fail();
 		} catch (final Exception e) {
 		}
-		assertEquals("buenas", FactoryBuilder.build(F.class, IF.class).getSalute());
+		assertEquals("buenas", FactoryBuilder.build(F.class, IF.class).getSalute(null));
 	}
 
 }

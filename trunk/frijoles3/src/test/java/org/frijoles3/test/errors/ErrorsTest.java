@@ -70,9 +70,8 @@ public class ErrorsTest {
 			fail();
 		} catch (final FrijolesException e) {
 			assertEquals(
-					"building bean instance invoking: public abstract java.lang.Long org.frijoles3.test.errors.IErrorsFactory.getValue2(org.frijoles3.test.errors.IErrorsFactory)",
+					"building bean \"getValue2\" instance invoking: public abstract java.lang.Long org.frijoles3.test.errors.IErrorsFactory.getValue2(org.frijoles3.test.errors.IErrorsFactory)",
 					e.getMessage());
 		}
 	}
-
 }
