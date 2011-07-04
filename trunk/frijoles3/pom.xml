@@ -4,7 +4,7 @@
 
 	<groupId>org.frijoles</groupId>
 	<artifactId>frijoles3</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.2.1</version>
 
 	<name>Frijoles Container</name>
 

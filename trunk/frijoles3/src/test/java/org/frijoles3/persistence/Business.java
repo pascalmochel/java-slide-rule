@@ -25,9 +25,9 @@ public class Business implements IBusiness {
 	public DataSource getDataSource(final IBusiness self) {
 
 		final jdbcDataSource ds = new jdbcDataSource();
-		ds.setDatabase(props.getProperty("hsql-url"));
-		ds.setUser(props.getProperty("hsql-user"));
-		ds.setPassword(props.getProperty("hsql-pass"));
+		ds.setDatabase(props.getProperty("hibernate.connection.url"));
+		ds.setUser(props.getProperty("hibernate.connection.username"));
+		ds.setPassword(props.getProperty("hibernate.connection.password"));
 		return ds;
 	}
 
@@ -35,10 +35,28 @@ public class Business implements IBusiness {
 	@Scope
 	public void configureSessionFactory(final IBusiness self) throws Exception {
 
+		/**
+		 * <pre>
+		 * In order to have HSQLDB register itself, you need to access its 
+		 * jdbcDriver class. You can do this the same way as in this example.
+		 * 
+		 * Class.forName("org.hsqldb.jdbcDriver");
+		 * 
+		 * It triggers static initialization of jdbcDriver class, which is:
+		 * 
+		 * static {
+		 *     try {
+		 *         DriverManager.registerDriver(new jdbcDriver());
+		 *     } catch (Exception e) {}
+		 * }
+		 * </pre>
+		 */
+		Class.forName("org.hsqldb.jdbcDriver");
+
 		HibernateSessionFactory.setSessionFactory(//
 				new Configuration()
 				/**/.addProperties(props)
-				/**/.addResource("./hbm/dog.hbm.xml")
+				/**/.addResource("hbm/dog.hbm.xml")
 				/**/.buildSessionFactory() //
 				);
 	}
@@ -55,7 +73,9 @@ public class Business implements IBusiness {
 
 	@Scope
 	public IDogBo getDogBo(final IBusiness self) {
-		return Intercept.with(new DogBo(self.getDogDao(X)), self.getTransactionalInterceptor(X));
+		final DogBo bo = new DogBo(self.getDogDao(X));
+		final Interceptor interceptor = self.getTransactionalInterceptor(X);
+		return Intercept.with(bo, interceptor);
 	}
 
 }
