@@ -114,7 +114,7 @@ public class BenchMarkTest {
 
 		final long minTime = (long) (Math.min(Math.min(javaTime, frijolesTime), springTime) / 10.0);
 
-		final long nJavaTime = javaTime / minTime;
+		final long nJavaTime = javaTime == 0 ? (javaTime + 1) / minTime : javaTime / minTime;
 		final long nFrijolesTime = frijolesTime / minTime;
 		final long nSpringTime = springTime / minTime;
 
