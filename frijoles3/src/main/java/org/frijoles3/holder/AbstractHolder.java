@@ -21,9 +21,11 @@ public abstract class AbstractHolder {
 		try {
 			return method.invoke(factoryObject, extraParameters);
 		} catch (final InvocationTargetException e) {
-			throw new FrijolesException("building bean instance invoking: " + method.toString(), e.getCause());
+			throw new FrijolesException("building bean \"" + alias + "\" instance invoking: "
+					+ method.toString(), e.getCause());
 		} catch (final Exception e) {
-			throw new FrijolesException("building bean instance invoking: " + method.toString(), e);
+			throw new FrijolesException("building bean \"" + alias + "\"instance invoking: "
+					+ method.toString(), e);
 		}
 	}
 

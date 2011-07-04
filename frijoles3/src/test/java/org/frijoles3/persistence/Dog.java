@@ -5,6 +5,10 @@ public class Dog {
 	protected Long idDog;
 	protected String name;
 
+	public Dog() {
+		super();
+	}
+
 	public Dog(final Long idDog, final String name) {
 		super();
 		this.idDog = idDog;

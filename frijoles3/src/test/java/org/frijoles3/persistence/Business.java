@@ -7,17 +7,18 @@ import org.frijoles3.aop.Intercept;
 import org.frijoles3.aop.Interceptor;
 import org.frijoles3.persistence.hibernate.HibernateSessionFactory;
 import org.frijoles3.persistence.hibernate.TransactionalInterceptor;
-import org.frijoles3.properties.PropertiesHolder;
-import org.hibernate.SessionFactory;
+import org.frijoles3.properties.PropertiesLoader;
+import org.hibernate.cfg.Configuration;
 import org.hsqldb.jdbc.jdbcDataSource;
-import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
+
+import java.util.Properties;
 
 public class Business implements IBusiness {
 
-	protected PropertiesHolder props;
+	protected Properties props;
 
 	public Business() {
-		this.props = new PropertiesHolder("frijoles-hibernate");
+		this.props = PropertiesLoader.load("frijoles-hibernate");
 	}
 
 	@Scope
@@ -34,12 +35,12 @@ public class Business implements IBusiness {
 	@Scope
 	public void configureSessionFactory(final IBusiness self) throws Exception {
 
-		final LocalSessionFactoryBean r = new LocalSessionFactoryBean();
-		r.setDataSource(self.getDataSource(X));
-		r.setMappingResources(new String[] { ("./hbm/dog.hbm.xml") });
-		r.setHibernateProperties(props);
-		r.afterPropertiesSet();
-		HibernateSessionFactory.setSessionFactory((SessionFactory) r.getObject());
+		HibernateSessionFactory.setSessionFactory(//
+				new Configuration()
+				/**/.addProperties(props)
+				/**/.addResource("./hbm/dog.hbm.xml")
+				/**/.buildSessionFactory() //
+				);
 	}
 
 	@Scope
