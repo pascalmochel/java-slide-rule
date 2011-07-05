@@ -33,6 +33,7 @@ public class HibernateTest {
 			final Dog dog = new Dog(null, "chucho2");
 			assertNull(dog.getIdDog());
 			f.getDogBo(null).store(dog);
+			f.getDogBo(null).store(dog);
 			assertNotNull(dog.getIdDog());
 		}
 	}

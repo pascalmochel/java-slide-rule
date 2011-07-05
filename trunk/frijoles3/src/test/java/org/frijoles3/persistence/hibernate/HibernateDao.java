@@ -23,43 +23,19 @@ import java.util.List;
  * @param <T> Tipus de dada de la entitat
  * @param <TID> Tipus de dada de l'identificador que utilitza la entitat
  */
+@SuppressWarnings("unchecked")
 public class HibernateDao<T, TID extends Serializable> {
 
-	// /**
-	// * Factoria de beans de la sessió
-	// */
-	// private SessionFactory sessionFactory;
-
-	/**
-	 * Classe que es fa persistent
-	 */
 	private final Class<T> persistentClass;
 
-	/**
-	 * Constructor de la classe
-	 */
-	@SuppressWarnings("unchecked")
 	public HibernateDao() {
 		this.persistentClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
 				.getActualTypeArguments()[0];
 	}
 
-	/**
-	 * Retorna la classe persistent
-	 * 
-	 * @return Classe persistent
-	 */
 	public Class<T> getPersistentClass() {
 		return persistentClass;
 	}
-
-	// public SessionFactory getSessionFactory() {
-	// return sessionFactory;
-	// }
-
-	// public void setSessionFactory(final SessionFactory sessionFactory) {
-	// this.sessionFactory = sessionFactory;
-	// }
 
 	public void delete(final T objecte) {
 		HibernateSessionFactory.getSession().delete(objecte);
@@ -69,28 +45,18 @@ public class HibernateDao<T, TID extends Serializable> {
 		HibernateSessionFactory.getSession().saveOrUpdate(objecte);
 	}
 
-	@SuppressWarnings("unchecked")
 	public T findById(final TID id) {
 		return (T) HibernateSessionFactory.getSession().get(getPersistentClass(), id);
 	}
 
-	@SuppressWarnings("unchecked")
 	public List findAll() {
 		return findByCriteria();
 	}
 
-	/**
-	 * versió de <tt>findAll()</tt>, que retorna els resultats ordenats segons
-	 * un criteri d'ordenació especificat
-	 * 
-	 * @see cat.base.baseframe.dao.IBaseDao#findAll(org.hibernate.criterion.Order)
-	 */
-	@SuppressWarnings("unchecked")
 	public List findAll(final Order orderPredicate) {
 		return findByCriteria(orderPredicate);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected List findByCriteria(final Criterion... criterion) {
 		final Criteria crit = HibernateSessionFactory.getSession().createCriteria(getPersistentClass());
 		for (final Criterion c : criterion) {
@@ -101,15 +67,6 @@ public class HibernateDao<T, TID extends Serializable> {
 		return crit.list();
 	}
 
-	/**
-	 * cerca sota un nombre variable de criteris de cerca, i ordena els
-	 * resultats segons un criteri d'ordenació.
-	 * 
-	 * @param orderPredicate criteri d'ordenació
-	 * @param criterion criteris de cerca
-	 * @return la llista ordenada de resultats
-	 */
-	@SuppressWarnings("unchecked")
 	protected List findByCriteria(final Order orderPredicate, final Criterion... criterion) {
 		final Criteria crit = HibernateSessionFactory.getSession().createCriteria(getPersistentClass());
 		for (final Criterion c : criterion) {
