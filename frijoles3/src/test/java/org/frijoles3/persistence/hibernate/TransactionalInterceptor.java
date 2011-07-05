@@ -22,16 +22,15 @@ public class TransactionalInterceptor implements Interceptor {
 			final Object[] arguments) {
 		final Session session = HibernateSessionFactory.getSession();
 		final Transaction tx = session.beginTransaction();
-		System.out.println("open");
 		try {
 			final Object r = method.invoke(targetBean, arguments);
 			tx.commit();
-			System.out.println("commit");
 			return r;
 		} catch (final Exception e) {
 			tx.rollback();
-			System.out.println("rollback");
 			throw new RuntimeException(e);
+		} finally {
+			session.close();
 		}
 	}
 

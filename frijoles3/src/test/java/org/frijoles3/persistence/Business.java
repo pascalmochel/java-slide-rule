@@ -1,7 +1,5 @@
 package org.frijoles3.persistence;
 
-import javax.sql.DataSource;
-
 import org.frijoles3.anno.Scope;
 import org.frijoles3.aop.Intercept;
 import org.frijoles3.aop.Interceptor;
@@ -9,7 +7,6 @@ import org.frijoles3.persistence.hibernate.HibernateSessionFactory;
 import org.frijoles3.persistence.hibernate.TransactionalInterceptor;
 import org.frijoles3.properties.PropertiesLoader;
 import org.hibernate.cfg.Configuration;
-import org.hsqldb.jdbc.jdbcDataSource;
 
 import java.util.Properties;
 
@@ -21,17 +18,17 @@ public class Business implements IBusiness {
 		this.props = PropertiesLoader.load("frijoles-hibernate");
 	}
 
-	@Scope
-	public DataSource getDataSource(final IBusiness self) {
+	// @Scope
+	// public DataSource getDataSource(final IBusiness self) {
+	//
+	// final jdbcDataSource ds = new jdbcDataSource();
+	// ds.setDatabase(props.getProperty("hibernate.connection.url"));
+	// ds.setUser(props.getProperty("hibernate.connection.username"));
+	// ds.setPassword(props.getProperty("hibernate.connection.password"));
+	// return ds;
+	// }
 
-		final jdbcDataSource ds = new jdbcDataSource();
-		ds.setDatabase(props.getProperty("hibernate.connection.url"));
-		ds.setUser(props.getProperty("hibernate.connection.username"));
-		ds.setPassword(props.getProperty("hibernate.connection.password"));
-		return ds;
-	}
-
-	// TODO jaja, no hi ha problemes amb els retorns void!!! (deu passar null)
+	// XXX jaja, no hi ha problemes amb els retorns void!!! (deu passar null)
 	@Scope
 	public void configureSessionFactory(final IBusiness self) throws Exception {
 

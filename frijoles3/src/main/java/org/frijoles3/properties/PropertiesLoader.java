@@ -10,16 +10,19 @@ import java.util.Properties;
 
 public class PropertiesLoader {
 
+	public static final String PROPERTIES_EXTENSION = ".properties";
+	public static final String LOCALE_SEPARATOR = "_";
+
 	public static Properties load(final String propertiesBaseName) {
-		return load2(propertiesBaseName + ".properties");
+		return load2(propertiesBaseName + PROPERTIES_EXTENSION);
 	}
 
 	public static Properties load(final String propertiesBaseName, final Locale locale) {
 		try {
-			return load2(propertiesBaseName + "_" + locale.toString() + ".properties");
+			return load2(propertiesBaseName + LOCALE_SEPARATOR + locale.toString() + PROPERTIES_EXTENSION);
 		} catch (final FrijolesException e) {
 			try {
-				return load2(propertiesBaseName + ".properties");
+				return load2(propertiesBaseName + PROPERTIES_EXTENSION);
 			} catch (final Exception e2) {
 				throw new FrijolesException("not found for locale=" + locale.toString()
 						+ " nor for default locale", e2);

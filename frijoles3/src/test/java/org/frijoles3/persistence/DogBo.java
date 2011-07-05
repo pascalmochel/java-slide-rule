@@ -1,7 +1,5 @@
 package org.frijoles3.persistence;
 
-import org.frijoles3.persistence.hibernate.HibernateSessionFactory;
-
 public class DogBo implements IDogBo {
 
 	protected DogDao dogDao;
@@ -12,7 +10,7 @@ public class DogBo implements IDogBo {
 	}
 
 	public void store(final Dog dog) {
-		HibernateSessionFactory.getSession().saveOrUpdate(dog);
+		dogDao.store(dog);
 	}
 
 }
