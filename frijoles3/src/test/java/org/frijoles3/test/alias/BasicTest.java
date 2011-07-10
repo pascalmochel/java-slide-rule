@@ -8,6 +8,11 @@ import static org.junit.Assert.*;
 
 public class BasicTest {
 
+	/*
+	 * demostra que AliasedFactoryBuilder pot funcionar igual que
+	 * FactoryBuilder, però eagerly
+	 */
+
 	@Test
 	public void testname1() throws Exception {
 
@@ -23,9 +28,9 @@ public class BasicTest {
 
 		final ITestingFactory f = AliasedFactoryBuilder.build(TestingFactory.class);
 
-		assertEquals("TestingFactory: [getResult={singleton}[init:false]]", f.toString());
+		assertEquals("TestingFactory: [getResult/jou={singleton}[init:false]]", f.toString());
 		assertEquals("5", f.getResult(null).toString());
-		assertEquals("TestingFactory: [getResult={singleton}[init:true]]", f.toString());
+		assertEquals("TestingFactory: [getResult/jou={singleton}[init:true]]", f.toString());
 	}
 
 }

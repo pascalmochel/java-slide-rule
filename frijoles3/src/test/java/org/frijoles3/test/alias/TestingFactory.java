@@ -6,7 +6,7 @@ import org.junit.Ignore;
 @Ignore
 public class TestingFactory implements ITestingFactory {
 
-	@Scope
+	@Scope(alias = "jou")
 	public Long getResult(final ITestingFactory f) {
 		return 5L;
 	}
