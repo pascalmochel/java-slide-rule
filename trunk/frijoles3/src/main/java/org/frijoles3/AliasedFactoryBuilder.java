@@ -50,7 +50,8 @@ public class AliasedFactoryBuilder extends FactoryBuilder {
 				continue;
 			}
 
-			final String alias = scope.alias().length() == 0 ? m.getName() : scope.alias();
+			final String alias = scope.alias().length() == 0 ? m.getName() : m.getName() + '/'
+					+ scope.alias();
 			final AbstractHolder newAbstractHolder = AbstractHolder.buildHolder(scope.value(), alias,
 					factoryObject);
 
