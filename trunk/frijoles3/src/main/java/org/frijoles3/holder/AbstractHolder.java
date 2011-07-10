@@ -36,7 +36,7 @@ public abstract class AbstractHolder {
 	public abstract Object getBean(final Method method, Object[] extraParameters);
 
 	public static AbstractHolder buildHolder(final Class<? extends AbstractHolder> holderClass,
-			final String alias, final Object factoryObject, final Object proxy) {
+			final String alias, final Object factoryObject) {
 
 		final Constructor<? extends AbstractHolder> constructor;
 		try {

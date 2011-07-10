@@ -22,4 +22,6 @@ public @interface Scope {
 
 	Class<? extends AbstractHolder> value() default Singleton.class;
 
+	String alias() default "";
+
 }

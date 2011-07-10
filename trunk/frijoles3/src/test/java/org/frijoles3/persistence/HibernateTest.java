@@ -27,6 +27,8 @@ public class HibernateTest {
 		} catch (final Exception e) {
 			tx.rollback();
 			throw e;
+		} finally {
+			session.close();
 		}
 
 		{
