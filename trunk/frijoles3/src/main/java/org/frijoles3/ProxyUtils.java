@@ -8,6 +8,26 @@ import org.frijoles3.exception.FrijolesException;
 
 public class ProxyUtils {
 
+	public static Object buildInterceptingProxy(final Object bean, final InvocationHandler o) {
+
+		final Class<? extends Object> beanClass = bean.getClass();
+
+		final Class<?>[] interfaces = beanClass.getInterfaces();
+		if (interfaces.length == 0) {
+			throw new FrijolesException("object factory must implements almost one interface: "
+					+ beanClass.getSimpleName());
+		}
+
+		Class<?>[] allInterfaces;
+		if (bean instanceof Deproxable) {
+			allInterfaces = interfaces;
+		} else {
+			allInterfaces = cons(Deproxable.class, interfaces);
+		}
+
+		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), allInterfaces, o);
+	}
+
 	public static Object buildProxy(final Object bean, final InvocationHandler o) {
 
 		final Class<? extends Object> beanClass = bean.getClass();
@@ -18,11 +38,12 @@ public class ProxyUtils {
 					+ beanClass.getSimpleName());
 		}
 
-		final Class<?>[] allInterfaces;
-		if (bean instanceof Deproxable) {
-			allInterfaces = interfaces;
-		} else {
-			allInterfaces = cons(Deproxable.class, interfaces);
+		Class<?>[] allInterfaces = interfaces;
+		if (!(bean instanceof Deproxable)) {
+			allInterfaces = cons(Deproxable.class, allInterfaces);
+		}
+		if (!(bean instanceof AliasGetter)) {
+			allInterfaces = cons(AliasGetter.class, allInterfaces);
 		}
 
 		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), allInterfaces, o);
