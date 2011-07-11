@@ -1,6 +1,6 @@
 package org.frijoles3.test.alias;
 
-import org.frijoles3.AliasedFactoryBuilder;
+import org.frijoles3.EagerlyFactoryBuilder;
 import org.frijoles3.FactoryBuilder;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class BasicTest {
 	@Test
 	public void testname2() throws Exception {
 
-		final ITestingFactory f = AliasedFactoryBuilder.build(TestingFactory.class);
+		final ITestingFactory f = EagerlyFactoryBuilder.build(TestingFactory.class);
 
 		assertEquals("TestingFactory: [getResult/jou={singleton}[init:false]]", f.toString());
 		assertEquals("5", f.getResult(null).toString());
