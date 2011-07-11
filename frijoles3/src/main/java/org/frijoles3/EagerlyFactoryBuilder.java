@@ -7,13 +7,11 @@ import org.frijoles3.exception.FrijolesException;
 import org.frijoles3.holder.AbstractHolder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class AliasedFactoryBuilder extends FactoryBuilder {
+public class EagerlyFactoryBuilder extends FactoryBuilder {
 
-	protected final Map<String, AbstractHolder> aliasesMap;
+	// protected final Map<String, AbstractHolder> aliasesMap;
 
 	@SuppressWarnings("unchecked")
 	public static <T> T build(final Class<T> factoryClassToProx) {
@@ -24,12 +22,12 @@ public class AliasedFactoryBuilder extends FactoryBuilder {
 		}
 
 		final Object factoryObject = ProxyUtils.newInstanceOf(factoryClassToProx);
-		return (T) ProxyUtils.buildProxy(factoryObject, new AliasedFactoryBuilder(factoryObject));
+		return (T) ProxyUtils.buildProxy(factoryObject, new EagerlyFactoryBuilder(factoryObject));
 	}
 
-	protected AliasedFactoryBuilder(final Object factoryObject) {
+	protected EagerlyFactoryBuilder(final Object factoryObject) {
 		super(factoryObject);
-		this.aliasesMap = new HashMap<String, AbstractHolder>();
+		// this.aliasesMap = new HashMap<String, AbstractHolder>();
 		initializefactory();
 	}
 
@@ -50,14 +48,22 @@ public class AliasedFactoryBuilder extends FactoryBuilder {
 				continue;
 			}
 
-			final String alias = scope.alias().length() == 0 ? m.getName() : m.getName() + '/'
-					+ scope.alias();
+			final boolean aliased = scope.alias().length() == 0;
+
+			String alias;
+			if (aliased) {
+				alias = m.getName();
+			} else {
+				alias = m.getName() + '/' + scope.alias();
+			}
 			final AbstractHolder newAbstractHolder = AbstractHolder.buildHolder(scope.value(), alias,
 					factoryObject);
 
 			beansMap.put(m, newAbstractHolder);
-			// System.out.println("1 => " + m);
+			// if (aliased) {
+			// aliasesMap.put(alias, newAbstractHolder);
+			// }
 		}
-
 	}
+
 }
