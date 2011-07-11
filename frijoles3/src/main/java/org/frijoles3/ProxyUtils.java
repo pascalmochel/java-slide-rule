@@ -8,7 +8,7 @@ import org.frijoles3.exception.FrijolesException;
 
 public class ProxyUtils {
 
-	public static Object buildInterceptingProxy(final Object bean, final InvocationHandler o) {
+	public static Object buildDeproxableProxy(final Object bean, final InvocationHandler o) {
 
 		final Class<? extends Object> beanClass = bean.getClass();
 
@@ -28,7 +28,7 @@ public class ProxyUtils {
 		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), allInterfaces, o);
 	}
 
-	public static Object buildProxy(final Object bean, final InvocationHandler o) {
+	public static Object buildAliasedFactoryProxy(final Object bean, final InvocationHandler o) {
 
 		final Class<? extends Object> beanClass = bean.getClass();
 
@@ -42,8 +42,8 @@ public class ProxyUtils {
 		if (!(bean instanceof Deproxable)) {
 			allInterfaces = cons(Deproxable.class, allInterfaces);
 		}
-		if (!(bean instanceof AliasGetter)) {
-			allInterfaces = cons(AliasGetter.class, allInterfaces);
+		if (!(bean instanceof FrijolesFactory)) {
+			allInterfaces = cons(FrijolesFactory.class, allInterfaces);
 		}
 
 		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), allInterfaces, o);

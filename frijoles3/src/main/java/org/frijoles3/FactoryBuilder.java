@@ -49,7 +49,7 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		}
 
 		final Object factoryObject = ProxyUtils.newInstanceOf(factoryClassToProx);
-		return (T) ProxyUtils.buildProxy(factoryObject, new FactoryBuilder(factoryObject));
+		return (T) ProxyUtils.buildDeproxableProxy(factoryObject, new FactoryBuilder(factoryObject));
 	}
 
 	public static <T> T build(final Class<? extends T> factoryClassToProx, final Class<T> interfaceToCast) {

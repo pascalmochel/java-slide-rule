@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AliasedFactoryBuilder extends FactoryBuilder implements AliasGetter {
+public class AliasedFactoryBuilder extends FactoryBuilder implements FrijolesFactory {
 
 	protected final Map<String, Method> aliasesMap;
 	protected final Method getBeanMethod;
@@ -25,14 +25,14 @@ public class AliasedFactoryBuilder extends FactoryBuilder implements AliasGetter
 		}
 
 		final Object factoryObject = ProxyUtils.newInstanceOf(factoryClassToProx);
-		return (T) ProxyUtils.buildProxy(factoryObject, new AliasedFactoryBuilder(factoryObject));
+		return (T) ProxyUtils.buildAliasedFactoryProxy(factoryObject, new AliasedFactoryBuilder(factoryObject));
 	}
 
 	protected AliasedFactoryBuilder(final Object factoryObject) {
 		super(factoryObject);
 		this.aliasesMap = new HashMap<String, Method>();
 		try {
-			this.getBeanMethod = AliasGetter.class.getMethod(AliasGetter.GETTER_METHOD_NAME, String.class);
+			this.getBeanMethod = FrijolesFactory.class.getMethod(FrijolesFactory.GETTER_METHOD_NAME, String.class);
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -81,7 +81,15 @@ public class AliasedFactoryBuilder extends FactoryBuilder implements AliasGetter
 
 	public Object getBean(final String aliasName) {
 		final Method method = aliasesMap.get(aliasName);
+		if (method == null) {
+			throw new FrijolesException("alias not defined: " + aliasName + " in factory: "
+					+ factoryObject.getClass());
+		}
 		final AbstractHolder holder = beansMap.get(method);
+		if (holder == null) {
+			throw new FrijolesException("holder not found, for alias: " + aliasName + " in factory: "
+					+ factoryObject.getClass());
+		}
 		return holder.getBean(method, new Object[] { factoryObject });
 	}
 

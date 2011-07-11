@@ -1,6 +1,6 @@
 package org.frijoles3;
 
-public interface AliasGetter {
+public interface FrijolesFactory {
 
 	static final String GETTER_METHOD_NAME = "getBean";
 
