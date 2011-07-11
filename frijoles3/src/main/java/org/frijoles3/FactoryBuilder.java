@@ -87,7 +87,6 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		final AbstractHolder abstractHolder = beansMap.get(method);
 		if (abstractHolder == null) {
 
-			// System.out.println("2 => " + method);
 			final Scope scope = getScopeAnnotation(method);
 
 			final AbstractHolder newAbstractHolder = AbstractHolder.buildHolder(scope.value(), method
@@ -138,10 +137,6 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		}
 		return ts;
 	}
-
-	// public Map<Method, AbstractHolder> getBeansMap() {
-	// return Collections.unmodifiableMap(beansMap);
-	// }
 
 	public Object deprox() {
 		return this.factoryObject;

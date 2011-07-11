@@ -28,7 +28,7 @@ public class Intercept implements InvocationHandler, Deproxable {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T with(final T bean, final Interceptor interceptor) {
-		return (T) ProxyUtils.buildProxy(bean, new Intercept(bean, interceptor));
+		return (T) ProxyUtils.buildInterceptingProxy(bean, new Intercept(bean, interceptor));
 	}
 
 	public Object invoke(final Object proxy, final Method method, final Object[] arguments) {
