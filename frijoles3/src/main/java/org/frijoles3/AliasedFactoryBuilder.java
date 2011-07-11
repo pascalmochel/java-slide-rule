@@ -65,7 +65,6 @@ public class AliasedFactoryBuilder extends FactoryBuilder implements AliasGetter
 			aliasesMap.put(m.getName(), m);
 			if (scope.alias().length() > 0) {
 				aliasesMap.put(scope.alias(), m);
-				System.out.println("register: " + scope.alias() + "::" + m);
 			}
 		}
 
