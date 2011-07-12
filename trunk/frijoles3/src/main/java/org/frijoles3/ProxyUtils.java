@@ -28,26 +28,30 @@ public class ProxyUtils {
 		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), allInterfaces, o);
 	}
 
-	public static Object buildAliasedFactoryProxy(final Object bean, final InvocationHandler o) {
-
-		final Class<? extends Object> beanClass = bean.getClass();
-
-		final Class<?>[] interfaces = beanClass.getInterfaces();
-		if (interfaces.length == 0) {
-			throw new FrijolesException("object factory must implements almost one interface: "
-					+ beanClass.getSimpleName());
-		}
-
-		Class<?>[] allInterfaces = interfaces;
-		if (!(bean instanceof Deproxable)) {
-			allInterfaces = cons(Deproxable.class, allInterfaces);
-		}
-		if (!(bean instanceof FrijolesFactory)) {
-			allInterfaces = cons(FrijolesFactory.class, allInterfaces);
-		}
-
-		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), allInterfaces, o);
-	}
+	// public static Object buildAliasedFactoryProxy(final Object bean, final
+	// InvocationHandler o) {
+	//
+	// final Class<? extends Object> beanClass = bean.getClass();
+	//
+	// final Class<?>[] interfaces = beanClass.getInterfaces();
+	// if (interfaces.length == 0) {
+	// throw new
+	// FrijolesException("object factory must implements almost one interface: "
+	// + beanClass.getSimpleName());
+	// }
+	//
+	// Class<?>[] allInterfaces = interfaces;
+	// if (!(bean instanceof Deproxable)) {
+	// allInterfaces = cons(Deproxable.class, allInterfaces);
+	// }
+	// if (!(bean instanceof FrijolesFactory)) {
+	// allInterfaces = cons(FrijolesFactory.class, allInterfaces);
+	// }
+	//
+	// return
+	// Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+	// allInterfaces, o);
+	// }
 
 	protected static Class<?>[] cons(final Class<?> element, final Class<?>[] array) {
 		final Class<?>[] r = (Class<?>[]) Array.newInstance(Class.class, array.length + 1);
