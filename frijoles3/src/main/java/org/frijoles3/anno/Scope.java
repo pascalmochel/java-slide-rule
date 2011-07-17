@@ -13,6 +13,10 @@ import org.frijoles3.holder.impl.Singleton;
 
 // TODO fer com spring InitializingBean, que verifiqui les injeccions
 
+//TODO eagerly factory
+//TODO obtenir beans per string
+//TODO si Scope-annotation està en interface i en impl, que faci cas a la impl!
+
 // XXX facilitar properties en factory, per fer com en Spring:
 //<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 
@@ -22,6 +26,6 @@ public @interface Scope {
 
 	Class<? extends AbstractHolder> value() default Singleton.class;
 
-	String alias() default "";
+	// String alias() default "";
 
 }

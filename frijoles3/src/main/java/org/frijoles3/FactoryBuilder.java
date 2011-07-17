@@ -104,11 +104,10 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 
 	protected Scope getScopeAnnotation(final Method method) {
 
-		Scope scope = method.getAnnotation(Scope.class);
-		if (scope != null) {
-			return scope;
-		}
-
+		Scope scope;
+		/*
+		 * obté anotació de la implementació
+		 */
 		try {
 			final Method m2 = factoryObject.getClass()
 					.getMethod(method.getName(), method.getParameterTypes());
@@ -116,6 +115,15 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
+		System.out.println(method);
+		if (scope != null) {
+			return scope;
+		}
+
+		/*
+		 * obté anotació de la interfície
+		 */
+		scope = method.getAnnotation(Scope.class);
 		if (scope == null) {
 			throw new FrijolesException("@Scope annotation not found in factory method: " + method.toString());
 		}
