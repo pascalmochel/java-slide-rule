@@ -92,6 +92,10 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		if (abstractHolder == null) {
 
 			final Scope scope = getScopeAnnotation(method);
+			if (scope == null) {
+				throw new FrijolesException("@Scope annotation not found in factory method: "
+						+ method.toString());
+			}
 
 			final AbstractHolder newAbstractHolder = AbstractHolder.buildHolder(scope.value(), method
 					.getName(), factoryObject);
@@ -125,10 +129,6 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 			 * obté anotació de la interfície
 			 */
 			scope = method.getAnnotation(Scope.class);
-			if (scope == null) {
-				throw new FrijolesException("@Scope annotation not found in factory method: "
-						+ method.toString());
-			}
 		}
 
 		return scope;

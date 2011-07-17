@@ -47,10 +47,8 @@ public class EagerlyFactoryBuilder extends FactoryBuilder {
 				}
 			}
 			for (final Method m : ms) {
-				final Scope scope;
-				try {
-					scope = getScopeAnnotation(m);
-				} catch (final FrijolesException e) {
+				final Scope scope = getScopeAnnotation(m);
+				if (scope == null) {
 					continue;
 				}
 				final AbstractHolder newAbstractHolder = AbstractHolder.buildHolder(scope.value(), m
