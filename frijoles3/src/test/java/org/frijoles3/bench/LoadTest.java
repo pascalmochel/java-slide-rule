@@ -16,7 +16,7 @@ import org.springframework.core.io.ClassPathResource;
  */
 public class LoadTest extends BenchMarkTest {
 
-	protected final int TEST_ITERATIONS = 100;
+	protected final int TEST_ITERATIONS = 10;
 
 	@Override
 	@Test
