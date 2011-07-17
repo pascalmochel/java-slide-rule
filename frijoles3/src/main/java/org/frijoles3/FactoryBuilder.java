@@ -115,7 +115,6 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
-		System.out.println(method);
 		if (scope != null) {
 			return scope;
 		}
