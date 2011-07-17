@@ -12,10 +12,9 @@ import java.util.Properties;
 
 public class Business implements IBusiness {
 
-	protected Properties props;
-
-	public Business() {
-		this.props = PropertiesLoader.load("frijoles-hibernate");
+	@Scope
+	public Properties getHibernateProperties(final IBusiness self) {
+		return PropertiesLoader.load("frijoles-hibernate");
 	}
 
 	// @Scope
@@ -29,30 +28,30 @@ public class Business implements IBusiness {
 	// }
 
 	// XXX jaja, no hi ha problemes amb els retorns void!!! (deu passar null)
+	/**
+	 * <pre>
+	 * In order to have HSQLDB register itself, you need to access its 
+	 * jdbcDriver class. You can do this the same way as in this example.
+	 * 
+	 * Class.forName("org.hsqldb.jdbcDriver");
+	 * 
+	 * It triggers static initialization of jdbcDriver class, which is:
+	 * 
+	 * static {
+	 *     try {
+	 *         DriverManager.registerDriver(new jdbcDriver());
+	 *     } catch (Exception e) {}
+	 * }
+	 * </pre>
+	 */
 	@Scope
 	public void configureSessionFactory(final IBusiness self) throws Exception {
 
-		/**
-		 * <pre>
-		 * In order to have HSQLDB register itself, you need to access its 
-		 * jdbcDriver class. You can do this the same way as in this example.
-		 * 
-		 * Class.forName("org.hsqldb.jdbcDriver");
-		 * 
-		 * It triggers static initialization of jdbcDriver class, which is:
-		 * 
-		 * static {
-		 *     try {
-		 *         DriverManager.registerDriver(new jdbcDriver());
-		 *     } catch (Exception e) {}
-		 * }
-		 * </pre>
-		 */
 		Class.forName("org.hsqldb.jdbcDriver");
 
 		HibernateSessionFactory.setSessionFactory(//
 				new Configuration()
-				/**/.addProperties(props)
+				/**/.addProperties(self.getHibernateProperties(X))
 				/**/.addResource("hbm/dog.hbm.xml")
 				/**/.buildSessionFactory() //
 				);

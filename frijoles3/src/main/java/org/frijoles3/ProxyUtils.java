@@ -65,8 +65,7 @@ public class ProxyUtils {
 		try {
 			r = claz.newInstance();
 		} catch (final Exception e) {
-			throw new FrijolesException("cannot create " + claz.toString()
-					+ ", it is visible, with a public default constructor?", e);
+			throw new FrijolesException("cannot instantiate " + claz.toString(), e);
 		}
 		return r;
 	}

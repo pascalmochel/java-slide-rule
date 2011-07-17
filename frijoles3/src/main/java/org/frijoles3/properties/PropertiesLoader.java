@@ -47,7 +47,7 @@ public class PropertiesLoader {
 		try {
 			return load(is);
 		} catch (final IOException e) {
-			throw new FrijolesException("could not read configuration from: " + propertiesFileName);
+			throw new FrijolesException("could not read configuration from: " + propertiesFileName, e);
 		}
 	}
 

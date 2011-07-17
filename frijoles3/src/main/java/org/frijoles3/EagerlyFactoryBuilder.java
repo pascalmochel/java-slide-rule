@@ -12,15 +12,20 @@ import java.util.List;
 public class EagerlyFactoryBuilder extends FactoryBuilder {
 
 	@SuppressWarnings("unchecked")
-	public static <T> T build(final Class<T> factoryClassToProx) {
+	public static <T> T build(final Class<? extends T> factoryClassToProx) {
 
-		if (factoryClassToProx.isInterface()) {
-			throw new FrijolesException("factory must be a class, not an interface; offending object is "
-					+ factoryClassToProx.toString());
+		try {
+			if (factoryClassToProx.isInterface()) {
+				throw new FrijolesException("factory must be a class, not an interface; offending object is "
+						+ factoryClassToProx.toString());
+			}
+
+			final Object factoryObject = ProxyUtils.newInstanceOf(factoryClassToProx);
+			return (T) ProxyUtils.buildDeproxableProxy(factoryObject,
+					new EagerlyFactoryBuilder(factoryObject));
+		} catch (final Exception e) {
+			throw new FrijolesException("error building factory: " + factoryClassToProx.getSimpleName(), e);
 		}
-
-		final Object factoryObject = ProxyUtils.newInstanceOf(factoryClassToProx);
-		return (T) ProxyUtils.buildDeproxableProxy(factoryObject, new EagerlyFactoryBuilder(factoryObject));
 	}
 
 	public static <T> T build(final Class<? extends T> factoryClassToProx, final Class<T> interfaceToCast) {
@@ -34,22 +39,27 @@ public class EagerlyFactoryBuilder extends FactoryBuilder {
 
 	protected final void initializefactory() {
 
-		final List<Method> ms = new ArrayList<Method>();
-		for (final Class<?> i : factoryObject.getClass().getInterfaces()) {
-			for (final Method m : i.getMethods()) {
-				ms.add(m);
+		try {
+			final List<Method> ms = new ArrayList<Method>();
+			for (final Class<?> i : factoryObject.getClass().getInterfaces()) {
+				for (final Method m : i.getMethods()) {
+					ms.add(m);
+				}
 			}
-		}
-		for (final Method m : ms) {
-			final Scope scope;
-			try {
-				scope = getScopeAnnotation(m);
-			} catch (final FrijolesException e) {
-				continue;
+			for (final Method m : ms) {
+				final Scope scope;
+				try {
+					scope = getScopeAnnotation(m);
+				} catch (final FrijolesException e) {
+					continue;
+				}
+				final AbstractHolder newAbstractHolder = AbstractHolder.buildHolder(scope.value(), m
+						.getName(), factoryObject);
+				beansMap.put(m, newAbstractHolder);
 			}
-			final AbstractHolder newAbstractHolder = AbstractHolder.buildHolder(scope.value(), m.getName(),
-					factoryObject);
-			beansMap.put(m, newAbstractHolder);
+		} catch (final Exception e) {
+			throw new FrijolesException("error initializing early factory: "
+					+ factoryObject.getClass().getSimpleName(), e);
 		}
 	}
 
