@@ -17,7 +17,7 @@ public class ErrorsTest {
 		} catch (final FrijolesException e) {
 			assertEquals(
 					"factory must be a class, not an interface; offending object is interface org.frijoles3.test.errors.IErrorsFactory",
-					e.getMessage());
+					e.getCause().getMessage());
 		}
 	}
 
@@ -29,7 +29,7 @@ public class ErrorsTest {
 			final ErrorsFactory1 f = FactoryBuilder.build(ErrorsFactory1.class);
 			fail();
 		} catch (final FrijolesException e) {
-			assertEquals("object factory must implements almost one interface: ErrorsFactory1", e
+			assertEquals("object factory must implements almost one interface: ErrorsFactory1", e.getCause()
 					.getMessage());
 		}
 	}
@@ -41,9 +41,8 @@ public class ErrorsTest {
 			FactoryBuilder.build(ErrorsFactory2.class);
 			fail();
 		} catch (final FrijolesException e) {
-			assertEquals(
-					"cannot create class org.frijoles3.test.errors.ErrorsFactory2, it is visible, with a public default constructor?",
-					e.getMessage());
+			assertEquals("cannot instantiate class org.frijoles3.test.errors.ErrorsFactory2", e.getCause()
+					.getMessage());
 		}
 	}
 
