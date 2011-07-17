@@ -4,5 +4,5 @@
 //
 //	static final String GETTER_METHOD_NAME = "getBean";
 //
-//	<T> T getBean(String aliasName);
+//	<T> T getBean(String aliasName, Object... args);
 // }

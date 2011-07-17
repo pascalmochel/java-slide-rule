@@ -24,7 +24,7 @@ public abstract class AbstractHolder {
 			throw new FrijolesException("building bean \"" + alias + "\" instance invoking: "
 					+ method.toString(), e.getCause());
 		} catch (final Exception e) {
-			throw new FrijolesException("building bean \"" + alias + "\"instance invoking: "
+			throw new FrijolesException("building bean \"" + alias + "\" instance invoking: "
 					+ method.toString(), e);
 		}
 	}
