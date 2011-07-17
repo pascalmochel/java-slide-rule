@@ -115,17 +115,18 @@ public class FactoryBuilder implements InvocationHandler, Deproxable {
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
-		if (scope != null) {
-			return scope;
+
+		if (scope == null) {
+			/*
+			 * obté anotació de la interfície
+			 */
+			scope = method.getAnnotation(Scope.class);
+			if (scope == null) {
+				throw new FrijolesException("@Scope annotation not found in factory method: "
+						+ method.toString());
+			}
 		}
 
-		/*
-		 * obté anotació de la interfície
-		 */
-		scope = method.getAnnotation(Scope.class);
-		if (scope == null) {
-			throw new FrijolesException("@Scope annotation not found in factory method: " + method.toString());
-		}
 		return scope;
 	}
 
