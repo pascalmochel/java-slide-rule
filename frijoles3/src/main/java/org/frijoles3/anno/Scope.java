@@ -16,6 +16,9 @@ import org.frijoles3.holder.impl.Singleton;
 // TODO fer un bean inaccessible directament: @Scope(Singleton.class,
 // private=true)
 //TODO obtenir beans per string
+//TODO a part, fer un fluent validator? 
+//TODO testar un bench amb un altre container
+//TODO dotar els beans de cicle de vida: initialize/dispose
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
