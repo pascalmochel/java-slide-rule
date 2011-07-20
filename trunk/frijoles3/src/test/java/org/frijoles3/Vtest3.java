@@ -4,15 +4,40 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import static org.junit.Assert.*;
 
-/**
- * v.or(v.isNull(), v.isNumeric()) v = for("age", age); or(isNull(v),
- * isNumeric(v))
- */
 public class Vtest3 {
+	@Test
+	public void testnameDuh() throws Exception {
+		final Errors e = new Errors();
+
+		final Integer age = State.begin(e, "age", 28).getValue();
+		assertEquals(Integer.valueOf(28), age);
+		e.validateAndThrow();
+	}
+
+	@Test
+	public void testnameBindOk() throws Exception {
+		final Errors e = new Errors();
+
+		final Integer age = State.begin(e, "age", "28").asInteger().getValue();
+		assertEquals(Integer.valueOf(28), age);
+		e.validateAndThrow();
+	}
+
+	@Test
+	public void testnameBindFails() throws Exception {
+		final Errors e = new Errors();
+
+		final Integer age = State.begin(e, "age", "jou").message("err").asInteger().getValue();
+		assertNull(age);
+		try {
+			e.validateAndThrow();
+		} catch (final VException e2) {
+			assertEquals("{age=err}", e2.getErrorsMap().toString());
+		}
+	}
 
 	@Test
 	public void testname() throws Exception {
@@ -48,12 +73,64 @@ public class Vtest3 {
 	public void testMessageFail() throws Exception {
 		final Errors e = new Errors();
 		final Integer age1 = State.begin(e, "age1", 5).message("m1").fail().getValue();
-
 		assertFalse(e.validate());
 		assertNull(age1);
 		assertEquals("{age1=m1}", e.getErrorsMap().toString());
 		assertEquals("{age1=State [isFailed=true, message=m1, value=5]}", e.getErrorStatesMap().toString());
 	}
+
+	@SuppressWarnings("unused")
+	@Test
+	public void testNulls() throws Exception {
+		final Errors e = new Errors();
+
+		final Integer age1 = State.begin(e, "age1", null).message("m1").isNull().isNull().getValue();
+		final Integer age2 = State.begin(e, "age2", 5).message("m2").isNull().isNull().getValue();
+		final Integer age3 = State.begin(e, "age3", null).message("m3").isNotNull().isNotNull().getValue();
+		final Integer age4 = State.begin(e, "age4", 5).message("m4").isNotNull().isNotNull().getValue();
+
+		assertEquals("{age3=m3, age2=m2}", e.getErrorsMap().toString());
+	}
+
+	@Test
+	public void testOr() {
+		final Errors e = new Errors();
+
+		final Integer age1 = Relationals.or(
+		/**/State.begin(e, "age1", 5).isNotNull(),
+		/**/State.begin(e, "age1", 5).isNotNull()
+		/**/).getValue();
+		e.validateAndThrow();
+		assertEquals(Integer.valueOf(5), age1);
+
+		e.clear();
+		final Integer age2 = Relationals.or(
+		/**/State.begin(e, "age2", 5).isNotNull(),
+		/**/State.begin(e, "age2", 5).isNull()
+		/**/).getValue();
+		e.validateAndThrow();
+		assertEquals(Integer.valueOf(5), age2);
+
+		e.clear();
+		final Integer age3 = Relationals.or(
+		/**/State.begin(e, "age3", 5).isNull(),
+		/**/State.begin(e, "age3", 5).isNotNull()
+		/**/).getValue();
+		e.validateAndThrow();
+		assertEquals(Integer.valueOf(5), age3);
+
+		e.clear();
+		Relationals.or(
+		/**/State.begin(e, "age4", 5).message("m1").isNull(),
+		/**/State.begin(e, "age4", 5).message("m2").isNull()
+		/**/).getValue();
+		try {
+			e.validateAndThrow();
+		} catch (final VException e2) {
+			assertEquals("{age4=m2}", e2.getErrorsMap().toString());
+		}
+	}
+
 }
 
 class VException extends RuntimeException {
@@ -63,14 +140,10 @@ class VException extends RuntimeException {
 	protected final Map<String, State> errorStatesMap;
 	protected final Map<String, String> errorsMap;
 
-	public VException(final Map<String, State> errorStatesMap) {
+	public VException(final Map<String, State> errorStatesMap, final Map<String, String> errorsMap) {
 		super();
 		this.errorStatesMap = errorStatesMap;
-		this.errorsMap = new HashMap<String, String>();
-
-		for (final Entry<String, State> e : errorStatesMap.entrySet()) {
-			errorsMap.put(e.getKey(), e.getValue().getMessage());
-		}
+		this.errorsMap = errorsMap;
 	}
 
 	public Map<String, State> getErrorStatesMap() {
@@ -104,7 +177,7 @@ class Errors {
 
 	public void validateAndThrow() {
 		if (!validate()) {
-			throw new VException(errorStatesMap);
+			throw new VException(errorStatesMap, errorsMap);
 		}
 	}
 
@@ -114,6 +187,35 @@ class Errors {
 
 	public Map<String, String> getErrorsMap() {
 		return errorsMap;
+	}
+
+	public void clear() {
+		errorsMap.clear();
+		errorStatesMap.clear();
+	}
+
+}
+
+class Relationals {
+
+	public static State or(final State state1, final State state2) {
+		if (state1.isFailed) {
+			return state2;
+		} else if (state2.isFailed) {
+			return state1;
+		} else {
+			return state1;
+		}
+	}
+
+	public static State and(final State state1, final State state2) {
+		if (state1.isFailed) {
+			return state1;
+		} else if (state2.isFailed) {
+			return state2;
+		} else {
+			return state1;
+		}
 	}
 
 }
@@ -136,11 +238,11 @@ class State {
 		this.isFailed = isFailed;
 		this.message = message;
 		this.value = value;
-		System.out.println(this);
+		// System.out.println(this);
 	}
 
 	public static State begin(final Errors errors, final String propName, final Object value) {
-		return new State(errors, propName, false, null, value);
+		return new State(errors, propName, false, "unknown error message", value);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -163,10 +265,11 @@ class State {
 	}
 
 	protected State fail() {
+		if (isFailed) {
+			return this;
+		}
 		return new State(errors, propName, true, message, value);
 	}
-
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	public State message(final String msg) {
 		if (isFailed) {
@@ -174,6 +277,8 @@ class State {
 		}
 		return new State(errors, propName, false, msg, value);
 	}
+
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	public State isNull() {
 		if (isFailed) {
@@ -209,15 +314,15 @@ class State {
 		}
 	}
 
-	public State asInteger() {
+	public NumericState asInteger() {
 		if (isFailed || value == null) {
-			return this;
+			return new NumericState(this);
 		}
 		try {
 			final Integer v = Integer.valueOf(value.toString());
-			return new State(errors, propName, isFailed, message, v);
+			return new NumericState(errors, propName, isFailed, message, v);
 		} catch (final Exception e) {
-			return fail();
+			return new NumericState(fail());
 		}
 	}
 
@@ -233,7 +338,35 @@ class State {
 		}
 	}
 
-	public State numericInRange(final double min, final double max) {
+}
+
+class NumericState extends State {
+
+	public NumericState(final State state) {
+		super(state.errors, state.propName, state.isFailed, state.message, state.value);
+	}
+
+	public NumericState(final Errors errors, final String propName, final boolean isFailed,
+			final String message, final Object value) {
+		super(errors, propName, isFailed, message, value);
+	}
+
+	@Override
+	public NumericState message(final String msg) {
+		if (isFailed) {
+			return this;
+		}
+		return new NumericState(errors, propName, false, msg, value);
+	}
+
+	@Override
+	protected NumericState fail() {
+		return new NumericState(errors, propName, true, message, value);
+	}
+
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	public NumericState numericInRange(final double min, final double max) {
 		if (isFailed || value == null) {
 			return this;
 		}
