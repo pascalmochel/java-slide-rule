@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class State {
 
-	protected final Errors errors;
+	protected final ValidationErrors validationErrors;
 
 	protected final boolean isFailed;
 	protected final String message;
@@ -16,24 +16,24 @@ public class State {
 	protected final String propName;
 	protected final Object value;
 
-	protected State(final Errors errors, final String propName, final Object value, final boolean isFailed,
+	protected State(final ValidationErrors validationErrors, final String propName, final Object value, final boolean isFailed,
 			final String message) {
 		super();
-		this.errors = errors;
+		this.validationErrors = validationErrors;
 		this.propName = propName;
 		this.isFailed = isFailed;
 		this.message = message;
 		this.value = value;
 	}
 
-	public static State begin(final Errors errors, final String propName, final Object value) {
-		return new State(errors, propName, value, false, "unknown error message");
+	public static State begin(final ValidationErrors validationErrors, final String propName, final Object value) {
+		return new State(validationErrors, propName, value, false, "unknown error message");
 	}
 
 	@SuppressWarnings("unchecked")
 	public <T> T getValue() {
 		if (isFailed) {
-			errors.registerError(propName, this);
+			validationErrors.registerError(propName, this);
 			return null;
 		} else {
 			return (T) value;
@@ -53,26 +53,26 @@ public class State {
 		if (isFailed) {
 			return this;
 		}
-		return new State(errors, propName, value, true, message);
+		return new State(validationErrors, propName, value, true, message);
 	}
 
 	public State message(final String msg) {
 		if (isFailed) {
 			return this;
 		}
-		return new State(errors, propName, value, false, msg);
+		return new State(validationErrors, propName, value, false, msg);
 	}
 
 	public State mutateValue(final Object newValue) {
 		if (isFailed) {
 			return this;
 		}
-		return new State(errors, propName, newValue, isFailed, message);
+		return new State(validationErrors, propName, newValue, isFailed, message);
 	}
 
 	public State negate() {
 		if (isFailed) {
-			return new State(errors, propName, value, false, message);
+			return new State(validationErrors, propName, value, false, message);
 		} else {
 			return fail();
 		}

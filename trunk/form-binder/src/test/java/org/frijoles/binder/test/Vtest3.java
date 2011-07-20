@@ -1,9 +1,9 @@
 package org.frijoles.binder.test;
 
-import org.frijoles.binder.Errors;
+import org.frijoles.binder.ValidationErrors;
 import org.frijoles.binder.Relationals;
 import org.frijoles.binder.State;
-import org.frijoles.binder.VException;
+import org.frijoles.binder.ValidationException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,7 +12,7 @@ public class Vtest3 {
 
 	@Test
 	public void testnameDuh() throws Exception {
-		final Errors e = new Errors();
+		final ValidationErrors e = new ValidationErrors();
 
 		final Integer age = State.begin(e, "age", 28).getValue();
 		assertEquals(Integer.valueOf(28), age);
@@ -21,7 +21,7 @@ public class Vtest3 {
 
 	@Test
 	public void testnameBindOk() throws Exception {
-		final Errors e = new Errors();
+		final ValidationErrors e = new ValidationErrors();
 
 		final Integer age = State.begin(e, "age", "28").asInteger().getValue();
 		assertEquals(Integer.valueOf(28), age);
@@ -30,20 +30,20 @@ public class Vtest3 {
 
 	@Test
 	public void testnameBindFails() throws Exception {
-		final Errors e = new Errors();
+		final ValidationErrors e = new ValidationErrors();
 
 		final Integer age = State.begin(e, "age", "jou").message("is not an integer").asInteger().getValue();
 		assertNull(age);
 		try {
 			e.validateAndThrow();
-		} catch (final VException e2) {
+		} catch (final ValidationException e2) {
 			assertEquals("{age=is not an integer}", e2.getErrorsMap().toString());
 		}
 	}
 
 	@Test
 	public void testnameBindAndValidateOk() throws Exception {
-		final Errors e = new Errors();
+		final ValidationErrors e = new ValidationErrors();
 
 		final Integer age = State.begin(e, "age", "28").asInteger().maxValue(130).getValue();
 		assertEquals(Integer.valueOf(28), age);
@@ -52,14 +52,14 @@ public class Vtest3 {
 
 	@Test
 	public void testnameBindAndValidateFails() throws Exception {
-		final Errors e = new Errors();
+		final ValidationErrors e = new ValidationErrors();
 
 		final Integer age = State.begin(e, "age", "800").asInteger().message("must be in 0..130").maxValue(
 				130).getValue();
 		assertNull(age);
 		try {
 			e.validateAndThrow();
-		} catch (final VException e2) {
+		} catch (final ValidationException e2) {
 			assertEquals("{age=must be in 0..130}", e2.getErrorsMap().toString());
 		}
 	}
@@ -67,7 +67,7 @@ public class Vtest3 {
 	@Test
 	public void testname0() throws Exception {
 
-		final Errors e = new Errors();
+		final ValidationErrors e = new ValidationErrors();
 
 		final String name = State.begin(e, "name", "mhc")
 		/**/.message("must be not null")
@@ -98,7 +98,7 @@ public class Vtest3 {
 
 	@Test
 	public void testMessageFail() throws Exception {
-		final Errors e = new Errors();
+		final ValidationErrors e = new ValidationErrors();
 		final Integer age1 = State.begin(e, "age1", 5).message("m1").fail().getValue();
 		assertFalse(e.validate());
 		assertNull(age1);
@@ -109,7 +109,7 @@ public class Vtest3 {
 	@SuppressWarnings("unused")
 	@Test
 	public void testNulls() throws Exception {
-		final Errors e = new Errors();
+		final ValidationErrors e = new ValidationErrors();
 
 		final Integer age1 = State.begin(e, "age1", null).message("m1").isNull().isNull().getValue();
 		final Integer age2 = State.begin(e, "age2", 5).message("m2").isNull().isNull().getValue();
@@ -121,7 +121,7 @@ public class Vtest3 {
 
 	@Test
 	public void testOr() {
-		final Errors e = new Errors();
+		final ValidationErrors e = new ValidationErrors();
 
 		final Integer age1 = Relationals.or(
 		/**/State.begin(e, "age1", 5).isNotNull(),
@@ -153,14 +153,14 @@ public class Vtest3 {
 		/**/).getValue();
 		try {
 			e.validateAndThrow();
-		} catch (final VException e2) {
+		} catch (final ValidationException e2) {
 			assertEquals("{age4=m2}", e2.getErrorsMap().toString());
 		}
 	}
 
 	@Test
 	public void testNegate() throws Exception {
-		final Errors e = new Errors();
+		final ValidationErrors e = new ValidationErrors();
 
 		final String name = State.begin(e, "name", "mhc").fail().negate().getValue();
 		assertEquals("mhc", name);
