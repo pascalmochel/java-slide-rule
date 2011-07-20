@@ -3,12 +3,12 @@ package org.frijoles.binder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Errors {
+public class ValidationErrors {
 
 	protected final Map<String, State> errorStatesMap;
 	protected final Map<String, String> errorsMap;
 
-	public Errors() {
+	public ValidationErrors() {
 		errorStatesMap = new HashMap<String, State>();
 		errorsMap = new HashMap<String, String>();
 	}
@@ -24,7 +24,7 @@ public class Errors {
 
 	public void validateAndThrow() {
 		if (!validate()) {
-			throw new VException(errorStatesMap, errorsMap);
+			throw new ValidationException(this);
 		}
 	}
 
