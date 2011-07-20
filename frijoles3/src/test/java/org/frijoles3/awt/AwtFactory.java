@@ -40,6 +40,7 @@ public class AwtFactory implements IAwtFactory {
 		return new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
 				self.getFrame(null).setEnabled(false);
+				System.exit(1);
 			}
 		};
 	}
@@ -49,6 +50,7 @@ public class AwtFactory implements IAwtFactory {
 			@Override
 			public void windowClosing(final WindowEvent e) {
 				e.getWindow().setEnabled(false);
+				System.exit(1);
 			}
 		};
 	}

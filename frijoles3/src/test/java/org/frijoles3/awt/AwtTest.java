@@ -12,9 +12,6 @@ public class AwtTest {
 
 		final IAwtFactory ctx = FactoryBuilder.build(AwtFactory.class);
 		final Frame frame = ctx.getFrame(null);
-		while (frame.isEnabled()) {
-
-		}
 		frame.setVisible(false);
 	}
 
