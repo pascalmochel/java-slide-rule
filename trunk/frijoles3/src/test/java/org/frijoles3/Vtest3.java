@@ -208,6 +208,29 @@ class Relationals {
 		}
 	}
 
+	// TODO not
+	// public static State not(final State state) {
+	// if (state.isFailed) {
+	// return new State(errors, propName, isFailed, message, value);
+	// }else {
+	//			
+	// }
+	// }
+
+	public static State xor(final State state1, final State state2) {
+		if (!state1.isFailed && state2.isFailed) {
+			return state1;
+		} else if (state1.isFailed && !state2.isFailed) {
+			return state2;
+		} else {
+			if (!state1.isFailed) {
+				return state1;
+			} else /* if (!state2.isFailed) */{
+				return state2;
+			}
+		}
+	}
+
 	public static State and(final State state1, final State state2) {
 		if (state1.isFailed) {
 			return state1;
@@ -238,7 +261,6 @@ class State {
 		this.isFailed = isFailed;
 		this.message = message;
 		this.value = value;
-		// System.out.println(this);
 	}
 
 	public static State begin(final Errors errors, final String propName, final Object value) {
@@ -278,6 +300,14 @@ class State {
 		return new State(errors, propName, false, msg, value);
 	}
 
+	public State negate() {
+		if (isFailed) {
+			return new State(errors, propName, false, message, value);
+		} else {
+			return fail();
+		}
+	}
+
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	public State isNull() {
@@ -314,15 +344,31 @@ class State {
 		}
 	}
 
-	public NumericState asInteger() {
+	public State asInteger() {
 		if (isFailed || value == null) {
-			return new NumericState(this);
+			return this;
 		}
 		try {
 			final Integer v = Integer.valueOf(value.toString());
-			return new NumericState(errors, propName, isFailed, message, v);
+			return new State(errors, propName, isFailed, message, v);
 		} catch (final Exception e) {
-			return new NumericState(fail());
+			return fail();
+		}
+	}
+
+	public State numericInRange(final double min, final double max) {
+		if (isFailed || value == null) {
+			return this;
+		}
+		if (!(value instanceof Number)) {
+			return fail();
+		}
+
+		final double v = ((Number) value).doubleValue();
+		if (min <= v && v <= max) {
+			return this;
+		} else {
+			return fail();
 		}
 	}
 
@@ -339,47 +385,49 @@ class State {
 	}
 
 }
-
-class NumericState extends State {
-
-	public NumericState(final State state) {
-		super(state.errors, state.propName, state.isFailed, state.message, state.value);
-	}
-
-	public NumericState(final Errors errors, final String propName, final boolean isFailed,
-			final String message, final Object value) {
-		super(errors, propName, isFailed, message, value);
-	}
-
-	@Override
-	public NumericState message(final String msg) {
-		if (isFailed) {
-			return this;
-		}
-		return new NumericState(errors, propName, false, msg, value);
-	}
-
-	@Override
-	protected NumericState fail() {
-		return new NumericState(errors, propName, true, message, value);
-	}
-
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-	public NumericState numericInRange(final double min, final double max) {
-		if (isFailed || value == null) {
-			return this;
-		}
-		if (!(value instanceof Number)) {
-			return fail();
-		}
-
-		final double v = ((Number) value).doubleValue();
-		if (min <= v && v <= max) {
-			return this;
-		} else {
-			return fail();
-		}
-	}
-
-}
+//
+// class NumericState extends State {
+//
+// public NumericState(final State state) {
+// super(state.errors, state.propName, state.isFailed, state.message,
+// state.value);
+// }
+//
+// public NumericState(final Errors errors, final String propName, final boolean
+// isFailed,
+// final String message, final Object value) {
+// super(errors, propName, isFailed, message, value);
+// }
+//
+// @Override
+// public NumericState message(final String msg) {
+// if (isFailed) {
+// return this;
+// }
+// return new NumericState(errors, propName, false, msg, value);
+// }
+//
+// @Override
+// protected NumericState fail() {
+// return new NumericState(errors, propName, true, message, value);
+// }
+//
+// // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+// public NumericState numericInRange(final double min, final double max) {
+// if (isFailed || value == null) {
+// return this;
+// }
+// if (!(value instanceof Number)) {
+// return fail();
+// }
+//
+// final double v = ((Number) value).doubleValue();
+// if (min <= v && v <= max) {
+// return this;
+// } else {
+// return fail();
+// }
+// }
+//
+// }
