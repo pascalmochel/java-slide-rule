@@ -18,15 +18,21 @@ public class Vtest3 {
 		final Errors e = new Errors();
 
 		final String name = State.begin(e, "name", "mhc")
-		/**/.message("is null!")
+		/**/.message("must be not null")
 		/**/.isNotNull()
+		/**/.message("must have 3..6 length")
+		/**/.lengthInRange(3, 6)
 		/**/.getValue()
 		/**/;
 
 		final Integer age = State.begin(e, "age", "5")
-		/**/.message("is null!")
+		/**/.message("must be not null")
 		/**/.isNotNull()
+		/**/.message("must be numeric")
+		/**/.isNumeric()
 		/**/.asInteger()
+		/**/.message("must values 0..130")
+		/**/.numericInRange(0, 130)
 		/**/.getValue()
 		/**/;
 
@@ -200,6 +206,34 @@ class State {
 			final Integer v = Integer.valueOf(value.toString());
 			return new State(errors, propName, isFailed, message, v);
 		} catch (final Exception e) {
+			return fail();
+		}
+	}
+
+	public State lengthInRange(final int min, final int max) {
+		if (isFailed || value == null) {
+			return this;
+		}
+		final int v = value.toString().length();
+		if (min <= v && v <= max) {
+			return this;
+		} else {
+			return fail();
+		}
+	}
+
+	public State numericInRange(final double min, final double max) {
+		if (isFailed || value == null) {
+			return this;
+		}
+		if (!(value instanceof Number)) {
+			return fail();
+		}
+
+		final double v = ((Number) value).doubleValue();
+		if (min <= v && v <= max) {
+			return this;
+		} else {
 			return fail();
 		}
 	}
