@@ -11,7 +11,7 @@ public class ExamplePicletController extends PicletController {
 
 	@Override
 	protected void registerPiclets(final Map<String, Piclet> picletsMap) {
-		picletsMap.put("/bar.png", new ExamplePiclet());
+		picletsMap.put("/bar.piclet", new ExamplePiclet());
 	}
 
 }

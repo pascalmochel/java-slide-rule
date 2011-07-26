@@ -16,7 +16,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>PicletController</servlet-name>
-		<url-pattern>*.png</url-pattern>
+		<url-pattern>*.piclet</url-pattern>
 	</servlet-mapping>
 
 </web-app>

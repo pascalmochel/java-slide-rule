@@ -19,16 +19,22 @@ public abstract class Piclet extends HttpServlet {
 	protected final int xsize;
 	protected final int ysize;
 	protected final int colorSpace;
+	protected final String extension;
 
-	public Piclet(final int xsize, final int ysize, final int colorSpace) {
+	public Piclet(final int xsize, final int ysize, final String extension, final int colorSpace) {
 		super();
 		this.xsize = xsize;
 		this.ysize = ysize;
+		this.extension = extension;
 		this.colorSpace = colorSpace;
 	}
 
+	public Piclet(final int xsize, final int ysize, final String extension) {
+		this(xsize, ysize, extension, BufferedImage.TYPE_INT_RGB);
+	}
+
 	public Piclet(final int xsize, final int ysize) {
-		this(xsize, ysize, BufferedImage.TYPE_INT_RGB);
+		this(xsize, ysize, "png");
 	}
 
 	@Override
@@ -52,9 +58,10 @@ public abstract class Piclet extends HttpServlet {
 			final String imageName = request.getParameter("name");
 			final int imageLength = picStream.toByteArray().length;
 
-			response.setContentType("image/png");
+			response.setContentType("image/" + extension);
 			response.setContentLength(imageLength);
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + imageName + ".png\"");
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + imageName + "." + extension
+					+ "\"");
 
 			final ServletOutputStream op = response.getOutputStream();
 			picStream.writeTo(op);
@@ -76,7 +83,7 @@ public abstract class Piclet extends HttpServlet {
 
 		draw(request, graphics);
 		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(image, "png", baos);
+		ImageIO.write(image, extension, baos);
 		return baos;
 	}
 
