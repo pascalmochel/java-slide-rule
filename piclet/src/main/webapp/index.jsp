@@ -25,5 +25,10 @@
         <img src='/piclet/bar.piclet?name=jou&ratio=100'/><br/><br/>
         </p>
         
+        <p>
+        seconds bar: <img src='/piclet/seconds-bar.piclet?name=seconds'/><br/><br/>
+        session bar: <img src='/piclet/seconds-session-bar.piclet?name=seconds'/><br/><br/>
+        </p>
+        
     </body>
 </html>
