@@ -12,17 +12,17 @@
         <h1>Piclets Test Page</h1>
         
         <p>
-        <img src='/piclet/bar.png?name=jou&ratio=0'  /><br/><br/>
-        <img src='/piclet/bar.png?name=jou&ratio=10' /><br/><br/>
-        <img src='/piclet/bar.png?name=jou&ratio=20' /><br/><br/>
-        <img src='/piclet/bar.png?name=jou&ratio=30' /><br/><br/>
-        <img src='/piclet/bar.png?name=jou&ratio=40' /><br/><br/>
-        <img src='/piclet/bar.png?name=jou&ratio=50' /><br/><br/>
-        <img src='/piclet/bar.png?name=jou&ratio=60' /><br/><br/>
-        <img src='/piclet/bar.png?name=jou&ratio=70' /><br/><br/>
-        <img src='/piclet/bar.png?name=jou&ratio=80' /><br/><br/>
-        <img src='/piclet/bar.png?name=jou&ratio=90' /><br/><br/>
-        <img src='/piclet/bar.png?name=jou&ratio=100'/><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=0'  /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=10' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=20' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=30' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=40' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=50' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=60' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=70' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=80' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=90' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=100'/><br/><br/>
         </p>
         
     </body>
