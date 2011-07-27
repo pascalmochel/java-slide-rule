@@ -1,12 +1,11 @@
 package org.homs.piclet;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.homs.piclet.impl.Piclet;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,11 +14,11 @@ public abstract class PicletController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	protected final Map<String, Piclet> picletsMap;
+	protected final Map<String, IPiclet> picletsMap;
 
 	public PicletController() {
 		super();
-		this.picletsMap = new HashMap<String, Piclet>();
+		this.picletsMap = new HashMap<String, IPiclet>();
 	}
 
 	@Override
@@ -42,16 +41,16 @@ public abstract class PicletController extends HttpServlet {
 		obtainPiclet(request).doDownload(request, response);
 	}
 
-	protected Piclet obtainPiclet(final HttpServletRequest request) {
+	protected IPiclet obtainPiclet(final HttpServletRequest request) {
 		final String picletAlias = request.getServletPath();
-		final Piclet piclet = picletsMap.get(picletAlias);
+		final IPiclet piclet = picletsMap.get(picletAlias);
 		if (piclet == null) {
 			throw new RuntimeException("no piclet registered in " + getClass().getSimpleName()
-					+ " asliased as " + picletAlias);
+					+ " aliased as " + picletAlias);
 		}
 		return piclet;
 	}
 
-	protected abstract void registerPiclets(Map<String, Piclet> picletsMap);
+	protected abstract void registerPiclets(Map<String, IPiclet> picletsMap);
 
 }

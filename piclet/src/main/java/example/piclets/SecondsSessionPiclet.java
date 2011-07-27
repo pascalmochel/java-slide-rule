@@ -5,11 +5,11 @@ import java.awt.Graphics;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.homs.piclet.impl.SessionPiclet;
+import org.homs.piclet.plotter.Plotter;
 
 import java.util.Date;
 
-public class SecondsSessionPiclet extends SessionPiclet {
+public class SecondsSessionPiclet extends Plotter {
 
 	private static final long serialVersionUID = 4878557061013469128L;
 

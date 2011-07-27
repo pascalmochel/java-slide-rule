@@ -1,10 +1,8 @@
-package org.homs.piclet.impl;
+package org.homs.piclet;
 
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
@@ -12,29 +10,25 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.homs.piclet.PicletImageType;
+import org.homs.piclet.scope.IScopeWrapper;
 
 import java.util.Arrays;
 import java.util.Iterator;
 
-public abstract class Piclet implements Serializable {
+public class Piclet implements IPiclet {
 
-	private static final long serialVersionUID = -6690958788857960498L;
+	protected final IScopeWrapper scopeWrapper;
 
 	protected final String className;
-	protected final int xsize;
-	protected final int ysize;
-	protected final int colorSpace;
 	protected final String extension;
 	protected final String autoGenName;
 
-	public Piclet(final int xsize, final int ysize, final String extension, final PicletImageType imageType) {
+	public Piclet(final String extension, final IScopeWrapper scopeWrapper) {
 		super();
+		this.scopeWrapper = scopeWrapper;
+
 		this.className = getClass().getSimpleName();
-		this.xsize = xsize;
-		this.ysize = ysize;
 		this.extension = extension;
-		this.colorSpace = imageType.getImageType();
 		this.autoGenName = Integer.toHexString(System.identityHashCode(this)).toString();
 
 		if (!canWriteFormat(extension)) {
@@ -45,16 +39,8 @@ public abstract class Piclet implements Serializable {
 		}
 	}
 
-	public Piclet(final int xsize, final int ysize, final String extension) {
-		this(xsize, ysize, extension, PicletImageType.RGB);
-	}
-
-	public Piclet(final int xsize, final int ysize) {
-		this(xsize, ysize, "png");
-	}
-
+	@Override
 	public void doDownload(final HttpServletRequest request, final HttpServletResponse response) {
-
 		try {
 
 			final ByteArrayOutputStream picStream = getImageStream(request);
@@ -87,7 +73,7 @@ public abstract class Piclet implements Serializable {
 	protected ByteArrayOutputStream getImageStream(final HttpServletRequest request) throws IOException {
 
 		try {
-			final BufferedImage image = getImage(request);
+			final BufferedImage image = this.scopeWrapper.getImage(request);
 			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(image, extension, baos);
 			return baos;
@@ -97,18 +83,9 @@ public abstract class Piclet implements Serializable {
 		}
 	}
 
-	protected BufferedImage getImage(final HttpServletRequest request) {
-		final BufferedImage image = new BufferedImage(xsize, ysize, colorSpace);
-		final Graphics graphics = image.getGraphics();
-		draw(request, graphics);
-		return image;
-	}
-
 	public static boolean canWriteFormat(final String formatName) {
 		final Iterator<ImageWriter> iter = ImageIO.getImageWritersByFormatName(formatName);
 		return iter.hasNext();
 	}
-
-	protected abstract void draw(HttpServletRequest request, final Graphics graphics);
 
 }

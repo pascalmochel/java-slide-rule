@@ -6,9 +6,9 @@ import java.awt.Graphics;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.homs.piclet.impl.Piclet;
+import org.homs.piclet.plotter.Plotter;
 
-public class PercentPiclet extends Piclet {
+public class PercentPiclet extends Plotter {
 
 	private static final long serialVersionUID = 4878557061013469128L;
 
