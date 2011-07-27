@@ -1,7 +1,7 @@
 package org.homs.piclet;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,19 +27,15 @@ public abstract class SessionPiclet extends Piclet {
 	}
 
 	@Override
-	protected ByteArrayOutputStream getImageStream(final HttpServletRequest request) throws IOException {
-
-		try {
-
-			if (request.getSession().getAttribute(idSession) == null) {
-				final ByteArrayOutputStream os = super.getImageStream(request);
-				request.getSession().setAttribute(idSession, os);
-			}
-			return (ByteArrayOutputStream) request.getSession().getAttribute(idSession);
-
-		} catch (final Exception e) {
-			throw new RuntimeException("error rendering " + className + ": ", e);
+	protected BufferedImage getImage(final HttpServletRequest request) {
+		if (request.getSession().getAttribute(idSession) == null) {
+			final BufferedImage image = new BufferedImage(xsize, ysize, colorSpace);
+			final Graphics graphics = image.getGraphics();
+			draw(request, graphics);
+			request.getSession().setAttribute(idSession, image);
+			return image;
 		}
+		return (BufferedImage) request.getSession().getAttribute(idSession);
 	}
 
 }

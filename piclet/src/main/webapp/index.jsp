@@ -9,7 +9,7 @@
     </head>
     <body>
         
-        <h1>Piclets Test Page</h1>
+        <h2>Piclets Test Page</h2>
         
         <p>
         <img src='/piclet/bar.piclet?name=jou&ratio=0'  /><br/><br/>
