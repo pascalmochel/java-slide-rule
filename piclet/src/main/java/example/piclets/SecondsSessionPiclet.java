@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.homs.piclet.SessionPiclet;
+import org.homs.piclet.impl.SessionPiclet;
 
 import java.util.Date;
 

@@ -25,15 +25,27 @@
         <img src='/piclet/bar.piclet?name=jou&ratio=100'/><br/><br/>
         </p>
         
-        <p>
-        seconds bar: <img src='/piclet/seconds-bar.piclet?name=seconds'/><br/><br/>
-        session bar: <img src='/piclet/seconds-session-bar.piclet?name=seconds'/><br/><br/>
-        </p>
+        <table>
+        	<tr>
+        		<td>seconds bar:</td>
+        		<td><img src='/piclet/seconds-bar.piclet?name=seconds'/></td>
+        	</tr>
+        	<tr>
+        		<td>session bar:</td> 
+        		<td><img src='/piclet/seconds-session-bar.piclet?name=seconds'/></td>
+        	</tr>
+        	<tr>
+        		<td>singleton bar:</td>
+        		<td><img src='/piclet/seconds-singleton-bar.piclet?name=seconds'/></td>
+        	</tr>
+        </table>
+        <br/><br/>
         
         <a href="/piclet/bar.piclet?name=jou50&ratio=50">download 50% bar</a><br/><br/>
         <a href="/piclet/bar.piclet?ratio=50">download autonamed 50% bar</a><br/><br/>
         
-        <form action="/piclet/bar.piclet" method="get">
+        
+        <form action="/piclet/bar.piclet" method="get"> 
         	<input type="hidden" name="name" value="jou75" />
         	<input type="hidden" name="ratio" value="75" />
         	<input type="submit" value="download 75% bar (get)" />

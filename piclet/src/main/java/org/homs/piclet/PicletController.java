@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.homs.piclet.impl.Piclet;
+
 import java.util.HashMap;
 import java.util.Map;
 
