@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.homs.piclet.Piclet;
+import org.homs.piclet.impl.Piclet;
 
 public class PercentPiclet extends Piclet {
 
