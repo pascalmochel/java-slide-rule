@@ -88,10 +88,7 @@ public abstract class Piclet extends HttpServlet {
 
 		try {
 
-			final BufferedImage image = new BufferedImage(xsize, ysize, colorSpace);
-			final Graphics graphics = image.getGraphics();
-
-			draw(request, graphics);
+			final BufferedImage image = getImage(request);
 			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(image, extension, baos);
 			return baos;
@@ -99,6 +96,13 @@ public abstract class Piclet extends HttpServlet {
 		} catch (final Exception e) {
 			throw new RuntimeException("error rendering " + className + ": ", e);
 		}
+	}
+
+	protected BufferedImage getImage(final HttpServletRequest request) {
+		final BufferedImage image = new BufferedImage(xsize, ysize, colorSpace);
+		final Graphics graphics = image.getGraphics();
+		draw(request, graphics);
+		return image;
 	}
 
 	protected abstract void draw(HttpServletRequest request, final Graphics graphics);
