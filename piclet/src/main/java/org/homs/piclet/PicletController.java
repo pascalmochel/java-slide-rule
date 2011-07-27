@@ -30,14 +30,14 @@ public abstract class PicletController extends HttpServlet {
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
 
-		obtainPiclet(request).doGet(request, response);
+		obtainPiclet(request).doDownload(request, response);
 	}
 
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
 
-		obtainPiclet(request).doGet(request, response);
+		obtainPiclet(request).doDownload(request, response);
 	}
 
 	protected Piclet obtainPiclet(final HttpServletRequest request) {
