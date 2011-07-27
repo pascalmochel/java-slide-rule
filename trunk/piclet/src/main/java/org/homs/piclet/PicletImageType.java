@@ -10,13 +10,13 @@ public enum PicletImageType {
 	BGR(BufferedImage.TYPE_INT_BGR) //
 	;
 
-	protected final int type;
+	private final int type;
 
 	private PicletImageType(final int type) {
 		this.type = type;
 	}
 
-	public int getType() {
+	public int getImageType() {
 		return type;
 	}
 

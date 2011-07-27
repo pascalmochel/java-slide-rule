@@ -27,7 +27,7 @@ public abstract class Piclet {
 		this.xsize = xsize;
 		this.ysize = ysize;
 		this.extension = extension;
-		this.colorSpace = imageType.getType();
+		this.colorSpace = imageType.getImageType();
 		this.autoGenName = Integer.toHexString(System.identityHashCode(this)).toString();
 	}
 
