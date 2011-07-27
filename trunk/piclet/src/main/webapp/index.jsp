@@ -11,20 +11,6 @@
         
         <h2>Piclets Test Page</h2>
         
-        <p>
-        <img src='/piclet/bar.piclet?name=jou&ratio=0'  /><br/><br/>
-        <img src='/piclet/bar.piclet?name=jou&ratio=10' /><br/><br/>
-        <img src='/piclet/bar.piclet?name=jou&ratio=20' /><br/><br/>
-        <img src='/piclet/bar.piclet?name=jou&ratio=30' /><br/><br/>
-        <img src='/piclet/bar.piclet?name=jou&ratio=40' /><br/><br/>
-        <img src='/piclet/bar.piclet?name=jou&ratio=50' /><br/><br/>
-        <img src='/piclet/bar.piclet?name=jou&ratio=60' /><br/><br/>
-        <img src='/piclet/bar.piclet?name=jou&ratio=70' /><br/><br/>
-        <img src='/piclet/bar.piclet?name=jou&ratio=80' /><br/><br/>
-        <img src='/piclet/bar.piclet?name=jou&ratio=90' /><br/><br/>
-        <img src='/piclet/bar.piclet?name=jou&ratio=100'/><br/><br/>
-        </p>
-        
         <table>
         	<tr>
         		<td>seconds bar:</td>
@@ -41,8 +27,9 @@
         </table>
         <br/><br/>
         
-        <a href="/piclet/bar.piclet?name=jou50&ratio=50">download 50% bar</a><br/><br/>
-        <a href="/piclet/bar.piclet?ratio=50">download autonamed 50% bar</a><br/><br/>
+        <a href="/piclet/bar.piclet?name=jou50&ratio=50">download 50% bar</a><br/>
+        <a href="/piclet/bar.piclet?ratio=50">download autonamed 50% bar</a><br/>
+        <br/>
         
         
         <form action="/piclet/bar.piclet" method="get"> 
@@ -56,13 +43,34 @@
         	<input type="hidden" name="ratio" value="75" />
         	<input type="submit" value="download 75% bar (post)" />
         </form>
-
 		<br/><br/>
-		<a href="/piclet/bar.bmp.piclet?name=jou50&ratio=50">download 50% bar (bmp)</a><br/><br/>
-		<a href="/piclet/bar.gif.piclet?name=jou50&ratio=50">download 50% bar (gif)</a><br/><br/>
-		<a href="/piclet/bar.jpg.piclet?name=jou50&ratio=50">download 50% bar (jpg)</a><br/><br/>
 		
+		<a href="/piclet/bar.bmp.piclet?name=jou50&ratio=50">download 50% bar (bmp)</a><br/>
+		<a href="/piclet/bar.gif.piclet?name=jou50&ratio=50">download 50% bar (gif)</a><br/>
+		<a href="/piclet/bar.jpg.piclet?name=jou50&ratio=50">download 50% bar (jpg)</a><br/>
+		<br/><br/>
+
+
+        <form action="/piclet/bar.piclet" method="post">
+        	Enter your ratio: 
+        	<input type="text" name="ratio" value="0" />
+        	<input type="submit" value="download 75% bar (post)" />
+        </form>
+		<br/><br/>
 		
+		<p>
+        <img src='/piclet/bar.piclet?name=jou&ratio=0'  /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=10' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=20' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=30' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=40' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=50' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=60' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=70' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=80' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=90' /><br/><br/>
+        <img src='/piclet/bar.piclet?name=jou&ratio=100'/><br/><br/>
+        </p>
 		        
     </body>
 </html>
