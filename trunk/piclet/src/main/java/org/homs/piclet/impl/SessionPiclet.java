@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.homs.piclet.PicletImageType;
+
 public abstract class SessionPiclet extends Piclet {
 
 	private static final long serialVersionUID = 5708641800361384734L;
