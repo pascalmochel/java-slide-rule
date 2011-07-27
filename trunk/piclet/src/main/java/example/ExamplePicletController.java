@@ -3,7 +3,7 @@ package example;
 import org.homs.piclet.Piclet;
 import org.homs.piclet.PicletController;
 
-import example.piclets.ExamplePiclet;
+import example.piclets.PercentPiclet;
 import example.piclets.SecondsPiclet;
 import example.piclets.SecondsSessionPiclet;
 
@@ -15,7 +15,7 @@ public class ExamplePicletController extends PicletController {
 
 	@Override
 	protected void registerPiclets(final Map<String, Piclet> picletsMap) {
-		picletsMap.put("/bar.piclet", new ExamplePiclet());
+		picletsMap.put("/bar.piclet", new PercentPiclet());
 		picletsMap.put("/seconds-bar.piclet", new SecondsPiclet());
 		picletsMap.put("/seconds-session-bar.piclet", new SecondsSessionPiclet());
 	}

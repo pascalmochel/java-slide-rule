@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.homs.piclet.Piclet;
 
-public class ExamplePiclet extends Piclet {
+public class PercentPiclet extends Piclet {
 
 	private static final long serialVersionUID = 4878557061013469128L;
 
-	public ExamplePiclet() {
+	public PercentPiclet() {
 		super(100, 10);
 	}
 

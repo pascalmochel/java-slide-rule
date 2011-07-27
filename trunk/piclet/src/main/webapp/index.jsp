@@ -31,6 +31,7 @@
         </p>
         
         <a href="/piclet/bar.piclet?name=jou50&ratio=50">download 50% bar</a><br/><br/>
+        <a href="/piclet/bar.piclet?ratio=50">download autonamed 50% bar</a><br/><br/>
         
         <form action="/piclet/bar.piclet" method="get">
         	<input type="hidden" name="name" value="jou75" />
