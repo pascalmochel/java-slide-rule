@@ -56,6 +56,13 @@
         	<input type="hidden" name="ratio" value="75" />
         	<input type="submit" value="download 75% bar (post)" />
         </form>
-        
+
+		<br/><br/>
+		<a href="/piclet/bar.bmp.piclet?name=jou50&ratio=50">download 50% bar (bmp)</a><br/><br/>
+		<a href="/piclet/bar.gif.piclet?name=jou50&ratio=50">download 50% bar (gif)</a><br/><br/>
+		<a href="/piclet/bar.jpg.piclet?name=jou50&ratio=50">download 50% bar (jpg)</a><br/><br/>
+		
+		
+		        
     </body>
 </html>

@@ -7,11 +7,15 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.homs.piclet.PicletImageType;
+
+import java.util.Arrays;
+import java.util.Iterator;
 
 public abstract class Piclet implements Serializable {
 
@@ -32,6 +36,13 @@ public abstract class Piclet implements Serializable {
 		this.extension = extension;
 		this.colorSpace = imageType.getImageType();
 		this.autoGenName = Integer.toHexString(System.identityHashCode(this)).toString();
+
+		if (!canWriteFormat(extension)) {
+			final String[] formatNames = ImageIO.getReaderFormatNames();
+			System.out.println(Arrays.toString(formatNames));
+			throw new RuntimeException("formatName not supported: " + extension + "; availables are: "
+					+ Arrays.toString(formatNames));
+		}
 	}
 
 	public Piclet(final int xsize, final int ysize, final String extension) {
@@ -76,7 +87,6 @@ public abstract class Piclet implements Serializable {
 	protected ByteArrayOutputStream getImageStream(final HttpServletRequest request) throws IOException {
 
 		try {
-
 			final BufferedImage image = getImage(request);
 			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(image, extension, baos);
@@ -92,6 +102,11 @@ public abstract class Piclet implements Serializable {
 		final Graphics graphics = image.getGraphics();
 		draw(request, graphics);
 		return image;
+	}
+
+	public static boolean canWriteFormat(final String formatName) {
+		final Iterator<ImageWriter> iter = ImageIO.getImageWritersByFormatName(formatName);
+		return iter.hasNext();
 	}
 
 	protected abstract void draw(HttpServletRequest request, final Graphics graphics);
