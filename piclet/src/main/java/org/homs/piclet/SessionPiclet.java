@@ -28,11 +28,18 @@ public abstract class SessionPiclet extends Piclet {
 
 	@Override
 	protected ByteArrayOutputStream getImageStream(final HttpServletRequest request) throws IOException {
-		if (request.getSession().getAttribute(idSession) == null) {
-			final ByteArrayOutputStream os = super.getImageStream(request);
-			request.getSession().setAttribute(idSession, os);
+
+		try {
+
+			if (request.getSession().getAttribute(idSession) == null) {
+				final ByteArrayOutputStream os = super.getImageStream(request);
+				request.getSession().setAttribute(idSession, os);
+			}
+			return (ByteArrayOutputStream) request.getSession().getAttribute(idSession);
+
+		} catch (final Exception e) {
+			throw new RuntimeException("error rendering " + className + ": ", e);
 		}
-		return (ByteArrayOutputStream) request.getSession().getAttribute(idSession);
 	}
 
 }
