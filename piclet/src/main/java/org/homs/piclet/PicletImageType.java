@@ -1,4 +1,4 @@
-package org.homs.piclet.impl;
+package org.homs.piclet;
 
 import java.awt.image.BufferedImage;
 

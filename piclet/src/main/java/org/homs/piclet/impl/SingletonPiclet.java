@@ -5,48 +5,44 @@ import java.awt.image.BufferedImage;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.homs.piclet.PicletImageType;
+
 public abstract class SingletonPiclet extends Piclet {
 
 	private static final long serialVersionUID = 5708641800361384734L;
 
-	protected String idSession;
-
+	protected final Object mutex = new Object();
 	protected BufferedImage image;
-	protected volatile boolean initializated;
+	protected volatile boolean initializated = false;
 
 	public SingletonPiclet(final int xsize, final int ysize, final String extension,
 			final PicletImageType imageType) {
 		super(xsize, ysize, extension, imageType);
-		this.idSession = getClass().getName();
 	}
 
 	public SingletonPiclet(final int xsize, final int ysize, final String extension) {
 		super(xsize, ysize, extension);
-		this.idSession = getClass().getName();
 	}
 
 	public SingletonPiclet(final int xsize, final int ysize) {
 		super(xsize, ysize);
-		this.idSession = getClass().getName();
 	}
 
 	@Override
 	protected BufferedImage getImage(final HttpServletRequest request) {
 
 		if (!initializated) {
-			synchronized (image) {
+			synchronized (mutex) {
 				if (!initializated) {
-					final BufferedImage image = new BufferedImage(xsize, ysize, colorSpace);
-					final Graphics graphics = image.getGraphics();
+					this.image = new BufferedImage(xsize, ysize, colorSpace);
+					final Graphics graphics = this.image.getGraphics();
 					draw(request, graphics);
-					request.getSession().setAttribute(idSession, image);
 					initializated = true;
 					return this.image;
 				}
 			}
 		}
 		return this.image;
-
 	}
 
 }

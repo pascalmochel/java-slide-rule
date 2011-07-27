@@ -6,6 +6,7 @@ import org.homs.piclet.impl.Piclet;
 import example.piclets.PercentPiclet;
 import example.piclets.SecondsPiclet;
 import example.piclets.SecondsSessionPiclet;
+import example.piclets.SecondsSingletonPiclet;
 
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class ExamplePicletController extends PicletController {
 		picletsMap.put("/bar.piclet", new PercentPiclet());
 		picletsMap.put("/seconds-bar.piclet", new SecondsPiclet());
 		picletsMap.put("/seconds-session-bar.piclet", new SecondsSessionPiclet());
-		picletsMap.put("/seconds-singleton-bar.piclet", new SecondsSessionPiclet());
+		picletsMap.put("/seconds-singleton-bar.piclet", new SecondsSingletonPiclet());
 	}
 
 }

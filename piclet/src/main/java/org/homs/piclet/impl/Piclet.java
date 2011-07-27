@@ -4,13 +4,16 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public abstract class Piclet {
+import org.homs.piclet.PicletImageType;
+
+public abstract class Piclet implements Serializable {
 
 	private static final long serialVersionUID = -6690958788857960498L;
 
