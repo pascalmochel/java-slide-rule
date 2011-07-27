@@ -1,19 +1,19 @@
-package example;
+package example.piclets;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.homs.piclet.Piclet;
+import org.homs.piclet.SessionPiclet;
 
 import java.util.Date;
 
-public class SecondsPiclet extends Piclet {
+public class SecondsSessionPiclet extends SessionPiclet {
 
 	private static final long serialVersionUID = 4878557061013469128L;
 
-	public SecondsPiclet() {
+	public SecondsSessionPiclet() {
 		super(60, 10);
 	}
 

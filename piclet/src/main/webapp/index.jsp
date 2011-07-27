@@ -30,5 +30,19 @@
         session bar: <img src='/piclet/seconds-session-bar.piclet?name=seconds'/><br/><br/>
         </p>
         
+        <a href="/piclet/bar.piclet?name=jou50&ratio=50">download 50% bar</a><br/><br/>
+        
+        <form action="/piclet/bar.piclet" method="get">
+        	<input type="hidden" name="name" value="jou75" />
+        	<input type="hidden" name="ratio" value="75" />
+        	<input type="submit" value="download 75% bar (get)" />
+        </form>
+        
+        <form action="/piclet/bar.piclet" method="post">
+        	<input type="hidden" name="name" value="jou75" />
+        	<input type="hidden" name="ratio" value="75" />
+        	<input type="submit" value="download 75% bar (post)" />
+        </form>
+        
     </body>
 </html>

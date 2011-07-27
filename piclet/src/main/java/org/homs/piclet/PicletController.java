@@ -29,15 +29,25 @@ public abstract class PicletController extends HttpServlet {
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
-		final Piclet piclet = picletsMap.get(request.getServletPath());
+		final Piclet piclet = obtainPiclet(request);
 		piclet.doGet(request, response);
 	}
 
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
-		final Piclet piclet = picletsMap.get(request.getServletPath());
+		final Piclet piclet = obtainPiclet(request);
 		piclet.doGet(request, response);
+	}
+
+	protected Piclet obtainPiclet(final HttpServletRequest request) {
+		final String picletAlias = request.getServletPath();
+		final Piclet piclet = picletsMap.get(picletAlias);
+		if (piclet == null) {
+			throw new RuntimeException("no piclet registered in " + getClass().getSimpleName()
+					+ " asliased as " + picletAlias);
+		}
+		return piclet;
 	}
 
 	protected abstract void registerPiclets(Map<String, Piclet> picletsMap);

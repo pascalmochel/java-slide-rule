@@ -3,6 +3,10 @@ package example;
 import org.homs.piclet.Piclet;
 import org.homs.piclet.PicletController;
 
+import example.piclets.ExamplePiclet;
+import example.piclets.SecondsPiclet;
+import example.piclets.SecondsSessionPiclet;
+
 import java.util.Map;
 
 public class ExamplePicletController extends PicletController {
