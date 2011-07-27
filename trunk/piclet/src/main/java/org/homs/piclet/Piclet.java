@@ -6,13 +6,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public abstract class Piclet extends HttpServlet {
+public abstract class Piclet {
 
 	private static final long serialVersionUID = -6690958788857960498L;
 
@@ -41,19 +39,7 @@ public abstract class Piclet extends HttpServlet {
 		this(xsize, ysize, "png");
 	}
 
-	@Override
-	protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
-			throws ServletException, IOException {
-		doDownload(request, response);
-	}
-
-	@Override
-	protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
-			throws ServletException, IOException {
-		doDownload(request, response);
-	}
-
-	protected void doDownload(final HttpServletRequest request, final HttpServletResponse response) {
+	public void doDownload(final HttpServletRequest request, final HttpServletResponse response) {
 
 		try {
 
