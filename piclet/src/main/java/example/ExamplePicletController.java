@@ -20,6 +20,10 @@ public class ExamplePicletController extends PicletController {
 		picletsMap.put("/seconds-bar.piclet", new SecondsPiclet());
 		picletsMap.put("/seconds-session-bar.piclet", new SecondsSessionPiclet());
 		picletsMap.put("/seconds-singleton-bar.piclet", new SecondsSingletonPiclet());
+
+		picletsMap.put("/bar.bmp.piclet", new PercentPiclet("bmp"));
+		picletsMap.put("/bar.gif.piclet", new PercentPiclet("gif"));
+		picletsMap.put("/bar.jpg.piclet", new PercentPiclet("jpg"));
 	}
 
 }
