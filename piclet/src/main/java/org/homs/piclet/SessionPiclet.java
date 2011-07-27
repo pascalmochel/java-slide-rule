@@ -11,8 +11,8 @@ public abstract class SessionPiclet extends Piclet {
 
 	protected String idSession;
 
-	public SessionPiclet(final int xsize, final int ysize, final String extension, final int colorSpace) {
-		super(xsize, ysize, extension, colorSpace);
+	public SessionPiclet(final int xsize, final int ysize, final String extension, final PicletImageType imageType) {
+		super(xsize, ysize, extension, imageType);
 		this.idSession = getClass().getName();
 	}
 

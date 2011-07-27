@@ -21,18 +21,18 @@ public abstract class Piclet {
 	protected final String extension;
 	protected final String autoGenName;
 
-	public Piclet(final int xsize, final int ysize, final String extension, final int colorSpace) {
+	public Piclet(final int xsize, final int ysize, final String extension, final PicletImageType imageType) {
 		super();
 		this.className = getClass().getSimpleName();
 		this.xsize = xsize;
 		this.ysize = ysize;
 		this.extension = extension;
-		this.colorSpace = colorSpace;
+		this.colorSpace = imageType.getType();
 		this.autoGenName = Integer.toHexString(System.identityHashCode(this)).toString();
 	}
 
 	public Piclet(final int xsize, final int ysize, final String extension) {
-		this(xsize, ysize, extension, BufferedImage.TYPE_INT_RGB);
+		this(xsize, ysize, extension, PicletImageType.RGB);
 	}
 
 	public Piclet(final int xsize, final int ysize) {
