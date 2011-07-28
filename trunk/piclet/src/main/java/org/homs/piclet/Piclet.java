@@ -71,6 +71,7 @@ public class Piclet implements IPiclet {
 	protected ByteArrayOutputStream getImageStream(final HttpServletRequest request) throws IOException {
 
 		try {
+
 			final BufferedImage image = this.scopeWrapper.getImage(request);
 			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(image, extension, baos);
