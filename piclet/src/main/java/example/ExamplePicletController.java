@@ -4,8 +4,8 @@ import org.homs.piclet.PicletController;
 import org.homs.piclet.PicletsConfig;
 import org.homs.piclet.plotter.IPlotter;
 
-import example.piclets.ClockPiclet;
 import example.piclets.PercentPiclet;
+import example.piclets.SecondsPiclet;
 
 public class ExamplePicletController extends PicletController {
 
@@ -15,7 +15,7 @@ public class ExamplePicletController extends PicletController {
 	protected void registerPiclets(final PicletsConfig config) {
 
 		final IPlotter percentPiclet = new PercentPiclet();
-		final IPlotter secondsPiclet = new ClockPiclet();
+		final IPlotter secondsPiclet = new SecondsPiclet();
 
 		config
 		/**/.defAsRequest("/bar.piclet", percentPiclet)
