@@ -1,14 +1,12 @@
 package org.homs.piclet;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class PicletController extends HttpServlet {
 
@@ -18,13 +16,9 @@ public abstract class PicletController extends HttpServlet {
 
 	public PicletController() {
 		super();
-		this.picletsMap = new HashMap<String, IPiclet>();
-	}
-
-	@Override
-	public void init() throws ServletException {
-		super.init();
-		registerPiclets(this.picletsMap);
+		PicletsConfig config = new PicletsConfig();
+		registerPiclets(config);
+		this.picletsMap = config.getPicletsMap();
 	}
 
 	@Override
@@ -51,6 +45,6 @@ public abstract class PicletController extends HttpServlet {
 		return piclet;
 	}
 
-	protected abstract void registerPiclets(Map<String, IPiclet> picletsMap);
+	protected abstract void registerPiclets(PicletsConfig config);
 
 }

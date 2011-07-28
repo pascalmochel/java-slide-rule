@@ -2,6 +2,7 @@ package org.homs.piclet.plotter;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
@@ -9,37 +10,23 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.homs.piclet.PicletImageType;
 
-import java.util.Arrays;
-import java.util.Iterator;
-
 public abstract class Plotter implements IPlotter {
 
 	private static final long serialVersionUID = -6690958788857960498L;
 
 	protected final int xsize;
 	protected final int ysize;
-	protected final int colorSpace;
+	protected final PicletImageType imageType;
 
-	public Plotter(final int xsize, final int ysize, final String extension, final PicletImageType imageType) {
+	public Plotter(final int xsize, final int ysize, final PicletImageType imageType) {
 		super();
 		this.xsize = xsize;
 		this.ysize = ysize;
-		this.colorSpace = imageType.getImageType();
-
-		if (!canWriteFormat(extension)) {
-			final String[] formatNames = ImageIO.getReaderFormatNames();
-			System.out.println(Arrays.toString(formatNames));
-			throw new RuntimeException("formatName not supported: " + extension + "; availables are: "
-					+ Arrays.toString(formatNames));
-		}
+		this.imageType = imageType;
 	}
-
-	public Plotter(final int xsize, final int ysize, final String extension) {
-		this(xsize, ysize, extension, PicletImageType.RGB);
-	}
-
+	
 	public Plotter(final int xsize, final int ysize) {
-		this(xsize, ysize, "png");
+		this(xsize,ysize,PicletImageType.RGB);
 	}
 
 	public static boolean canWriteFormat(final String formatName) {
@@ -49,7 +36,7 @@ public abstract class Plotter implements IPlotter {
 
 	@Override
 	public BufferedImage getImage(final HttpServletRequest request) {
-		final BufferedImage image = new BufferedImage(xsize, ysize, colorSpace);
+		final BufferedImage image = new BufferedImage(xsize, ysize, imageType.getImageType());
 		final Graphics graphics = image.getGraphics();
 		draw(request, graphics);
 		return image;
