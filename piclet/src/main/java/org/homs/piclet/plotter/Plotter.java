@@ -24,9 +24,9 @@ public abstract class Plotter implements IPlotter {
 		this.ysize = ysize;
 		this.imageType = imageType;
 	}
-	
+
 	public Plotter(final int xsize, final int ysize) {
-		this(xsize,ysize,PicletImageType.RGB);
+		this(xsize, ysize, PicletImageType.RGB);
 	}
 
 	public static boolean canWriteFormat(final String formatName) {

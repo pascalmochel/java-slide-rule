@@ -1,6 +1,7 @@
 package org.homs.piclet;
 
 import org.homs.piclet.plotter.IPlotter;
+import org.homs.piclet.scope.IScopeWrapper;
 import org.homs.piclet.scope.RequestWrapper;
 import org.homs.piclet.scope.SessionWrapper;
 import org.homs.piclet.scope.SingletonWrapper;
@@ -17,6 +18,11 @@ public class PicletsConfig {
 	public PicletsConfig() {
 		super();
 		this.picletsMap = new HashMap<String, IPiclet>();
+	}
+
+	public PicletsConfig def(final String url, final String extension, final IScopeWrapper scopeWrapperImpl) {
+		this.picletsMap.put(url, new Piclet(extension, scopeWrapperImpl));
+		return this;
 	}
 
 	public PicletsConfig defAsRequest(final String url, final String extension, final IPlotter plotter) {
