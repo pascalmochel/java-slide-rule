@@ -16,10 +16,6 @@ public class PercentPiclet extends Plotter {
 		super(140, 10);
 	}
 
-	public PercentPiclet(final String extension) {
-		super(100, 10, extension);
-	}
-
 	@Override
 	protected void draw(final HttpServletRequest request, final Graphics graphics) {
 

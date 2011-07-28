@@ -19,7 +19,6 @@ public class Piclet implements IPiclet {
 
 	protected final IScopeWrapper scopeWrapper;
 
-	protected final String className;
 	protected final String extension;
 	protected final String autoGenName;
 
@@ -27,13 +26,11 @@ public class Piclet implements IPiclet {
 		super();
 		this.scopeWrapper = scopeWrapper;
 
-		this.className = getClass().getSimpleName();
 		this.extension = extension;
 		this.autoGenName = Integer.toHexString(System.identityHashCode(this)).toString();
 
 		if (!canWriteFormat(extension)) {
 			final String[] formatNames = ImageIO.getReaderFormatNames();
-			System.out.println(Arrays.toString(formatNames));
 			throw new RuntimeException("formatName not supported: " + extension + "; availables are: "
 					+ Arrays.toString(formatNames));
 		}
@@ -66,7 +63,7 @@ public class Piclet implements IPiclet {
 			op.close();
 
 		} catch (final Exception e) {
-			throw new RuntimeException("error downloading from " + className + ": ", e);
+			throw new RuntimeException("error downloading from request: " + request.getServletPath(), e);
 		}
 	}
 
@@ -79,7 +76,7 @@ public class Piclet implements IPiclet {
 			return baos;
 
 		} catch (final Exception e) {
-			throw new RuntimeException("error rendering " + className + ": ", e);
+			throw new RuntimeException("error rendering for request: " + request.getServletPath(), e);
 		}
 	}
 

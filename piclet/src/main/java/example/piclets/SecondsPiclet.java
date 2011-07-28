@@ -29,4 +29,5 @@ public class SecondsPiclet extends Plotter {
 		graphics.drawRect(0, 0, super.xsize - 1, super.ysize - 1);
 		graphics.fillRect(0, 0, ratio, super.ysize);
 	}
+
 }
