@@ -10,7 +10,8 @@
     <body>
         
         <h2>Piclets Test Page</h2>
-        
+
+
         <table>
         	<tr>
         		<td>seconds bar:</td>
