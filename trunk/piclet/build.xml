@@ -17,7 +17,9 @@
 
 
 	<target name="clean">
-		<delete dir="${build-dir}" />
+		<delete dir="${build-dir}">
+			<exclude name="**/.svn" />
+		</delete>
 	</target>
 
 	<target name="compile-src">
