@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.homs.piclet.exception.FrijolesException;
+import org.homs.piclet.exception.PicletException;
 
 public abstract class PicletController extends HttpServlet {
 
@@ -41,7 +41,7 @@ public abstract class PicletController extends HttpServlet {
 		final String picletAlias = request.getServletPath();
 		final IPiclet piclet = picletsMap.get(picletAlias);
 		if (piclet == null) {
-			throw new FrijolesException("no piclet registered in " + getClass().getSimpleName()
+			throw new PicletException("no piclet registered in " + getClass().getSimpleName()
 					+ " aliased as " + picletAlias);
 		}
 		return piclet;

@@ -11,6 +11,8 @@
         
         <h2>Piclets Test Page</h2>
 
+		
+		<img src='/piclet/ladybug.piclet'/>
 
         <table>
         	<tr>
@@ -55,7 +57,7 @@
         <form action="/piclet/bar.piclet" method="post">
         	Enter your ratio: 
         	<input type="text" name="ratio" value="0" />
-        	<input type="submit" value="download 75% bar (post)" />
+        	<input type="submit" value="download" />
         </form>
 		<br/><br/>
 		

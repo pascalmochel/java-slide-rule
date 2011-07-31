@@ -9,11 +9,11 @@ import org.homs.piclet.plotter.Plotter;
 
 import java.util.Date;
 
-public class SecondsPiclet extends Plotter {
+public class SecondsPlotter extends Plotter {
 
 	private static final long serialVersionUID = 4878557061013469128L;
 
-	public SecondsPiclet() {
+	public SecondsPlotter() {
 		super(60, 10);
 	}
 
