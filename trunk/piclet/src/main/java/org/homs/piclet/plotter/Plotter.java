@@ -2,10 +2,7 @@ package org.homs.piclet.plotter;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.Iterator;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
 import javax.servlet.http.HttpServletRequest;
 
 import org.homs.piclet.PicletImageType;
@@ -27,11 +24,6 @@ public abstract class Plotter implements IPlotter {
 
 	public Plotter(final int xsize, final int ysize) {
 		this(xsize, ysize, PicletImageType.RGB);
-	}
-
-	public static boolean canWriteFormat(final String formatName) {
-		final Iterator<ImageWriter> iter = ImageIO.getImageWritersByFormatName(formatName);
-		return iter.hasNext();
 	}
 
 	@Override

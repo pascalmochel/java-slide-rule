@@ -3,9 +3,10 @@ package example;
 import org.homs.piclet.PicletController;
 import org.homs.piclet.PicletsConfig;
 import org.homs.piclet.plotter.IPlotter;
+import org.homs.piclet.plotter.StaticImagePlotter;
 
-import example.piclets.PercentPiclet;
-import example.piclets.SecondsPiclet;
+import example.piclets.PercentPlotter;
+import example.piclets.SecondsPlotter;
 
 public class ExamplePicletController extends PicletController {
 
@@ -14,20 +15,23 @@ public class ExamplePicletController extends PicletController {
 	@Override
 	protected void registerPiclets(final PicletsConfig config) {
 
-		final IPlotter percentPiclet = new PercentPiclet();
-		final IPlotter secondsPiclet = new SecondsPiclet();
+		final IPlotter percentPlotter = new PercentPlotter();
+		final IPlotter secondsPlotter = new SecondsPlotter();
 
 		config
-		/**/.defAsRequest("/bar.piclet", percentPiclet)
+		/**/.defAsRequest("/bar.piclet", percentPlotter)
 
-		/**/.defAsRequest("/seconds-bar.piclet", secondsPiclet)
-		/**/.defAsSession("/seconds-session-bar.piclet", secondsPiclet)
-		/**/.defAsSingleton("/seconds-singleton-bar.piclet", secondsPiclet)
+		/**/.defAsRequest("/seconds-bar.piclet", secondsPlotter)
+		/**/.defAsSession("/seconds-session-bar.piclet", secondsPlotter)
+		/**/.defAsSingleton("/seconds-singleton-bar.piclet", secondsPlotter)
 
-		/**/.defAsRequest("/bar.png.piclet", "png", percentPiclet)
-		/**/.defAsRequest("/bar.bmp.piclet", "bmp", percentPiclet)
-		/**/.defAsRequest("/bar.gif.piclet", "gif", percentPiclet)
-		/**/.defAsRequest("/bar.jpg.piclet", "jpg", percentPiclet);
+		/**/.defAsRequest("/bar.png.piclet", "png", percentPlotter)
+		/**/.defAsRequest("/bar.bmp.piclet", "bmp", percentPlotter)
+		/**/.defAsRequest("/bar.gif.piclet", "gif", percentPlotter)
+		/**/.defAsRequest("/bar.jpg.piclet", "jpg", percentPlotter)
+
+		/**/.defAsRequest("/ladybug.piclet", "png", new StaticImagePlotter("/img/ladybug.jpg"))
+		/**/;
 	}
 
 }

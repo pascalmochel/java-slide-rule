@@ -10,7 +10,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.homs.piclet.exception.FrijolesException;
+import org.homs.piclet.exception.PicletException;
 import org.homs.piclet.scope.IScopeWrapper;
 
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class Piclet implements IPiclet {
 
 		if (!canWriteFormat(extension)) {
 			final String[] formatNames = ImageIO.getReaderFormatNames();
-			throw new FrijolesException("formatName not supported: " + extension + "; availables are: "
+			throw new PicletException("formatName not supported: " + extension + "; availables are: "
 					+ Arrays.toString(formatNames));
 		}
 	}
@@ -64,7 +64,7 @@ public class Piclet implements IPiclet {
 			op.close();
 
 		} catch (final Exception e) {
-			throw new FrijolesException("error downloading from request: " + request.getServletPath(), e);
+			throw new PicletException("error downloading from request: " + request.getServletPath(), e);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class Piclet implements IPiclet {
 			return baos;
 
 		} catch (final Exception e) {
-			throw new FrijolesException("error rendering for request: " + request.getServletPath(), e);
+			throw new PicletException("error rendering for request: " + request.getServletPath(), e);
 		}
 	}
 

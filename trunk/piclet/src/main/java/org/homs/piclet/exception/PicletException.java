@@ -18,15 +18,15 @@ package org.homs.piclet.exception;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public class FrijolesException extends RuntimeException {
+public class PicletException extends RuntimeException {
 
 	private static final long serialVersionUID = 1835360421671345458L;
 
-	public FrijolesException(final String msg) {
+	public PicletException(final String msg) {
 		super(msg);
 	}
 
-	public FrijolesException(final String msg, final Throwable exc) {
+	public PicletException(final String msg, final Throwable exc) {
 		super(msg, exc);
 	}
 
