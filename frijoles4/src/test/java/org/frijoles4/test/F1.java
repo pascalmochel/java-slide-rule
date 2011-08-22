@@ -6,11 +6,6 @@ import org.frijoles4.FrijolesContext;
 import org.frijoles4.anno.Alias;
 import org.frijoles4.anno.Scope;
 import org.frijoles4.scope.impl.Prototype;
-import org.junit.Test;
-
-import java.util.Arrays;
-
-import static org.junit.Assert.*;
 
 public class F1 {
 
@@ -42,23 +37,6 @@ public class F1 {
 		r[1] = ctx.getBean("green");
 		r[2] = ctx.getBean("red");
 		return r;
-	}
-
-	@Test
-	public void testname() throws Exception {
-		final FrijolesContext f = FrijolesContext.build(F1.class);
-		assertEquals("java.awt.Color[r=0,g=0,b=255]", f.getBean("blue").toString());
-		assertEquals("java.awt.Color[r=0,g=255,b=0]", f.getBean("green").toString());
-		assertEquals("java.awt.Color[r=255,g=0,b=0]", f.getBean("red").toString());
-		assertEquals("java.awt.Color[r=1,g=2,b=3]", f.getBean("custom", 1, 2, 3).toString());
-		final Color[] colorsArray = f.getBean("colors-array");
-		assertEquals(
-				"[java.awt.Color[r=0,g=0,b=255], java.awt.Color[r=0,g=255,b=0], java.awt.Color[r=255,g=0,b=0]]",
-				Arrays.toString(colorsArray));
-
-		assertEquals(
-				"[equals={singleton}, green={prototype}, class={singleton}, wait={singleton}, notify-all={singleton}, testname={singleton}, red={singleton}, hash-code={singleton}, colors-array={prototype}, blue={singleton}, notify={singleton}, custom={singleton}, to-string={singleton}]",
-				f.toString());
 	}
 
 }
