@@ -5,8 +5,11 @@ public class AliasNotDefinedException extends FrijolesException {
 	private static final long serialVersionUID = 1L;
 
 	public AliasNotDefinedException(final String wrongAlias, final String[] aliases) {
-		super("alias not defined: : '" + wrongAlias + "'; did you mean: '"
-				+ BestDistanceAliasFinder.find(wrongAlias, aliases) + "' ?");
+		super(
+		/**/"alias not defined: : '" + wrongAlias + "'; " +
+		/**/(aliases.length == 0 ?
+		/**/"" :
+		/**/"did you mean: '" + BestDistanceAliasFinder.find(wrongAlias, aliases) + "' ?")
+		/**/);
 	}
-
 }
