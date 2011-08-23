@@ -4,9 +4,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 /**
- * Configures and provides access to Hibernate sessions, tied to the current
- * thread of execution. Follows the Thread Local Session pattern, see
- * {@link http://hibernate.org/42.html }.
+ * Configures and provides access to Hibernate sessions, tied to the current thread of execution. Follows the
+ * Thread Local Session pattern, see {@link http://hibernate.org/42.html }.
  */
 public class HibernateSessionFactory {
 
@@ -21,8 +20,7 @@ public class HibernateSessionFactory {
 	}
 
 	/**
-	 * Returns the ThreadLocal Session instance. Lazy initialize the
-	 * <code>SessionFactory</code> if needed.
+	 * Returns the ThreadLocal Session instance. Lazy initialize the <code>SessionFactory</code> if needed.
 	 * 
 	 * @return Session
 	 * @throws HibernateException

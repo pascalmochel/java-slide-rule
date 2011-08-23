@@ -34,7 +34,7 @@ public class BusinessFactory {
 	 * In order to have HSQLDB register itself, you need to access its 
 	 * jdbcDriver class. You can do this the same way as in this example.
 	 * 
-	 * Class.forName("org.hsqldb.jdbcDriver");
+	 * Class.forName(&quot;org.hsqldb.jdbcDriver&quot;);
 	 * 
 	 * It triggers static initialization of jdbcDriver class, which is:
 	 * 
@@ -71,7 +71,7 @@ public class BusinessFactory {
 	@Scope
 	public IDogBo getDogBo(final FrijolesContext ctx) {
 		final DogBo bo = new DogBo((DogDao) ctx.getBean("dog-dao"));
-		final Interceptor interceptor = ctx.getBean("transactional-interceptor");
+		final Interceptor interceptor = (Interceptor) ctx.getBean("transactional-interceptor");
 		return Intercept.with(bo, interceptor);
 	}
 

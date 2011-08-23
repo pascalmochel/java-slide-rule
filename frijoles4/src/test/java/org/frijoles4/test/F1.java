@@ -33,9 +33,9 @@ public class F1 {
 	@Scope(Prototype.class)
 	public Color[] getColorsArray(final FrijolesContext ctx) {
 		final Color[] r = new Color[3];
-		r[0] = ctx.getBean("blue");
-		r[1] = ctx.getBean("green");
-		r[2] = ctx.getBean("red");
+		r[0] = (Color) ctx.getBean("blue");
+		r[1] = (Color) ctx.getBean("green");
+		r[2] = (Color) ctx.getBean("red");
 		return r;
 	}
 

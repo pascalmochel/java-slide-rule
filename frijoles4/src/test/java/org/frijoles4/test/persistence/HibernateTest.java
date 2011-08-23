@@ -35,7 +35,7 @@ public class HibernateTest {
 		{
 			final Dog dog = new Dog(null, "chucho2");
 			assertNull(dog.getIdDog());
-			final IDogBo bo = ctx.getBean("dog-bo");
+			final IDogBo bo = (IDogBo) ctx.getBean("dog-bo");
 			bo.store(dog);
 			bo.store(dog);
 			assertNotNull(dog.getIdDog());

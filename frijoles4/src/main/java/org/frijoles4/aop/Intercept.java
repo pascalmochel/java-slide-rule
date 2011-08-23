@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 
 import org.frijoles4.exception.FrijolesException;
 
-// TODO interceptar si methodName.matches(regexp)
+// TODO interceptar si methodName.matches(regexp) ?
 public class Intercept implements InvocationHandler, Deproxable {
 
 	protected Object bean;

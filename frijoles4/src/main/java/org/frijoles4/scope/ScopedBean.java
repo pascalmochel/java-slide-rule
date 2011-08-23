@@ -20,14 +20,21 @@ public abstract class ScopedBean { // NOPMD
 
 	public static <T extends ScopedBean> T build(final String alias, final Class<T> claz,
 			final IBeanObtainer beanObtainer) {
-		Constructor<T> ctor;
 		try {
-			ctor = claz.getConstructor(String.class, IBeanObtainer.class);
+			Constructor<T> ctor = claz.getConstructor(String.class, IBeanObtainer.class);
 			return ctor.newInstance(alias, beanObtainer);
 		} catch (final Exception e) {
 			throw new FrijolesException("internal failure; " + ScopedBean.class.getName() + " has changed?",
 					e);
 		}
+	}
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public IBeanObtainer getBeanObtainer() {
+		return beanObtainer;
 	}
 
 }

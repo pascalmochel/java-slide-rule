@@ -29,8 +29,7 @@ public class Utils {
 	}
 
 	public static Set<Method> getObjectMethods() {
-		final Method[] ms = Object.class.getMethods();
-		return new HashSet<Method>(Arrays.asList(ms));
+		return new HashSet<Method>(Arrays.asList(Object.class.getMethods()));
 	}
 
 }

@@ -2,6 +2,7 @@ package org.frijoles4.test.bench;
 
 import org.frijoles4.FrijolesContext;
 import org.junit.AfterClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
@@ -14,6 +15,7 @@ import org.springframework.core.io.ClassPathResource;
  * 
  * @author mhoms
  */
+@Ignore
 public class LoadTest extends BenchMarkTest {
 
 	protected final int TEST_ITERATIONS = 20;

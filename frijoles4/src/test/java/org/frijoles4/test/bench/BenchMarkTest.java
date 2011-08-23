@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import org.frijoles4.FrijolesContext;
 import org.junit.AfterClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
@@ -18,6 +19,7 @@ import static org.junit.Assert.*;
 /**
  * @author mhoms
  */
+@Ignore
 public class BenchMarkTest {
 
 	protected static final Logger LOG = Logger.getLogger(BenchMarkTest.class.getName());
@@ -73,7 +75,7 @@ public class BenchMarkTest {
 
 		final FrijolesContext ctx = FrijolesContext.build(Frijoles4Factory.class);
 
-		final ColorsMap colorsMap = ctx.getBean("colors-map");
+		final ColorsMap colorsMap = (ColorsMap) ctx.getBean("colors-map");
 		assertColorsMap(colorsMap);
 
 		final long t1 = System.currentTimeMillis();
