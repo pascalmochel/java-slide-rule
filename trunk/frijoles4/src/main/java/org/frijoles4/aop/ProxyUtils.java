@@ -8,7 +8,7 @@ import org.frijoles4.exception.FrijolesException;
 
 public class ProxyUtils {
 
-	protected static Class<?>[] cons(final Class<?> element, final Class<?>[] array) {
+	public static Class<?>[] cons(final Class<?> element, final Class<?>[] array) {
 		final Class<?>[] r = (Class<?>[]) Array.newInstance(Class.class, array.length + 1);
 		System.arraycopy(array, 0, r, 0, array.length);
 		r[array.length] = element;

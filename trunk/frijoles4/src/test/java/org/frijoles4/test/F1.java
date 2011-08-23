@@ -9,6 +9,7 @@ import org.frijoles4.scope.impl.Prototype;
 
 public class F1 {
 
+	@Scope
 	public Color getBlue(final FrijolesContext ctx) {
 		return new Color(0, 0, 255);
 	}
@@ -19,6 +20,7 @@ public class F1 {
 	}
 
 	@Alias("red")
+	@Scope
 	public Color getRedColor(final FrijolesContext ctx) {
 		return new Color(255, 0, 0);
 	}
