@@ -16,21 +16,31 @@ public class Session extends ScopedBean {
 	@Override
 	public Object getBean(final Object... args) {
 
-		HttpSession session = null;
-		for (int i = 1; i < args.length; i++) {
-			if (args[i] instanceof HttpSession) {
-				session = (HttpSession) args[i];
-				break;
-			}
-			if (args[i] instanceof HttpServletRequest) {
-				session = ((HttpServletRequest) args[i]).getSession();
-				break;
-			}
-		}
-		if (session == null) {
+		// HttpSession session = null;
+		// for (int i = 1; i < args.length; i++) {
+		// if (args[i] instanceof HttpSession) {
+		// session = (HttpSession) args[i];
+		// break;
+		// }
+		// if (args[i] instanceof HttpServletRequest) {
+		// session = ((HttpServletRequest) args[i]).getSession();
+		// break;
+		// }
+		// }
+		// if (session == null) {
+		// throw new FrijolesException(
+		// "one of arguments invoking a request/session scoped context method must be of type "
+		// + HttpServletRequest.class + "/" + HttpSession.class);
+		// }
+		HttpSession session;
+		if (args[1] instanceof HttpSession) {
+			session = (HttpSession) args[1];
+		} else if (args[1] instanceof HttpServletRequest) {
+			session = ((HttpServletRequest) args[1]).getSession();
+		} else {
 			throw new FrijolesException(
-					"one of arguments invoking a request/session scoped context method must be of type "
-							+ HttpServletRequest.class + "/" + HttpSession.class);
+					"for this king of scoping, the secong argument of the method-factory must be a "
+							+ HttpSession.class + "/" + HttpServletRequest.class + " sublass");
 		}
 
 		// l'objecte null serà prototype

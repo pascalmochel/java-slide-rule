@@ -2,6 +2,7 @@ package org.frijoles4.exception;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Method;
 
 public class ThrowableRenderer {
 
@@ -31,6 +32,20 @@ public class ThrowableRenderer {
 			throwable = throwable.getCause();
 		}
 		strb.append('\n');
+		return strb.toString();
+	}
+
+	public static String renderFactoryMethodInfo(final Method m) {
+		final StringBuilder strb = new StringBuilder();
+		strb
+		/**/.append(m.getDeclaringClass().getName())
+		/**/.append('#')
+		/**/.append(m.getName())
+		/**/.append('(');
+		for (final Class<?> p : m.getParameterTypes()) {
+			strb.append(p.getSimpleName()).append(',');
+		}
+		strb.deleteCharAt(strb.length() - 1).append(')');
 		return strb.toString();
 	}
 

@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 import org.frijoles4.exception.FrijolesException;
+import org.frijoles4.exception.ThrowableRenderer;
 
 // TODO interceptar si methodName.matches(regexp) ?
 public class Intercept implements InvocationHandler, Deproxable {
@@ -40,7 +41,7 @@ public class Intercept implements InvocationHandler, Deproxable {
 			return interceptor.intercept(bean, method, arguments);
 		} catch (final Exception e) {
 			throw new FrijolesException("error during execution of intercepted bean method: "
-					+ method.getName(), e);
+					+ ThrowableRenderer.renderFactoryMethodInfo(method), e);
 		}
 	}
 
