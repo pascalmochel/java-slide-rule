@@ -77,6 +77,12 @@ public class FrijolesContext {
 								+ FrijolesContext.class.getName() + "; in context method: "
 								+ method.toString());
 					}
+					if (method.getParameterTypes().length > 2) {
+						throw new FrijolesException("valid method factory must have a "
+								+ getClass().getName()
+								+ " as argument, and optionally, depending of the kind of scope, "
+								+ "an HttpSession/ServletRequest as a second argument.");
+					}
 
 					final ScopedBean scopedBean = ScopedBean.build(alias, anno.value(), new BeanObtainer(
 							factory, method));
