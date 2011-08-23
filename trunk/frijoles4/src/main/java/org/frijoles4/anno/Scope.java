@@ -13,4 +13,5 @@ import org.frijoles4.scope.impl.Singleton;
 public @interface Scope {
 
 	Class<? extends ScopedBean> value() default Singleton.class;
+
 }

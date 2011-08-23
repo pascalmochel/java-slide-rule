@@ -2,17 +2,12 @@ package org.frijoles4.exception;
 
 public class BestDistanceAliasFinder {
 
-	/**
-	 * donat un idBean equivocat (no es troba dins del context), s'intenta
-	 * trobar el definit més semblant.
-	 */
-	public String find(final String wrongAlias, final String[] aliases) {
+	public static String find(final String wrongAlias, final String[] aliases) {
 
 		String bestAlias = null;
 		int bestDist = Integer.MAX_VALUE;
 
 		for (final String alias : aliases) {
-			// {
 			final int dist = computeLevenshteinDistance(wrongAlias.toLowerCase(), alias.toLowerCase());
 			if (dist < bestDist) {
 				bestAlias = alias;
@@ -22,10 +17,7 @@ public class BestDistanceAliasFinder {
 		return bestAlias;
 	}
 
-	/**
-	 * funció de mínims d'ordre 3
-	 */
-	private int minimum(final int a, final int b, final int c) {
+	protected static int minimum(final int a, final int b, final int c) {
 		if (a <= b && a <= c) {
 			return a;
 		}
@@ -35,10 +27,7 @@ public class BestDistanceAliasFinder {
 		return c;
 	}
 
-	/**
-	 * calcula la distància de Levenshtein
-	 */
-	private int computeLevenshteinDistance(final String s1, final String s2) {
+	protected static int computeLevenshteinDistance(final String s1, final String s2) {
 		final char[] str1 = s1.toCharArray();
 		final char[] str2 = s2.toCharArray();
 		final int[][] distance = new int[str1.length + 1][str2.length + 1];

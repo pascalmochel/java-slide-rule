@@ -6,7 +6,7 @@ public class AliasNotDefinedException extends FrijolesException {
 
 	public AliasNotDefinedException(final String wrongAlias, final String[] aliases) {
 		super("alias not defined: : '" + wrongAlias + "'; did you mean: '"
-				+ new BestDistanceAliasFinder().find(wrongAlias, aliases) + "' ?");
+				+ BestDistanceAliasFinder.find(wrongAlias, aliases) + "' ?");
 	}
 
 }

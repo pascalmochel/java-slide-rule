@@ -21,7 +21,7 @@ public class ProxyUtils {
 
 		final Class<?>[] interfaces = beanClass.getInterfaces();
 		if (interfaces.length == 0) {
-			throw new FrijolesException("object factory must implements almost one interface: "
+			throw new FrijolesException("object context must implements almost one interface: "
 					+ beanClass.getSimpleName());
 		}
 

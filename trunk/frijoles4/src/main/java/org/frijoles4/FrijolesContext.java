@@ -1,6 +1,11 @@
 package org.frijoles4;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.frijoles4.aliasp.AliasDecameler;
 import org.frijoles4.aliasp.IAliasProcessor;
@@ -12,11 +17,7 @@ import org.frijoles4.obtainer.BeanObtainer;
 import org.frijoles4.scope.ScopedBean;
 import org.frijoles4.scope.impl.Singleton;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
+//TODO serialitzable?
 public class FrijolesContext {
 
 	private static final Class<? extends ScopedBean> DEFAULT_SCOPE = Singleton.class;
@@ -27,28 +28,17 @@ public class FrijolesContext {
 
 	protected final Set<Method> objectsMethods;
 
-	public static FrijolesContext build(final Class<?>... factoryClasses) {
-		try {
-			return new FrijolesContext(DEFAULT_ALIAS_PROCESSOR).initialize(factoryClasses);
-		} catch (final Exception e) {
-			throw new FrijolesException("configuring factory context: " + Arrays.toString(factoryClasses), e);
-		}
-	}
-
 	public static FrijolesContext build(final IAliasProcessor aliasProcessor,
 			final Class<?>... factoryClasses) {
 		try {
 			return new FrijolesContext(aliasProcessor).initialize(factoryClasses);
 		} catch (final Exception e) {
-			throw new FrijolesException("configuring factory context: " + Arrays.toString(factoryClasses), e);
+			throw new FrijolesException("configuring context context: " + Arrays.toString(factoryClasses), e);
 		}
 	}
 
-	protected FrijolesContext() {
-		super();
-		this.beansMap = new HashMap<String, ScopedBean>();
-		this.aliasProcessor = null;
-		this.objectsMethods = Utils.getObjectMethods();
+	public static FrijolesContext build(final Class<?>... factoryClasses) {
+		return build(DEFAULT_ALIAS_PROCESSOR, factoryClasses);
 	}
 
 	protected FrijolesContext(final IAliasProcessor aliasProcessor) {
@@ -56,6 +46,10 @@ public class FrijolesContext {
 		this.beansMap = new HashMap<String, ScopedBean>();
 		this.aliasProcessor = aliasProcessor;
 		this.objectsMethods = Utils.getObjectMethods();
+	}
+
+	protected FrijolesContext() {
+		this(null);
 	}
 
 	protected FrijolesContext initialize(final Class<?>... factoryClasses) {
@@ -74,7 +68,7 @@ public class FrijolesContext {
 					// XXX i si aquest alias ja existeix?
 					if (beansMap.containsKey(alias)) {
 						throw new FrijolesException("alias " + alias
-								+ " yet defined; configuring factory method: " + method.toString());
+								+ " yet defined; configuring context method: " + method.toString());
 					}
 
 					// XXX verificar que el primer arg del mètode sigui de tipo
@@ -82,7 +76,7 @@ public class FrijolesContext {
 					if (method.getParameterTypes().length == 0
 							|| !method.getParameterTypes()[0].isAssignableFrom(FrijolesContext.class)) {
 						throw new FrijolesException("first parameter must be of type "
-								+ FrijolesContext.class.getName() + "; in factory method: "
+								+ FrijolesContext.class.getName() + "; in context method: "
 								+ method.toString());
 					}
 
@@ -92,7 +86,7 @@ public class FrijolesContext {
 					beansMap.put(alias, scopedBean);
 
 				} catch (final Exception e) {
-					throw new FrijolesException("error defining factory method: " + method.toString(), e);
+					throw new FrijolesException("error defining context method: " + method.toString(), e);
 				}
 			}
 		}
@@ -100,8 +94,8 @@ public class FrijolesContext {
 	}
 
 	protected String getAlias(final Method method) {
-		final Alias anno = method.getAnnotation(Alias.class);
 		final String alias;
+		final Alias anno = method.getAnnotation(Alias.class);
 		if (anno == null) {
 			alias = aliasProcessor.processAlias(method.getName());
 		} else {
@@ -115,20 +109,28 @@ public class FrijolesContext {
 		return anno == null ? DEFAULT_SCOPE : anno.value();
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> T getBean(final String alias, final Object... args) {
+	public Object getBean(final String alias, final Object... args) {
 		final ScopedBean scopedBean = beansMap.get(alias);
 		if (scopedBean == null) {
 			final String[] aliases = beansMap.keySet().toArray(new String[beansMap.size()]);
 			throw new AliasNotDefinedException(alias, aliases);
 		}
 		final Object[] consedArgs = Utils.cons(this, args);
-		return (T) scopedBean.getBean(consedArgs);
+		return scopedBean.getBean(consedArgs);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T getBean(Class<T> resultingType, final String alias, final Object... args) {
+		return (T) getBean(alias, args);
 	}
 
 	@Override
 	public String toString() {
-		return beansMap.values().toString();
+		final Set<String> m = new TreeSet<String>();
+		for (final ScopedBean h : beansMap.values()) {
+			m.add(h.toString());
+		}
+		return m.toString();
 	}
 
 }

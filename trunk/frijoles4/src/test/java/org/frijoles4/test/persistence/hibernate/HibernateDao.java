@@ -16,8 +16,8 @@ import org.hibernate.criterion.Order;
 import java.util.List;
 
 /**
- * Classe genèrica que implementa les funcions DAO més tipiques que es puguin
- * necessitar per a desenvolupar un CRUD
+ * Classe genèrica que implementa les funcions DAO més tipiques que es puguin necessitar per a desenvolupar un
+ * CRUD
  * 
  * @author jfabre
  * @param <T> Tipus de dada de la entitat
@@ -57,9 +57,9 @@ public class HibernateDao<T, TID extends Serializable> {
 		return findByCriteria(orderPredicate);
 	}
 
-	protected List findByCriteria(final Criterion... criterion) {
+	protected List findByCriteria(final Criterion... criterions) {
 		final Criteria crit = HibernateSessionFactory.getSession().createCriteria(getPersistentClass());
-		for (final Criterion c : criterion) {
+		for (final Criterion c : criterions) {
 			if (c != null) {
 				crit.add(c);
 			}

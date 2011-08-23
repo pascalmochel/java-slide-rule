@@ -24,7 +24,7 @@ public class Request extends ScopedBean {
 		}
 		if (req == null) {
 			throw new FrijolesException(
-					"one of arguments invoking a request/session scoped factory method must be of type "
+					"one of arguments invoking a request/session scoped context method must be of type "
 							+ ServletRequest.class);
 		}
 
