@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.frijoles4.exception.FrijolesException;
+import org.frijoles4.exception.ThrowableRenderer;
 
 public class BeanObtainer implements IBeanObtainer {
 
@@ -20,10 +21,11 @@ public class BeanObtainer implements IBeanObtainer {
 		try {
 			return factoryMethod.invoke(factoryObject, args);
 		} catch (final InvocationTargetException e) {
-			throw new FrijolesException("error invoking a method context: " + factoryMethod.toString(), e
-					.getCause());
+			throw new FrijolesException("error invoking a method context: "
+					+ ThrowableRenderer.renderFactoryMethodInfo(factoryMethod), e.getCause());
 		} catch (final Exception e) {
-			throw new FrijolesException("error invoking a method context: " + factoryMethod.toString(), e);
+			throw new FrijolesException("error invoking a method context: "
+					+ ThrowableRenderer.renderFactoryMethodInfo(factoryMethod), e);
 		}
 	}
 

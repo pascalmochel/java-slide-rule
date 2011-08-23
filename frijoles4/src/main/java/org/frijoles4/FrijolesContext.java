@@ -8,6 +8,7 @@ import org.frijoles4.anno.Alias;
 import org.frijoles4.anno.Scope;
 import org.frijoles4.exception.AliasNotDefinedException;
 import org.frijoles4.exception.FrijolesException;
+import org.frijoles4.exception.ThrowableRenderer;
 import org.frijoles4.obtainer.BeanObtainer;
 import org.frijoles4.scope.ScopedBean;
 
@@ -30,7 +31,8 @@ public class FrijolesContext {
 		try {
 			return new FrijolesContext(aliasProcessor).initialize(factoryClasses);
 		} catch (final Exception e) {
-			throw new FrijolesException("configuring context context: " + Arrays.toString(factoryClasses), e);
+			throw new FrijolesException("configuring context with factories: "
+					+ Arrays.toString(factoryClasses), e);
 		}
 	}
 
@@ -82,7 +84,8 @@ public class FrijolesContext {
 					beansMap.put(alias, scopedBean);
 
 				} catch (final Exception e) {
-					throw new FrijolesException("error defining context method: " + method.toString(), e);
+					throw new FrijolesException("error defining context method: "
+							+ ThrowableRenderer.renderFactoryMethodInfo(method), e);
 				}
 			}
 		}

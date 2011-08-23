@@ -15,19 +15,24 @@ public class Request extends ScopedBean {
 	@Override
 	public Object getBean(final Object... args) {
 
-		ServletRequest req = null;
-		for (int i = 1; i < args.length; i++) {
-			if (args[i] instanceof ServletRequest) {
-				req = (ServletRequest) args[i];
-				break;
-			}
-		}
-		if (req == null) {
+		// ServletRequest req = null;
+		// for (int i = 1; i < args.length; i++) {
+		// if (args[i] instanceof ServletRequest) {
+		// req = (ServletRequest) args[i];
+		// break;
+		// }
+		// }
+		// if (req == null) {
+		// throw new FrijolesException(
+		// "one of arguments invoking a request/session scoped context method must be of type "
+		// + ServletRequest.class);
+		// }
+		if (!(args[1] instanceof ServletRequest)) {
 			throw new FrijolesException(
-					"one of arguments invoking a request/session scoped context method must be of type "
-							+ ServletRequest.class);
+					"for this king of scoping, the secong argument of the method-factory must be a "
+							+ ServletRequest.class + " sublass");
 		}
-
+		final ServletRequest req = (ServletRequest) args[1];
 		// l'objecte null serà prototype
 		if (req.getAttribute(alias) == null) {
 			final Object bean = beanObtainer.obtain(args);

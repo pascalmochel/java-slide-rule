@@ -18,7 +18,7 @@ public class Utils {
 		try {
 			r = claz.newInstance();
 		} catch (final Exception e) {
-			throw new FrijolesException("cannot instantiate " + claz.toString(), e);
+			throw new FrijolesException("cannot instantiate " + claz.getName(), e);
 		}
 		return r;
 	}
