@@ -16,8 +16,9 @@ public class ExceptionTest {
 			ctx.getBean("age");
 		} catch (final FrijolesException e) {
 			assertEquals(
-			/**/"AliasNotDefinedException: alias not defined: : 'age'; did you mean: 'null' ?\n",
-			/**/e.getBriefListTrace());
+					/**/"FrijolesException: error invoking a method context: public java.lang.Integer org.frijoles4.exception.ExceptionFactory.age(org.frijoles4.FrijolesContext);\n"
+							/**/+ "[cause is:] NullPointerException: jou\n",
+					/**/e.getBriefListTrace());
 		}
 	}
 
