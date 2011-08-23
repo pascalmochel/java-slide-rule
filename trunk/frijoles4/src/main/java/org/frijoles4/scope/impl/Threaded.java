@@ -3,7 +3,7 @@ package org.frijoles4.scope.impl;
 import org.frijoles4.obtainer.IBeanObtainer;
 import org.frijoles4.scope.ScopedBean;
 
-public class Thread extends ScopedBean {
+public class Threaded extends ScopedBean {
 
 	protected ThreadLocal<Boolean> initializated = new ThreadLocal<Boolean>() {
 		@Override
@@ -13,7 +13,7 @@ public class Thread extends ScopedBean {
 	};
 	protected final ThreadLocal<Singleton> threadBean;
 
-	public Thread(final String alias, final IBeanObtainer beanObtainer) {
+	public Threaded(final String alias, final IBeanObtainer beanObtainer) {
 		super(alias, beanObtainer);
 		this.threadBean = new ThreadLocal<Singleton>() {
 			@Override

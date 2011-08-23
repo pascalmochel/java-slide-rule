@@ -109,19 +109,35 @@ public class FrijolesContext {
 		return alias;
 	}
 
-	public Object getBean(final String alias, final Object... args) {
+	public Object getBean(final String alias) {
 		final ScopedBean scopedBean = beansMap.get(alias);
 		if (scopedBean == null) {
 			final String[] aliases = beansMap.keySet().toArray(new String[beansMap.size()]);
 			throw new AliasNotDefinedException(alias, aliases);
 		}
-		final Object[] consedArgs = Utils.cons(this, args);
+		// final Object[] consedArgs = Utils.cons(this, args);
+		final Object[] consedArgs = new Object[] { this };
 		return scopedBean.getBean(consedArgs);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T getBean(final Class<T> resultingType, final String alias, final Object... args) {
-		return (T) getBean(alias, args);
+	public <T> T getBean(final Class<T> resultingType, final String alias) {
+		return (T) getBean(alias);
+	}
+
+	public Object getBean(final String alias, final Object optionalHttpArg) {
+		final ScopedBean scopedBean = beansMap.get(alias);
+		if (scopedBean == null) {
+			final String[] aliases = beansMap.keySet().toArray(new String[beansMap.size()]);
+			throw new AliasNotDefinedException(alias, aliases);
+		}
+		final Object[] consedArgs = Utils.cons(this, new Object[] { optionalHttpArg });
+		return scopedBean.getBean(consedArgs);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T getBean(final Class<T> resultingType, final String alias, final Object optionalHttpArg) {
+		return (T) getBean(alias, optionalHttpArg);
 	}
 
 	@Override
