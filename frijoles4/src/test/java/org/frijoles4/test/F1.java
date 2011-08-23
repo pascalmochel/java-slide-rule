@@ -27,8 +27,8 @@ public class F1 {
 
 	@Alias("custom")
 	@Scope
-	public Color getCustomColor(final FrijolesContext ctx, final int r, final int g, final int b) {
-		return new Color(r, g, b);
+	public Color getCustomColor(final FrijolesContext ctx) {
+		return new Color(1, 2, 3);
 	}
 
 	@Alias("colors-array")
