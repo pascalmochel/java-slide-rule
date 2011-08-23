@@ -1,4 +1,4 @@
-package org.frijoles4.test.exception;
+package org.frijoles4.exception;
 
 import org.frijoles4.FrijolesContext;
 import org.frijoles4.test.F1;

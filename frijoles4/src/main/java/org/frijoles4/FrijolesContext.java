@@ -1,11 +1,6 @@
 package org.frijoles4;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.frijoles4.aliasp.AliasDecameler;
 import org.frijoles4.aliasp.IAliasProcessor;
@@ -15,18 +10,20 @@ import org.frijoles4.exception.AliasNotDefinedException;
 import org.frijoles4.exception.FrijolesException;
 import org.frijoles4.obtainer.BeanObtainer;
 import org.frijoles4.scope.ScopedBean;
-import org.frijoles4.scope.impl.Singleton;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 //TODO serialitzable?
 public class FrijolesContext {
 
-	private static final Class<? extends ScopedBean> DEFAULT_SCOPE = Singleton.class;
 	private static final IAliasProcessor DEFAULT_ALIAS_PROCESSOR = new AliasDecameler();
 
 	protected final Map<String, ScopedBean> beansMap;
 	protected final IAliasProcessor aliasProcessor;
-
-	protected final Set<Method> objectsMethods;
 
 	public static FrijolesContext build(final IAliasProcessor aliasProcessor,
 			final Class<?>... factoryClasses) {
@@ -45,7 +42,6 @@ public class FrijolesContext {
 		super();
 		this.beansMap = new HashMap<String, ScopedBean>();
 		this.aliasProcessor = aliasProcessor;
-		this.objectsMethods = Utils.getObjectMethods();
 	}
 
 	protected FrijolesContext() {
@@ -59,8 +55,8 @@ public class FrijolesContext {
 
 				try {
 
-					// XXX descartar mètodes de Object
-					if (objectsMethods.contains(method)) {
+					final Scope anno = method.getAnnotation(Scope.class);
+					if (anno == null) {
 						continue;
 					}
 
@@ -80,8 +76,8 @@ public class FrijolesContext {
 								+ method.toString());
 					}
 
-					final ScopedBean scopedBean = ScopedBean.build(alias, getScopeType(method),
-							new BeanObtainer(factory, method));
+					final ScopedBean scopedBean = ScopedBean.build(alias, anno.value(), new BeanObtainer(
+							factory, method));
 
 					beansMap.put(alias, scopedBean);
 
@@ -104,11 +100,6 @@ public class FrijolesContext {
 		return alias;
 	}
 
-	protected Class<? extends ScopedBean> getScopeType(final Method method) {
-		final Scope anno = method.getAnnotation(Scope.class);
-		return anno == null ? DEFAULT_SCOPE : anno.value();
-	}
-
 	public Object getBean(final String alias, final Object... args) {
 		final ScopedBean scopedBean = beansMap.get(alias);
 		if (scopedBean == null) {
@@ -120,7 +111,7 @@ public class FrijolesContext {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T getBean(Class<T> resultingType, final String alias, final Object... args) {
+	public <T> T getBean(final Class<T> resultingType, final String alias, final Object... args) {
 		return (T) getBean(alias, args);
 	}
 
