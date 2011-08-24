@@ -1,7 +1,7 @@
 package org.frijoles4.test.persistence;
 
 import org.frijoles4.FrijolesContext;
-import org.frijoles4.test.persistence.hibernate.HibernateSessionFactory;
+import org.frijoles4.hibernate.HibernateSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.Test;
