@@ -4,9 +4,9 @@ import org.frijoles4.FrijolesContext;
 import org.frijoles4.anno.Scope;
 import org.frijoles4.aop.Intercept;
 import org.frijoles4.aop.Interceptor;
+import org.frijoles4.hibernate.HibernateSessionFactory;
+import org.frijoles4.hibernate.TransactionalInterceptor;
 import org.frijoles4.properties.PropertiesLoader;
-import org.frijoles4.test.persistence.hibernate.HibernateSessionFactory;
-import org.frijoles4.test.persistence.hibernate.TransactionalInterceptor;
 import org.hibernate.cfg.Configuration;
 
 import java.util.Properties;

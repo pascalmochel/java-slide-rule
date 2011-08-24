@@ -1,4 +1,4 @@
-package org.frijoles4.test.persistence.hibernate;
+package org.frijoles4.hibernate;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
