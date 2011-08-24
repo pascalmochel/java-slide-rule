@@ -75,7 +75,7 @@ public class FrijolesContext {
 							|| !method.getParameterTypes()[0].isAssignableFrom(FrijolesContext.class)) {
 						throw new FrijolesException("first parameter must be of type "
 								+ FrijolesContext.class.getName() + "; in context method: "
-								+ method.toString());
+								+ ThrowableRenderer.renderFactoryMethodInfo(method));
 					}
 					if (method.getParameterTypes().length > 2) {
 						throw new FrijolesException("valid method factory must have a "
