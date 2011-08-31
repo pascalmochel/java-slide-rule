@@ -25,22 +25,13 @@ public class QueryObject {
 		return this;
 	}
 
-	// public QueryObject append(final String s, final Object... os) {
-	// appendQuery(s);
-	// appendParams(os);
-	// return this;
-	// }
-	//
-	// public QueryObject append(final List<Object> os) {
-	// params.addAll(os);
-	// return this;
-	// }
-	//
-	// public QueryObject append(final String s, final List<Object> os) {
-	// appendQuery(s);
-	// appendParams(os);
-	// return this;
-	// }
+	public QueryObject append(final QueryObject query) {
+		this.query.append(query.getQuery());
+		for (final Object o : query.getParams()) {
+			this.params.add(o);
+		}
+		return this;
+	}
 
 	public String getQuery() {
 		return query.toString();

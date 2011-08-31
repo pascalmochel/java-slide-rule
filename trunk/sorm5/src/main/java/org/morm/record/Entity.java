@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.morm.Utils;
-import org.morm.criteria.interf.Value0;
+import org.morm.criteria.interf.Criterion;
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
 import org.morm.record.field.Field;
@@ -88,21 +88,16 @@ public class Entity {
 		return (T) DataMapper.queryUnique(mapper, query.getQuery(), query.getParams());
 	}
 
-	//
-	// @SuppressWarnings("unchecked")
-	// public <T extends Entity> T loadById(final Object id, final Value0
-	// criterion) {
-	// final QueryObject query = new QueryObject()
-	// /**/.append("SELECT * FROM ")
-	// /**/.append(tableName)
-	// /**/.append(" WHERE ")
-	// /**/.append(idField.getColumnName())
-	// /**/.append("=?")
-	// /**/.addParams(id)
-	// /**/;
-	// return (T) DataMapper.queryUnique(mapper, query.getQuery(),
-	// query.getParams());
-	// }
+	@SuppressWarnings("unchecked")
+	public <T extends Entity> List<T> loadBy(final Object id, final Criterion criterion) {
+		final QueryObject query = new QueryObject()
+		/**/.append("SELECT * FROM ")
+		/**/.append(tableName)
+		/**/.append(" WHERE ")
+		/**/.append(criterion.renderSql())
+		/**/;
+		return (List<T>) DataMapper.query(mapper, query.getQuery(), query.getParams());
+	}
 
 	@SuppressWarnings("unchecked")
 	public <T extends Entity> List<T> loadAll() {
