@@ -7,26 +7,26 @@ public interface ISession {
 	/**
 	 * @see org.morm.session.ISession#beginTransaction()
 	 */
-	public abstract Connection beginTransaction();
+	Connection beginTransaction();
 
 	/**
 	 * @see org.morm.session.ISession#getConnection()
 	 */
-	public abstract Connection getConnection();
+	Connection getConnection();
 
 	/**
 	 * @see org.morm.session.ISession#commit()
 	 */
-	public abstract void commit();
+	void commit();
 
 	/**
 	 * @see org.morm.session.ISession#rollback()
 	 */
-	public abstract void rollback();
+	void rollback();
 
 	/**
 	 * @see org.morm.session.ISession#isTransactionActive()
 	 */
-	public abstract boolean isTransactionActive();
+	boolean isTransactionActive();
 
 }

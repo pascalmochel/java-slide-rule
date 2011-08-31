@@ -5,9 +5,12 @@ import java.util.Map;
 
 public class EntityHolder {
 
+	private EntityHolder() {
+	}
+
 	protected static ThreadLocal<Map<Class<Entity>, Entity>> instancesLookup = new ThreadLocal<Map<Class<Entity>, Entity>>() {
 		@Override
-		protected HashMap<Class<Entity>, Entity> initialValue() {
+		protected Map<Class<Entity>, Entity> initialValue() {
 			return new HashMap<Class<Entity>, Entity>();
 		};
 	};

@@ -7,6 +7,10 @@ import org.morm.record.field.FieldDef;
 
 public class Criteria {
 
+	private Criteria() {
+
+	}
+
 	public static <T> Criterion eq(final FieldDef<T> field, final T value) {
 		return new ColumnToValueRestriction(field.getColumnName(), "=", value);
 	}

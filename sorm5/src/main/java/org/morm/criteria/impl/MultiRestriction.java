@@ -5,13 +5,13 @@ import org.morm.record.query.QueryObject;
 
 public class MultiRestriction implements Criterion {
 
-	String op;
-	Criterion[] abstractRs;
+	protected final String op;
+	protected final Criterion[] abstractRs;
 
 	public MultiRestriction(final String op, final Criterion[] abstractRs) {
 		super();
 		this.op = op;
-		this.abstractRs = abstractRs;
+		this.abstractRs = abstractRs.clone();
 	}
 
 	public QueryObject renderSql() {
