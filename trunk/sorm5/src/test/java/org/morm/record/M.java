@@ -4,8 +4,9 @@ import org.junit.Test;
 import org.morm.datasource.HsqldbDataSourceFactory;
 import org.morm.mapper.DataMapper;
 import org.morm.session.SessionFactory;
+
 import static org.junit.Assert.*;
-import static org.morm.criteria.FieldRestrictions.*;
+import static org.morm.criteria.Criteria.*;
 
 public class M {
 

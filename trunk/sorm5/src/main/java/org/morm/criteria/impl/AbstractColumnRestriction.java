@@ -1,6 +1,7 @@
 package org.morm.criteria.impl;
 
-import org.morm.criteria.interf.Criterion;
+import org.morm.criteria.Criterion;
+
 
 public abstract class AbstractColumnRestriction implements Criterion {
 
