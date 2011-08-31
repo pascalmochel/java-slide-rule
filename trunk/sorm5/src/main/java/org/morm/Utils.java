@@ -6,6 +6,9 @@ import java.util.Collection;
 
 public class Utils {
 
+	private Utils() {
+	}
+
 	public static String columnNamesJoin(final Collection<Field<?>> fields) {
 
 		final StringBuilder r = new StringBuilder();
