@@ -1,5 +1,7 @@
 package org.morm.criteria.impl;
 
+import org.morm.record.query.QueryObject;
+
 public class ColumnToColumnRestriction extends AbstractColumnRestriction {
 
 	protected final String aliasTable1;
@@ -14,13 +16,16 @@ public class ColumnToColumnRestriction extends AbstractColumnRestriction {
 		this.column2 = column2;
 	}
 
-	public String renderSql() {
-		return aliasTable1 + "." + column + op + aliasTable2 + "." + column2;
-	}
-
-	@Override
-	public String toString() {
-		return renderSql();
+	public QueryObject renderSql() {
+		return new QueryObject()
+		/**/.append(aliasTable1)
+		/**/.append(".")
+		/**/.append(column)
+		/**/.append(op)
+		/**/.append(aliasTable2)
+		/**/.append(".")
+		/**/.append(column2)
+		/**/;
 	}
 
 }

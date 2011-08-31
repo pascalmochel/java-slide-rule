@@ -1,47 +1,55 @@
 package org.morm.criteria.impl;
 
-import org.morm.criteria.interf.Value0;
-import org.morm.criteria.interf.Value1;
-import org.morm.criteria.interf.ValueN;
+import org.morm.criteria.interf.Criterion;
+import org.morm.record.query.QueryObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MultiRestriction implements ValueN {
+public class MultiRestriction implements Criterion {
 
 	String op;
-	Value0[] abstractRs;
+	Criterion[] abstractRs;
 
-	public MultiRestriction(final String op, final Value0[] abstractRs) {
+	public MultiRestriction(final String op, final Criterion[] abstractRs) {
 		super();
 		this.op = op;
 		this.abstractRs = abstractRs;
 	}
 
-	public String renderSql() {
-		final StringBuilder s = new StringBuilder().append('(');
-		for (final Value0 r : abstractRs) {
-			s.append(r.renderSql()).append(op);
-		}
-		s.delete(s.length() - op.length(), s.length()).append(')');
-		return s.toString();
-	}
-
-	public List<Object> getValues() {
-		final List<Object> r = new ArrayList<Object>();
-		for (final Value0 a : abstractRs) {
-			if (a instanceof Value1) {
-				r.add(((Value1) a).getValue());
-			} else if (a instanceof ValueN) {
-				r.addAll(((ValueN) a).getValues());
+	public QueryObject renderSql() {
+		final QueryObject r = new QueryObject().append("(");
+		for (int i = 0; i < abstractRs.length; i++) {
+			r.append(abstractRs[i].renderSql());
+			if (i < abstractRs.length - 1) {
+				r.append(op);
 			}
 		}
+		r.append(")");
 		return r;
 	}
 
-	@Override
-	public String toString() {
-		return renderSql() + " -- " + getValues().toString();
-	}
+	// public String renderSql() {
+	// final StringBuilder s = new StringBuilder().append('(');
+	// for (final Value0 r : abstractRs) {
+	// s.append(r.renderSql()).append(op);
+	// }
+	// s.delete(s.length() - op.length(), s.length()).append(')');
+	// return s.toString();
+	// }
+	//
+	// public List<Object> getValues() {
+	// final List<Object> r = new ArrayList<Object>();
+	// for (final Value0 a : abstractRs) {
+	// if (a instanceof Value1) {
+	// r.add(((Value1) a).getValue());
+	// } else if (a instanceof ValueN) {
+	// r.addAll(((ValueN) a).getValues());
+	// }
+	// }
+	// return r;
+	// }
+	//
+	// @Override
+	// public String toString() {
+	// return renderSql() + " -- " + getValues().toString();
+	// }
 
 }

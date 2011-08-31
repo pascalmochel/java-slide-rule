@@ -1,8 +1,9 @@
 package org.morm.criteria.impl;
 
-import org.morm.criteria.interf.Value1;
+import org.morm.criteria.interf.Criterion;
+import org.morm.record.query.QueryObject;
 
-public class ColumnToValueRestriction extends AbstractColumnRestriction implements Value1 {
+public class ColumnToValueRestriction extends AbstractColumnRestriction implements Criterion {
 
 	protected final Object value;
 
@@ -11,17 +12,17 @@ public class ColumnToValueRestriction extends AbstractColumnRestriction implemen
 		this.value = value;
 	}
 
-	public String renderSql() {
-		return column + op + "?";
+	public QueryObject renderSql() {
+		return new QueryObject()
+		/**/.append(column)
+		/**/.append(op)
+		/**/.append("?")
+		/**/.addParams(value)
+		/**/;
 	}
 
 	public Object getValue() {
 		return value;
-	}
-
-	@Override
-	public String toString() {
-		return renderSql() + " -- " + getValue().toString();
 	}
 
 }
