@@ -16,8 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import static org.morm.criteria.FieldRestrictions.*;
-
 public class Entity {
 
 	protected final TableMapper mapper;
@@ -57,14 +55,6 @@ public class Entity {
 		final Field<T> self = (Field<T>) fields.get(fieldDef.getColumnName());
 		return self.getValue();
 	}
-
-	// public static <T extends Entity> T of(final Class<T> entityClass) {
-	// try {
-	// return entityClass.newInstance();
-	// } catch (final Exception e) {
-	// throw new RuntimeException(e);
-	// }
-	// }
 
 	public List<Field<?>> getFields() {
 		return new ArrayList<Field<?>>(fields.values());
@@ -136,6 +126,30 @@ public class Entity {
 		DataMapper.update(query.getQuery(), query.getParams());
 	}
 
+	// public void update(final Criterion criterion, final Field<?>... fields) {
+	// final QueryObject query = new QueryObject()
+	// /**/.append("UPDATE ")
+	// /**/.append(tableName)
+	// /**/.append(" SET ");
+	//
+	// for (int i = 0; i < fields.length; i++) {
+	// query
+	// /**/.append(fields[i].getColumnName())
+	// /**/.append("=?")
+	// /**/.addParams(fields[i].getValue())
+	// /**/;
+	// if (i < fields.length - 1) {
+	// query.append(",");
+	// }
+	// }
+	//
+	// query
+	// /**/.append(" WHERE ")
+	// /**/.append(criterion.renderSql())
+	// /**/;
+	// DataMapper.update(query.getQuery(), query.getParams());
+	// }
+
 	class TableMapper implements IRowMapper<Entity> {
 
 		protected Class<? extends Entity> tableClass;
@@ -147,7 +161,6 @@ public class Entity {
 		public Entity mapRow(final ResultSet rs) throws SQLException {
 			try {
 				final Entity r = EntityHolder.getInstance(tableClass);
-				// final Entity r = Entity.of(tableClass);
 				for (final Field<?> f : r.getFields()) {
 					f.load(rs);
 				}
