@@ -3,9 +3,6 @@ package org.morm.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.morm.mapper.DataMapper;
-import org.morm.mapper.IRowMapper;
-
 import java.util.List;
 
 public class Dog implements IRowMapper<Dog> {

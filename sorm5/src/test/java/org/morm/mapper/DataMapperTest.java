@@ -2,7 +2,6 @@ package org.morm.mapper;
 
 import org.junit.Test;
 import org.morm.datasource.HsqldbDataSourceFactory;
-import org.morm.mapper.DataMapper;
 import org.morm.session.SessionFactory;
 
 import static org.junit.Assert.*;

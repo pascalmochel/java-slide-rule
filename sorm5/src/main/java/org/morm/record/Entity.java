@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.morm.Utils;
-import org.morm.criteria.interf.Criterion;
+import org.morm.criteria.Criterion;
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
 import org.morm.record.field.Field;

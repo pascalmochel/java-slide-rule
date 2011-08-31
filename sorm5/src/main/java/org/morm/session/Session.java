@@ -63,7 +63,8 @@ public class Session implements ISession {
 
 	public Connection getConnection() {
 		if (connection == null) {
-			// throw new RuntimeException("business operation are ocurred outside of a transaction bounds");
+			// throw new
+			// RuntimeException("business operation are ocurred outside of a transaction bounds");
 			return beginTransaction();
 		}
 		return connection;

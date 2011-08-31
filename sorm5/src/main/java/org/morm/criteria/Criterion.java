@@ -1,4 +1,4 @@
-package org.morm.criteria.interf;
+package org.morm.criteria;
 
 import org.morm.record.query.QueryObject;
 
