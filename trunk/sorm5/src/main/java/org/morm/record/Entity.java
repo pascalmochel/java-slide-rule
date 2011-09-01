@@ -17,6 +17,27 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <pre>
+ * 
+ * Dog 1-----* Rabbits
+ * 
+ * 
+ * 
+ * Dog.List<Rabbit> = SELECT * FROM RABBIT WHERE ID_DOG=$dog.idDog
+ * 
+ * 	tableNameOf(Rabbit.class)
+ *  foreignOf(RABBIT).toPkOf(DOG)
+ * 
+ * 
+ * Rabbit.Dog = SELECT 1 FROM DOG WHERE ID_DOG=rabbit.idDog
+ * 
+ * 	tableNameOf(Dog.class)
+ *  pkOf(DOG).toFkOf(RABBIT)
+ * 
+ * 
+ * </pre>
+ */
 public class Entity {
 
 	private String tableName;

@@ -45,7 +45,7 @@ public class DummyKeyGenerator<T> extends IdentityKeyGenerator<T> {
 
 	@Override
 	public IdentityKeyGenerator<T> doCloneId() {
-		return new DummyKeyGenerator<T>(fieldMeta);
+		return new DummyKeyGenerator<T>(fieldMeta.doClone());
 	}
 
 }
