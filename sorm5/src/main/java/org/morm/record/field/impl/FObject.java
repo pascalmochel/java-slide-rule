@@ -14,7 +14,7 @@ public class FObject extends Field<Object> {
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		Object v = rs.getObject(getColumnName());
+		final Object v = rs.getObject(getColumnName());
 		setValue(v);
 	}
 

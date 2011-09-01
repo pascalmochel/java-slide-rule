@@ -14,7 +14,7 @@ public class FByte extends Field<Byte> {
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		Byte v = rs.getObject(getColumnName()) != null ? rs.getByte(getColumnName()) : null;
+		final Byte v = rs.getObject(getColumnName()) != null ? rs.getByte(getColumnName()) : null;
 		setValue(v);
 	}
 

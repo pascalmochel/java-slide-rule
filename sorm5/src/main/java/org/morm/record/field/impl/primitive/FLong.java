@@ -14,7 +14,7 @@ public class FLong extends Field<Long> {
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		Long v = rs.getObject(getColumnName()) != null ? rs.getLong(getColumnName()) : null;
+		final Long v = rs.getObject(getColumnName()) != null ? rs.getLong(getColumnName()) : null;
 		setValue(v);
 	}
 

@@ -13,7 +13,7 @@ public class OrderBy implements Criterion {
 	protected FieldDef<?>[] fields;
 	protected String byOrder;
 
-	public OrderBy(FieldDef<?>[] fields, String byOrder) {
+	public OrderBy(final FieldDef<?>[] fields, final String byOrder) {
 		super();
 		this.fields = fields.clone();
 		this.byOrder = byOrder;

@@ -4,10 +4,6 @@ package org.morm.record;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.morm.criteria.Criteria;
 import org.morm.criteria.Criterion;
@@ -15,6 +11,11 @@ import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
 import org.morm.record.field.Field;
 import org.morm.record.field.FieldDef;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Entity {
 
@@ -32,7 +33,7 @@ public class Entity {
 		this.tableName = getClass().getSimpleName().toUpperCase();
 	}
 
-	protected void setTableName(String tableName) {
+	protected void setTableName(final String tableName) {
 		this.tableName = tableName;
 	}
 
@@ -84,7 +85,7 @@ public class Entity {
 
 	@SuppressWarnings("unchecked")
 	public <T extends Entity> List<T> loadBy(final Criterion... criterions) {
-		Criterion cs = Criteria.concate(criterions);
+		final Criterion cs = Criteria.concate(criterions);
 		final QueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(tableName)

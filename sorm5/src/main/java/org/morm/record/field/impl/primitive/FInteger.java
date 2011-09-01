@@ -14,7 +14,7 @@ public class FInteger extends Field<Integer> {
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		Integer v = rs.getObject(getColumnName()) != null ? rs.getInt(getColumnName()) : null;
+		final Integer v = rs.getObject(getColumnName()) != null ? rs.getInt(getColumnName()) : null;
 		setValue(v);
 	}
 

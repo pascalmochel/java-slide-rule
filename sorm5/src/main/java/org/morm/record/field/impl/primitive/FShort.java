@@ -1,4 +1,4 @@
-package org.morm.record.field.impl;
+package org.morm.record.field.impl.primitive;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,25 +6,26 @@ import java.sql.SQLException;
 
 import org.morm.record.field.Field;
 
-public class FInteger extends Field<Integer> {
+public class FShort extends Field<Short> {
 
-	public FInteger(final String columnName) {
+	public FShort(final String columnName) {
 		super(columnName);
 	}
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		setValue(rs.getInt(getColumnName()));
+		final Short v = rs.getObject(getColumnName()) != null ? rs.getShort(getColumnName()) : null;
+		setValue(v);
 	}
 
 	@Override
 	public void store(final PreparedStatement pstm, final int index) throws SQLException {
-		pstm.setInt(index, getValue());
+		pstm.setShort(index, getValue());
 	}
 
 	@Override
-	public Field<Integer> doClone() {
-		return new FInteger(getColumnName());
+	public Field<Short> doClone() {
+		return new FShort(getColumnName());
 	}
 
 }

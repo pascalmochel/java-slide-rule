@@ -14,7 +14,7 @@ public class FDouble extends Field<Double> {
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		Double v = rs.getObject(getColumnName()) != null ? rs.getDouble(getColumnName()) : null;
+		final Double v = rs.getObject(getColumnName()) != null ? rs.getDouble(getColumnName()) : null;
 		setValue(v);
 	}
 

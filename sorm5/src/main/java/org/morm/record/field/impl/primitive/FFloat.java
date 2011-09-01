@@ -14,7 +14,7 @@ public class FFloat extends Field<Float> {
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		Float v = rs.getObject(getColumnName()) != null ? rs.getFloat(getColumnName()) : null;
+		final Float v = rs.getObject(getColumnName()) != null ? rs.getFloat(getColumnName()) : null;
 		setValue(v);
 	}
 

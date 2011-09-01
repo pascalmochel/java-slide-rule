@@ -14,7 +14,7 @@ public class FByteArray extends Field<byte[]> {
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		byte[] v = rs.getObject(getColumnName()) != null ? rs.getBytes(getColumnName()) : null;
+		final byte[] v = rs.getObject(getColumnName()) != null ? rs.getBytes(getColumnName()) : null;
 		setValue(v);
 	}
 

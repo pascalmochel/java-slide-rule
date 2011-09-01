@@ -55,7 +55,7 @@ public class M {
 			System.out.println(X.count(eq(Rabbit.id, 5)));
 
 			rabbit.delete();
-			System.out.println(X.loadAll());
+			System.out.println(Rabbit.findAll());
 			SessionFactory.getCurrentSession().rollback();
 		}
 		{

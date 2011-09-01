@@ -15,7 +15,7 @@ public class FTimestamp extends Field<Timestamp> {
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		Timestamp v = rs.getObject(getColumnName()) != null ? rs.getTimestamp(getColumnName()) : null;
+		final Timestamp v = rs.getObject(getColumnName()) != null ? rs.getTimestamp(getColumnName()) : null;
 		setValue(v);
 	}
 

@@ -1,9 +1,8 @@
 package org.morm.criteria.impl;
 
-import org.morm.criteria.Criterion;
 import org.morm.record.QueryObject;
 
-public class ColumnToValueRestriction extends AbstractColumnRestriction implements Criterion {
+public class ColumnToValueRestriction extends AbstractColumnRestriction {
 
 	protected final Object value;
 

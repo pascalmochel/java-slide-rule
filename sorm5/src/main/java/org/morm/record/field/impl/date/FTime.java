@@ -15,7 +15,7 @@ public class FTime extends Field<Time> {
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		Time v = rs.getObject(getColumnName()) != null ? rs.getTime(getColumnName()) : null;
+		final Time v = rs.getObject(getColumnName()) != null ? rs.getTime(getColumnName()) : null;
 		setValue(v);
 	}
 
