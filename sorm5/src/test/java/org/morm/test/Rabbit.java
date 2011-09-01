@@ -1,6 +1,7 @@
-package org.morm.record;
+package org.morm.test;
 
 import org.morm.criteria.Criterion;
+import org.morm.record.Entity;
 import org.morm.record.field.impl.FString;
 import org.morm.record.field.impl.primitive.FInteger;
 import org.morm.record.identity.IdentityKeyGenerator;

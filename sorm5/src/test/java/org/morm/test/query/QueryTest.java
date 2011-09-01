@@ -1,3 +1,4 @@
+package org.morm.test.query;
 //package org.morm.record.query;
 //
 //import org.junit.Test;
