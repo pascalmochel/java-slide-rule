@@ -1,4 +1,4 @@
-package org.morm.record;
+package org.morm.test;
 
 import org.junit.Test;
 import org.morm.criteria.impl.OrderBy;
@@ -26,7 +26,10 @@ public class M {
 		{
 			final Rabbit X = new Rabbit();
 
-			new Rabbit(5, "din", 9).insert();
+			final Rabbit a = new Rabbit(null, "din", 9);
+			a.store();
+
+			System.out.println(a);
 
 			try {
 				X.loadById(4);
@@ -35,27 +38,28 @@ public class M {
 				assertEquals("java.lang.RuntimeException: no row produced", e2.getMessage());
 			}
 
-			final Rabbit rabbit = X.loadById(5);
+			final Rabbit rabbit = X.loadById(100);
 			System.out.println(rabbit);
 
 			rabbit.setName("jou");
-			rabbit.update();
+			rabbit.store();
 
-			System.out.println(X.loadById(5));
+			System.out.println(X.loadById(100));
 			System.out.println(X.loadAll());
 
 			System.out.println(X.loadBy(eq(Rabbit.id, 4)));
-			System.out.println(X.loadBy(eq(Rabbit.id, 5)));
+			System.out.println(X.loadBy(eq(Rabbit.id, 100)));
 			System.out.println(X.loadBy(and(eq(Rabbit.id, 5), eq(Rabbit.name, "jou"))));
 
 			System.out.println(X.
-			/**/loadBy(eq(Rabbit.id, 5), orderBy(OrderBy.ASC, Rabbit.name, Rabbit.id))
+			/**/loadBy(eq(Rabbit.id, 100), orderBy(OrderBy.ASC, Rabbit.name, Rabbit.id))
 			/**/);
 
 			System.out.println(X.count(eq(Rabbit.id, 4)));
-			System.out.println(X.count(eq(Rabbit.id, 5)));
+			System.out.println(X.count(eq(Rabbit.id, 100)));
 
 			rabbit.delete();
+
 			System.out.println(Rabbit.findAll());
 			SessionFactory.getCurrentSession().rollback();
 		}

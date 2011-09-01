@@ -9,6 +9,7 @@ import org.morm.criteria.Criteria;
 import org.morm.criteria.Criterion;
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
+import org.morm.record.Entity;
 import org.morm.record.field.Field;
 import org.morm.record.field.FieldDef;
 import org.morm.record.identity.IdentityKeyGenerator;
@@ -105,7 +106,20 @@ public class Entity {
 		return (List<T>) DataMapper.query(mapper, query);
 	}
 
-	public void insert() {
+	public void store() {
+		if (idField.getValue() == null) {
+			insert();
+		} else {
+			update();
+		}
+	}
+
+	protected void insert() {
+
+		if (idField.generateBefore()) {
+			idField.setGeneratedValue();
+		}
+
 		final QueryObject query = new QueryObject()
 		/**/.append("INSERT INTO ")
 		/**/.append(tableName)
@@ -117,9 +131,13 @@ public class Entity {
 		/**/.addParams(QueryGenUtils.fieldValues(fields.values()))
 		/**/;
 		DataMapper.update(query);
+
+		if (!idField.generateBefore()) {
+			idField.setGeneratedValue();
+		}
 	}
 
-	public void update() {
+	protected void update() {
 		final QueryObject query = new QueryObject()
 		/**/.append("UPDATE ")
 		/**/.append(tableName)
