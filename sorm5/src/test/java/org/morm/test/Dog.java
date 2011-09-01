@@ -2,7 +2,6 @@ package org.morm.test;
 
 import org.morm.criteria.Criterion;
 import org.morm.record.Entity;
-import org.morm.record.compo.ManyToOne;
 import org.morm.record.field.impl.FString;
 import org.morm.record.field.impl.primitive.FInteger;
 import org.morm.record.identity.IdentityKeyGenerator;
@@ -10,22 +9,19 @@ import org.morm.record.identity.impl.HsqldbIdentity;
 
 import java.util.List;
 
-public class Rabbit extends Entity {
+public class Dog extends Entity {
 
-	public static IdentityKeyGenerator<Integer> id = new HsqldbIdentity<Integer>(new FInteger("ID_RABBIT"));
+	public static IdentityKeyGenerator<Integer> id = new HsqldbIdentity<Integer>(new FInteger("ID_DOG"));
 	public static FString name = new FString("NAME");
 	public static FInteger age = new FInteger("AGE");
 
-	public static ManyToOne<Integer, Dog> dog = new ManyToOne<Integer, Dog>(new FInteger("ID_DOG"),
-			Dog.class, Dog.id);
-
-	public Rabbit() {
-		setTableName("RABBIT");
+	public Dog() {
+		setTableName("DOG");
 		registerIdField(id);
 		registerFields(name, age);
 	}
 
-	public Rabbit(final Integer id, final String name, final Integer age) {
+	public Dog(final Integer id, final String name, final Integer age) {
 		this();
 		setId(id);
 		setName(name);
@@ -37,7 +33,7 @@ public class Rabbit extends Entity {
 	}
 
 	public void setId(final Integer id) {
-		set(Rabbit.id, id);
+		set(Dog.id, id);
 	}
 
 	public String getName() {
@@ -45,7 +41,7 @@ public class Rabbit extends Entity {
 	}
 
 	public void setName(final String name) {
-		set(Rabbit.name, name);
+		set(Dog.name, name);
 	}
 
 	public Integer getAge() {
@@ -53,12 +49,12 @@ public class Rabbit extends Entity {
 	}
 
 	public void setAge(final Integer age) {
-		set(Rabbit.age, age);
+		set(Dog.age, age);
 	}
 
-	protected static Rabbit X = new Rabbit();
+	protected static Dog X = new Dog();
 
-	public static Rabbit findById(final Integer id) {
+	public static Dog findById(final Integer id) {
 		return X.loadById(id);
 	}
 
@@ -66,7 +62,7 @@ public class Rabbit extends Entity {
 		return X.loadAll();
 	}
 
-	public static List<Rabbit> findBy(final Criterion... criterions) {
+	public static List<Dog> findBy(final Criterion... criterions) {
 		return X.loadBy(criterions);
 	}
 

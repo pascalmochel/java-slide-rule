@@ -62,7 +62,7 @@ public class GenericMaxIdentityKey<T> extends IdentityKeyGenerator<T> {
 
 	@Override
 	public IdentityKeyGenerator<T> doCloneId() {
-		return new GenericMaxIdentityKey<T>(tableName, fieldMeta);
+		return new GenericMaxIdentityKey<T>(tableName, fieldMeta.doClone());
 	}
 
 }

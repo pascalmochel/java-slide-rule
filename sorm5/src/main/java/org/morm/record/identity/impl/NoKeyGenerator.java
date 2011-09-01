@@ -26,7 +26,7 @@ public class NoKeyGenerator<T> extends IdentityKeyGenerator<T> {
 
 	@Override
 	public IdentityKeyGenerator<T> doCloneId() {
-		return new NoKeyGenerator<T>(fieldMeta);
+		return new NoKeyGenerator<T>(fieldMeta.doClone());
 	}
 
 }

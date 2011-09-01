@@ -68,7 +68,7 @@ public class HsqldbSequence<T> extends IdentityKeyGenerator<T> {
 
 	@Override
 	public IdentityKeyGenerator<T> doCloneId() {
-		return new HsqldbSequence<T>(fieldMeta, sequenceName);
+		return new HsqldbSequence<T>(fieldMeta.doClone(), sequenceName);
 	}
 
 }
