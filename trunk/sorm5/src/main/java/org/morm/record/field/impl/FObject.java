@@ -28,4 +28,9 @@ public class FObject extends Field<Object> {
 		return new FObject(getColumnName());
 	}
 
+	@Override
+	public void loadAggregate(final ResultSet rs) throws SQLException {
+		setValue(rs.getString(1));
+	}
+
 }

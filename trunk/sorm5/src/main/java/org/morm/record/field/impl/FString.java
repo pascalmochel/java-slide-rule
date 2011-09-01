@@ -13,11 +13,6 @@ public class FString extends Field<String> {
 	}
 
 	@Override
-	public void load(final ResultSet rs) throws SQLException {
-		setValue(rs.getString(getColumnName()));
-	}
-
-	@Override
 	public void store(final PreparedStatement pstm, final int index) throws SQLException {
 		pstm.setString(index, getValue());
 	}
@@ -25,6 +20,16 @@ public class FString extends Field<String> {
 	@Override
 	public Field<String> doClone() {
 		return new FString(getColumnName());
+	}
+
+	@Override
+	public void load(final ResultSet rs) throws SQLException {
+		setValue(rs.getString(getColumnName()));
+	}
+
+	@Override
+	public void loadAggregate(final ResultSet rs) throws SQLException {
+		setValue(rs.getString(1));
 	}
 
 }

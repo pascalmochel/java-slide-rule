@@ -28,4 +28,9 @@ public class FDouble extends Field<Double> {
 		return new FDouble(getColumnName());
 	}
 
+	@Override
+	public void loadAggregate(final ResultSet rs) throws SQLException {
+		setValue(rs.getDouble(1));
+	}
+
 }

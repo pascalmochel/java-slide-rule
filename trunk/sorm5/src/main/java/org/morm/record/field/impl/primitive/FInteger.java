@@ -28,4 +28,9 @@ public class FInteger extends Field<Integer> {
 		return new FInteger(getColumnName());
 	}
 
+	@Override
+	public void loadAggregate(final ResultSet rs) throws SQLException {
+		setValue(rs.getInt(1));
+	}
+
 }

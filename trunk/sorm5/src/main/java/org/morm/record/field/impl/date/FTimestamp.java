@@ -29,4 +29,9 @@ public class FTimestamp extends Field<Timestamp> {
 		return new FTimestamp(getColumnName());
 	}
 
+	@Override
+	public void loadAggregate(final ResultSet rs) throws SQLException {
+		setValue(rs.getTimestamp(1));
+	}
+
 }

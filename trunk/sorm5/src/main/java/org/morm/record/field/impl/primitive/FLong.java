@@ -28,4 +28,9 @@ public class FLong extends Field<Long> {
 		return new FLong(getColumnName());
 	}
 
+	@Override
+	public void loadAggregate(final ResultSet rs) throws SQLException {
+		setValue(rs.getLong(1));
+	}
+
 }

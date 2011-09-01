@@ -28,4 +28,9 @@ public class FBoolean extends Field<Boolean> {
 		return new FBoolean(getColumnName());
 	}
 
+	@Override
+	public void loadAggregate(final ResultSet rs) throws SQLException {
+		setValue(rs.getBoolean(1));
+	}
+
 }

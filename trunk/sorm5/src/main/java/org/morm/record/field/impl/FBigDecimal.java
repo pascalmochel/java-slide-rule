@@ -29,4 +29,9 @@ public class FBigDecimal extends Field<BigDecimal> {
 		return new FBigDecimal(getColumnName());
 	}
 
+	@Override
+	public void loadAggregate(final ResultSet rs) throws SQLException {
+		setValue(rs.getBigDecimal(1));
+	}
+
 }

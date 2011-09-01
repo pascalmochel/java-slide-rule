@@ -28,4 +28,9 @@ public class FShort extends Field<Short> {
 		return new FShort(getColumnName());
 	}
 
+	@Override
+	public void loadAggregate(final ResultSet rs) throws SQLException {
+		setValue(rs.getShort(1));
+	}
+
 }

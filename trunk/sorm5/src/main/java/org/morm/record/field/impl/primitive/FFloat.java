@@ -28,4 +28,9 @@ public class FFloat extends Field<Float> {
 		return new FFloat(getColumnName());
 	}
 
+	@Override
+	public void loadAggregate(final ResultSet rs) throws SQLException {
+		setValue(rs.getFloat(1));
+	}
+
 }
