@@ -15,7 +15,7 @@ public class FDate extends Field<Date> {
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		Date v = rs.getObject(getColumnName()) != null ? rs.getDate(getColumnName()) : null;
+		final Date v = rs.getObject(getColumnName()) != null ? rs.getDate(getColumnName()) : null;
 		setValue(v);
 	}
 

@@ -32,11 +32,11 @@ public class Criteria {
 		return new MultiRestriction(" OR ", abstractRs);
 	}
 
-	public static Criterion orderBy(String byOrder, FieldDef<?>... fields) {
+	public static Criterion orderBy(final String byOrder, final FieldDef<?>... fields) {
 		return new OrderBy(fields, byOrder);
 	}
 
-	public static Criterion concate(Criterion[] criterions) {
+	public static Criterion concate(final Criterion[] criterions) {
 		return new CriterionList(criterions);
 	}
 

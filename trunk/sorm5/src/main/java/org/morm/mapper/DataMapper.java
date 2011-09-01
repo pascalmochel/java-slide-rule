@@ -13,19 +13,19 @@ import java.util.List;
 
 public class DataMapper {
 
-	public static <T> T queryUnique(final IRowMapper<T> rowMapper, QueryObject query) {
+	public static <T> T queryUnique(final IRowMapper<T> rowMapper, final QueryObject query) {
 		return queryUnique(rowMapper, query.getQuery(), query.getParams());
 	}
 
-	public static <T> List<T> query(final IRowMapper<T> rowMapper, QueryObject query) {
+	public static <T> List<T> query(final IRowMapper<T> rowMapper, final QueryObject query) {
 		return query(rowMapper, query.getQuery(), query.getParams());
 	}
 
-	public static Number aggregate(QueryObject query) {
+	public static Number aggregate(final QueryObject query) {
 		return aggregate(query.getQuery(), query.getParams());
 	}
 
-	public static int update(QueryObject query) {
+	public static int update(final QueryObject query) {
 		return update(query.getQuery(), query.getParams());
 	}
 

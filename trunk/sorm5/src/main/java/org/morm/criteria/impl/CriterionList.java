@@ -7,14 +7,14 @@ public class CriterionList implements Criterion {
 
 	protected final Criterion[] queries;
 
-	public CriterionList(Criterion[] criterions) {
+	public CriterionList(final Criterion[] criterions) {
 		super();
 		this.queries = criterions.clone();
 	}
 
 	public QueryObject renderQuery() {
-		QueryObject r = new QueryObject();
-		for (Criterion q : queries) {
+		final QueryObject r = new QueryObject();
+		for (final Criterion q : queries) {
 			r.append(q.renderQuery());
 		}
 		return r;

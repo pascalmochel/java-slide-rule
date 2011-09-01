@@ -1,7 +1,10 @@
 package org.morm.record;
 
+import org.morm.criteria.Criterion;
 import org.morm.record.field.impl.FString;
 import org.morm.record.field.impl.primitive.FInteger;
+
+import java.util.List;
 
 public class Rabbit extends Entity {
 
@@ -15,7 +18,7 @@ public class Rabbit extends Entity {
 		registerFields(name, age);
 	}
 
-	public Rabbit(final Integer id, final String name, Integer age) {
+	public Rabbit(final Integer id, final String name, final Integer age) {
 		this();
 		setId(id);
 		setName(name);
@@ -44,6 +47,20 @@ public class Rabbit extends Entity {
 
 	public void setAge(final Integer age) {
 		set(Rabbit.age, age);
+	}
+
+	protected static Rabbit X = new Rabbit();
+
+	public static Rabbit findById(final Integer id) {
+		return X.loadById(id);
+	}
+
+	public static List<Entity> findAll() {
+		return X.loadAll();
+	}
+
+	public static List<Rabbit> findBy(final Criterion... criterions) {
+		return X.loadBy(criterions);
 	}
 
 }

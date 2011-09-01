@@ -9,7 +9,8 @@ public class SessionFactory {
 	protected final static Logger LOG = Logger.getLogger(SessionFactory.class.getName());
 
 	/**
-	 * the session is stored in a thread-variable; every thread will have his own {@link ISession} instance.
+	 * the session is stored in a thread-variable; every thread will have his
+	 * own {@link ISession} instance.
 	 */
 	protected static ThreadLocal<ISession> threadSession = new ThreadLocal<ISession>();
 
@@ -37,7 +38,8 @@ public class SessionFactory {
 	}
 
 	/**
-	 * @return the current {@link ISession} instance, or if it is inactive, creates a new one.
+	 * @return the current {@link ISession} instance, or if it is inactive,
+	 *         creates a new one.
 	 * @throws DataMapperException if dataSourceReference is not being injected
 	 */
 	public static ISession getCurrentSession() {
