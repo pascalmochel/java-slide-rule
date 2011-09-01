@@ -22,13 +22,13 @@ import org.morm.record.identity.IdentityKeyGenerator;
 
 import java.util.logging.Logger;
 
-public class HsqldbSequence extends IdentityKeyGenerator {
+public class HsqldbSequence<T> extends IdentityKeyGenerator<T> {
 
 	private final static Logger LOG = Logger.getLogger(HsqldbSequence.class.getName());
 
 	protected final String sequenceName;
 
-	public HsqldbSequence(final Field<?> fieldMeta, final String sequenceName) {
+	public HsqldbSequence(final Field<T> fieldMeta, final String sequenceName) {
 		super(fieldMeta);
 		this.sequenceName = sequenceName;
 	}
@@ -63,6 +63,11 @@ public class HsqldbSequence extends IdentityKeyGenerator {
 	@Override
 	public boolean generateBefore() {
 		return true;
+	}
+
+	@Override
+	public IdentityKeyGenerator<T> doCloneId() {
+		return new HsqldbSequence<T>(fieldMeta, sequenceName);
 	}
 
 }

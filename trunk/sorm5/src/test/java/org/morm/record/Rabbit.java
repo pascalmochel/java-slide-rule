@@ -3,12 +3,14 @@ package org.morm.record;
 import org.morm.criteria.Criterion;
 import org.morm.record.field.impl.FString;
 import org.morm.record.field.impl.primitive.FInteger;
+import org.morm.record.identity.IdentityKeyGenerator;
+import org.morm.record.identity.impl.HsqldbIdentity;
 
 import java.util.List;
 
 public class Rabbit extends Entity {
 
-	public static FInteger id = new FInteger("ID_RABBIT");
+	public static IdentityKeyGenerator<Integer> id = new HsqldbIdentity<Integer>(new FInteger("ID_RABBIT"));
 	public static FString name = new FString("NAME");
 	public static FInteger age = new FInteger("AGE");
 

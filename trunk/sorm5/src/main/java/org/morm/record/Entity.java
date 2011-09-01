@@ -11,6 +11,7 @@ import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
 import org.morm.record.field.Field;
 import org.morm.record.field.FieldDef;
+import org.morm.record.identity.IdentityKeyGenerator;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -21,7 +22,7 @@ public class Entity {
 
 	private String tableName;
 
-	private Field<?> idField;
+	private IdentityKeyGenerator<?> idField;
 	private final Map<String, Field<?>> fields;
 
 	private final TableMapper mapper;
@@ -37,8 +38,8 @@ public class Entity {
 		this.tableName = tableName;
 	}
 
-	protected void registerIdField(final Field<?> idField) {
-		final Field<?> id = idField.doClone();
+	protected void registerIdField(final IdentityKeyGenerator<?> idField) {
+		final IdentityKeyGenerator<?> id = idField.doCloneId();
 		this.idField = id;
 		this.fields.put(id.getColumnName(), id);
 	}
