@@ -9,7 +9,7 @@ import org.morm.record.Entity;
 import org.morm.record.QueryObject;
 import org.morm.record.field.Field;
 
-public class ManyToOne<TID, E extends Entity> extends Field<TID> {
+public class ManyToOne<TID, E extends Entity> extends Field<TID> implements Collaborable<E> {
 
 	protected final Field<TID> selfFkField;
 	protected final Class<E> foreignEntityClass;
@@ -34,7 +34,22 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 	}
 
 	@Override
+	public TID getValue() {
+		return selfFkField.getValue();
+	}
+
+	@Override
+	public void setValue(final TID value) {
+		this.selfFkField.setValue(value);
+	}
+
+	@Override
 	public Field<TID> doClone() {
+		throw new RuntimeException();
+	}
+
+	@Override
+	public Collaborable<E> doCloneCollaboration() {
 		return new ManyToOne<TID, E>(selfFkField.doClone(), foreignEntityClass, foreigIdField);
 	}
 
@@ -62,6 +77,9 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 	@SuppressWarnings("unchecked")
 	public E getCollaboration() {
 		if (!isInit) {
+			if (selfFkField.getValue() == null) {
+				return null;
+			}
 			// * Rabbit.Dog = SELECT 1 FROM DOG WHERE DOG.ID_DOG=rabbit.idDog
 			// *
 			// * tableNameOf(Dog.class)
@@ -86,6 +104,11 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 	public void setCollaboration(final E collaboration) {
 		this.collaboration = collaboration;
 		this.isInit = true;
+	}
+
+	@Override
+	public String toString() {
+		return getColumnName() + "=" + getValue() + "=>" + (isInit ? getCollaboration() : "[...]");
 	}
 
 }

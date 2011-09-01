@@ -23,6 +23,7 @@ public class Rabbit extends Entity {
 		setTableName("RABBIT");
 		registerIdField(id);
 		registerFields(name, age);
+		registerCollaboration(dog);
 	}
 
 	public Rabbit(final Integer id, final String name, final Integer age) {
@@ -54,6 +55,14 @@ public class Rabbit extends Entity {
 
 	public void setAge(final Integer age) {
 		set(Rabbit.age, age);
+	}
+
+	public Dog getDog() {
+		return getCollaboration(dog);
+	}
+
+	public void setDog(final Dog d) {
+		setCollaboration(dog, d);
 	}
 
 	protected static Rabbit X = new Rabbit();

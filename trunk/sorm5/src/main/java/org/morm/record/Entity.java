@@ -8,14 +8,17 @@ import org.morm.criteria.Criterion;
 import org.morm.exception.FrijolesException;
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
+import org.morm.record.compo.Collaborable;
 import org.morm.record.field.Field;
 import org.morm.record.field.FieldDef;
 import org.morm.record.identity.IdentityKeyGenerator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <pre>
@@ -44,6 +47,7 @@ public class Entity {
 
 	private IdentityKeyGenerator<?> idField;
 	private final Map<String, Field<?>> fields;
+	private final Set<Collaborable<?>> collaborations;
 
 	private final TableMapper mapper;
 
@@ -51,7 +55,10 @@ public class Entity {
 		super();
 		this.tableName = getClass().getSimpleName().toUpperCase();
 		this.fields = new LinkedHashMap<String, Field<?>>();
+		this.collaborations = new HashSet<Collaborable<?>>();
+
 		this.mapper = new TableMapper(getClass());
+
 	}
 
 	protected void setTableName(final String tableName) {
@@ -70,6 +77,12 @@ public class Entity {
 		}
 	}
 
+	protected void registerCollaboration(final Collaborable<?> collaboration) {
+		final Collaborable<?> c = collaboration.doCloneCollaboration();
+		this.collaborations.add(c);
+		this.fields.put(c.getColumnName(), (Field<?>) c);
+	}
+
 	@SuppressWarnings("unchecked")
 	protected <T> void set(final FieldDef<T> fieldDef, final T value) {
 		final Field<T> self = (Field<T>) fields.get(fieldDef.getColumnName());
@@ -80,6 +93,18 @@ public class Entity {
 	protected <T> T get(final FieldDef<T> fieldDef) {
 		final Field<T> self = (Field<T>) fields.get(fieldDef.getColumnName());
 		return self.getValue();
+	}
+
+	@SuppressWarnings("unchecked")
+	protected <T> void setCollaboration(final Collaborable<T> collaborableField, final T value) {
+		final Collaborable<T> self = (Collaborable<T>) fields.get(collaborableField.getColumnName());
+		self.setCollaboration(value);
+	}
+
+	@SuppressWarnings("unchecked")
+	protected <T> T getCollaboration(final Collaborable<T> collaborableField) {
+		final Collaborable<T> self = (Collaborable<T>) fields.get(collaborableField.getColumnName());
+		return self.getCollaboration();
 	}
 
 	public List<Field<?>> getFields() {
