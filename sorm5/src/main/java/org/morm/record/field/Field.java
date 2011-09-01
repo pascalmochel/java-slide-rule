@@ -20,6 +20,11 @@ public abstract class Field<T> extends FieldDef<T> {
 		this.value = value;
 	}
 
+	@SuppressWarnings("unchecked")
+	public void setUncheckedValue(final Object value) {
+		this.value = (T) value;
+	}
+
 	public abstract void load(ResultSet rs) throws SQLException;
 
 	public abstract void loadAggregate(ResultSet rs) throws SQLException;
