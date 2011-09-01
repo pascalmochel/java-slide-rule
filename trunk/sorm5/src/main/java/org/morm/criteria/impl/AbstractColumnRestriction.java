@@ -2,7 +2,6 @@ package org.morm.criteria.impl;
 
 import org.morm.criteria.Criterion;
 
-
 public abstract class AbstractColumnRestriction implements Criterion {
 
 	protected final String column;

@@ -1,57 +1,61 @@
 package org.morm.record;
 
+//import static org.morm.criteria.Criteria.*;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.morm.Utils;
+import org.morm.criteria.Criteria;
 import org.morm.criteria.Criterion;
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
 import org.morm.record.field.Field;
 import org.morm.record.field.FieldDef;
-import org.morm.record.query.QueryObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Entity {
 
-	protected final TableMapper mapper;
+	private String tableName;
 
-	protected Field<?> idField;
-	protected final Map<String, Field<?>> fields;
+	private Field<?> idField;
+	private final Map<String, Field<?>> fields;
 
-	protected final String tableName;
+	private final TableMapper mapper;
 
 	public Entity() {
 		super();
-		this.fields = new HashMap<String, Field<?>>();
+		this.fields = new LinkedHashMap<String, Field<?>>();
 		this.mapper = new TableMapper(getClass());
 		this.tableName = getClass().getSimpleName().toUpperCase();
 	}
 
-	public void registerId(final Field<?> idField) {
+	protected void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
+	protected void registerIdField(final Field<?> idField) {
 		final Field<?> id = idField.doClone();
 		this.idField = id;
 		this.fields.put(id.getColumnName(), id);
 	}
 
-	public void register(final Field<?>... fs) {
+	protected void registerFields(final Field<?>... fs) {
 		for (final Field<?> f : fs) {
 			this.fields.put(f.getColumnName(), f.doClone());
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> void set(final FieldDef<T> fieldDef, final T value) {
+	protected <T> void set(final FieldDef<T> fieldDef, final T value) {
 		final Field<T> self = (Field<T>) fields.get(fieldDef.getColumnName());
 		self.setValue(value);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T get(final FieldDef<T> fieldDef) {
+	protected <T> T get(final FieldDef<T> fieldDef) {
 		final Field<T> self = (Field<T>) fields.get(fieldDef.getColumnName());
 		return self.getValue();
 	}
@@ -75,18 +79,19 @@ public class Entity {
 		/**/.append("=?")
 		/**/.addParams(id)
 		/**/;
-		return (T) DataMapper.queryUnique(mapper, query.getQuery(), query.getParams());
+		return (T) DataMapper.queryUnique(mapper, query);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Entity> List<T> loadBy(final Object id, final Criterion criterion) {
+	public <T extends Entity> List<T> loadBy(final Criterion... criterions) {
+		Criterion cs = Criteria.concate(criterions);
 		final QueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(tableName)
 		/**/.append(" WHERE ")
-		/**/.append(criterion.renderSql())
+		/**/.append(cs.renderQuery())
 		/**/;
-		return (List<T>) DataMapper.query(mapper, query.getQuery(), query.getParams());
+		return (List<T>) DataMapper.query(mapper, query);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -95,7 +100,7 @@ public class Entity {
 		/**/.append("SELECT * FROM ")
 		/**/.append(tableName)
 		/**/;
-		return (List<T>) DataMapper.query(mapper, query.getQuery(), query.getParams());
+		return (List<T>) DataMapper.query(mapper, query);
 	}
 
 	public void insert() {
@@ -103,13 +108,13 @@ public class Entity {
 		/**/.append("INSERT INTO ")
 		/**/.append(tableName)
 		/**/.append(" (")
-		/**/.append(Utils.columnNamesJoin(fields.values()))
+		/**/.append(QueryGenUtils.columnNamesJoin(fields.values()))
 		/**/.append(") VALUES (")
-		/**/.append(Utils.parametersJoin(fields.values()))
+		/**/.append(QueryGenUtils.parametersJoin(fields.values()))
 		/**/.append(")")
-		/**/.addParams(Utils.fieldValues(fields.values()))
+		/**/.addParams(QueryGenUtils.fieldValues(fields.values()))
 		/**/;
-		DataMapper.update(query.getQuery(), query.getParams());
+		DataMapper.update(query);
 	}
 
 	public void update() {
@@ -117,40 +122,48 @@ public class Entity {
 		/**/.append("UPDATE ")
 		/**/.append(tableName)
 		/**/.append(" SET ")
-		/**/.append(Utils.setColumnNamesExceptId(idField, fields.values()))
+		/**/.append(QueryGenUtils.setColumnNamesExceptId(idField, fields.values()))
 		/**/.append(" WHERE ")
 		/**/.append(idField.getColumnName())
 		/**/.append("=?")
-		/**/.addParams(Utils.fieldValuesIdLast(idField, fields.values()))
+		/**/.addParams(QueryGenUtils.fieldValuesIdLast(idField, fields.values()))
 		/**/;
-		DataMapper.update(query.getQuery(), query.getParams());
+		DataMapper.update(query);
 	}
 
-	// public void update(final Criterion criterion, final Field<?>... fields) {
-	// final QueryObject query = new QueryObject()
-	// /**/.append("UPDATE ")
-	// /**/.append(tableName)
-	// /**/.append(" SET ");
-	//
-	// for (int i = 0; i < fields.length; i++) {
-	// query
-	// /**/.append(fields[i].getColumnName())
-	// /**/.append("=?")
-	// /**/.addParams(fields[i].getValue())
-	// /**/;
-	// if (i < fields.length - 1) {
-	// query.append(",");
-	// }
-	// }
-	//
-	// query
-	// /**/.append(" WHERE ")
-	// /**/.append(criterion.renderSql())
-	// /**/;
-	// DataMapper.update(query.getQuery(), query.getParams());
-	// }
+	public void delete() {
+		final QueryObject query = new QueryObject()
+		/**/.append("DELETE FROM ")
+		/**/.append(tableName)
+		/**/.append(" WHERE ")
+		/**/.append(idField.getColumnName())
+		/**/.append("=?")
+		/**/.addParams(idField.getValue())
+		/**/;
+		DataMapper.update(query);
+	}
 
-	class TableMapper implements IRowMapper<Entity> {
+	public void delete(final Criterion criterion) {
+		final QueryObject query = new QueryObject()
+		/**/.append("DELETE FROM ")
+		/**/.append(tableName)
+		/**/.append(" WHERE ")
+		/**/.append(criterion.renderQuery())
+		/**/;
+		DataMapper.update(query);
+	}
+
+	public Long count(final Criterion criterion) {
+		final QueryObject query = new QueryObject()
+		/**/.append("SELECT COUNT(*) FROM ")
+		/**/.append(tableName)
+		/**/.append(" WHERE ")
+		/**/.append(criterion.renderQuery())
+		/**/;
+		return DataMapper.aggregate(query).longValue();
+	}
+
+	private class TableMapper implements IRowMapper<Entity> {
 
 		protected Class<? extends Entity> tableClass;
 
@@ -160,7 +173,7 @@ public class Entity {
 
 		public Entity mapRow(final ResultSet rs) throws SQLException {
 			try {
-				final Entity r = EntityHolder.getInstance(tableClass);
+				final Entity r = tableClass.newInstance();
 				for (final Field<?> f : r.getFields()) {
 					f.load(rs);
 				}
@@ -169,6 +182,14 @@ public class Entity {
 				throw new RuntimeException(e);
 			}
 		}
+	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public TableMapper getMapper() {
+		return mapper;
 	}
 
 }

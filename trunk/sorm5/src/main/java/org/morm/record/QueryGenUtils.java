@@ -1,18 +1,28 @@
-package org.morm;
+package org.morm.record;
 
 import org.morm.record.field.Field;
+import org.morm.record.field.FieldDef;
 
 import java.util.Collection;
 
-public class Utils {
+public class QueryGenUtils {
 
-	private Utils() {
+	private QueryGenUtils() {
 	}
 
 	public static String columnNamesJoin(final Collection<Field<?>> fields) {
 
 		final StringBuilder r = new StringBuilder();
 		for (final Field<?> f : fields) {
+			r.append(f.getColumnName()).append(',');
+		}
+		return r.deleteCharAt(r.length() - 1).toString();
+	}
+
+	public static String columnNamesJoin(final FieldDef<?>[] fields) {
+
+		final StringBuilder r = new StringBuilder();
+		for (final FieldDef<?> f : fields) {
 			r.append(f.getColumnName()).append(',');
 		}
 		return r.deleteCharAt(r.length() - 1).toString();

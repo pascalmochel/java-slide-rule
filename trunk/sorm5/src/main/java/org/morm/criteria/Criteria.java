@@ -2,7 +2,10 @@ package org.morm.criteria;
 
 import org.morm.criteria.impl.ColumnToColumnRestriction;
 import org.morm.criteria.impl.ColumnToValueRestriction;
+import org.morm.criteria.impl.CriterionList;
 import org.morm.criteria.impl.MultiRestriction;
+import org.morm.criteria.impl.OrderBy;
+import org.morm.record.QueryObject;
 import org.morm.record.field.FieldDef;
 
 public class Criteria {
@@ -27,6 +30,22 @@ public class Criteria {
 
 	public static Criterion or(final Criterion... abstractRs) {
 		return new MultiRestriction(" OR ", abstractRs);
+	}
+
+	public static Criterion orderBy(String byOrder, FieldDef<?>... fields) {
+		return new OrderBy(fields, byOrder);
+	}
+
+	public static Criterion concate(Criterion[] criterions) {
+		return new CriterionList(criterions);
+	}
+
+	public static Criterion all() {
+		return new Criterion() {
+			public QueryObject renderQuery() {
+				return new QueryObject().append("1=1");
+			}
+		};
 	}
 
 }
