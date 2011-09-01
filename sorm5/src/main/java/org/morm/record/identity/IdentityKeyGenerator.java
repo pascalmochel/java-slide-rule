@@ -15,6 +15,7 @@
  */
 package org.morm.record.identity;
 
+import org.morm.record.QueryObject;
 import org.morm.record.field.Field;
 
 public abstract class IdentityKeyGenerator {
@@ -23,18 +24,18 @@ public abstract class IdentityKeyGenerator {
 	protected static final String NO_IDENTITY_KEY_PRODUCED = "no identity key produced?: ";
 	protected static final String ERROR_OBTAINING_IDENTITY_KEY = "error obtaining identity key: ";
 
-	protected String query;
-	protected Field<?> fieldMeta;
+	protected final Field<?> fieldMeta;
+	protected QueryObject query;
 
-	public void registerField(final Field<?> fieldMeta) {
-
+	public IdentityKeyGenerator(final Field<?> fieldMeta) {
+		super();
 		this.fieldMeta = fieldMeta;
 		this.query = getQuery();
 	}
 
-	public abstract String getQuery();
+	protected abstract QueryObject getQuery();
 
-	public abstract void getGeneratedValue();
+	public abstract void setGeneratedValue();
 
 	public abstract boolean generateBefore();
 
