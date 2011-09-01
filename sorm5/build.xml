@@ -35,9 +35,11 @@
 				<pathelement path="${maven-repo-base-dir}/log4j/log4j/1.2.16/log4j-1.2.16.jar" />
 				<pathelement path="${maven-repo-base-dir}/commons-lang/commons-lang/2.5/commons-lang-2.5.jar" />
 				<pathelement path="${maven-repo-base-dir}/org/hibernate/hibernate/3.2.7.ga/hibernate-3.2.7.ga.jar" />
+				<pathelement path="${maven-repo-base-dir}/hsqldb/hsqldb/1.8.0.7/hsqldb-1.8.0.7.jar" />
 				<pathelement path="${maven-repo-base-dir}/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar" />
 				-->
 				<pathelement path="${maven-repo-base-dir}/hsqldb/hsqldb/1.8.0.7/hsqldb-1.8.0.7.jar" />
+				<pathelement path="${maven-repo-base-dir}/oracle/ojdbc14/9.2.0.5/ojdbc14-9.2.0.5.jar" />
 
 				<pathelement path="${main-classes-dir}" />
 			</classpath>

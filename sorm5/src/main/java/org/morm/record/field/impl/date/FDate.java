@@ -29,4 +29,9 @@ public class FDate extends Field<Date> {
 		return new FDate(getColumnName());
 	}
 
+	@Override
+	public void loadAggregate(final ResultSet rs) throws SQLException {
+		setValue(rs.getDate(1));
+	}
+
 }

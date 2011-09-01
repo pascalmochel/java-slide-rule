@@ -167,7 +167,7 @@ public class DataMapper {
 		}
 	}
 
-	protected static void close(final PreparedStatement pstm, final ResultSet rs) {
+	public static void close(final PreparedStatement pstm, final ResultSet rs) {
 		try {
 			if (rs != null) {
 				rs.close();

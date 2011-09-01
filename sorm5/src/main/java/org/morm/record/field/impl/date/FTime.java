@@ -29,4 +29,9 @@ public class FTime extends Field<Time> {
 		return new FTime(getColumnName());
 	}
 
+	@Override
+	public void loadAggregate(final ResultSet rs) throws SQLException {
+		setValue(rs.getTime(1));
+	}
+
 }

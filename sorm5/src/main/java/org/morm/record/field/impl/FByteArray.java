@@ -28,4 +28,9 @@ public class FByteArray extends Field<byte[]> {
 		return new FByteArray(getColumnName());
 	}
 
+	@Override
+	public void loadAggregate(final ResultSet rs) throws SQLException {
+		setValue(rs.getBytes(1));
+	}
+
 }
