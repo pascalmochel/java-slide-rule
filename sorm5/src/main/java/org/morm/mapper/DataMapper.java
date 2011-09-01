@@ -155,11 +155,15 @@ public class DataMapper {
 
 		System.out.println("executing: " + sqlQuery);
 
+		PreparedStatement pstm = null;
 		try {
 			final Connection c = SessionFactory.getCurrentSession().getConnection();
-			return c.prepareStatement(sqlQuery).executeUpdate();
+			pstm = c.prepareStatement(sqlQuery);
+			return pstm.executeUpdate();
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
+		} finally {
+			close(pstm, null);
 		}
 	}
 

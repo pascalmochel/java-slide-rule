@@ -115,7 +115,7 @@ public class Entity {
 	protected void insert() {
 
 		if (idField.generateBefore()) {
-			idField.setGeneratedValue();
+			idField.assignGeneratedValue();
 		}
 
 		final QueryObject query = new QueryObject()
@@ -131,7 +131,7 @@ public class Entity {
 		DataMapper.update(query);
 
 		if (!idField.generateBefore()) {
-			idField.setGeneratedValue();
+			idField.assignGeneratedValue();
 		}
 	}
 
@@ -181,7 +181,7 @@ public class Entity {
 		return DataMapper.aggregate(query).longValue();
 	}
 
-	private class TableMapper implements IRowMapper<Entity> {
+	private static class TableMapper implements IRowMapper<Entity> {
 
 		protected Class<? extends Entity> tableClass;
 
