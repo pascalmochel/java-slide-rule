@@ -35,12 +35,19 @@ public abstract class IdentityKeyGenerator<T> extends Field<T> {
 	public IdentityKeyGenerator(final Field<T> fieldMeta) {
 		super(fieldMeta.getColumnName());
 		this.fieldMeta = fieldMeta;
-		this.query = getQuery();
+		this.query = null;
 	}
 
-	protected abstract QueryObject getQuery();
+	public void assignGeneratedValue() {
+		if (this.query == null) {
+			this.query = getQuery();
+		}
+		setGeneratedValue();
+	}
 
-	public abstract void setGeneratedValue();
+	protected abstract void setGeneratedValue();
+
+	protected abstract QueryObject getQuery();
 
 	public abstract boolean generateBefore();
 
