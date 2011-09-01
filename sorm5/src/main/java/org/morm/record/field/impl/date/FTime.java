@@ -1,30 +1,32 @@
-package org.morm.record.field.impl;
+package org.morm.record.field.impl.date;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 
 import org.morm.record.field.Field;
 
-public class FString extends Field<String> {
+public class FTime extends Field<Time> {
 
-	public FString(final String columnName) {
+	public FTime(final String columnName) {
 		super(columnName);
 	}
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		setValue(rs.getString(getColumnName()));
+		Time v = rs.getObject(getColumnName()) != null ? rs.getTime(getColumnName()) : null;
+		setValue(v);
 	}
 
 	@Override
 	public void store(final PreparedStatement pstm, final int index) throws SQLException {
-		pstm.setString(index, getValue());
+		pstm.setTime(index, getValue());
 	}
 
 	@Override
-	public Field<String> doClone() {
-		return new FString(getColumnName());
+	public Field<Time> doClone() {
+		return new FTime(getColumnName());
 	}
 
 }

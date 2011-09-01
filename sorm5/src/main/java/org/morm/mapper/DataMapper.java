@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.morm.record.QueryObject;
 import org.morm.session.SessionFactory;
 
 import java.util.ArrayList;
@@ -11,6 +12,22 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DataMapper {
+
+	public static <T> T queryUnique(final IRowMapper<T> rowMapper, QueryObject query) {
+		return queryUnique(rowMapper, query.getQuery(), query.getParams());
+	}
+
+	public static <T> List<T> query(final IRowMapper<T> rowMapper, QueryObject query) {
+		return query(rowMapper, query.getQuery(), query.getParams());
+	}
+
+	public static Number aggregate(QueryObject query) {
+		return aggregate(query.getQuery(), query.getParams());
+	}
+
+	public static int update(QueryObject query) {
+		return update(query.getQuery(), query.getParams());
+	}
 
 	public static <T> T queryUnique(final IRowMapper<T> rowMapper, final String sqlQuery,
 			final Object[] params) {
@@ -138,7 +155,7 @@ public class DataMapper {
 		}
 	}
 
-	public static int executeDdl(final String sqlQuery) {
+	public static int executeDDL(final String sqlQuery) {
 
 		System.out.println("executing: " + sqlQuery);
 

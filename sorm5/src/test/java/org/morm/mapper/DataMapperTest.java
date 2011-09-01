@@ -16,7 +16,7 @@ public class DataMapperTest {
 	public void testname() {
 		{
 			SessionFactory.getCurrentSession().beginTransaction();
-			DataMapper.executeDdl("CREATE TABLE DOG (ID_DOG INTEGER, NAME VARCHAR(20))");
+			DataMapper.executeDDL("CREATE TABLE DOG (ID_DOG INTEGER, NAME VARCHAR(20))");
 
 			new Dog(1, "chucho").insert();
 			SessionFactory.getCurrentSession().commit();
@@ -36,7 +36,7 @@ public class DataMapperTest {
 		}
 		{
 			SessionFactory.getCurrentSession().beginTransaction();
-			DataMapper.executeDdl("DROP TABLE DOG");
+			DataMapper.executeDDL("DROP TABLE DOG");
 			SessionFactory.getCurrentSession().commit();
 		}
 	}
