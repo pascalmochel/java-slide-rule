@@ -20,11 +20,11 @@ import org.morm.record.QueryObject;
 import org.morm.record.field.Field;
 import org.morm.record.identity.IdentityKeyGenerator;
 
-public class GenericMaxIdentityKey extends IdentityKeyGenerator {
+public class GenericMaxIdentityKey<T> extends IdentityKeyGenerator<T> {
 
 	protected final String tableName;
 
-	public GenericMaxIdentityKey(final String tableName, final Field<?> fieldMeta) {
+	public GenericMaxIdentityKey(final String tableName, final Field<T> fieldMeta) {
 		super(fieldMeta);
 		this.tableName = tableName;
 	}
@@ -57,6 +57,11 @@ public class GenericMaxIdentityKey extends IdentityKeyGenerator {
 	@Override
 	public boolean generateBefore() {
 		return true;
+	}
+
+	@Override
+	public IdentityKeyGenerator<T> doCloneId() {
+		return new GenericMaxIdentityKey<T>(tableName, fieldMeta);
 	}
 
 }

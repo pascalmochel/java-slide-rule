@@ -20,9 +20,9 @@ import org.morm.record.QueryObject;
 import org.morm.record.field.Field;
 import org.morm.record.identity.IdentityKeyGenerator;
 
-public class HsqldbIdentity extends IdentityKeyGenerator {
+public class HsqldbIdentity<T> extends IdentityKeyGenerator<T> {
 
-	public HsqldbIdentity(final Field<?> fieldMeta) {
+	public HsqldbIdentity(final Field<T> fieldMeta) {
 		super(fieldMeta);
 	}
 
@@ -50,6 +50,11 @@ public class HsqldbIdentity extends IdentityKeyGenerator {
 	@Override
 	public boolean generateBefore() {
 		return false;
+	}
+
+	@Override
+	public IdentityKeyGenerator<T> doCloneId() {
+		return new HsqldbIdentity<T>(fieldMeta);
 	}
 
 }

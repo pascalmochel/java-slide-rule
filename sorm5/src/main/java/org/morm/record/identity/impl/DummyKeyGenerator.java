@@ -19,9 +19,9 @@ import org.morm.record.QueryObject;
 import org.morm.record.field.Field;
 import org.morm.record.identity.IdentityKeyGenerator;
 
-public class DummyKeyGenerator extends IdentityKeyGenerator {
+public class DummyKeyGenerator<T> extends IdentityKeyGenerator<T> {
 
-	public DummyKeyGenerator(final Field<?> fieldMeta) {
+	public DummyKeyGenerator(final Field<T> fieldMeta) {
 		super(fieldMeta);
 	}
 
@@ -40,6 +40,11 @@ public class DummyKeyGenerator extends IdentityKeyGenerator {
 	@Override
 	protected QueryObject getQuery() {
 		return null;
+	}
+
+	@Override
+	public IdentityKeyGenerator<T> doCloneId() {
+		return new DummyKeyGenerator<T>(fieldMeta);
 	}
 
 }
