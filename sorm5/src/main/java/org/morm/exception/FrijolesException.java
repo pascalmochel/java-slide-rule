@@ -19,12 +19,20 @@ public class FrijolesException extends RuntimeException {
 
 	private static final long serialVersionUID = 1835360421671345458L;
 
+	public FrijolesException() {
+		super();
+	}
+
+	public FrijolesException(final Throwable e) {
+		super(e);
+	}
+
 	public FrijolesException(final String msg) {
 		super(msg);
 	}
 
-	public FrijolesException(final String msg, final Throwable exc) {
-		super(msg, exc);
+	public FrijolesException(final String msg, final Throwable e) {
+		super(msg, e);
 	}
 
 	/**

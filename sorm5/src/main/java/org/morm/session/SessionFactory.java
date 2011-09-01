@@ -2,6 +2,8 @@ package org.morm.session;
 
 import javax.sql.DataSource;
 
+import org.morm.exception.FrijolesException;
+
 import java.util.logging.Logger;
 
 public class SessionFactory {
@@ -62,7 +64,7 @@ public class SessionFactory {
 	 */
 	protected static ISession createNewSession() {
 		if (dataSourceReference == null) {
-			throw new RuntimeException("configuration error: bean " + SessionFactory.class.getName()
+			throw new FrijolesException("configuration error: bean " + SessionFactory.class.getName()
 					+ " requires 'dataSourceReference' property injection.");
 		}
 		return new Session(dataSourceReference, transactionIsolation);

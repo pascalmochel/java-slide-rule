@@ -15,6 +15,7 @@
  */
 package org.morm.record.identity.impl;
 
+import org.morm.exception.FrijolesException;
 import org.morm.record.QueryObject;
 import org.morm.record.field.Field;
 import org.morm.record.identity.IdentityKeyGenerator;
@@ -27,13 +28,13 @@ public class DummyKeyGenerator<T> extends IdentityKeyGenerator<T> {
 
 	@Override
 	public boolean generateBefore() {
-		throw new RuntimeException(this.getClass().getSimpleName()
+		throw new FrijolesException(this.getClass().getSimpleName()
 				+ " is a dummy object that dont supports this feature");
 	}
 
 	@Override
 	public void setGeneratedValue() {
-		throw new RuntimeException(this.getClass().getSimpleName()
+		throw new FrijolesException(this.getClass().getSimpleName()
 				+ " is a dummy object that dont supports this feature");
 	}
 
