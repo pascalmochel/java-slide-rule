@@ -15,13 +15,10 @@
  */
 package org.morm.record.identity.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
 import org.morm.mapper.DataMapper;
+import org.morm.record.QueryObject;
+import org.morm.record.field.Field;
 import org.morm.record.identity.IdentityKeyGenerator;
-import org.morm.session.SessionFactory;
 
 import java.util.logging.Logger;
 
@@ -31,45 +28,28 @@ public class HsqldbSequence extends IdentityKeyGenerator {
 
 	protected final String sequenceName;
 
-	public HsqldbSequence(final String sequenceName) {
-		super();
+	public HsqldbSequence(final Field<?> fieldMeta, final String sequenceName) {
+		super(fieldMeta);
 		this.sequenceName = sequenceName;
 	}
 
 	@Override
-	public String getQuery() {
+	public QueryObject getQuery() {
 
-		return new StringBuilder()//
-				.append("CALL NEXT VALUE FOR ")//
-				.append(sequenceName)//
-				.append(';')//
-				.toString();
+		return new QueryObject()
+		/**/.append("CALL NEXT VALUE FOR ")
+		/**/.append(sequenceName)
+		/**/;
 	}
 
 	@Override
-	public void getGeneratedValue() {
+	public void setGeneratedValue() {
 
 		LOG.finer("[S] " + query);
 
 		try {
 
-			final Connection con = SessionFactory.getCurrentSession().getConnection();
-			final PreparedStatement ps = con.prepareStatement(query);
-			final ResultSet rs = ps.executeQuery();
-
-			if (!rs.next()) {
-				throw new RuntimeException(NO_IDENTITY_KEY_PRODUCED + query);
-			}
-
-			// fieldMeta.getColumnFromScalarQuery(rs);
-			fieldMeta.loadAggregate(rs);
-
-			if (rs.next()) {
-				throw new RuntimeException(PRODUCED_MORE_THAN_1_IDENTITY_KEY + query);
-			}
-
-			// RecordOps.closeStuff(ps, rs);
-			DataMapper.close(ps, rs);
+			fieldMeta.setUncheckedValue(DataMapper.aggregate(query));
 
 		} catch (final Exception e) {
 			throw new RuntimeException(ERROR_OBTAINING_IDENTITY_KEY + query, e);

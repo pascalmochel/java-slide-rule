@@ -15,9 +15,15 @@
  */
 package org.morm.record.identity.impl;
 
+import org.morm.record.QueryObject;
+import org.morm.record.field.Field;
 import org.morm.record.identity.IdentityKeyGenerator;
 
 public class DummyKeyGenerator extends IdentityKeyGenerator {
+
+	public DummyKeyGenerator(final Field<?> fieldMeta) {
+		super(fieldMeta);
+	}
 
 	@Override
 	public boolean generateBefore() {
@@ -26,13 +32,13 @@ public class DummyKeyGenerator extends IdentityKeyGenerator {
 	}
 
 	@Override
-	public void getGeneratedValue() {
+	public void setGeneratedValue() {
 		throw new RuntimeException(this.getClass().getSimpleName()
 				+ " is a dummy object that dont supports this feature");
 	}
 
 	@Override
-	public String getQuery() {
+	protected QueryObject getQuery() {
 		return null;
 	}
 
