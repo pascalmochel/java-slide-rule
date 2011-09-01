@@ -4,35 +4,37 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.morm.exception.FrijolesException;
 import org.morm.record.QueryObject;
 import org.morm.session.SessionFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DataMapper {
 
 	public static <T> T queryUnique(final IRowMapper<T> rowMapper, final QueryObject query) {
+		System.out.println(query.toString());
 		return queryUnique(rowMapper, query.getQuery(), query.getParams());
 	}
 
 	public static <T> List<T> query(final IRowMapper<T> rowMapper, final QueryObject query) {
+		System.out.println(query.toString());
 		return query(rowMapper, query.getQuery(), query.getParams());
 	}
 
 	public static Number aggregate(final QueryObject query) {
+		System.out.println(query.toString());
 		return aggregate(query.getQuery(), query.getParams());
 	}
 
 	public static int update(final QueryObject query) {
+		System.out.println(query.toString());
 		return update(query.getQuery(), query.getParams());
 	}
 
-	public static <T> T queryUnique(final IRowMapper<T> rowMapper, final String sqlQuery,
+	protected static <T> T queryUnique(final IRowMapper<T> rowMapper, final String sqlQuery,
 			final Object[] params) {
-
-		System.out.println("executing: " + sqlQuery + " -- " + Arrays.toString(params));
 
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -48,26 +50,24 @@ public class DataMapper {
 
 			rs = pstm.executeQuery();
 			if (!rs.next()) {
-				throw new RuntimeException("no row produced");
+				throw new FrijolesException("no row produced");
 			}
 			final T r = rowMapper.mapRow(rs);
 
 			if (rs.next()) {
-				throw new RuntimeException("more than 1 row produced");
+				throw new FrijolesException("more than 1 row produced");
 			}
 
 			return r;
 		} catch (final Exception e) {
-			throw new RuntimeException(e);
+			throw new FrijolesException(e);
 		} finally {
 			close(pstm, rs);
 		}
 	}
 
-	public static <T> List<T> query(final IRowMapper<T> rowMapper, final String sqlQuery,
+	protected static <T> List<T> query(final IRowMapper<T> rowMapper, final String sqlQuery,
 			final Object[] params) {
-
-		System.out.println("executing: " + sqlQuery + " -- " + Arrays.toString(params));
 
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -88,15 +88,13 @@ public class DataMapper {
 
 			return r;
 		} catch (final Exception e) {
-			throw new RuntimeException(e);
+			throw new FrijolesException(e);
 		} finally {
 			close(pstm, rs);
 		}
 	}
 
-	public static Number aggregate(final String sqlQuery, final Object[] params) {
-
-		System.out.println("executing: " + sqlQuery + " -- " + Arrays.toString(params));
+	protected static Number aggregate(final String sqlQuery, final Object[] params) {
 
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -112,7 +110,7 @@ public class DataMapper {
 
 			rs = pstm.executeQuery();
 			if (!rs.next()) {
-				throw new RuntimeException("no row produced");
+				throw new FrijolesException("no row produced");
 			}
 			final Number r = (Number) rs.getObject(1);
 
@@ -129,9 +127,7 @@ public class DataMapper {
 		}
 	}
 
-	public static int update(final String sqlQuery, final Object[] params) {
-
-		System.out.println("executing: " + sqlQuery + " -- " + Arrays.toString(params));
+	protected static int update(final String sqlQuery, final Object[] params) {
 
 		PreparedStatement pstm = null;
 		try {
@@ -167,7 +163,7 @@ public class DataMapper {
 		}
 	}
 
-	public static void close(final PreparedStatement pstm, final ResultSet rs) {
+	protected static void close(final PreparedStatement pstm, final ResultSet rs) {
 		try {
 			if (rs != null) {
 				rs.close();

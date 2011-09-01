@@ -19,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.morm.exception.FrijolesException;
 import org.morm.record.QueryObject;
 import org.morm.record.field.Field;
 
@@ -55,7 +56,7 @@ public abstract class IdentityKeyGenerator<T> extends Field<T> {
 
 	@Override
 	public Field<T> doClone() {
-		throw new RuntimeException();
+		throw new FrijolesException();
 	}
 
 	public abstract IdentityKeyGenerator<T> doCloneId();

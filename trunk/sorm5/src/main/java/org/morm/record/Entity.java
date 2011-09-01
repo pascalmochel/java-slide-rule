@@ -1,15 +1,13 @@
 package org.morm.record;
 
-//import static org.morm.criteria.Criteria.*;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.morm.criteria.Criteria;
 import org.morm.criteria.Criterion;
+import org.morm.exception.FrijolesException;
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
-import org.morm.record.Entity;
 import org.morm.record.field.Field;
 import org.morm.record.field.FieldDef;
 import org.morm.record.identity.IdentityKeyGenerator;
@@ -30,9 +28,9 @@ public class Entity {
 
 	public Entity() {
 		super();
+		this.tableName = getClass().getSimpleName().toUpperCase();
 		this.fields = new LinkedHashMap<String, Field<?>>();
 		this.mapper = new TableMapper(getClass());
-		this.tableName = getClass().getSimpleName().toUpperCase();
 	}
 
 	protected void setTableName(final String tableName) {
@@ -199,7 +197,7 @@ public class Entity {
 				}
 				return r;
 			} catch (final Exception e) {
-				throw new RuntimeException(e);
+				throw new FrijolesException(e);
 			}
 		}
 	}

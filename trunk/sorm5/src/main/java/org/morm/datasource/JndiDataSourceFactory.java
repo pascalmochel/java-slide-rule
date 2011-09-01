@@ -19,6 +19,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.morm.exception.FrijolesException;
+
 /**
  * <pre>
  * new JndiDataSourceFactory(&quot;java:/comp/env/jdbc/DBTest&quot;).getDataSource();
@@ -55,17 +57,17 @@ public class JndiDataSourceFactory {
 		try {
 			cxt = new InitialContext();
 			if (cxt == null) {
-				throw new RuntimeException("no JNDI context available");
+				throw new FrijolesException("no JNDI context available");
 			}
 
 			final DataSource ds = (DataSource) cxt.lookup(jndiName);
 
 			if (ds == null) {
-				throw new RuntimeException("Data source not found: " + jndiName);
+				throw new FrijolesException("Data source not found: " + jndiName);
 			}
 			return ds;
 		} catch (final NamingException exc) {
-			throw new RuntimeException("error acquiring InitialContext, for jndi name " + jndiName, exc);
+			throw new FrijolesException("error acquiring InitialContext, for jndi name " + jndiName, exc);
 		}
 	}
 

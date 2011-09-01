@@ -3,6 +3,7 @@ package org.morm.test;
 import org.junit.Test;
 import org.morm.criteria.impl.OrderBy;
 import org.morm.datasource.HsqldbDataSourceFactory;
+import org.morm.exception.FrijolesException;
 import org.morm.mapper.DataMapper;
 import org.morm.session.SessionFactory;
 
@@ -34,8 +35,9 @@ public class M {
 			try {
 				X.loadById(4);
 				fail();
-			} catch (final Exception e2) {
-				assertEquals("java.lang.RuntimeException: no row produced", e2.getMessage());
+			} catch (final FrijolesException e2) {
+				// assertEquals("java.lang.RuntimeException: no row produced",
+				// e2.getMessage());
 			}
 
 			final Rabbit rabbit = X.loadById(100);
