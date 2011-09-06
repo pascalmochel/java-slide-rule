@@ -19,7 +19,7 @@ public class FBigDecimal extends Field<BigDecimal> {
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		final BigDecimal v = rs.getObject(getColumnName()) != null ? rs.getBigDecimal(getColumnName()) : null;
+		final BigDecimal v = rs.getObject(getColumnName()) == null ? null : rs.getBigDecimal(getColumnName());
 		setValue(v);
 	}
 

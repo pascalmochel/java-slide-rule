@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public class DataMapper {
 
-	protected static Logger LOG = Logger.getLogger(DataMapper.class.getName());
+	protected static final Logger LOG = Logger.getLogger(DataMapper.class.getName());
 
 	public static <T extends Entity> T queryUnique(final IRowMapper<T> rowMapper, final QueryObject query) {
 		LOG.fine(query.toString());
@@ -121,7 +121,7 @@ public class DataMapper {
 			final Number r = (Number) rs.getObject(1);
 
 			if (rs.next()) {
-				throw new RuntimeException("more than 1 row produced");
+				throw new SormException("more than 1 row produced");
 			}
 
 			return r;
