@@ -151,9 +151,20 @@ public class Entity {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Entity> T loadByQuery(final QueryObject query) {
-		LOG.fine("loadByQuery(" + query + ")");
+	public <T extends Entity> T loadUniqueByQuery(final QueryObject query) {
+		LOG.fine("loadUniqueByQuery(" + query + ")");
 		return (T) DataMapper.queryUnique(mapper, query);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends Entity> List<T> loadByQuery(final QueryObject query) {
+		LOG.fine("loadByQuery(" + query + ")");
+		return (List<T>) DataMapper.query(mapper, query);
+	}
+
+	protected int sqlStatement(final QueryObject query) {
+		LOG.fine("sqlStatement()");
+		return DataMapper.update(query);
 	}
 
 	@SuppressWarnings("unchecked")
