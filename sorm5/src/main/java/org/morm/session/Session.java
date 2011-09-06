@@ -6,7 +6,7 @@ import java.sql.Savepoint;
 
 import javax.sql.DataSource;
 
-import org.morm.exception.FrijolesException;
+import org.morm.exception.FException;
 
 import java.util.Stack;
 import java.util.logging.Logger;
@@ -21,7 +21,7 @@ public class Session implements ISession {
 	protected final Stack<Savepoint> txStack;
 
 	/**
-	 * QueryObject'tor
+	 * C'tor
 	 * 
 	 * @param dataSource the {@link DataSource} reference
 	 */
@@ -46,7 +46,7 @@ public class Session implements ISession {
 				txStack.push(savePoint);
 				LOG.finest("tx begin: " + savePointName);
 			} catch (final SQLException exc) {
-				throw new FrijolesException(
+				throw new FException(
 						"throwed exception attempting to establish a transaction savepoint: savePointName="
 								+ savePointName, exc);
 			}
@@ -57,7 +57,7 @@ public class Session implements ISession {
 				connection.setTransactionIsolation(transactionIsolation);
 				LOG.finest("tx begin");
 			} catch (final SQLException exc) {
-				throw new FrijolesException("throwed exception attempting to obtain a fresh connection", exc);
+				throw new FException("throwed exception attempting to obtain a fresh connection", exc);
 			}
 		}
 		return connection;
@@ -79,7 +79,7 @@ public class Session implements ISession {
 				LOG.finest("tx commit");
 				close();
 			} catch (final SQLException exc) {
-				throw new FrijolesException("throwed exception during transaction commit", exc);
+				throw new FException("throwed exception during transaction commit", exc);
 			}
 		} else {
 			String savePointName = null;
@@ -89,7 +89,7 @@ public class Session implements ISession {
 				connection.releaseSavepoint(savePoint);
 				LOG.finest("tx commit: " + savePointName);
 			} catch (final SQLException exc) {
-				throw new FrijolesException(
+				throw new FException(
 						"throwed exception during transaction releaseSavepoint; savePointName:"
 								+ savePointName, exc);
 			}
@@ -106,7 +106,7 @@ public class Session implements ISession {
 				LOG.finest("tx rollback");
 				close();
 			} catch (final SQLException exc) {
-				throw new FrijolesException("throwed exception during transaction rollback", exc);
+				throw new FException("throwed exception during transaction rollback", exc);
 			}
 		} else {
 			String savePointName = null;
@@ -116,7 +116,7 @@ public class Session implements ISession {
 				connection.rollback(savePoint);
 				LOG.finest("tx rollback: " + savePointName);
 			} catch (final SQLException exc) {
-				throw new FrijolesException("throwed exception during transaction rollback. savePointName="
+				throw new FException("throwed exception during transaction rollback. savePointName="
 						+ savePointName, exc);
 			}
 		}
@@ -126,7 +126,7 @@ public class Session implements ISession {
 		try {
 			connection.close();
 		} catch (final SQLException exc) {
-			throw new FrijolesException("throwed exception closing connection", exc);
+			throw new FException("throwed exception closing connection", exc);
 		}
 		LOG.finest("tx closed");
 	}
@@ -135,7 +135,7 @@ public class Session implements ISession {
 		try {
 			return connection != null && !connection.isClosed();
 		} catch (final SQLException e) {
-			throw new FrijolesException("throwed exception reading status from a connection", e);
+			throw new FException("throwed exception reading status from a connection", e);
 		}
 	}
 

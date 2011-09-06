@@ -2,7 +2,6 @@ package org.morm.exception;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Method;
 
 public class ThrowableRenderer {
 
@@ -34,47 +33,5 @@ public class ThrowableRenderer {
 		strb.append('\n');
 		return strb.toString();
 	}
-
-	public static String renderFactoryMethodInfo(final Method m) {
-		final StringBuilder strb = new StringBuilder();
-		strb
-		/**/.append(m.getDeclaringClass().getName())
-		/**/.append('#')
-		/**/.append(m.getName())
-		/**/.append('(');
-		for (final Class<?> p : m.getParameterTypes()) {
-			strb.append(p.getSimpleName()).append(',');
-		}
-		strb.deleteCharAt(strb.length() - 1).append(')');
-		return strb.toString();
-	}
-
-	// protected static String getSimpleHtmlStackTrace(final Throwable
-	// throwable) {
-	//
-	// final StringBuilder strb = new StringBuilder(200) //
-	// .append("<br />") //
-	// .append("<b>" + throwable.toString() + "</b>");
-	//
-	// for (final StackTraceElement s : throwable.getStackTrace()) {
-	// strb.append(s).append("<br />");
-	// }
-	//
-	// return strb.toString();
-	// }
-	//
-	// public static String getHtmlStackTrace(final Throwable e) {
-	//
-	// final StringBuilder strb = new StringBuilder(200);
-	//
-	// Throwable throwable = e;
-	// while (throwable != null) {
-	//
-	// strb.append(getSimpleHtmlStackTrace(throwable));
-	// throwable = throwable.getCause();
-	// }
-	//
-	// return strb.toString();
-	// }
 
 }

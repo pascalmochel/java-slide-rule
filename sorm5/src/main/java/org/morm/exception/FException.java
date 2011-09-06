@@ -15,23 +15,23 @@
  */
 package org.morm.exception;
 
-public class FrijolesException extends RuntimeException {
+public class FException extends RuntimeException {
 
 	private static final long serialVersionUID = 1835360421671345458L;
 
-	public FrijolesException() {
+	public FException() {
 		super();
 	}
 
-	public FrijolesException(final Throwable e) {
+	public FException(final Throwable e) {
 		super(e);
 	}
 
-	public FrijolesException(final String msg) {
+	public FException(final String msg) {
 		super(msg);
 	}
 
-	public FrijolesException(final String msg, final Throwable e) {
+	public FException(final String msg, final Throwable e) {
 		super(msg, e);
 	}
 

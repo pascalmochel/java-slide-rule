@@ -11,7 +11,7 @@ public class HsqldbDataSourceFactory {
 	protected final String pass;
 
 	public HsqldbDataSourceFactory() {
-		this("jdbc:hsqldb:file:/home/mhoms/hsql6", "sa", null);
+		this("jdbc:hsqldb:file:/home/mhoms/hsql8", "sa", null);
 	}
 
 	public HsqldbDataSourceFactory(final String url, final String user, final String pass) {

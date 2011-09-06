@@ -4,32 +4,35 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import org.morm.exception.FrijolesException;
+import org.morm.exception.FException;
 import org.morm.record.QueryObject;
 import org.morm.session.SessionFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class DataMapper {
 
+	protected static Logger LOG = Logger.getLogger(DataMapper.class.getName());
+
 	public static <T> T queryUnique(final IRowMapper<T> rowMapper, final QueryObject query) {
-		System.out.println(query.toString());
+		LOG.fine(query.toString());
 		return queryUnique(rowMapper, query.getQuery(), query.getParams());
 	}
 
 	public static <T> List<T> query(final IRowMapper<T> rowMapper, final QueryObject query) {
-		System.out.println(query.toString());
+		LOG.fine(query.toString());
 		return query(rowMapper, query.getQuery(), query.getParams());
 	}
 
 	public static Number aggregate(final QueryObject query) {
-		System.out.println(query.toString());
+		LOG.fine(query.toString());
 		return aggregate(query.getQuery(), query.getParams());
 	}
 
 	public static int update(final QueryObject query) {
-		System.out.println(query.toString());
+		LOG.fine(query.toString());
 		return update(query.getQuery(), query.getParams());
 	}
 
@@ -50,17 +53,17 @@ public class DataMapper {
 
 			rs = pstm.executeQuery();
 			if (!rs.next()) {
-				throw new FrijolesException("no row produced");
+				throw new FException("no row produced");
 			}
 			final T r = rowMapper.mapRow(rs);
 
 			if (rs.next()) {
-				throw new FrijolesException("more than 1 row produced");
+				throw new FException("more than 1 row produced");
 			}
 
 			return r;
 		} catch (final Exception e) {
-			throw new FrijolesException(e);
+			throw new FException(e);
 		} finally {
 			close(pstm, rs);
 		}
@@ -88,7 +91,7 @@ public class DataMapper {
 
 			return r;
 		} catch (final Exception e) {
-			throw new FrijolesException(e);
+			throw new FException(e);
 		} finally {
 			close(pstm, rs);
 		}
@@ -110,7 +113,7 @@ public class DataMapper {
 
 			rs = pstm.executeQuery();
 			if (!rs.next()) {
-				throw new FrijolesException("no row produced");
+				throw new FException("no row produced");
 			}
 			final Number r = (Number) rs.getObject(1);
 
@@ -151,9 +154,25 @@ public class DataMapper {
 		}
 	}
 
+	public static int executeDDLIgnoringErrors(final String sqlQuery) {
+
+		LOG.fine("DDL: " + sqlQuery);
+
+		PreparedStatement pstm = null;
+		try {
+			final Connection c = SessionFactory.getCurrentSession().getConnection();
+			pstm = c.prepareStatement(sqlQuery);
+			return pstm.executeUpdate();
+		} catch (final Exception e) {
+			return 0;
+		} finally {
+			close(pstm, null);
+		}
+	}
+
 	public static int executeDDL(final String sqlQuery) {
 
-		System.out.println("executing: " + sqlQuery);
+		LOG.fine("DDL: " + sqlQuery);
 
 		PreparedStatement pstm = null;
 		try {

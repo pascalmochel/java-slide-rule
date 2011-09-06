@@ -5,32 +5,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.morm.mapper.DataMapper;
+import org.morm.mapper.IRowMapper;
 import org.morm.record.Entity;
 import org.morm.record.QueryObject;
+import org.morm.record.SingletonFactory;
 import org.morm.record.field.Field;
 
-public class ManyToOne<TID, E extends Entity> extends Field<TID> implements Collaborable<E> {
+public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 
 	protected final Field<TID> selfFkField;
 	protected final Class<E> foreignEntityClass;
-	protected final Field<?> foreigIdField;
+	protected String foreigIdFieldColumnName;
 
-	protected final E foreignEntity;
+	protected E foreignEntity;
 
-	public ManyToOne(final Field<TID> selfFkField, final Class<E> foreignEntityClass,
-			final Field<?> foreigIdField) {
-
+	public ManyToOne(final Field<TID> selfFkField, final Class<E> foreignEntityClass) {
 		super(selfFkField.getColumnName());
 
 		this.selfFkField = selfFkField;
 		this.foreignEntityClass = foreignEntityClass;
-		this.foreigIdField = foreigIdField;
-
-		try {
-			this.foreignEntity = foreignEntityClass.newInstance();
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	@Override
@@ -48,9 +41,8 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> implements Coll
 		throw new RuntimeException();
 	}
 
-	@Override
-	public Collaborable<E> doCloneCollaboration() {
-		return new ManyToOne<TID, E>(selfFkField.doClone(), foreignEntityClass, foreigIdField);
+	public ManyToOne<TID, E> doCloneCollaboration() {
+		return new ManyToOne<TID, E>(selfFkField.doClone(), foreignEntityClass);
 	}
 
 	@Override
@@ -73,13 +65,17 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> implements Coll
 	protected E collaboration;
 	protected boolean isInit = false;
 
-	// TODO
 	@SuppressWarnings("unchecked")
 	public E getCollaboration() {
 		if (!isInit) {
 			if (selfFkField.getValue() == null) {
+				this.isInit = true;
 				return null;
 			}
+
+			this.foreignEntity = (E) SingletonFactory.get((Class<Entity>) foreignEntityClass);
+			this.foreigIdFieldColumnName = foreignEntity.getIdField().getColumnName();
+
 			// * Rabbit.Dog = SELECT 1 FROM DOG WHERE DOG.ID_DOG=rabbit.idDog
 			// *
 			// * tableNameOf(Dog.class)
@@ -87,15 +83,12 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> implements Coll
 			final QueryObject q = new QueryObject()
 			/**/.append("SELECT * FROM ")
 			/**/.append(this.foreignEntity.getTableName())
-			/**/.append(" where ")
-			/**/.append(this.foreignEntity.getTableName())
-			/**/.append(".")
-			/**/.append(this.foreigIdField.getColumnName())
-			/**/.append("=")
-			/**/.append("?")
-			/**/.addParams(selfFkField.getValue());
+			/**/.append(" WHERE ")
+			/**/.append(this.foreigIdFieldColumnName)
+			/**/.append("=?")
+			/**/.addParams(this.selfFkField.getValue());
 			/**/;
-			this.collaboration = (E) DataMapper.queryUnique(this.foreignEntity.getMapper(), q);
+			this.collaboration = DataMapper.queryUnique((IRowMapper<E>) this.foreignEntity.getRowMapper(), q);
 			this.isInit = true;
 		}
 		return this.collaboration;
@@ -109,6 +102,10 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> implements Coll
 	@Override
 	public String toString() {
 		return getColumnName() + "=" + getValue() + "=>" + (isInit ? getCollaboration() : "[...]");
+	}
+
+	public boolean getIsInit() {
+		return isInit;
 	}
 
 }
