@@ -15,7 +15,6 @@
  */
 package org.morm.record.identity;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -71,16 +70,6 @@ public abstract class IdentityGenerator<T> extends Field<T> {
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
 		field.load(rs);
-	}
-
-	@Override
-	public void loadAggregate(final ResultSet rs) throws SQLException {
-		field.loadAggregate(rs);
-	}
-
-	@Override
-	public void store(final PreparedStatement pstm, final int index) throws SQLException {
-		field.store(pstm, index);
 	}
 
 }

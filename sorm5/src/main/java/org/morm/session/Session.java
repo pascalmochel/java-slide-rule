@@ -48,7 +48,7 @@ public class Session implements ISession {
 			} catch (final SQLException exc) {
 				throw new FException(
 						"throwed exception attempting to establish a transaction savepoint: savePointName="
-								+ savePointName, exc);
+						+ savePointName, exc);
 			}
 		} else {
 			try {
@@ -91,7 +91,7 @@ public class Session implements ISession {
 			} catch (final SQLException exc) {
 				throw new FException(
 						"throwed exception during transaction releaseSavepoint; savePointName:"
-								+ savePointName, exc);
+						+ savePointName, exc);
 			}
 		}
 	}

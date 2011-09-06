@@ -1,6 +1,5 @@
 package org.morm.record.field.impl.date;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -20,18 +19,8 @@ public class FTime extends Field<Time> {
 	}
 
 	@Override
-	public void store(final PreparedStatement pstm, final int index) throws SQLException {
-		pstm.setTime(index, getValue());
-	}
-
-	@Override
 	public Field<Time> doClone() {
 		return new FTime(getColumnName());
-	}
-
-	@Override
-	public void loadAggregate(final ResultSet rs) throws SQLException {
-		setValue(rs.getTime(1));
 	}
 
 }

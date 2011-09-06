@@ -1,6 +1,5 @@
 package org.morm.record.field.impl.primitive;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -19,18 +18,8 @@ public class FInteger extends Field<Integer> {
 	}
 
 	@Override
-	public void store(final PreparedStatement pstm, final int index) throws SQLException {
-		pstm.setInt(index, getValue());
-	}
-
-	@Override
 	public Field<Integer> doClone() {
 		return new FInteger(getColumnName());
-	}
-
-	@Override
-	public void loadAggregate(final ResultSet rs) throws SQLException {
-		setValue(rs.getInt(1));
 	}
 
 }

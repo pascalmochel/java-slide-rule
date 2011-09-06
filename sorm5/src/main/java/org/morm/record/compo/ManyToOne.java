@@ -1,6 +1,5 @@
 package org.morm.record.compo;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -48,16 +47,6 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
 		selfFkField.load(rs);
-	}
-
-	@Override
-	public void loadAggregate(final ResultSet rs) throws SQLException {
-		selfFkField.loadAggregate(rs);
-	}
-
-	@Override
-	public void store(final PreparedStatement pstm, final int index) throws SQLException {
-		selfFkField.store(pstm, index);
 	}
 
 	// -------------

@@ -1,6 +1,5 @@
 package org.morm.record.field.impl;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -13,24 +12,14 @@ public class FObject extends Field<Object> {
 	}
 
 	@Override
-	public void load(final ResultSet rs) throws SQLException {
-		final Object v = rs.getObject(getColumnName());
-		setValue(v);
-	}
-
-	@Override
-	public void store(final PreparedStatement pstm, final int index) throws SQLException {
-		pstm.setObject(index, getValue());
-	}
-
-	@Override
 	public Field<Object> doClone() {
 		return new FObject(getColumnName());
 	}
 
 	@Override
-	public void loadAggregate(final ResultSet rs) throws SQLException {
-		setValue(rs.getString(1));
+	public void load(final ResultSet rs) throws SQLException {
+		final Object v = rs.getObject(getColumnName());
+		setValue(v);
 	}
 
 }

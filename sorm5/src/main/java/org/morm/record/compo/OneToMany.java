@@ -1,7 +1,5 @@
 package org.morm.record.compo;
 
-import java.util.List;
-
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
 import org.morm.record.Entity;
@@ -9,6 +7,8 @@ import org.morm.record.QueryObject;
 import org.morm.record.SingletonFactory;
 import org.morm.record.field.Field;
 import org.morm.record.identity.IdentityGenerator;
+
+import java.util.List;
 
 public class OneToMany<TID, E extends Entity> {
 
@@ -74,8 +74,8 @@ public class OneToMany<TID, E extends Entity> {
 	@Override
 	public String toString() {
 		return isInit ?
-		/**/(getCollaboration() == null ? "null" : getCollaboration().toString()) :
-		/**/"[...]";
+				/**/(getCollaboration() == null ? "null" : getCollaboration().toString()) :
+					/**/"[...]";
 	}
 
 	public boolean getIsInit() {

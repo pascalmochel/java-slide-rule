@@ -53,7 +53,7 @@ public class SessionFactory {
 
 	protected static boolean isSessionActive() {
 		return threadSession != null && threadSession.get() != null
-				&& threadSession.get().isTransactionActive();
+		&& threadSession.get().isTransactionActive();
 	}
 
 	/**
