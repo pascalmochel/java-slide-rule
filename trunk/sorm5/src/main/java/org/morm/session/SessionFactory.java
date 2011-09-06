@@ -2,7 +2,7 @@ package org.morm.session;
 
 import javax.sql.DataSource;
 
-import org.morm.exception.FrijolesException;
+import org.morm.exception.FException;
 
 import java.util.logging.Logger;
 
@@ -11,8 +11,7 @@ public class SessionFactory {
 	protected final static Logger LOG = Logger.getLogger(SessionFactory.class.getName());
 
 	/**
-	 * the session is stored in a thread-variable; every thread will have his
-	 * own {@link ISession} instance.
+	 * the session is stored in a thread-variable; every thread will have his own {@link ISession} instance.
 	 */
 	protected static ThreadLocal<ISession> threadSession = new ThreadLocal<ISession>();
 
@@ -40,8 +39,7 @@ public class SessionFactory {
 	}
 
 	/**
-	 * @return the current {@link ISession} instance, or if it is inactive,
-	 *         creates a new one.
+	 * @return the current {@link ISession} instance, or if it is inactive, creates a new one.
 	 * @throws DataMapperException if dataSourceReference is not being injected
 	 */
 	public static ISession getCurrentSession() {
@@ -64,7 +62,7 @@ public class SessionFactory {
 	 */
 	protected static ISession createNewSession() {
 		if (dataSourceReference == null) {
-			throw new FrijolesException("configuration error: bean " + SessionFactory.class.getName()
+			throw new FException("configuration error: bean " + SessionFactory.class.getName()
 					+ " requires 'dataSourceReference' property injection.");
 		}
 		return new Session(dataSourceReference, transactionIsolation);

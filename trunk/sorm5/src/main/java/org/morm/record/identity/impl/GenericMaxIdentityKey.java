@@ -15,7 +15,7 @@
  */
 package org.morm.record.identity.impl;
 
-import org.morm.exception.FrijolesException;
+import org.morm.exception.FException;
 import org.morm.mapper.DataMapper;
 import org.morm.record.QueryObject;
 import org.morm.record.field.Field;
@@ -51,7 +51,7 @@ public class GenericMaxIdentityKey<T> extends IdentityKeyGenerator<T> {
 			fieldMeta.setUncheckedValue(DataMapper.aggregate(super.query));
 
 		} catch (final Exception e) {
-			throw new FrijolesException(ERROR_OBTAINING_IDENTITY_KEY + query, e);
+			throw new FException(ERROR_OBTAINING_IDENTITY_KEY + query, e);
 		}
 	}
 

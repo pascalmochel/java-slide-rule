@@ -16,14 +16,14 @@ public class Rabbit extends Entity {
 	public static FString name = new FString("NAME");
 	public static FInteger age = new FInteger("AGE");
 
-	public static ManyToOne<Integer, Dog> dog = new ManyToOne<Integer, Dog>(new FInteger("ID_DOG"),
-			Dog.class, Dog.id);
+	public static ManyToOne<Integer, Dog> dog = new ManyToOne<Integer, Dog>(new FInteger("NUM_DOG"),
+			Dog.class);
 
 	public Rabbit() {
 		setTableName("RABBIT");
 		registerIdField(id);
 		registerFields(name, age);
-		registerCollaboration(dog);
+		registerManyToOne(dog);
 	}
 
 	public Rabbit(final Integer id, final String name, final Integer age) {

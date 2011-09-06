@@ -4,7 +4,7 @@ import javax.sql.DataSource;
 
 import oracle.jdbc.pool.OracleDataSource;
 
-import org.morm.exception.FrijolesException;
+import org.morm.exception.FException;
 
 public class TestingOracleDataSourceFactory {
 
@@ -18,7 +18,7 @@ public class TestingOracleDataSourceFactory {
 
 			return ds;
 		} catch (final Exception e) {
-			throw new FrijolesException(e);
+			throw new FException(e);
 		}
 	}
 

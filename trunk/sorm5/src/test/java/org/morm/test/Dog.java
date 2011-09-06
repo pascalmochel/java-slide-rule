@@ -2,6 +2,7 @@ package org.morm.test;
 
 import org.morm.criteria.Criterion;
 import org.morm.record.Entity;
+import org.morm.record.compo.OneToMany;
 import org.morm.record.field.impl.FString;
 import org.morm.record.field.impl.primitive.FInteger;
 import org.morm.record.identity.IdentityKeyGenerator;
@@ -15,10 +16,14 @@ public class Dog extends Entity {
 	public static FString name = new FString("NAME");
 	public static FInteger age = new FInteger("AGE");
 
+	public static OneToMany<Integer, Rabbit> rabbits = new OneToMany<Integer, Rabbit>(Rabbit.class,
+			Rabbit.dog);
+
 	public Dog() {
 		setTableName("DOG");
 		registerIdField(id);
 		registerFields(name, age);
+		registerOneToMany(rabbits);
 	}
 
 	public Dog(final Integer id, final String name, final Integer age) {
@@ -46,6 +51,14 @@ public class Dog extends Entity {
 
 	public Integer getAge() {
 		return get(age);
+	}
+
+	public List<Rabbit> getRabbits() {
+		return getCollaborations(rabbits);
+	}
+
+	public void setRabbits(final List<Rabbit> rabbits) {
+		setCollaborations(Dog.rabbits, rabbits);
 	}
 
 	public void setAge(final Integer age) {

@@ -1,23 +1,33 @@
 package org.morm.test;
 
 import org.junit.Test;
-import org.morm.criteria.impl.OrderBy;
 import org.morm.datasource.HsqldbDataSourceFactory;
-import org.morm.exception.FException;
+import org.morm.logging.LogFactory;
+import org.morm.logging.SingleLineFormatter;
 import org.morm.mapper.DataMapper;
 import org.morm.session.SessionFactory;
 
-import static org.junit.Assert.*;
-import static org.morm.criteria.Criteria.*;
+import java.util.logging.Handler;
+import java.util.logging.Level;
 
-public class EntityTest {
+public class EntityTest2 {
 
 	static {
+
+		final SingleLineFormatter singleLineFormatter = new SingleLineFormatter();
+		for (final Handler h : LogFactory.getRootLogger().getHandlers()) {
+			h.setFormatter(singleLineFormatter);
+			h.setLevel(Level.FINE);
+		}
+
+		LogFactory.getRootLogger().setLevel(Level.FINE);
 		new SessionFactory().setDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
 	@Test
 	public void testname() throws Exception {
+
+		// public static void main(String[] args) {
 
 		{
 			SessionFactory.getCurrentSession().beginTransaction();
@@ -41,47 +51,6 @@ public class EntityTest {
 
 		}
 		{
-			new Dog();
-			final Rabbit X = new Rabbit();
-
-			final Rabbit a = new Rabbit(null, "din", 9);
-			a.store();
-
-			System.out.println(a);
-
-			try {
-				Rabbit.findById(4);
-				fail();
-			} catch (final FException e2) {
-				// assertEquals("java.lang.RuntimeException: no row produced",
-				// e2.getMessage());
-			}
-
-			final Rabbit rabbit = Rabbit.findById(100);
-			System.out.println(rabbit);
-
-			rabbit.setName("jou");
-			rabbit.store();
-
-			System.out.println(Rabbit.findById(100));
-			System.out.println(Rabbit.findAll());
-
-			System.out.println(Rabbit.findBy(eq(Rabbit.id, 4)));
-			System.out.println(Rabbit.findBy(eq(Rabbit.id, 100)));
-			System.out.println(Rabbit.findBy(and(eq(Rabbit.id, 5), eq(Rabbit.name, "jou"))));
-
-			System.out.println(
-			/**/Rabbit.findBy(eq(Rabbit.id, 100), orderBy(OrderBy.ASC, Rabbit.name, Rabbit.id))
-			/**/);
-
-			System.out.println(X.count(eq(Rabbit.id, 4)));
-			System.out.println(X.count(eq(Rabbit.id, 100)));
-
-			rabbit.delete();
-
-			System.out.println(Rabbit.findAll());
-
-			System.out.println(a.getDog());
 
 			{
 				System.out.println("====================================");
@@ -89,11 +58,29 @@ public class EntityTest {
 				DataMapper.executeDDL("INSERT INTO DOG (ID_DOG,NAME,AGE) VALUES (500,'din',9)");
 				DataMapper
 						.executeDDL("INSERT INTO RABBIT (ID_RABBIT,NAME,AGE,NUM_DOG) VALUES (600,'cornill',5, 500)");
+				{
+					new Rabbit();
+					new Dog();
+				}
 
 				final Rabbit r = Rabbit.findById(600);
 				System.out.println(r);
 				System.out.println(r.getDog());
 				System.out.println(r);
+
+				System.out.println("====================================");
+
+				final Dog d = Dog.findById(500);
+				System.out.println(d);
+				System.out.println(d.getRabbits());
+				System.out.println(d);
+
+				System.out.println("====================================");
+				System.out.println(r);
+				r.store();
+				System.out.println("====================================");
+				System.out.println(d);
+				d.store();
 
 			}
 
