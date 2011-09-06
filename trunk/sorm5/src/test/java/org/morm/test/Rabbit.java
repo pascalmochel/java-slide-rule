@@ -1,14 +1,11 @@
 package org.morm.test;
 
-import org.morm.criteria.Criterion;
 import org.morm.record.Entity;
 import org.morm.record.compo.ManyToOne;
 import org.morm.record.field.impl.FString;
 import org.morm.record.field.impl.primitive.FInteger;
 import org.morm.record.identity.IdentityKeyGenerator;
-import org.morm.record.identity.impl.HsqldbIdentity;
-
-import java.util.List;
+import org.morm.record.identity.impl.hsqldb.HsqldbIdentity;
 
 public class Rabbit extends Entity {
 
@@ -63,20 +60,6 @@ public class Rabbit extends Entity {
 
 	public void setDog(final Dog d) {
 		setCollaboration(dog, d);
-	}
-
-	protected static Rabbit X = new Rabbit();
-
-	public static Rabbit findById(final Integer id) {
-		return X.loadById(id);
-	}
-
-	public static List<Entity> findAll() {
-		return X.loadAll();
-	}
-
-	public static List<Rabbit> findBy(final Criterion... criterions) {
-		return X.loadBy(criterions);
 	}
 
 }

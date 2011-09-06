@@ -50,28 +50,28 @@ public class EntityTest {
 			System.out.println(a);
 
 			try {
-				Rabbit.findById(4);
+				new Rabbit().loadById(4);
 				fail();
 			} catch (final FException e2) {
 				// assertEquals("java.lang.RuntimeException: no row produced",
 				// e2.getMessage());
 			}
 
-			final Rabbit rabbit = Rabbit.findById(100);
+			final Rabbit rabbit = new Rabbit().loadById(100);
 			System.out.println(rabbit);
 
 			rabbit.setName("jou");
 			rabbit.store();
 
-			System.out.println(Rabbit.findById(100));
-			System.out.println(Rabbit.findAll());
+			System.out.println(new Rabbit().loadById(100));
+			System.out.println(new Rabbit().loadAll());
 
-			System.out.println(Rabbit.findBy(eq(Rabbit.id, 4)));
-			System.out.println(Rabbit.findBy(eq(Rabbit.id, 100)));
-			System.out.println(Rabbit.findBy(and(eq(Rabbit.id, 5), eq(Rabbit.name, "jou"))));
+			System.out.println(new Rabbit().loadBy(eq(Rabbit.id, 4)));
+			System.out.println(new Rabbit().loadBy(eq(Rabbit.id, 100)));
+			System.out.println(new Rabbit().loadBy(and(eq(Rabbit.id, 5), eq(Rabbit.name, "jou"))));
 
 			System.out.println(
-			/**/Rabbit.findBy(eq(Rabbit.id, 100), orderBy(OrderBy.ASC, Rabbit.name, Rabbit.id))
+			/**/new Rabbit().loadBy(eq(Rabbit.id, 100), orderBy(OrderBy.ASC, Rabbit.name, Rabbit.id))
 			/**/);
 
 			System.out.println(X.count(eq(Rabbit.id, 4)));
@@ -79,7 +79,7 @@ public class EntityTest {
 
 			rabbit.delete();
 
-			System.out.println(Rabbit.findAll());
+			System.out.println(new Rabbit().loadAll());
 
 			System.out.println(a.getDog());
 
@@ -90,7 +90,7 @@ public class EntityTest {
 				DataMapper
 						.executeDDL("INSERT INTO RABBIT (ID_RABBIT,NAME,AGE,NUM_DOG) VALUES (600,'cornill',5, 500)");
 
-				final Rabbit r = Rabbit.findById(600);
+				final Rabbit r = new Rabbit().loadById(600);
 				System.out.println(r);
 				System.out.println(r.getDog());
 				System.out.println(r);
