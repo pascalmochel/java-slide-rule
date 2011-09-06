@@ -19,12 +19,12 @@ import org.morm.exception.FException;
 import org.morm.mapper.DataMapper;
 import org.morm.record.QueryObject;
 import org.morm.record.field.Field;
-import org.morm.record.identity.IdentityKeyGenerator;
+import org.morm.record.identity.IdentityGenerator;
 
-public class HsqldbIdentity<T> extends IdentityKeyGenerator<T> {
+public class HsqldbIdentity<T> extends IdentityGenerator<T> {
 
-	public HsqldbIdentity(final Field<T> fieldMeta) {
-		super(fieldMeta);
+	public HsqldbIdentity(final Field<T> field) {
+		super(field);
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class HsqldbIdentity<T> extends IdentityKeyGenerator<T> {
 
 		try {
 
-			fieldMeta.setUncheckedValue(DataMapper.aggregate(super.query));
+			field.setUncheckedValue(DataMapper.aggregate(super.query));
 
 		} catch (final Exception e) {
 			throw new FException(ERROR_OBTAINING_IDENTITY_KEY + query, e);
@@ -54,8 +54,8 @@ public class HsqldbIdentity<T> extends IdentityKeyGenerator<T> {
 	}
 
 	@Override
-	public IdentityKeyGenerator<T> doCloneId() {
-		return new HsqldbIdentity<T>(fieldMeta.doClone());
+	public IdentityGenerator<T> doCloneId() {
+		return new HsqldbIdentity<T>(field.doClone());
 	}
 
 }

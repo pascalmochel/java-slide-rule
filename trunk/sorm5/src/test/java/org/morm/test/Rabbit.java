@@ -4,12 +4,12 @@ import org.morm.record.Entity;
 import org.morm.record.compo.ManyToOne;
 import org.morm.record.field.impl.FString;
 import org.morm.record.field.impl.primitive.FInteger;
-import org.morm.record.identity.IdentityKeyGenerator;
+import org.morm.record.identity.IdentityGenerator;
 import org.morm.record.identity.impl.hsqldb.HsqldbIdentity;
 
 public class Rabbit extends Entity {
 
-	public static IdentityKeyGenerator<Integer> id = new HsqldbIdentity<Integer>(new FInteger("ID_RABBIT"));
+	public static IdentityGenerator<Integer> id = new HsqldbIdentity<Integer>(new FInteger("ID_RABBIT"));
 	public static FString name = new FString("NAME");
 	public static FInteger age = new FInteger("AGE");
 

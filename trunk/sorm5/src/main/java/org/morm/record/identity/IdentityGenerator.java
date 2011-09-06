@@ -23,18 +23,18 @@ import org.morm.exception.FException;
 import org.morm.record.QueryObject;
 import org.morm.record.field.Field;
 
-public abstract class IdentityKeyGenerator<T> extends Field<T> {
+public abstract class IdentityGenerator<T> extends Field<T> {
 
 	protected static final String PRODUCED_MORE_THAN_1_IDENTITY_KEY = "produced more than 1 identity key: ";
 	protected static final String NO_IDENTITY_KEY_PRODUCED = "no identity key produced?: ";
 	protected static final String ERROR_OBTAINING_IDENTITY_KEY = "error obtaining identity key: ";
 
-	protected final Field<T> fieldMeta;
+	protected final Field<T> field;
 	protected QueryObject query;
 
-	public IdentityKeyGenerator(final Field<T> fieldMeta) {
-		super(fieldMeta.getColumnName());
-		this.fieldMeta = fieldMeta;
+	public IdentityGenerator(final Field<T> field) {
+		super(field.getColumnName());
+		this.field = field;
 		this.query = null;
 	}
 
@@ -53,12 +53,12 @@ public abstract class IdentityKeyGenerator<T> extends Field<T> {
 
 	@Override
 	public T getValue() {
-		return fieldMeta.getValue();
+		return field.getValue();
 	}
 
 	@Override
 	public void setValue(final T value) {
-		fieldMeta.setValue(value);
+		field.setValue(value);
 	}
 
 	@Override
@@ -66,21 +66,21 @@ public abstract class IdentityKeyGenerator<T> extends Field<T> {
 		throw new FException();
 	}
 
-	public abstract IdentityKeyGenerator<T> doCloneId();
+	public abstract IdentityGenerator<T> doCloneId();
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
-		fieldMeta.load(rs);
+		field.load(rs);
 	}
 
 	@Override
 	public void loadAggregate(final ResultSet rs) throws SQLException {
-		fieldMeta.loadAggregate(rs);
+		field.loadAggregate(rs);
 	}
 
 	@Override
 	public void store(final PreparedStatement pstm, final int index) throws SQLException {
-		fieldMeta.store(pstm, index);
+		field.store(pstm, index);
 	}
 
 }

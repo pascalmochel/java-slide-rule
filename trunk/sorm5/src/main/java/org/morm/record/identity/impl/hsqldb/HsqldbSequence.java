@@ -19,18 +19,14 @@ import org.morm.exception.FException;
 import org.morm.mapper.DataMapper;
 import org.morm.record.QueryObject;
 import org.morm.record.field.Field;
-import org.morm.record.identity.IdentityKeyGenerator;
+import org.morm.record.identity.IdentityGenerator;
 
-import java.util.logging.Logger;
-
-public class HsqldbSequence<T> extends IdentityKeyGenerator<T> {
-
-	private final static Logger LOG = Logger.getLogger(HsqldbSequence.class.getName());
+public class HsqldbSequence<T> extends IdentityGenerator<T> {
 
 	protected final String sequenceName;
 
-	public HsqldbSequence(final Field<T> fieldMeta, final String sequenceName) {
-		super(fieldMeta);
+	public HsqldbSequence(final Field<T> field, final String sequenceName) {
+		super(field);
 		this.sequenceName = sequenceName;
 	}
 
@@ -46,11 +42,9 @@ public class HsqldbSequence<T> extends IdentityKeyGenerator<T> {
 	@Override
 	public void setGeneratedValue() {
 
-		LOG.finer("[S] " + query);
-
 		try {
 
-			fieldMeta.setUncheckedValue(DataMapper.aggregate(query));
+			field.setUncheckedValue(DataMapper.aggregate(query));
 
 		} catch (final Exception e) {
 			throw new FException(ERROR_OBTAINING_IDENTITY_KEY + query, e);
@@ -67,8 +61,8 @@ public class HsqldbSequence<T> extends IdentityKeyGenerator<T> {
 	}
 
 	@Override
-	public IdentityKeyGenerator<T> doCloneId() {
-		return new HsqldbSequence<T>(fieldMeta.doClone(), sequenceName);
+	public IdentityGenerator<T> doCloneId() {
+		return new HsqldbSequence<T>(field.doClone(), sequenceName);
 	}
 
 }

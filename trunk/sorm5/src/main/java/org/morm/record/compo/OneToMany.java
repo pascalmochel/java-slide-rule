@@ -8,11 +8,11 @@ import org.morm.record.Entity;
 import org.morm.record.QueryObject;
 import org.morm.record.SingletonFactory;
 import org.morm.record.field.Field;
-import org.morm.record.identity.IdentityKeyGenerator;
+import org.morm.record.identity.IdentityGenerator;
 
 public class OneToMany<TID, E extends Entity> {
 
-	protected IdentityKeyGenerator<TID> selfIdFieldRef;
+	protected IdentityGenerator<TID> selfIdFieldRef;
 	protected final Class<E> foreignEntityClass;
 	protected final Field<TID> foreignField;
 	protected E foreignEntity;
@@ -22,7 +22,7 @@ public class OneToMany<TID, E extends Entity> {
 		this.foreignField = foreignField;
 	}
 
-	public void setSelfIdFieldRef(final IdentityKeyGenerator<TID> selfIdFieldRef) {
+	public void setSelfIdFieldRef(final IdentityGenerator<TID> selfIdFieldRef) {
 		this.selfIdFieldRef = selfIdFieldRef;
 	}
 
