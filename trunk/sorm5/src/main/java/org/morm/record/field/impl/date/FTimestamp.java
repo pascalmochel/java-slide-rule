@@ -1,6 +1,5 @@
 package org.morm.record.field.impl.date;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -20,18 +19,8 @@ public class FTimestamp extends Field<Timestamp> {
 	}
 
 	@Override
-	public void store(final PreparedStatement pstm, final int index) throws SQLException {
-		pstm.setTimestamp(index, getValue());
-	}
-
-	@Override
 	public Field<Timestamp> doClone() {
 		return new FTimestamp(getColumnName());
-	}
-
-	@Override
-	public void loadAggregate(final ResultSet rs) throws SQLException {
-		setValue(rs.getTimestamp(1));
 	}
 
 }

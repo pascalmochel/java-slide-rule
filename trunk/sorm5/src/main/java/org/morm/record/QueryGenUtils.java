@@ -32,7 +32,7 @@ public class QueryGenUtils {
 
 		final StringBuilder r = new StringBuilder();
 		for (@SuppressWarnings("unused")
-		final Field<?> f : fields) {
+				final Field<?> f : fields) {
 			r.append("?,");
 		}
 		return r.deleteCharAt(r.length() - 1).toString();

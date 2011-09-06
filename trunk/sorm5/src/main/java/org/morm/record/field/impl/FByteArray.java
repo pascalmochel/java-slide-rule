@@ -1,6 +1,5 @@
 package org.morm.record.field.impl;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -13,24 +12,14 @@ public class FByteArray extends Field<byte[]> {
 	}
 
 	@Override
-	public void load(final ResultSet rs) throws SQLException {
-		final byte[] v = rs.getObject(getColumnName()) != null ? rs.getBytes(getColumnName()) : null;
-		setValue(v);
-	}
-
-	@Override
-	public void store(final PreparedStatement pstm, final int index) throws SQLException {
-		pstm.setBytes(index, getValue());
-	}
-
-	@Override
 	public Field<byte[]> doClone() {
 		return new FByteArray(getColumnName());
 	}
 
 	@Override
-	public void loadAggregate(final ResultSet rs) throws SQLException {
-		setValue(rs.getBytes(1));
+	public void load(final ResultSet rs) throws SQLException {
+		final byte[] v = rs.getObject(getColumnName()) != null ? rs.getBytes(getColumnName()) : null;
+		setValue(v);
 	}
 
 }
