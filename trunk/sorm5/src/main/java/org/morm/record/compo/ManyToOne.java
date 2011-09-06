@@ -3,6 +3,7 @@ package org.morm.record.compo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
 import org.morm.record.Entity;
@@ -37,7 +38,7 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 
 	@Override
 	public Field<TID> doClone() {
-		throw new RuntimeException();
+		throw new SormException("internal error, invoking " + getClass() + "#doClone()");
 	}
 
 	public ManyToOne<TID, E> doCloneCollaboration() {

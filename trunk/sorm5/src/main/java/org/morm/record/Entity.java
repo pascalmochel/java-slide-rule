@@ -46,7 +46,7 @@ import java.util.logging.Logger;
  */
 public class Entity {
 
-	protected Logger LOG = Logger.getLogger(getClass().getName());
+	protected Logger log = Logger.getLogger(getClass().getName());
 
 	private String tableName;
 
@@ -152,24 +152,24 @@ public class Entity {
 
 	@SuppressWarnings("unchecked")
 	public <T extends Entity> T loadUniqueByQuery(final QueryObject query) {
-		LOG.fine("loadUniqueByQuery(" + query + ")");
+		log.fine("loadUniqueByQuery(" + query + ")");
 		return (T) DataMapper.queryUnique(mapper, query);
 	}
 
 	@SuppressWarnings("unchecked")
 	public <T extends Entity> List<T> loadByQuery(final QueryObject query) {
-		LOG.fine("loadByQuery(" + query + ")");
+		log.fine("loadByQuery(" + query + ")");
 		return (List<T>) DataMapper.query(mapper, query);
 	}
 
 	protected int sqlStatement(final QueryObject query) {
-		LOG.fine("sqlStatement()");
+		log.fine("sqlStatement()");
 		return DataMapper.update(query);
 	}
 
 	@SuppressWarnings("unchecked")
 	public <T extends Entity> T loadById(final Object id) {
-		LOG.fine("loadById(" + id + ")");
+		log.fine("loadById(" + id + ")");
 		final QueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(tableName)
@@ -183,7 +183,7 @@ public class Entity {
 
 	@SuppressWarnings("unchecked")
 	public <T extends Entity> List<T> loadBy(final Criterion... criterions) {
-		LOG.fine("loadBy(Criterion[])");
+		log.fine("loadBy(Criterion[])");
 		final Criterion cs = Criteria.concate(criterions);
 		final QueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
@@ -196,7 +196,7 @@ public class Entity {
 
 	@SuppressWarnings("unchecked")
 	public <T extends Entity> List<T> loadAll() {
-		LOG.fine("loadAll()");
+		log.fine("loadAll()");
 		final QueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(tableName)
@@ -234,7 +234,7 @@ public class Entity {
 
 	public void insert() {
 
-		LOG.fine("insert()");
+		log.fine("insert()");
 		if (idField.generateBefore()) {
 			idField.assignGeneratedValue();
 		}
@@ -257,7 +257,7 @@ public class Entity {
 	}
 
 	protected void update() {
-		LOG.fine("update()");
+		log.fine("update()");
 		final QueryObject query = new QueryObject()
 		/**/.append("UPDATE ")
 		/**/.append(tableName)
@@ -272,7 +272,7 @@ public class Entity {
 	}
 
 	public void delete() {
-		LOG.fine("delete()");
+		log.fine("delete()");
 		final QueryObject query = new QueryObject()
 		/**/.append("DELETE FROM ")
 		/**/.append(tableName)
@@ -285,7 +285,7 @@ public class Entity {
 	}
 
 	public void delete(final Criterion criterion) {
-		LOG.fine("delete(Criterion[])");
+		log.fine("delete(Criterion[])");
 		final QueryObject query = new QueryObject()
 		/**/.append("DELETE FROM ")
 		/**/.append(tableName)
@@ -296,7 +296,7 @@ public class Entity {
 	}
 
 	public Long count(final Criterion criterion) {
-		LOG.fine("count(Criterion[])");
+		log.fine("count(Criterion[])");
 		final QueryObject query = new QueryObject()
 		/**/.append("SELECT COUNT(*) FROM ")
 		/**/.append(tableName)

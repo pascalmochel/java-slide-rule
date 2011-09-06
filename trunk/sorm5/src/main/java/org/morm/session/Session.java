@@ -48,7 +48,7 @@ public class Session implements ISession {
 			} catch (final SQLException exc) {
 				throw new SormException(
 						"throwed exception attempting to establish a transaction savepoint: savePointName="
-						+ savePointName, exc);
+								+ savePointName, exc);
 			}
 		} else {
 			try {
@@ -91,14 +91,14 @@ public class Session implements ISession {
 			} catch (final SQLException exc) {
 				throw new SormException(
 						"throwed exception during transaction releaseSavepoint; savePointName:"
-						+ savePointName, exc);
+								+ savePointName, exc);
 			}
 		}
 	}
 
 	public void rollback() {
 		if (connection == null) {
-			throw new RuntimeException("null connection; transaction not opened");
+			throw new SormException("null connection; transaction not opened");
 		}
 		if (txStack.isEmpty()) {
 			try {

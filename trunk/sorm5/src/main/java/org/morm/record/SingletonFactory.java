@@ -1,5 +1,7 @@
 package org.morm.record;
 
+import org.morm.exception.SormException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +20,7 @@ public class SingletonFactory {
 				final Entity r = c.newInstance();
 				entities.get().put(c, r);
 			} catch (final Exception e) {
-				throw new RuntimeException(e);
+				throw new SormException("error instancing: " + c.getName(), e);
 			}
 		}
 		return entities.get().get(c);
