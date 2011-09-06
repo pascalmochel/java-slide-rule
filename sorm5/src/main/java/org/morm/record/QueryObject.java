@@ -5,6 +5,8 @@ import java.util.List;
 
 public class QueryObject {
 
+	public static final QueryObject VOID = new QueryObject();
+
 	protected final StringBuilder query;
 	protected final List<Object> params;
 

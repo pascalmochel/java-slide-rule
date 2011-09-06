@@ -12,7 +12,7 @@ import org.morm.record.compo.ManyToOne;
 import org.morm.record.compo.OneToMany;
 import org.morm.record.field.Field;
 import org.morm.record.field.FieldDef;
-import org.morm.record.identity.IdentityKeyGenerator;
+import org.morm.record.identity.IdentityGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +50,7 @@ public class Entity {
 
 	private String tableName;
 
-	private IdentityKeyGenerator<?> idField;
+	private IdentityGenerator<?> idField;
 	private final Map<String, Field<?>> fields;
 	private final Set<ManyToOne<?, ?>> manyToOnes;
 	private final Map<String, OneToMany<?, ?>> oneToManies;
@@ -71,8 +71,8 @@ public class Entity {
 		this.tableName = tableName;
 	}
 
-	protected void registerIdField(final IdentityKeyGenerator<?> idField) {
-		final IdentityKeyGenerator<?> id = idField.doCloneId();
+	protected void registerIdField(final IdentityGenerator<?> idField) {
+		final IdentityGenerator<?> id = idField.doCloneId();
 		this.idField = id;
 		this.fields.put(id.getColumnName(), id);
 	}
@@ -91,7 +91,7 @@ public class Entity {
 
 	@SuppressWarnings("unchecked")
 	protected <TID> void registerOneToMany(final OneToMany<TID, ?> oneToMany) {
-		oneToMany.setSelfIdFieldRef((IdentityKeyGenerator<TID>) this.idField);
+		oneToMany.setSelfIdFieldRef((IdentityGenerator<TID>) this.idField);
 		final OneToMany<TID, ?> c = oneToMany.doCloneCollaboration();
 		this.oneToManies.put(c.getColumnName(), c);
 	}
@@ -214,7 +214,7 @@ public class Entity {
 		}
 	}
 
-	protected void insert() {
+	public void insert() {
 
 		LOG.fine("insert()");
 		if (idField.generateBefore()) {
@@ -318,7 +318,7 @@ public class Entity {
 		return mapper;
 	}
 
-	public IdentityKeyGenerator<?> getIdField() {
+	public IdentityGenerator<?> getIdField() {
 		return idField;
 	}
 

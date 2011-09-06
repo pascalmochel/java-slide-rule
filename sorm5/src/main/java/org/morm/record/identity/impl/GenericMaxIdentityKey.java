@@ -19,14 +19,14 @@ import org.morm.exception.FException;
 import org.morm.mapper.DataMapper;
 import org.morm.record.QueryObject;
 import org.morm.record.field.Field;
-import org.morm.record.identity.IdentityKeyGenerator;
+import org.morm.record.identity.IdentityGenerator;
 
-public class GenericMaxIdentityKey<T> extends IdentityKeyGenerator<T> {
+public class GenericMaxIdentityKey<T> extends IdentityGenerator<T> {
 
 	protected final String tableName;
 
-	public GenericMaxIdentityKey(final String tableName, final Field<T> fieldMeta) {
-		super(fieldMeta);
+	public GenericMaxIdentityKey(final String tableName, final Field<T> field) {
+		super(field);
 		this.tableName = tableName;
 	}
 
@@ -35,9 +35,9 @@ public class GenericMaxIdentityKey<T> extends IdentityKeyGenerator<T> {
 
 		return new QueryObject()
 		/**/.append("SELECT MAX(")
-		/**/.append(fieldMeta.getColumnName())
+		/**/.append(field.getColumnName())
 		/**/.append(")+1 AS ")
-		/**/.append(fieldMeta.getColumnName())
+		/**/.append(field.getColumnName())
 		/**/.append(" FROM ")
 		/**/.append(tableName)
 		/**/;
@@ -48,7 +48,7 @@ public class GenericMaxIdentityKey<T> extends IdentityKeyGenerator<T> {
 
 		try {
 
-			fieldMeta.setUncheckedValue(DataMapper.aggregate(super.query));
+			field.setUncheckedValue(DataMapper.aggregate(super.query));
 
 		} catch (final Exception e) {
 			throw new FException(ERROR_OBTAINING_IDENTITY_KEY + query, e);
@@ -61,8 +61,8 @@ public class GenericMaxIdentityKey<T> extends IdentityKeyGenerator<T> {
 	}
 
 	@Override
-	public IdentityKeyGenerator<T> doCloneId() {
-		return new GenericMaxIdentityKey<T>(tableName, fieldMeta.doClone());
+	public IdentityGenerator<T> doCloneId() {
+		return new GenericMaxIdentityKey<T>(tableName, field.doClone());
 	}
 
 }
