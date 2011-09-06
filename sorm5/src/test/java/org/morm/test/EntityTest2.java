@@ -63,14 +63,14 @@ public class EntityTest2 {
 					new Dog();
 				}
 
-				final Rabbit r = Rabbit.findById(600);
+				final Rabbit r = new Rabbit().loadById(600);
 				System.out.println(r);
 				System.out.println(r.getDog());
 				System.out.println(r);
 
 				System.out.println("====================================");
 
-				final Dog d = Dog.findById(500);
+				final Dog d = new Dog().loadById(500);
 				System.out.println(d);
 				System.out.println(d.getRabbits());
 				System.out.println(d);

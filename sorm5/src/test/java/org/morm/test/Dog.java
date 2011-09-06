@@ -1,12 +1,11 @@
 package org.morm.test;
 
-import org.morm.criteria.Criterion;
 import org.morm.record.Entity;
 import org.morm.record.compo.OneToMany;
 import org.morm.record.field.impl.FString;
 import org.morm.record.field.impl.primitive.FInteger;
 import org.morm.record.identity.IdentityKeyGenerator;
-import org.morm.record.identity.impl.HsqldbIdentity;
+import org.morm.record.identity.impl.hsqldb.HsqldbIdentity;
 
 import java.util.List;
 
@@ -63,20 +62,6 @@ public class Dog extends Entity {
 
 	public void setAge(final Integer age) {
 		set(Dog.age, age);
-	}
-
-	protected static Dog X = new Dog();
-
-	public static Dog findById(final Integer id) {
-		return X.loadById(id);
-	}
-
-	public static List<Entity> findAll() {
-		return X.loadAll();
-	}
-
-	public static List<Dog> findBy(final Criterion... criterions) {
-		return X.loadBy(criterions);
 	}
 
 }

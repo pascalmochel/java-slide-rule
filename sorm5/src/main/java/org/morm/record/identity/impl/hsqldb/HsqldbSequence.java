@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.morm.record.identity.impl;
+package org.morm.record.identity.impl.hsqldb;
 
 import org.morm.exception.FException;
 import org.morm.mapper.DataMapper;
