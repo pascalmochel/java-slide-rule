@@ -4,7 +4,7 @@ import javax.sql.DataSource;
 
 import oracle.jdbc.pool.OracleDataSource;
 
-import org.morm.exception.FException;
+import org.morm.exception.SormException;
 
 public class TestingOracleDataSourceFactory {
 
@@ -18,7 +18,7 @@ public class TestingOracleDataSourceFactory {
 
 			return ds;
 		} catch (final Exception e) {
-			throw new FException(e);
+			throw new SormException("datasource error", e);
 		}
 	}
 

@@ -15,23 +15,25 @@
  */
 package org.morm.exception;
 
-public class FException extends RuntimeException {
+public class SormException extends RuntimeException {
 
 	private static final long serialVersionUID = 1835360421671345458L;
 
-	public FException() {
+	@Deprecated
+	public SormException() {
 		super();
 	}
 
-	public FException(final Throwable e) {
+	@Deprecated
+	public SormException(final Throwable e) {
 		super(e);
 	}
 
-	public FException(final String msg) {
+	public SormException(final String msg) {
 		super(msg);
 	}
 
-	public FException(final String msg, final Throwable e) {
+	public SormException(final String msg, final Throwable e) {
 		super(msg, e);
 	}
 

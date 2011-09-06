@@ -19,7 +19,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import org.morm.exception.FException;
+import org.morm.exception.SormException;
 
 /**
  * <pre>
@@ -57,17 +57,17 @@ public class JndiDataSourceFactory {
 		try {
 			cxt = new InitialContext();
 			if (cxt == null) {
-				throw new FException("no JNDI context available");
+				throw new SormException("no JNDI context available");
 			}
 
 			final DataSource ds = (DataSource) cxt.lookup(jndiName);
 
 			if (ds == null) {
-				throw new FException("Data source not found: " + jndiName);
+				throw new SormException("Data source not found: " + jndiName);
 			}
 			return ds;
 		} catch (final NamingException exc) {
-			throw new FException("error acquiring InitialContext, for jndi name " + jndiName, exc);
+			throw new SormException("error acquiring InitialContext, for jndi name " + jndiName, exc);
 		}
 	}
 

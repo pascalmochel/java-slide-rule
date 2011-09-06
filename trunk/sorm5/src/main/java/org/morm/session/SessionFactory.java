@@ -2,7 +2,7 @@ package org.morm.session;
 
 import javax.sql.DataSource;
 
-import org.morm.exception.FException;
+import org.morm.exception.SormException;
 
 import java.util.logging.Logger;
 
@@ -62,7 +62,7 @@ public class SessionFactory {
 	 */
 	protected static ISession createNewSession() {
 		if (dataSourceReference == null) {
-			throw new FException("configuration error: bean " + SessionFactory.class.getName()
+			throw new SormException("configuration error: bean " + SessionFactory.class.getName()
 					+ " requires 'dataSourceReference' property injection.");
 		}
 		return new Session(dataSourceReference, transactionIsolation);

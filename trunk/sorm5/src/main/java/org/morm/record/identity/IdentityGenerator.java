@@ -18,7 +18,7 @@ package org.morm.record.identity;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.morm.exception.FException;
+import org.morm.exception.SormException;
 import org.morm.record.QueryObject;
 import org.morm.record.field.Field;
 
@@ -62,7 +62,7 @@ public abstract class IdentityGenerator<T> extends Field<T> {
 
 	@Override
 	public Field<T> doClone() {
-		throw new FException();
+		throw new SormException("internal error, invoking " + getClass() + "#doClone()");
 	}
 
 	public abstract IdentityGenerator<T> doCloneId();

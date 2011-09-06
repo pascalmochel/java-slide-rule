@@ -74,8 +74,12 @@ public class OneToMany<TID, E extends Entity> {
 	@Override
 	public String toString() {
 		return isInit ?
-				/**/(getCollaboration() == null ? "null" : getCollaboration().toString()) :
-					/**/"[...]";
+		/**/(getCollaboration() == null ? "null" : getCollaboration().toString()) :
+		/**/"[...]";
+	}
+
+	public Field<TID> getForeignField() {
+		return foreignField;
 	}
 
 	public boolean getIsInit() {

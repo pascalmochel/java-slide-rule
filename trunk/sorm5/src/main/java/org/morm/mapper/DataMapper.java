@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import org.morm.exception.FException;
+import org.morm.exception.SormException;
+import org.morm.record.Entity;
 import org.morm.record.QueryObject;
 import org.morm.session.SessionFactory;
 
@@ -16,7 +17,7 @@ public class DataMapper {
 
 	protected static Logger LOG = Logger.getLogger(DataMapper.class.getName());
 
-	public static <T> T queryUnique(final IRowMapper<T> rowMapper, final QueryObject query) {
+	public static <T extends Entity> T queryUnique(final IRowMapper<T> rowMapper, final QueryObject query) {
 		LOG.fine(query.toString());
 		return queryUnique(rowMapper, query.getQuery(), query.getParams());
 	}
@@ -53,17 +54,18 @@ public class DataMapper {
 
 			rs = pstm.executeQuery();
 			if (!rs.next()) {
-				throw new FException("no row produced");
+				throw new SormException("no row produced");
 			}
 			final T r = rowMapper.mapRow(rs);
 
 			if (rs.next()) {
-				throw new FException("more than 1 row produced");
+				throw new SormException("more than 1 row produced");
 			}
 
 			return r;
 		} catch (final Exception e) {
-			throw new FException(e);
+			throw new SormException("error in query: " + sqlQuery + ", using mapper=" + rowMapper.getClass(),
+					e);
 		} finally {
 			close(pstm, rs);
 		}
@@ -91,7 +93,8 @@ public class DataMapper {
 
 			return r;
 		} catch (final Exception e) {
-			throw new FException(e);
+			throw new SormException("error in query: " + sqlQuery + ", using mapper=" + rowMapper.getClass(),
+					e);
 		} finally {
 			close(pstm, rs);
 		}
@@ -113,7 +116,7 @@ public class DataMapper {
 
 			rs = pstm.executeQuery();
 			if (!rs.next()) {
-				throw new FException("no row produced");
+				throw new SormException("no row produced");
 			}
 			final Number r = (Number) rs.getObject(1);
 
@@ -124,7 +127,7 @@ public class DataMapper {
 			return r;
 
 		} catch (final Exception e) {
-			throw new RuntimeException(e);
+			throw new SormException("error in query: " + sqlQuery, e);
 		} finally {
 			close(pstm, rs);
 		}
@@ -144,11 +147,11 @@ public class DataMapper {
 
 			final int r = pstm.executeUpdate();
 			if (r == 0) {
-				throw new RuntimeException("no affected rows");
+				throw new SormException("no affected rows");
 			}
 			return r;
 		} catch (final Exception e) {
-			throw new RuntimeException(e);
+			throw new SormException("error in query: " + sqlQuery, e);
 		} finally {
 			close(pstm, null);
 		}
@@ -180,7 +183,7 @@ public class DataMapper {
 			pstm = c.prepareStatement(sqlQuery);
 			return pstm.executeUpdate();
 		} catch (final Exception e) {
-			throw new RuntimeException(e);
+			throw new SormException("error in DDL: " + sqlQuery, e);
 		} finally {
 			close(pstm, null);
 		}
