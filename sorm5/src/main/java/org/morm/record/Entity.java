@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.morm.criteria.Criteria;
 import org.morm.criteria.Criterion;
-import org.morm.exception.FException;
+import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
 import org.morm.record.compo.ManyToOne;
@@ -131,7 +131,6 @@ public class Entity {
 	@SuppressWarnings("unchecked")
 	protected <E extends Entity> List<E> getCollaborations(final OneToMany<?, E> collaborableField) {
 		final OneToMany<?, E> self = (OneToMany<?, E>) oneToManies.get(collaborableField.getColumnName());
-		System.out.println("===> " + collaborableField.getColumnName());
 		return self.getCollaboration();
 	}
 
@@ -149,6 +148,12 @@ public class Entity {
 			r.add(i.toString());
 		}
 		return r.toString();
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends Entity> T loadByQuery(final QueryObject query) {
+		LOG.fine("loadByQuery(" + query + ")");
+		return (T) DataMapper.queryUnique(mapper, query);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -188,6 +193,7 @@ public class Entity {
 		return (List<T>) DataMapper.query(mapper, query);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void store() {
 		for (final ManyToOne<?, ?> c : manyToOnes) {
 			if (c.getIsInit() && c.getValue() != null) {
@@ -207,6 +213,7 @@ public class Entity {
 				final List<? extends Entity> cs = c.getCollaboration();
 				if (cs != null) {
 					for (final Entity e : cs) {
+						e.set(((Field<Object>) c.getForeignField()), (Object) idField.getValue());
 						e.store();
 					}
 				}
@@ -301,11 +308,15 @@ public class Entity {
 				final Entity r = tableClass.newInstance();
 
 				for (final Field<?> f : r.getFields()) {
-					f.load(rs);
+					try {
+						f.load(rs);
+					} catch (final Exception e) {
+						throw new SormException("error mapping field: " + f.toString(), e);
+					}
 				}
 				return r;
 			} catch (final Exception e) {
-				throw new FException(e);
+				throw new SormException("error mapping " + getClass().getSimpleName(), e);
 			}
 		}
 	}

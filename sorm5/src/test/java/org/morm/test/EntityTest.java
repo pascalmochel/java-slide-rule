@@ -3,7 +3,7 @@ package org.morm.test;
 import org.junit.Test;
 import org.morm.criteria.impl.OrderBy;
 import org.morm.datasource.HsqldbDataSourceFactory;
-import org.morm.exception.FException;
+import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
 import org.morm.session.SessionFactory;
 
@@ -52,7 +52,7 @@ public class EntityTest {
 			try {
 				new Rabbit().loadById(4);
 				fail();
-			} catch (final FException e2) {
+			} catch (final SormException e2) {
 				// assertEquals("java.lang.RuntimeException: no row produced",
 				// e2.getMessage());
 			}
