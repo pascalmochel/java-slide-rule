@@ -21,7 +21,7 @@ public class EntityTest {
 	public void testname() throws Exception {
 
 		{
-			SessionFactory.getCurrentSession().beginTransaction();
+			SessionFactory.getCurrentSession().openTransaction();
 
 			DataMapper.executeDDLIgnoringErrors("DROP TABLE RABBIT");
 			DataMapper.executeDDLIgnoringErrors("DROP TABLE DOG");
@@ -101,7 +101,7 @@ public class EntityTest {
 			SessionFactory.getCurrentSession().rollback();
 		}
 		{
-			SessionFactory.getCurrentSession().beginTransaction();
+			SessionFactory.getCurrentSession().openTransaction();
 			DataMapper.executeDDL("DROP TABLE RABBIT");
 			DataMapper.executeDDL("DROP TABLE DOG");
 			SessionFactory.getCurrentSession().commit();

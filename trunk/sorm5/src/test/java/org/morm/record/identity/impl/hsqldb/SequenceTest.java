@@ -19,7 +19,7 @@ public class SequenceTest {
 
 	@Before
 	public void before() {
-		SessionFactory.getCurrentSession().beginTransaction();
+		SessionFactory.getCurrentSession().openTransaction();
 
 		DataMapper.executeDDLIgnoringErrors("DROP SEQUENCE DOG_SEQUENCE");
 		DataMapper.executeDDLIgnoringErrors("DROP TABLE DOG");
@@ -38,7 +38,7 @@ public class SequenceTest {
 	@After
 	public void after() {
 
-		SessionFactory.getCurrentSession().beginTransaction();
+		SessionFactory.getCurrentSession().openTransaction();
 		DataMapper.executeDDL("DROP SEQUENCE DOG_SEQUENCE");
 		DataMapper.executeDDL("DROP TABLE DOG");
 		SessionFactory.getCurrentSession().commit();
@@ -46,7 +46,7 @@ public class SequenceTest {
 
 	@Test
 	public void testname() throws Exception {
-		SessionFactory.getCurrentSession().beginTransaction();
+		SessionFactory.getCurrentSession().openTransaction();
 
 		new SequenceDog(null, "din", 9).store();
 		assertEquals("[[ID_DOG=1, NAME=din, AGE=9]]", new SequenceDog().loadAll().toString());
