@@ -18,7 +18,7 @@ public class SaveTest {
 
 	@Before
 	public void before() {
-		SessionFactory.getCurrentSession().beginTransaction();
+		SessionFactory.getCurrentSession().openTransaction();
 
 		DataMapper.executeDDLIgnoringErrors("DROP TABLE DOG");
 		DataMapper.executeDDLIgnoringErrors("DROP TABLE RABBIT");
@@ -41,7 +41,7 @@ public class SaveTest {
 
 	@After
 	public void after() {
-		SessionFactory.getCurrentSession().beginTransaction();
+		SessionFactory.getCurrentSession().openTransaction();
 		DataMapper.executeDDL("DROP TABLE RABBIT");
 		DataMapper.executeDDL("DROP TABLE DOG");
 		SessionFactory.getCurrentSession().commit();
@@ -50,7 +50,7 @@ public class SaveTest {
 	@Test
 	public void testInsertDogInsertRabbits() {
 
-		SessionFactory.getCurrentSession().beginTransaction();
+		SessionFactory.getCurrentSession().openTransaction();
 		// DataMapper.executeDDL("INSERT INTO DOG (ID_DOG,NAME,AGE) VALUES (500,'din',9)");
 		// DataMapper
 		// .executeDDL("INSERT INTO RABBIT (ID_RABBIT,NAME,AGE,NUM_DOG) VALUES (600,'cornill',5, 500)");
@@ -80,7 +80,7 @@ public class SaveTest {
 	@Test
 	public void testInsertRabbitInsertDog() {
 
-		SessionFactory.getCurrentSession().beginTransaction();
+		SessionFactory.getCurrentSession().openTransaction();
 
 		try {
 

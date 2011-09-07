@@ -37,7 +37,7 @@ public class Session implements ISession {
 		txStack = new Stack<Savepoint>();
 	}
 
-	public Connection beginTransaction() {
+	public Connection openTransaction() {
 
 		if (isTransactionActive()) {
 			final String savePointName = String.valueOf(txStack.size());
@@ -67,7 +67,7 @@ public class Session implements ISession {
 		if (connection == null) {
 			// throw new
 			// RuntimeException("business operation are ocurred outside of a transaction bounds");
-			return beginTransaction();
+			return openTransaction();
 		}
 		return connection;
 	}
@@ -122,7 +122,7 @@ public class Session implements ISession {
 		}
 	}
 
-	protected void close() {
+	public void close() {
 		try {
 			connection.close();
 		} catch (final SQLException exc) {

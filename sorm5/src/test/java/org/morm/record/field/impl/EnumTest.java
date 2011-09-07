@@ -20,7 +20,7 @@ public class EnumTest {
 
 	@Before
 	public void before() {
-		SessionFactory.getCurrentSession().beginTransaction();
+		SessionFactory.getCurrentSession().openTransaction();
 
 		DataMapper.executeDDLIgnoringErrors("DROP TABLE DOG");
 
@@ -37,18 +37,18 @@ public class EnumTest {
 	@After
 	public void after() {
 
-		SessionFactory.getCurrentSession().beginTransaction();
+		SessionFactory.getCurrentSession().openTransaction();
 		DataMapper.executeDDL("DROP TABLE DOG");
 		SessionFactory.getCurrentSession().commit();
 	}
 
 	@Test
 	public void testname() throws Exception {
-		SessionFactory.getCurrentSession().beginTransaction();
+		SessionFactory.getCurrentSession().openTransaction();
 
 		try {
 
-			EnumDog d = new EnumDog(null, "din", EColor.RED);
+			final EnumDog d = new EnumDog(null, "din", EColor.RED);
 			d.store();
 			assertEquals("[[ID_DOG=100, NAME=din, COLOR=RED]]", Entity.loadAll(EnumDog.class).toString());
 
