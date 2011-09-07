@@ -58,7 +58,7 @@ public class OneToMany<TID, E extends Entity> {
 			/**/.append(" WHERE ")
 			/**/.append(foreignField.getColumnName())
 			/**/.append("=?")
-			/**/.addParams(this.selfIdFieldRef.getValue());
+			/**/.addParams(this.selfIdFieldRef.getValue())
 			/**/;
 			this.collaboration = DataMapper.query((IRowMapper<E>) this.foreignEntity.getRowMapper(), q);
 			this.isInit = true;
