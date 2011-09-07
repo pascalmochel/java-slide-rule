@@ -1,6 +1,5 @@
 package org.morm.criteria;
 
-import org.morm.criteria.impl.ColumnToColumnRestriction;
 import org.morm.criteria.impl.ColumnToValueRestriction;
 import org.morm.criteria.impl.CriterionList;
 import org.morm.criteria.impl.MultiRestriction;
@@ -18,11 +17,31 @@ public class Criteria {
 		return new ColumnToValueRestriction(field.getColumnName(), "=", value);
 	}
 
-	public static <T> Criterion eq(final String tableAlias1, final FieldDef<T> field1,
-			final String tableAlias2, final FieldDef<T> field2) {
-		return new ColumnToColumnRestriction(tableAlias1, field1.getColumnName(), "=", tableAlias2, field2
-				.getColumnName());
+	public static <T> Criterion let(final FieldDef<T> field, final T value) {
+		return new ColumnToValueRestriction(field.getColumnName(), "<=", value);
 	}
+
+	public static <T> Criterion get(final FieldDef<T> field, final T value) {
+		return new ColumnToValueRestriction(field.getColumnName(), ">=", value);
+	}
+
+	public static <T> Criterion lt(final FieldDef<T> field, final T value) {
+		return new ColumnToValueRestriction(field.getColumnName(), "<", value);
+	}
+
+	public static <T> Criterion gt(final FieldDef<T> field, final T value) {
+		return new ColumnToValueRestriction(field.getColumnName(), ">", value);
+	}
+
+	public static <T> Criterion like(final FieldDef<T> field, final T value) {
+		return new ColumnToValueRestriction(field.getColumnName(), " like ", value);
+	}
+
+//	public static <T> Criterion eq(final Entity entity1, final FieldDef<T> field1, final Entity entity2,
+//			final FieldDef<T> field2) {
+//		return new ColumnToColumnRestriction(entity1.getTableName(), field1.getColumnName(), "=", entity2
+//				.getTableName(), field2.getColumnName());
+//	}
 
 	public static Criterion and(final Criterion... abstractRs) {
 		return new MultiRestriction(" AND ", abstractRs);

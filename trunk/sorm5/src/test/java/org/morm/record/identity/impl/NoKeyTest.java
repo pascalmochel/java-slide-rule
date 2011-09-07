@@ -13,8 +13,8 @@ import static org.junit.Assert.*;
 public class NoKeyTest {
 
 	static {
-		new SessionFactory().setDataSource(new HsqldbDataSourceFactory().getDataSource());
 		new EntityTest2();
+		new SessionFactory().setDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
 	@Before

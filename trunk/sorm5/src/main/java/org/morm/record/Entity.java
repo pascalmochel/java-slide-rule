@@ -12,6 +12,7 @@ import org.morm.record.compo.ManyToOne;
 import org.morm.record.compo.OneToMany;
 import org.morm.record.field.Field;
 import org.morm.record.field.FieldDef;
+import org.morm.record.field.impl.FEnum;
 import org.morm.record.identity.IdentityGenerator;
 
 import java.util.ArrayList;
@@ -77,8 +78,8 @@ public class Entity {
 		this.fields.put(id.getColumnName(), id);
 	}
 
-	protected void registerFields(final Field<?>... fs) {
-		for (final Field<?> f : fs) {
+	protected void registerFields(final FieldDef<?>... fs) {
+		for (final FieldDef<?> f : fs) {
 			this.fields.put(f.getColumnName(), f.doClone());
 		}
 	}
@@ -106,6 +107,18 @@ public class Entity {
 	protected <T> T get(final FieldDef<T> fieldDef) {
 		final Field<T> self = (Field<T>) fields.get(fieldDef.getColumnName());
 		return self.getValue();
+	}
+
+	@SuppressWarnings("unchecked")
+	protected <T extends Enum<T>> T getEnum(final FEnum<T> enumField) {
+		final FEnum<T> self = (FEnum<T>) fields.get(enumField.getColumnName());
+		return self.getEnumValue();
+	}
+
+	@SuppressWarnings("unchecked")
+	protected <T extends Enum<T>> void setEnum(final FEnum<T> enumField, T value) {
+		final FEnum<T> self = (FEnum<T>) fields.get(enumField.getColumnName());
+		self.setEnumValue(value);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -148,6 +161,35 @@ public class Entity {
 			r.add(i.toString());
 		}
 		return r.toString();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends Entity> T loadById(Class<T> entityClass, final Object id) {
+		return (T) SingletonFactory.get((Class<Entity>) entityClass).loadById(id);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends Entity> List<T> loadBy(Class<T> entityClass, Criterion... criterions) {
+		return SingletonFactory.get((Class<Entity>) entityClass).loadBy(criterions);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends Entity> List<T> loadAll(Class<T> entityClass) {
+		return SingletonFactory.get((Class<Entity>) entityClass).loadAll();
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends Entity> T loadUniqueByQuery(Class<T> entityClass, final QueryObject query) {
+		return (T) SingletonFactory.get((Class<Entity>) entityClass).loadUniqueByQuery(query);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends Entity> List<T> loadByQuery(Class<T> entityClass, final QueryObject query) {
+		return SingletonFactory.get((Class<Entity>) entityClass).loadByQuery(query);
+	}
+
+	protected int sqlStatement(Class<Entity> entityClass, final QueryObject query) {
+		return SingletonFactory.get(entityClass).sqlStatement(query);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -207,9 +249,10 @@ public class Entity {
 	@SuppressWarnings("unchecked")
 	public void store() {
 		for (final ManyToOne<?, ?> c : manyToOnes) {
-			if (c.getIsInit() && c.getValue() != null) {
+			if (c.getIsInit()) {
 				final Entity v = c.getCollaboration();
 				v.store();
+				set((Field<Object>) c, v.getIdField().getValue());
 			}
 		}
 
@@ -224,7 +267,7 @@ public class Entity {
 				final List<? extends Entity> cs = c.getCollaboration();
 				if (cs != null) {
 					for (final Entity e : cs) {
-						e.set(((Field<Object>) c.getForeignField()), (Object) idField.getValue());
+						e.set(((Field<Object>) c.getForeignField()), idField.getValue());
 						e.store();
 					}
 				}
@@ -268,10 +311,19 @@ public class Entity {
 		/**/.append("=?")
 		/**/.addParams(QueryGenUtils.fieldValuesIdLast(idField, fields.values()))
 		/**/;
-		DataMapper.update(query);
+		int affectedRows = DataMapper.update(query);
+		if (affectedRows > 1) {
+			throw new SormException("updated more than 1 row");
+		}
 	}
 
 	public void delete() {
+		for (final ManyToOne<?, ?> c : manyToOnes) {
+			Entity collaboration = c.getCollaboration();
+			if (collaboration != null) {
+				collaboration.delete();
+			}
+		}
 		log.fine("delete()");
 		final QueryObject query = new QueryObject()
 		/**/.append("DELETE FROM ")
