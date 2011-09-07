@@ -20,8 +20,8 @@ public class SaveTest {
 	public void before() {
 		SessionFactory.getCurrentSession().beginTransaction();
 
-		DataMapper.executeDDLIgnoringErrors("DROP TABLE RABBIT");
 		DataMapper.executeDDLIgnoringErrors("DROP TABLE DOG");
+		DataMapper.executeDDLIgnoringErrors("DROP TABLE RABBIT");
 
 		DataMapper.executeDDL(
 		/**/"CREATE TABLE RABBIT (" +
@@ -88,14 +88,14 @@ public class SaveTest {
 			// DataMapper
 			// .executeDDL("INSERT INTO RABBIT (ID_RABBIT,NAME,AGE,NUM_DOG) VALUES (600,'cornill',5, 500)");
 
-			Rabbit r = new Rabbit(null, "corneju", 6);
+			final Rabbit r = new Rabbit(null, "corneju", 6);
 			r.setDog(new Dog(null, "din", 8));
 			r.store();
 			assertEquals(
 					"[ID_RABBIT=100, NAME=corneju, AGE=6, NUM_DOG=100=>[ID_DOG=100, NAME=din, AGE=8, [...]]]",
 					r.toString());
 
-			Rabbit r2 = new Rabbit().loadById(100);
+			final Rabbit r2 = new Rabbit().loadById(100);
 			assertEquals("[ID_RABBIT=100, NAME=corneju, AGE=6, NUM_DOG=100=>[...]]", r2.toString());
 			r2.getDog();
 			assertEquals(

@@ -1,13 +1,11 @@
 package org.morm.record;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.morm.criteria.Criteria;
 import org.morm.criteria.Criterion;
 import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
+import org.morm.mapper.EntityMapper;
 import org.morm.record.compo.ManyToOne;
 import org.morm.record.compo.OneToMany;
 import org.morm.record.field.Field;
@@ -56,7 +54,7 @@ public class Entity {
 	private final Set<ManyToOne<?, ?>> manyToOnes;
 	private final Map<String, OneToMany<?, ?>> oneToManies;
 
-	private final TableMapper mapper;
+	private final EntityMapper mapper;
 
 	public Entity() {
 		super();
@@ -65,7 +63,7 @@ public class Entity {
 		this.manyToOnes = new HashSet<ManyToOne<?, ?>>();
 		this.oneToManies = new HashMap<String, OneToMany<?, ?>>();
 
-		this.mapper = new TableMapper(getClass());
+		this.mapper = new EntityMapper(getClass());
 	}
 
 	protected void setTableName(final String tableName) {
@@ -73,13 +71,27 @@ public class Entity {
 	}
 
 	protected void registerIdField(final IdentityGenerator<?> idField) {
+		if (this.idField != null) {
+			throw new SormException("identity field yet defined, with " + getClass().getName() + "#"
+					+ idField.getColumnName());
+		}
+
 		final IdentityGenerator<?> id = idField.doCloneId();
 		this.idField = id;
+
+		if (this.fields.containsKey(id.getColumnName())) {
+			throw new SormException("duplicated column name: " + getClass().getName() + "#"
+					+ id.getColumnName());
+		}
 		this.fields.put(id.getColumnName(), id);
 	}
 
 	protected void registerFields(final FieldDef<?>... fs) {
 		for (final FieldDef<?> f : fs) {
+			if (this.fields.containsKey(f.getColumnName())) {
+				throw new SormException("duplicated column name: " + getClass().getName() + "#"
+						+ f.getColumnName());
+			}
 			this.fields.put(f.getColumnName(), f.doClone());
 		}
 	}
@@ -87,6 +99,10 @@ public class Entity {
 	protected void registerManyToOne(final ManyToOne<?, ?> manyToOne) {
 		final ManyToOne<?, ?> c = manyToOne.doCloneCollaboration();
 		this.manyToOnes.add(c);
+		if (this.fields.containsKey(c.getColumnName())) {
+			throw new SormException("duplicated column name: " + getClass().getName() + "#"
+					+ c.getColumnName());
+		}
 		this.fields.put(c.getColumnName(), c);
 	}
 
@@ -94,6 +110,10 @@ public class Entity {
 	protected <TID> void registerOneToMany(final OneToMany<TID, ?> oneToMany) {
 		oneToMany.setSelfIdFieldRef((IdentityGenerator<TID>) this.idField);
 		final OneToMany<TID, ?> c = oneToMany.doCloneCollaboration();
+		if (this.oneToManies.containsKey(c.getColumnName())) {
+			throw new SormException("duplicated column name: " + getClass().getName() + "#"
+					+ c.getColumnName());
+		}
 		this.oneToManies.put(c.getColumnName(), c);
 	}
 
@@ -116,7 +136,7 @@ public class Entity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <T extends Enum<T>> void setEnum(final FEnum<T> enumField, T value) {
+	protected <T extends Enum<T>> void setEnum(final FEnum<T> enumField, final T value) {
 		final FEnum<T> self = (FEnum<T>) fields.get(enumField.getColumnName());
 		self.setEnumValue(value);
 	}
@@ -147,48 +167,33 @@ public class Entity {
 		return self.getCollaboration();
 	}
 
-	public List<Field<?>> getFields() {
-		return new ArrayList<Field<?>>(fields.values());
-	}
-
-	@Override
-	public String toString() {
-		final List<String> r = new ArrayList<String>();
-		for (final Field<?> i : fields.values()) {
-			r.add(i.toString());
-		}
-		for (final OneToMany<?, ?> i : oneToManies.values()) {
-			r.add(i.toString());
-		}
-		return r.toString();
-	}
-
+	// XXX begin
 	@SuppressWarnings("unchecked")
-	public static <T extends Entity> T loadById(Class<T> entityClass, final Object id) {
+	public static <T extends Entity> T loadById(final Class<T> entityClass, final Object id) {
 		return (T) SingletonFactory.get((Class<Entity>) entityClass).loadById(id);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Entity> List<T> loadBy(Class<T> entityClass, Criterion... criterions) {
+	public static <T extends Entity> List<T> loadBy(final Class<T> entityClass, final Criterion... criterions) {
 		return SingletonFactory.get((Class<Entity>) entityClass).loadBy(criterions);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Entity> List<T> loadAll(Class<T> entityClass) {
+	public static <T extends Entity> List<T> loadAll(final Class<T> entityClass) {
 		return SingletonFactory.get((Class<Entity>) entityClass).loadAll();
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Entity> T loadUniqueByQuery(Class<T> entityClass, final QueryObject query) {
+	public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
 		return (T) SingletonFactory.get((Class<Entity>) entityClass).loadUniqueByQuery(query);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Entity> List<T> loadByQuery(Class<T> entityClass, final QueryObject query) {
+	public <T extends Entity> List<T> loadByQuery(final Class<T> entityClass, final QueryObject query) {
 		return SingletonFactory.get((Class<Entity>) entityClass).loadByQuery(query);
 	}
 
-	protected int sqlStatement(Class<Entity> entityClass, final QueryObject query) {
+	protected int sqlStatement(final Class<Entity> entityClass, final QueryObject query) {
 		return SingletonFactory.get(entityClass).sqlStatement(query);
 	}
 
@@ -204,10 +209,12 @@ public class Entity {
 		return (List<T>) DataMapper.query(mapper, query);
 	}
 
-	protected int sqlStatement(final QueryObject query) {
+	public int sqlStatement(final QueryObject query) {
 		log.fine("sqlStatement()");
 		return DataMapper.update(query);
 	}
+
+	// XXX end
 
 	@SuppressWarnings("unchecked")
 	public <T extends Entity> T loadById(final Object id) {
@@ -311,7 +318,7 @@ public class Entity {
 		/**/.append("=?")
 		/**/.addParams(QueryGenUtils.fieldValuesIdLast(idField, fields.values()))
 		/**/;
-		int affectedRows = DataMapper.update(query);
+		final int affectedRows = DataMapper.update(query);
 		if (affectedRows > 1) {
 			throw new SormException("updated more than 1 row");
 		}
@@ -319,7 +326,7 @@ public class Entity {
 
 	public void delete() {
 		for (final ManyToOne<?, ?> c : manyToOnes) {
-			Entity collaboration = c.getCollaboration();
+			final Entity collaboration = c.getCollaboration();
 			if (collaboration != null) {
 				collaboration.delete();
 			}
@@ -358,32 +365,6 @@ public class Entity {
 		return DataMapper.aggregate(query).longValue();
 	}
 
-	private static class TableMapper implements IRowMapper<Entity> {
-
-		protected Class<? extends Entity> tableClass;
-
-		public TableMapper(final Class<? extends Entity> tableClass) {
-			this.tableClass = tableClass;
-		}
-
-		public Entity mapRow(final ResultSet rs) throws SQLException {
-			try {
-				final Entity r = tableClass.newInstance();
-
-				for (final Field<?> f : r.getFields()) {
-					try {
-						f.load(rs);
-					} catch (final Exception e) {
-						throw new SormException("error mapping field: " + f.toString(), e);
-					}
-				}
-				return r;
-			} catch (final Exception e) {
-				throw new SormException("error mapping " + getClass().getSimpleName(), e);
-			}
-		}
-	}
-
 	public String getTableName() {
 		return tableName;
 	}
@@ -396,4 +377,19 @@ public class Entity {
 		return idField;
 	}
 
+	public List<Field<?>> getFields() {
+		return new ArrayList<Field<?>>(fields.values());
+	}
+
+	@Override
+	public String toString() {
+		final List<String> r = new ArrayList<String>();
+		for (final Field<?> i : fields.values()) {
+			r.add(i.toString());
+		}
+		for (final OneToMany<?, ?> i : oneToManies.values()) {
+			r.add(i.toString());
+		}
+		return r.toString();
+	}
 }

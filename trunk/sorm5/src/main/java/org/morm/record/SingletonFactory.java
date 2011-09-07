@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class SingletonFactory {
 
-	protected static ThreadLocal<Map<Class<Entity>, Entity>> entities = new ThreadLocal<Map<Class<Entity>, Entity>>() {
+	protected static final ThreadLocal<Map<Class<Entity>, Entity>> entities = new ThreadLocal<Map<Class<Entity>, Entity>>() {
 		@Override
 		protected Map<java.lang.Class<Entity>, Entity> initialValue() {
 			return new HashMap<java.lang.Class<Entity>, Entity>();
