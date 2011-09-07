@@ -26,8 +26,6 @@ public abstract class Field<T> extends FieldDef<T> {
 
 	public abstract void load(ResultSet rs) throws SQLException;
 
-	public abstract Field<T> doClone();
-
 	@Override
 	public String toString() {
 		return getColumnName() + "=" + getValue();

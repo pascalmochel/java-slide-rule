@@ -1,32 +1,19 @@
 package org.morm.test;
 
+import static org.junit.Assert.*;
+
+import java.util.Arrays;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.morm.datasource.HsqldbDataSourceFactory;
-import org.morm.logging.LogFactory;
-import org.morm.logging.SingleLineFormatter;
 import org.morm.mapper.DataMapper;
 import org.morm.session.SessionFactory;
-
-import java.util.Arrays;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-
-import static org.junit.Assert.*;
 
 public class SaveTest {
 
 	static {
-
-		final SingleLineFormatter singleLineFormatter = new SingleLineFormatter();
-		for (final Handler h : LogFactory.getRootLogger().getHandlers()) {
-			h.setFormatter(singleLineFormatter);
-			h.setLevel(Level.FINE);
-		}
-
-		LogFactory.getRootLogger().setLevel(Level.FINE);
-		new SessionFactory().setDataSource(new HsqldbDataSourceFactory().getDataSource());
+		new EntityTest2();
 	}
 
 	@Before
@@ -61,29 +48,63 @@ public class SaveTest {
 	}
 
 	@Test
-	public void testname() throws Exception {
+	public void testInsertDogInsertRabbits() {
 
 		SessionFactory.getCurrentSession().beginTransaction();
 		// DataMapper.executeDDL("INSERT INTO DOG (ID_DOG,NAME,AGE) VALUES (500,'din',9)");
 		// DataMapper
 		// .executeDDL("INSERT INTO RABBIT (ID_RABBIT,NAME,AGE,NUM_DOG) VALUES (600,'cornill',5, 500)");
 
-		final Dog d = new Dog(null, "din", 10);
-		d.setRabbits(Arrays.asList(new Rabbit(null, "corneju1", 3), new Rabbit(null, "corneju2", 4)));
+		try {
 
-		d.store();
-		System.out.println("====================================");
+			final Dog d = new Dog(null, "din", 10);
+			d.setRabbits(Arrays.asList(new Rabbit(null, "corneju1", 3), new Rabbit(null, "corneju2", 4)));
 
-		final Dog d2 = new Dog().loadById(100);
-		assertEquals("[ID_DOG=100, NAME=din, AGE=10, [...]]", d2.toString());
-		d2.getRabbits();
-		assertEquals(
-		/**/"[ID_DOG=100, NAME=din, AGE=10, " +
-		/**/"[[ID_RABBIT=100, NAME=corneju1, AGE=3, NUM_DOG=100=>[...]], " +
-		/**/"[ID_RABBIT=101, NAME=corneju2, AGE=4, NUM_DOG=100=>[...]]]]",
-		/**/d2.toString());
+			d.store();
+			System.out.println("====================================");
 
-		SessionFactory.getCurrentSession().rollback();
+			final Dog d2 = new Dog().loadById(100);
+			assertEquals("[ID_DOG=100, NAME=din, AGE=10, [...]]", d2.toString());
+			d2.getRabbits();
+			assertEquals(
+			/**/"[ID_DOG=100, NAME=din, AGE=10, " +
+			/**/"[[ID_RABBIT=100, NAME=corneju1, AGE=3, NUM_DOG=100=>[...]], " +
+			/**/"[ID_RABBIT=101, NAME=corneju2, AGE=4, NUM_DOG=100=>[...]]]]",
+			/**/d2.toString());
+
+		} finally {
+			SessionFactory.getCurrentSession().rollback();
+		}
+	}
+
+	@Test
+	public void testInsertRabbitInsertDog() {
+
+		SessionFactory.getCurrentSession().beginTransaction();
+
+		try {
+
+			// DataMapper.executeDDL("INSERT INTO DOG (ID_DOG,NAME,AGE) VALUES (500,'din',9)");
+			// DataMapper
+			// .executeDDL("INSERT INTO RABBIT (ID_RABBIT,NAME,AGE,NUM_DOG) VALUES (600,'cornill',5, 500)");
+
+			Rabbit r = new Rabbit(null, "corneju", 6);
+			r.setDog(new Dog(null, "din", 8));
+			r.store();
+			assertEquals(
+					"[ID_RABBIT=100, NAME=corneju, AGE=6, NUM_DOG=100=>[ID_DOG=100, NAME=din, AGE=8, [...]]]",
+					r.toString());
+
+			Rabbit r2 = new Rabbit().loadById(100);
+			assertEquals("[ID_RABBIT=100, NAME=corneju, AGE=6, NUM_DOG=100=>[...]]", r2.toString());
+			r2.getDog();
+			assertEquals(
+					"[ID_RABBIT=100, NAME=corneju, AGE=6, NUM_DOG=100=>[ID_DOG=100, NAME=din, AGE=8, [...]]]",
+					r2.toString());
+
+		} finally {
+			SessionFactory.getCurrentSession().rollback();
+		}
 	}
 
 }
