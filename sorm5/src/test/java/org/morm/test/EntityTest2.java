@@ -5,6 +5,7 @@ import org.morm.datasource.HsqldbDataSourceFactory;
 import org.morm.logging.LogFactory;
 import org.morm.logging.SingleLineFormatter;
 import org.morm.mapper.DataMapper;
+import org.morm.record.Entity;
 import org.morm.session.SessionFactory;
 
 import java.util.logging.Handler;
@@ -61,14 +62,14 @@ public class EntityTest2 {
 				DataMapper
 						.executeDDL("INSERT INTO RABBIT (ID_RABBIT,NAME,AGE,NUM_DOG) VALUES (600,'cornill',5, 500)");
 
-				final Rabbit r = new Rabbit().loadById(600);
+				final Rabbit r = Entity.loadById(Rabbit.class, 600);
 				System.out.println(r);
 				System.out.println(r.getDog());
 				System.out.println(r);
 
 				System.out.println("====================================");
 
-				final Dog d = new Dog().loadById(500);
+				final Dog d = Entity.loadById(Dog.class, 500);
 				assertEquals("[ID_DOG=500, NAME=din, AGE=9, [...]]", d.toString());
 				System.out.println(d.getRabbits());
 				assertEquals(
