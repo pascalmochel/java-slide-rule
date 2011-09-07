@@ -19,36 +19,17 @@ public class DataMapper {
 
 	public static <T extends Entity> T queryUnique(final IRowMapper<T> rowMapper, final QueryObject query) {
 		LOG.fine(query.toString());
-		return queryUnique(rowMapper, query.getQuery(), query.getParams());
-	}
-
-	public static <T extends Entity> List<T> query(final IRowMapper<T> rowMapper, final QueryObject query) {
-		LOG.fine(query.toString());
-		return query(rowMapper, query.getQuery(), query.getParams());
-	}
-
-	public static Number aggregate(final QueryObject query) {
-		LOG.fine(query.toString());
-		return aggregate(query.getQuery(), query.getParams());
-	}
-
-	public static int update(final QueryObject query) {
-		LOG.fine(query.toString());
-		return update(query.getQuery(), query.getParams());
-	}
-
-	protected static <T> T queryUnique(final IRowMapper<T> rowMapper, final String sqlQuery,
-			final Object[] params) {
+		// return queryUnique(rowMapper, query.getQuery(), query.getParams());
 
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try {
 
 			final Connection c = SessionFactory.getCurrentSession().getConnection();
-			pstm = c.prepareStatement(sqlQuery);
+			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
-			for (final Object p : params) {
+			for (final Object p : query.getParams()) {
 				pstm.setObject(columnIndex++, p);
 			}
 
@@ -64,24 +45,22 @@ public class DataMapper {
 
 			return r;
 		} catch (final Exception e) {
-			throw new SormException("error in query: " + sqlQuery + ", using mapper=" + rowMapper.getClass(),
-					e);
+			throw new SormException("error in query: " + query.toString(), e);
 		} finally {
 			close(pstm, rs);
 		}
 	}
 
-	protected static <T> List<T> query(final IRowMapper<T> rowMapper, final String sqlQuery,
-			final Object[] params) {
-
+	public static <T extends Entity> List<T> query(final IRowMapper<T> rowMapper, final QueryObject query) {
+		LOG.fine(query.toString());
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try {
 			final Connection c = SessionFactory.getCurrentSession().getConnection();
-			pstm = c.prepareStatement(sqlQuery);
+			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
-			for (final Object p : params) {
+			for (final Object p : query.getParams()) {
 				pstm.setObject(columnIndex++, p);
 			}
 
@@ -93,24 +72,23 @@ public class DataMapper {
 
 			return r;
 		} catch (final Exception e) {
-			throw new SormException("error in query: " + sqlQuery + ", using mapper=" + rowMapper.getClass(),
-					e);
+			throw new SormException("error in query: " + query.toString(), e);
 		} finally {
 			close(pstm, rs);
 		}
 	}
 
-	protected static Number aggregate(final String sqlQuery, final Object[] params) {
-
+	public static Number aggregate(final QueryObject query) {
+		LOG.fine(query.toString());
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try {
 
 			final Connection c = SessionFactory.getCurrentSession().getConnection();
-			pstm = c.prepareStatement(sqlQuery);
+			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
-			for (final Object p : params) {
+			for (final Object p : query.getParams()) {
 				pstm.setObject(columnIndex++, p);
 			}
 
@@ -127,21 +105,21 @@ public class DataMapper {
 			return r;
 
 		} catch (final Exception e) {
-			throw new SormException("error in query: " + sqlQuery, e);
+			throw new SormException("error in query: " + query, e);
 		} finally {
 			close(pstm, rs);
 		}
 	}
 
-	protected static int update(final String sqlQuery, final Object[] params) {
-
+	public static int update(final QueryObject query) {
+		LOG.fine(query.toString());
 		PreparedStatement pstm = null;
 		try {
 			final Connection c = SessionFactory.getCurrentSession().getConnection();
-			pstm = c.prepareStatement(sqlQuery);
+			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
-			for (final Object p : params) {
+			for (final Object p : query.getParams()) {
 				pstm.setObject(columnIndex++, p);
 			}
 
@@ -151,7 +129,7 @@ public class DataMapper {
 			}
 			return r;
 		} catch (final Exception e) {
-			throw new SormException("error in query: " + sqlQuery, e);
+			throw new SormException("error in query: " + query, e);
 		} finally {
 			close(pstm, null);
 		}

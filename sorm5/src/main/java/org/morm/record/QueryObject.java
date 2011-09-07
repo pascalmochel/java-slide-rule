@@ -1,5 +1,6 @@
 package org.morm.record;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +14,12 @@ public class QueryObject {
 	public QueryObject() {
 		query = new StringBuilder();
 		params = new LinkedList<Object>();
+	}
+
+	public QueryObject(final String query, final Object... params) {
+		super();
+		this.query = new StringBuilder().append(query);
+		this.params = Arrays.asList(params);
 	}
 
 	public QueryObject append(final String s) {

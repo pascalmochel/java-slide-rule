@@ -3,9 +3,12 @@ package org.morm.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.morm.record.Entity;
+import org.morm.record.QueryObject;
+
 import java.util.List;
 
-public class Dog implements IRowMapper<Dog> {
+public class Dog extends Entity implements IRowMapper<Dog> {
 
 	protected Integer idDog;
 	protected String name;
@@ -51,20 +54,22 @@ public class Dog implements IRowMapper<Dog> {
 	public static Dog dummy = new Dog();
 
 	public static Dog loadById(final Integer id) {
-		return DataMapper.queryUnique(dummy, "SELECT * FROM DOG WHERE ID_DOG=?", new Object[] { id });
+		return DataMapper.queryUnique(dummy, new QueryObject("SELECT * FROM DOG WHERE ID_DOG=?", id));
 	}
 
 	public static List<Dog> loadAll() {
-		return DataMapper.query(dummy, "SELECT * FROM DOG", new Object[] {});
+		return DataMapper.query(dummy, new QueryObject("SELECT * FROM DOG"));
 	}
 
+	@Override
 	public void insert() {
-		DataMapper.update("INSERT INTO DOG (ID_DOG,NAME) VALUES (?,?)",
-				new Object[] { getIdDog(), getName() });
+		DataMapper
+				.update(new QueryObject("INSERT INTO DOG (ID_DOG,NAME) VALUES (?,?)", getIdDog(), getName()));
 	}
 
+	@Override
 	public void update() {
-		DataMapper.update("UPDATE DOG SET NAME=? WHERE ID_DOG=?", new Object[] { getName(), getIdDog() });
+		DataMapper.update(new QueryObject("UPDATE DOG SET NAME=? WHERE ID_DOG=?", getName(), getIdDog()));
 	}
 
 	public void setChilds(final List<Dog> childs) {

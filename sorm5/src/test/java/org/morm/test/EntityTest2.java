@@ -30,8 +30,6 @@ public class EntityTest2 {
 	@Test
 	public void testname() throws Exception {
 
-		// public static void main(String[] args) {
-
 		{
 			SessionFactory.getCurrentSession().openTransaction();
 
