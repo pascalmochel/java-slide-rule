@@ -42,17 +42,10 @@ public class Entity extends BaseEntity {
 		this.mapper = new EntityMapper(getClass());
 	}
 
-	// @SuppressWarnings("unchecked")
-	// public static <T extends Entity> T loadById(final Class<T> entityClass,
-	// final Object id) {
-	// return (T) SingletonFactory.get((Class<Entity>)
-	// entityClass).loadById(id);
-	// }
 	public static <T extends Entity> T loadById(final Class<T> entityClass, final Object id) {
 		return SingletonFactory.get(entityClass).ploadById(entityClass, id);
 	}
 
-	// @SuppressWarnings("unchecked")
 	public static <T extends Entity> List<T> loadBy(final Class<T> entityClass, final Criterion... criterions) {
 		return SingletonFactory.get(entityClass).ploadBy(entityClass, criterions);
 	}
