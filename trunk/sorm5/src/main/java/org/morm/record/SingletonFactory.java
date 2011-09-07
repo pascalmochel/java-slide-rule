@@ -7,14 +7,15 @@ import java.util.Map;
 
 public class SingletonFactory {
 
-	protected static final ThreadLocal<Map<Class<Entity>, Entity>> entities = new ThreadLocal<Map<Class<Entity>, Entity>>() {
+	protected static final ThreadLocal<Map<Class<? extends Entity>, Entity>> entities = new ThreadLocal<Map<Class<? extends Entity>, Entity>>() {
 		@Override
-		protected Map<java.lang.Class<Entity>, Entity> initialValue() {
-			return new HashMap<java.lang.Class<Entity>, Entity>();
+		protected Map<java.lang.Class<? extends Entity>, Entity> initialValue() {
+			return new HashMap<Class<? extends Entity>, Entity>();
 		};
 	};
 
-	public static Entity get(final Class<Entity> c) {
+	@SuppressWarnings("unchecked")
+	public static <T extends Entity> T get(final Class<T> c) {
 		if (!entities.get().containsKey(c)) {
 			try {
 				final Entity r = c.newInstance();
@@ -23,7 +24,7 @@ public class SingletonFactory {
 				throw new SormException("error instancing: " + c.getName(), e);
 			}
 		}
-		return entities.get().get(c);
+		return (T) entities.get().get(c);
 	}
 
 }

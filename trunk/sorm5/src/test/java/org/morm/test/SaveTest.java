@@ -1,14 +1,15 @@
 package org.morm.test;
 
-import static org.junit.Assert.*;
-
-import java.util.Arrays;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.morm.mapper.DataMapper;
+import org.morm.record.Entity;
 import org.morm.session.SessionFactory;
+
+import java.util.Arrays;
+
+import static org.junit.Assert.*;
 
 public class SaveTest {
 
@@ -63,7 +64,7 @@ public class SaveTest {
 			d.store();
 			System.out.println("====================================");
 
-			final Dog d2 = new Dog().loadById(100);
+			final Dog d2 = Entity.loadById(Dog.class, 100);
 			assertEquals("[ID_DOG=100, NAME=din, AGE=10, [...]]", d2.toString());
 			d2.getRabbits();
 			assertEquals(
@@ -95,7 +96,7 @@ public class SaveTest {
 					"[ID_RABBIT=100, NAME=corneju, AGE=6, NUM_DOG=100=>[ID_DOG=100, NAME=din, AGE=8, [...]]]",
 					r.toString());
 
-			final Rabbit r2 = new Rabbit().loadById(100);
+			final Rabbit r2 = Entity.loadById(Rabbit.class, 100);
 			assertEquals("[ID_RABBIT=100, NAME=corneju, AGE=6, NUM_DOG=100=>[...]]", r2.toString());
 			r2.getDog();
 			assertEquals(

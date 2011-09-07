@@ -22,7 +22,7 @@ public class DataMapper {
 		return queryUnique(rowMapper, query.getQuery(), query.getParams());
 	}
 
-	public static <T> List<T> query(final IRowMapper<T> rowMapper, final QueryObject query) {
+	public static <T extends Entity> List<T> query(final IRowMapper<T> rowMapper, final QueryObject query) {
 		LOG.fine(query.toString());
 		return query(rowMapper, query.getQuery(), query.getParams());
 	}

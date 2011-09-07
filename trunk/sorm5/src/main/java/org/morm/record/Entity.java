@@ -42,54 +42,56 @@ public class Entity extends BaseEntity {
 		this.mapper = new EntityMapper(getClass());
 	}
 
-	@SuppressWarnings("unchecked")
+	// @SuppressWarnings("unchecked")
+	// public static <T extends Entity> T loadById(final Class<T> entityClass,
+	// final Object id) {
+	// return (T) SingletonFactory.get((Class<Entity>)
+	// entityClass).loadById(id);
+	// }
 	public static <T extends Entity> T loadById(final Class<T> entityClass, final Object id) {
-		return (T) SingletonFactory.get((Class<Entity>) entityClass).loadById(id);
+		return SingletonFactory.get(entityClass).ploadById(entityClass, id);
 	}
 
-	@SuppressWarnings("unchecked")
+	// @SuppressWarnings("unchecked")
 	public static <T extends Entity> List<T> loadBy(final Class<T> entityClass, final Criterion... criterions) {
-		return SingletonFactory.get((Class<Entity>) entityClass).loadBy(criterions);
+		return SingletonFactory.get(entityClass).ploadBy(entityClass, criterions);
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <T extends Entity> List<T> loadAll(final Class<T> entityClass) {
-		return SingletonFactory.get((Class<Entity>) entityClass).loadAll();
+		return SingletonFactory.get(entityClass).ploadAll(entityClass);
 	}
 
-	@SuppressWarnings("unchecked")
 	public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
-		return (T) SingletonFactory.get((Class<Entity>) entityClass).loadUniqueByQuery(query);
+		return SingletonFactory.get(entityClass).ploadUniqueByQuery(entityClass, query);
 	}
 
-	@SuppressWarnings("unchecked")
 	public <T extends Entity> List<T> loadByQuery(final Class<T> entityClass, final QueryObject query) {
-		return SingletonFactory.get((Class<Entity>) entityClass).loadByQuery(query);
+		return SingletonFactory.get(entityClass).ploadByQuery(entityClass, query);
 	}
 
 	protected int sqlStatement(final Class<Entity> entityClass, final QueryObject query) {
-		return SingletonFactory.get(entityClass).sqlStatement(query);
+		return SingletonFactory.get(entityClass).psqlStatement(query);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Entity> T loadUniqueByQuery(final QueryObject query) {
+	protected <T extends Entity> T ploadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
 		log.fine("loadUniqueByQuery(" + query + ")");
-		return (T) DataMapper.queryUnique(mapper, query);
+		return DataMapper.queryUnique((IRowMapper<T>) mapper, query);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Entity> List<T> loadByQuery(final QueryObject query) {
+	protected <T extends Entity> List<T> ploadByQuery(final Class<T> entityClass, final QueryObject query) {
 		log.fine("loadByQuery(" + query + ")");
-		return (List<T>) DataMapper.query(mapper, query);
+		return DataMapper.query((IRowMapper<T>) mapper, query);
 	}
 
-	public int sqlStatement(final QueryObject query) {
+	protected int psqlStatement(final QueryObject query) {
 		log.fine("sqlStatement()");
 		return DataMapper.update(query);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Entity> T loadById(final Object id) {
+	protected <T extends Entity> T ploadById(final Class<T> entityClass, final Object id) {
 		log.fine("loadById(" + id + ")");
 		final QueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
@@ -99,11 +101,11 @@ public class Entity extends BaseEntity {
 		/**/.append("=?")
 		/**/.addParams(id)
 		/**/;
-		return (T) DataMapper.queryUnique(mapper, query);
+		return DataMapper.queryUnique((IRowMapper<T>) mapper, query);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Entity> List<T> loadBy(final Criterion... criterions) {
+	protected <T extends Entity> List<T> ploadBy(final Class<T> entityClass, final Criterion... criterions) {
 		log.fine("loadBy(Criterion[])");
 		final Criterion cs = Criteria.concate(criterions);
 		final QueryObject query = new QueryObject()
@@ -112,17 +114,17 @@ public class Entity extends BaseEntity {
 		/**/.append(" WHERE ")
 		/**/.append(cs.renderQuery())
 		/**/;
-		return (List<T>) DataMapper.query(mapper, query);
+		return DataMapper.query((IRowMapper<T>) mapper, query);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Entity> List<T> loadAll() {
+	protected <T extends Entity> List<T> ploadAll(final Class<T> entityClass) {
 		log.fine("loadAll()");
 		final QueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
 		/**/;
-		return (List<T>) DataMapper.query(mapper, query);
+		return DataMapper.query((IRowMapper<T>) mapper, query);
 	}
 
 	@SuppressWarnings("unchecked")
