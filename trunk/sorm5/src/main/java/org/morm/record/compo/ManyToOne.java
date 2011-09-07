@@ -76,7 +76,7 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 			/**/.append(" WHERE ")
 			/**/.append(this.foreigIdFieldColumnName)
 			/**/.append("=?")
-			/**/.addParams(this.selfFkField.getValue());
+			/**/.addParams(this.selfFkField.getValue())
 			/**/;
 			this.collaboration = DataMapper.queryUnique((IRowMapper<E>) this.foreignEntity.getRowMapper(), q);
 			this.isInit = true;
