@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//TODO isStored/store
 public class IdentityMap<T extends Entity> {
 
 	protected Map<Class<T>, HashMap<Object, T>> entityMap;
