@@ -32,10 +32,9 @@ public class FEnum<T extends Enum<T>> extends Field<String> {
 		this.value = enume.name();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Field<String> doClone() {
-		return new FEnum(getColumnName(), enumClass);
+		return new FEnum<T>(getColumnName(), enumClass);
 	}
 
 	@Override

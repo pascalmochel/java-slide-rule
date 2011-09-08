@@ -55,7 +55,6 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 	protected E collaboration;
 	protected boolean isInit = false;
 
-	@SuppressWarnings("unchecked")
 	public E getCollaboration() {
 		if (!isInit) {
 			if (selfFkField.getValue() == null) {
@@ -63,22 +62,20 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 				return null;
 			}
 
-			this.foreignEntity = (E) SingletonFactory.get((Class<Entity>) foreignEntityClass);
+			Class<? extends E> castedForeignEntityClass = foreignEntityClass;
+			this.foreignEntity = (E) SingletonFactory.get(castedForeignEntityClass);
 			this.foreigIdFieldColumnName = foreignEntity.getIdField().getColumnName();
 
-			// * Rabbit.Dog = SELECT 1 FROM DOG WHERE DOG.ID_DOG=rabbit.idDog
-			// *
-			// * tableNameOf(Dog.class)
-			// * pkOf(DOG).toFkOf(RABBIT)
 			final QueryObject q = new QueryObject()
 			/**/.append("SELECT * FROM ")
-			/**/.append(this.foreignEntity.getTableName())
+			/**/.append(foreignEntity.getTableName())
 			/**/.append(" WHERE ")
-			/**/.append(this.foreigIdFieldColumnName)
+			/**/.append(foreigIdFieldColumnName)
 			/**/.append("=?")
-			/**/.addParams(this.selfFkField.getValue())
+			/**/.addParams(selfFkField.getValue())
 			/**/;
-			this.collaboration = DataMapper.queryUnique((IRowMapper<E>) this.foreignEntity.getRowMapper(), q);
+			IRowMapper<E> rowMapper = this.foreignEntity.getRowMapper();
+			this.collaboration = DataMapper.queryUnique(rowMapper, q);
 			this.isInit = true;
 		}
 		return this.collaboration;
