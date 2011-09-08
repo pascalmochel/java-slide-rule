@@ -4,7 +4,7 @@ import java.sql.Connection;
 
 public interface ISession {
 
-	Connection openTransaction();
+	Connection open();
 
 	Connection getConnection();
 

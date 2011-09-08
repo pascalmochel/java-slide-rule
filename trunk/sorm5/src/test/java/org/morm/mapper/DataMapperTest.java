@@ -15,14 +15,14 @@ public class DataMapperTest {
 	@Test
 	public void testname() {
 		{
-			SessionFactory.getCurrentSession().openTransaction();
+			SessionFactory.getCurrentSession().open();
 			DataMapper.executeDDL("CREATE TABLE DOG (ID_DOG INTEGER, NAME VARCHAR(20))");
 
 			new Dog(1, "chucho").insert();
 			SessionFactory.getCurrentSession().commit();
 		}
 		{
-			SessionFactory.getCurrentSession().openTransaction();
+			SessionFactory.getCurrentSession().open();
 			final Dog d = Dog.loadById(1);
 			assertEquals("Dog:(1,chucho)", d.toString());
 
@@ -35,7 +35,7 @@ public class DataMapperTest {
 			SessionFactory.getCurrentSession().commit();
 		}
 		{
-			SessionFactory.getCurrentSession().openTransaction();
+			SessionFactory.getCurrentSession().open();
 			DataMapper.executeDDL("DROP TABLE DOG");
 			SessionFactory.getCurrentSession().commit();
 		}
