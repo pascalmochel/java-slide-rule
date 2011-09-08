@@ -31,7 +31,7 @@ public class EntityTest2 {
 	public void testname() throws Exception {
 
 		{
-			SessionFactory.getCurrentSession().open();
+			SessionFactory.getSession().open();
 
 			DataMapper.executeDDLIgnoringErrors("DROP TABLE RABBIT");
 			DataMapper.executeDDLIgnoringErrors("DROP TABLE DOG");
@@ -50,10 +50,14 @@ public class EntityTest2 {
 			/**/"AGE INTEGER)"
 			/**/);
 
+			SessionFactory.getSession().commit();
+
 		}
 		{
 
 			{
+				SessionFactory.getSession().open();
+
 				System.out.println("====================================");
 
 				DataMapper.executeDDL("INSERT INTO DOG (ID_DOG,NAME,AGE) VALUES (500,'din',9)");
@@ -66,6 +70,7 @@ public class EntityTest2 {
 				System.out.println(r);
 
 				System.out.println("====================================");
+				SessionFactory.getSession().getIdentityMap().clear();
 
 				final Dog d = Entity.loadById(Dog.class, 500);
 				assertEquals("[ID_DOG=500, NAME=din, AGE=9, [...]]", d.toString());
@@ -85,15 +90,16 @@ public class EntityTest2 {
 						"[ID_DOG=500, NAME=din, AGE=9, [[ID_RABBIT=600, NAME=cornill, AGE=5, NUM_DOG=500=>[...]]]]",
 						d.toString());
 
+				SessionFactory.getSession().commit();
+
 			}
 
-			SessionFactory.getCurrentSession().rollback();
 		}
 		{
-			SessionFactory.getCurrentSession().open();
+			SessionFactory.getSession().open();
 			DataMapper.executeDDL("DROP TABLE RABBIT");
 			DataMapper.executeDDL("DROP TABLE DOG");
-			SessionFactory.getCurrentSession().commit();
+			SessionFactory.getSession().commit();
 		}
 	}
 }

@@ -19,7 +19,7 @@ public class SaveTest {
 
 	@Before
 	public void before() {
-		SessionFactory.getCurrentSession().open();
+		SessionFactory.getSession().open();
 
 		DataMapper.executeDDLIgnoringErrors("DROP TABLE DOG");
 		DataMapper.executeDDLIgnoringErrors("DROP TABLE RABBIT");
@@ -37,21 +37,21 @@ public class SaveTest {
 		/**/"NAME VARCHAR(20)," +
 		/**/"AGE INTEGER)"
 		/**/);
-		SessionFactory.getCurrentSession().commit();
+		SessionFactory.getSession().commit();
 	}
 
 	@After
 	public void after() {
-		SessionFactory.getCurrentSession().open();
+		SessionFactory.getSession().open();
 		DataMapper.executeDDL("DROP TABLE RABBIT");
 		DataMapper.executeDDL("DROP TABLE DOG");
-		SessionFactory.getCurrentSession().commit();
+		SessionFactory.getSession().commit();
 	}
 
 	@Test
 	public void testInsertDogInsertRabbits() {
 
-		SessionFactory.getCurrentSession().open();
+		SessionFactory.getSession().open();
 		// DataMapper.executeDDL("INSERT INTO DOG (ID_DOG,NAME,AGE) VALUES (500,'din',9)");
 		// DataMapper
 		// .executeDDL("INSERT INTO RABBIT (ID_RABBIT,NAME,AGE,NUM_DOG) VALUES (600,'cornill',5, 500)");
@@ -63,6 +63,7 @@ public class SaveTest {
 
 			d.store();
 			System.out.println("====================================");
+			SessionFactory.getSession().getIdentityMap().clear();
 
 			final Dog d2 = Entity.loadById(Dog.class, 100);
 			assertEquals("[ID_DOG=100, NAME=din, AGE=10, [...]]", d2.toString());
@@ -74,14 +75,14 @@ public class SaveTest {
 			/**/d2.toString());
 
 		} finally {
-			SessionFactory.getCurrentSession().rollback();
+			SessionFactory.getSession().rollback();
 		}
 	}
 
 	@Test
 	public void testInsertRabbitInsertDog() {
 
-		SessionFactory.getCurrentSession().open();
+		SessionFactory.getSession().open();
 
 		try {
 
@@ -96,6 +97,8 @@ public class SaveTest {
 					"[ID_RABBIT=100, NAME=corneju, AGE=6, NUM_DOG=100=>[ID_DOG=100, NAME=din, AGE=8, [...]]]",
 					r.toString());
 
+			SessionFactory.getSession().getIdentityMap().clear();
+
 			final Rabbit r2 = Entity.loadById(Rabbit.class, 100);
 			assertEquals("[ID_RABBIT=100, NAME=corneju, AGE=6, NUM_DOG=100=>[...]]", r2.toString());
 			r2.getDog();
@@ -104,7 +107,7 @@ public class SaveTest {
 					r2.toString());
 
 		} finally {
-			SessionFactory.getCurrentSession().rollback();
+			SessionFactory.getSession().rollback();
 		}
 	}
 

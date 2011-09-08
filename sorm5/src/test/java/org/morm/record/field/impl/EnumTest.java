@@ -20,7 +20,7 @@ public class EnumTest {
 
 	@Before
 	public void before() {
-		SessionFactory.getCurrentSession().open();
+		SessionFactory.getSession().open();
 
 		DataMapper.executeDDLIgnoringErrors("DROP TABLE DOG");
 
@@ -31,20 +31,20 @@ public class EnumTest {
 		/**/"COLOR VARCHAR(20))"
 		/**/);
 
-		SessionFactory.getCurrentSession().commit();
+		SessionFactory.getSession().commit();
 	}
 
 	@After
 	public void after() {
 
-		SessionFactory.getCurrentSession().open();
+		SessionFactory.getSession().open();
 		DataMapper.executeDDL("DROP TABLE DOG");
-		SessionFactory.getCurrentSession().commit();
+		SessionFactory.getSession().commit();
 	}
 
 	@Test
 	public void testname() throws Exception {
-		SessionFactory.getCurrentSession().open();
+		SessionFactory.getSession().open();
 
 		try {
 
@@ -57,7 +57,7 @@ public class EnumTest {
 			assertEquals("[[ID_DOG=100, NAME=din, COLOR=WHITE]]", Entity.loadAll(EnumDog.class).toString());
 
 		} finally {
-			SessionFactory.getCurrentSession().rollback();
+			SessionFactory.getSession().rollback();
 		}
 	}
 

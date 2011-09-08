@@ -20,7 +20,7 @@ public class SequenceTest {
 
 	@Before
 	public void before() {
-		SessionFactory.getCurrentSession().open();
+		SessionFactory.getSession().open();
 
 		DataMapper.executeDDLIgnoringErrors("DROP SEQUENCE DOG_SEQUENCE");
 		DataMapper.executeDDLIgnoringErrors("DROP TABLE DOG");
@@ -33,26 +33,26 @@ public class SequenceTest {
 		/**/"AGE INTEGER)"
 		/**/);
 
-		SessionFactory.getCurrentSession().commit();
+		SessionFactory.getSession().commit();
 	}
 
 	@After
 	public void after() {
 
-		SessionFactory.getCurrentSession().open();
+		SessionFactory.getSession().open();
 		DataMapper.executeDDL("DROP SEQUENCE DOG_SEQUENCE");
 		DataMapper.executeDDL("DROP TABLE DOG");
-		SessionFactory.getCurrentSession().commit();
+		SessionFactory.getSession().commit();
 	}
 
 	@Test
 	public void testname() throws Exception {
-		SessionFactory.getCurrentSession().open();
+		SessionFactory.getSession().open();
 
 		new SequenceDog(null, "din", 9).store();
 		assertEquals("[[ID_DOG=1, NAME=din, AGE=9]]", Entity.loadAll(SequenceDog.class).toString());
 
-		SessionFactory.getCurrentSession().rollback();
+		SessionFactory.getSession().rollback();
 	}
 
 }
