@@ -2,6 +2,10 @@ package org.morm.session;
 
 import java.sql.Connection;
 
+import org.morm.record.Entity;
+import org.morm.session.identity.IdentityMap;
+import org.morm.session.identity.StoredSet;
+
 public interface ISession {
 
 	Connection open();
@@ -16,4 +20,7 @@ public interface ISession {
 
 	boolean isTransactionActive();
 
+	IdentityMap<Entity> getIdentityMap();
+
+	StoredSet getStoredSet();
 }

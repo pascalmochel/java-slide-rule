@@ -24,7 +24,7 @@ public class DataMapper {
 		ResultSet rs = null;
 		try {
 
-			final Connection c = SessionFactory.getCurrentSession().getConnection();
+			final Connection c = SessionFactory.getSession().getConnection();
 			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
@@ -55,7 +55,7 @@ public class DataMapper {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try {
-			final Connection c = SessionFactory.getCurrentSession().getConnection();
+			final Connection c = SessionFactory.getSession().getConnection();
 			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
@@ -83,7 +83,7 @@ public class DataMapper {
 		ResultSet rs = null;
 		try {
 
-			final Connection c = SessionFactory.getCurrentSession().getConnection();
+			final Connection c = SessionFactory.getSession().getConnection();
 			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
@@ -114,7 +114,7 @@ public class DataMapper {
 		LOG.fine(query.toString());
 		PreparedStatement pstm = null;
 		try {
-			final Connection c = SessionFactory.getCurrentSession().getConnection();
+			final Connection c = SessionFactory.getSession().getConnection();
 			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
@@ -140,7 +140,7 @@ public class DataMapper {
 
 		PreparedStatement pstm = null;
 		try {
-			final Connection c = SessionFactory.getCurrentSession().getConnection();
+			final Connection c = SessionFactory.getSession().getConnection();
 			pstm = c.prepareStatement(sqlQuery);
 			return pstm.executeUpdate();
 		} catch (final Exception e) {
@@ -156,7 +156,7 @@ public class DataMapper {
 
 		PreparedStatement pstm = null;
 		try {
-			final Connection c = SessionFactory.getCurrentSession().getConnection();
+			final Connection c = SessionFactory.getSession().getConnection();
 			pstm = c.prepareStatement(sqlQuery);
 			return pstm.executeUpdate();
 		} catch (final Exception e) {

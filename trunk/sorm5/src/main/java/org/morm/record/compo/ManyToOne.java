@@ -10,6 +10,7 @@ import org.morm.record.Entity;
 import org.morm.record.QueryObject;
 import org.morm.record.SingletonFactory;
 import org.morm.record.field.Field;
+import org.morm.session.SessionFactory;
 
 public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 
@@ -55,6 +56,7 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 	protected E collaboration;
 	protected boolean isInit = false;
 
+	@SuppressWarnings("unchecked")
 	public E getCollaboration() {
 		if (!isInit) {
 			if (selfFkField.getValue() == null) {
@@ -62,8 +64,8 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 				return null;
 			}
 
-			Class<? extends E> castedForeignEntityClass = foreignEntityClass;
-			this.foreignEntity = (E) SingletonFactory.get(castedForeignEntityClass);
+			final Class<? extends E> castedForeignEntityClass = foreignEntityClass;
+			this.foreignEntity = SingletonFactory.get(castedForeignEntityClass);
 			this.foreigIdFieldColumnName = foreignEntity.getIdField().getColumnName();
 
 			final QueryObject q = new QueryObject()
@@ -74,8 +76,11 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 			/**/.append("=?")
 			/**/.addParams(selfFkField.getValue())
 			/**/;
-			IRowMapper<E> rowMapper = this.foreignEntity.getRowMapper();
+			final IRowMapper<E> rowMapper = this.foreignEntity.getRowMapper();
 			this.collaboration = DataMapper.queryUnique(rowMapper, q);
+			this.collaboration = (E) SessionFactory.getSession().getIdentityMap().loadOrStore(
+					this.collaboration);
+
 			this.isInit = true;
 		}
 		return this.collaboration;

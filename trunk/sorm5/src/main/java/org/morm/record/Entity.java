@@ -9,6 +9,7 @@ import org.morm.mapper.IRowMapper;
 import org.morm.record.compo.ManyToOne;
 import org.morm.record.compo.OneToMany;
 import org.morm.record.field.Field;
+import org.morm.session.SessionFactory;
 
 import java.util.List;
 
@@ -42,24 +43,34 @@ public class Entity extends BaseEntity {
 		this.entityMapper = new EntityMapper(getClass());
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T extends Entity> T loadById(final Class<T> entityClass, final Object id) {
-		return SingletonFactory.get(entityClass).ploadById(entityClass, id);
+		final T r = SingletonFactory.get(entityClass).ploadById(entityClass, id);
+		return (T) SessionFactory.getSession().getIdentityMap().loadOrStore(r);
 	}
 
-	public static <T extends Entity> List<T> loadBy(final Class<T> entityClass, final Criterion... criterions) {
-		return SingletonFactory.get(entityClass).ploadBy(entityClass, criterions);
-	}
-
-	public static <T extends Entity> List<T> loadAll(final Class<T> entityClass) {
-		return SingletonFactory.get(entityClass).ploadAll(entityClass);
-	}
-
+	@SuppressWarnings("unchecked")
 	public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
-		return SingletonFactory.get(entityClass).ploadUniqueByQuery(entityClass, query);
+		final T r = SingletonFactory.get(entityClass).ploadUniqueByQuery(entityClass, query);
+		return (T) SessionFactory.getSession().getIdentityMap().loadOrStore(r);
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <T extends Entity> List<T> loadBy(final Class<T> entityClass, final Criterion... criterions) {
+		final List<T> r = SingletonFactory.get(entityClass).ploadBy(entityClass, criterions);
+		return (List<T>) SessionFactory.getSession().getIdentityMap().loadOrStore((List<Entity>) r);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends Entity> List<T> loadAll(final Class<T> entityClass) {
+		final List<T> r = SingletonFactory.get(entityClass).ploadAll(entityClass);
+		return (List<T>) SessionFactory.getSession().getIdentityMap().loadOrStore((List<Entity>) r);
+	}
+
+	@SuppressWarnings("unchecked")
 	public <T extends Entity> List<T> loadByQuery(final Class<T> entityClass, final QueryObject query) {
-		return SingletonFactory.get(entityClass).ploadByQuery(entityClass, query);
+		final List<T> r = SingletonFactory.get(entityClass).ploadByQuery(entityClass, query);
+		return (List<T>) SessionFactory.getSession().getIdentityMap().loadOrStore((List<Entity>) r);
 	}
 
 	protected int sqlStatement(final Class<Entity> entityClass, final QueryObject query) {
@@ -68,13 +79,13 @@ public class Entity extends BaseEntity {
 
 	protected <T extends Entity> T ploadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
 		log.fine("loadUniqueByQuery(" + query + ")");
-		IRowMapper<T> mapper = getRowMapper();
+		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.queryUnique(mapper, query);
 	}
 
 	protected <T extends Entity> List<T> ploadByQuery(final Class<T> entityClass, final QueryObject query) {
 		log.fine("loadByQuery(" + query + ")");
-		IRowMapper<T> mapper = getRowMapper();
+		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.query(mapper, query);
 	}
 
@@ -93,7 +104,7 @@ public class Entity extends BaseEntity {
 		/**/.append("=?")
 		/**/.addParams(id)
 		/**/;
-		IRowMapper<T> mapper = getRowMapper();
+		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.queryUnique(mapper, query);
 	}
 
@@ -106,7 +117,7 @@ public class Entity extends BaseEntity {
 		/**/.append(" WHERE ")
 		/**/.append(cs.renderQuery())
 		/**/;
-		IRowMapper<T> mapper = getRowMapper();
+		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.query(mapper, query);
 	}
 
@@ -116,16 +127,26 @@ public class Entity extends BaseEntity {
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
 		/**/;
-		IRowMapper<T> mapper = getRowMapper();
+		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.query(mapper, query);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void store() {
+		SessionFactory.getSession().getStoredSet().clear();
+		alterStore();
+	}
+
+	@SuppressWarnings("unchecked")
+	private void alterStore() {
+
+		if (SessionFactory.getSession().getStoredSet().isStored(this)) {
+			return;
+		}
+
 		for (final ManyToOne<?, ?> c : getManyToOnes()) {
 			if (c.getIsInit()) {
 				final Entity v = c.getCollaboration();
-				v.store();
+				v.alterStore();
 				set((Field<Object>) c, v.getIdField().getValue());
 			}
 		}
@@ -135,6 +156,7 @@ public class Entity extends BaseEntity {
 		} else {
 			update();
 		}
+		SessionFactory.getSession().getIdentityMap().store(this);
 
 		for (final OneToMany<?, ?> c : getOneToManies().values()) {
 			if (c.getIsInit()) {
@@ -142,7 +164,7 @@ public class Entity extends BaseEntity {
 				if (cs != null) {
 					for (final Entity e : cs) {
 						e.set(((Field<Object>) c.getForeignField()), getIdField().getValue());
-						e.store();
+						e.alterStore();
 					}
 				}
 			}

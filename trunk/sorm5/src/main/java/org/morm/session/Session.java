@@ -7,6 +7,9 @@ import java.sql.Savepoint;
 import javax.sql.DataSource;
 
 import org.morm.exception.SormException;
+import org.morm.record.Entity;
+import org.morm.session.identity.IdentityMap;
+import org.morm.session.identity.StoredSet;
 
 import java.util.Stack;
 import java.util.logging.Logger;
@@ -19,6 +22,9 @@ public class Session implements ISession {
 	protected final Integer transactionIsolation;
 	protected Connection connection;
 	protected final Stack<Savepoint> txStack;
+
+	protected final IdentityMap<Entity> identityMap = new IdentityMap<Entity>();
+	protected final StoredSet storedSet = new StoredSet();
 
 	/**
 	 * C'tor
@@ -38,6 +44,8 @@ public class Session implements ISession {
 	}
 
 	public Connection open() {
+
+		identityMap.clear();
 
 		if (isTransactionActive()) {
 			final String savePointName = String.valueOf(txStack.size());
@@ -138,6 +146,14 @@ public class Session implements ISession {
 		} catch (final SQLException e) {
 			throw new SormException("throwed exception reading status from a connection", e);
 		}
+	}
+
+	public IdentityMap<Entity> getIdentityMap() {
+		return identityMap;
+	}
+
+	public StoredSet getStoredSet() {
+		return storedSet;
 	}
 
 }
