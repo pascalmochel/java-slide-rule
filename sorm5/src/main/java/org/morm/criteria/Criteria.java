@@ -4,6 +4,7 @@ import org.morm.criteria.impl.ColumnToValueRestriction;
 import org.morm.criteria.impl.CriterionList;
 import org.morm.criteria.impl.MultiRestriction;
 import org.morm.criteria.impl.OrderBy;
+import org.morm.record.QueryGenUtils;
 import org.morm.record.QueryObject;
 import org.morm.record.field.FieldDef;
 
@@ -37,11 +38,21 @@ public class Criteria {
 		return new ColumnToValueRestriction(field.getColumnName(), " like ", value);
 	}
 
-//	public static <T> Criterion eq(final Entity entity1, final FieldDef<T> field1, final Entity entity2,
-//			final FieldDef<T> field2) {
-//		return new ColumnToColumnRestriction(entity1.getTableName(), field1.getColumnName(), "=", entity2
-//				.getTableName(), field2.getColumnName());
-//	}
+	// TODO in
+	public static <T> Criterion in(final FieldDef<T> field, final T... values) {
+		return new Criterion() {
+			@Override
+			public QueryObject renderQuery() {
+				return new QueryObject()
+				/**/.append(field.getColumnName())
+				/**/.append(" IN ")
+				/**/.append("(")
+				/**/.append(QueryGenUtils.dup("?,", values.length))
+				/**/.append(")")
+				/**/.addParams(values);
+			}
+		};
+	}
 
 	public static Criterion and(final Criterion... abstractRs) {
 		return new MultiRestriction(" AND ", abstractRs);
