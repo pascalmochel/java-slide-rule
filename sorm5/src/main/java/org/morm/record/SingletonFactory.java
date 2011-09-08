@@ -16,15 +16,16 @@ public class SingletonFactory {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Entity> T get(final Class<T> c) {
-		if (!entities.get().containsKey(c)) {
+		Map<Class<? extends Entity>, Entity> map = entities.get();
+		if (!map.containsKey(c)) {
 			try {
 				final Entity r = c.newInstance();
-				entities.get().put(c, r);
+				map.put(c, r);
 			} catch (final Exception e) {
 				throw new SormException("error instancing: " + c.getName(), e);
 			}
 		}
-		return (T) entities.get().get(c);
+		return (T) map.get(c);
 	}
 
 }

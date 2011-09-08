@@ -77,9 +77,9 @@ public class BaseEntity {
 		this.fields.put(c.getColumnName(), c);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected <TID> void registerOneToMany(final OneToMany<TID, ?> oneToMany) {
-		oneToMany.setSelfIdFieldRef((IdentityGenerator<TID>) this.idField);
+		IdentityGenerator<TID> idField= getIdField();
+		oneToMany.setSelfIdFieldRef(idField);
 		final OneToMany<TID, ?> c = oneToMany.doCloneCollaboration();
 		if (this.oneToManies.containsKey(c.getColumnName())) {
 			throw new SormException("duplicated column name: " + getClass().getName() + "#"
@@ -142,8 +142,9 @@ public class BaseEntity {
 		return tableName;
 	}
 
-	public IdentityGenerator<?> getIdField() {
-		return idField;
+	@SuppressWarnings("unchecked")
+	public <T> IdentityGenerator<T> getIdField() {
+		return (IdentityGenerator<T>) idField;
 	}
 
 	public Collection<Field<?>> getFields() {

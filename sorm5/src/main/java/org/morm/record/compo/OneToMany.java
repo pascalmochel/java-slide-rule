@@ -39,28 +39,25 @@ public class OneToMany<TID, E extends Entity> {
 	protected List<E> collaboration;
 	protected boolean isInit = false;
 
-	// * Dog.List&lt;Rabbit&gt; = SELECT * FROM RABBIT WHERE ID_DOG=$dog.idDog
-	// *
-	// * tableNameOf(Rabbit.class)
-	// * foreignOf(RABBIT).toPkOf(DOG)
-	@SuppressWarnings("unchecked")
 	public List<E> getCollaboration() {
 		if (!isInit) {
 			if (selfIdFieldRef.getValue() == null) {
 				this.isInit = true;
 				return null;
 			}
-			this.foreignEntity = (E) SingletonFactory.get((Class<Entity>) foreignEntityClass);
+			Class<E> casterForeignEntityClass = foreignEntityClass;
+			this.foreignEntity = (E) SingletonFactory.get(casterForeignEntityClass);
 
 			final QueryObject q = new QueryObject()
 			/**/.append("SELECT * FROM ")
-			/**/.append(this.foreignEntity.getTableName())
+			/**/.append(foreignEntity.getTableName())
 			/**/.append(" WHERE ")
 			/**/.append(foreignField.getColumnName())
 			/**/.append("=?")
 			/**/.addParams(this.selfIdFieldRef.getValue())
 			/**/;
-			this.collaboration = DataMapper.query((IRowMapper<E>) this.foreignEntity.getRowMapper(), q);
+			IRowMapper<E> rowMapper = this.foreignEntity.getRowMapper();
+			this.collaboration = DataMapper.query(rowMapper, q);
 			this.isInit = true;
 		}
 		return this.collaboration;

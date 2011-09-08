@@ -35,11 +35,11 @@ import java.util.List;
  */
 public class Entity extends BaseEntity {
 
-	private final EntityMapper mapper;
+	private final EntityMapper entityMapper;
 
 	public Entity() {
 		super();
-		this.mapper = new EntityMapper(getClass());
+		this.entityMapper = new EntityMapper(getClass());
 	}
 
 	public static <T extends Entity> T loadById(final Class<T> entityClass, final Object id) {
@@ -66,16 +66,16 @@ public class Entity extends BaseEntity {
 		return SingletonFactory.get(entityClass).psqlStatement(query);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected <T extends Entity> T ploadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
 		log.fine("loadUniqueByQuery(" + query + ")");
-		return DataMapper.queryUnique((IRowMapper<T>) mapper, query);
+		IRowMapper<T> mapper = getRowMapper();
+		return DataMapper.queryUnique(mapper, query);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected <T extends Entity> List<T> ploadByQuery(final Class<T> entityClass, final QueryObject query) {
 		log.fine("loadByQuery(" + query + ")");
-		return DataMapper.query((IRowMapper<T>) mapper, query);
+		IRowMapper<T> mapper = getRowMapper();
+		return DataMapper.query(mapper, query);
 	}
 
 	protected int psqlStatement(final QueryObject query) {
@@ -83,7 +83,6 @@ public class Entity extends BaseEntity {
 		return DataMapper.update(query);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected <T extends Entity> T ploadById(final Class<T> entityClass, final Object id) {
 		log.fine("loadById(" + id + ")");
 		final QueryObject query = new QueryObject()
@@ -94,10 +93,10 @@ public class Entity extends BaseEntity {
 		/**/.append("=?")
 		/**/.addParams(id)
 		/**/;
-		return DataMapper.queryUnique((IRowMapper<T>) mapper, query);
+		IRowMapper<T> mapper = getRowMapper();
+		return DataMapper.queryUnique(mapper, query);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected <T extends Entity> List<T> ploadBy(final Class<T> entityClass, final Criterion... criterions) {
 		log.fine("loadBy(Criterion[])");
 		final Criterion cs = Criteria.concate(criterions);
@@ -107,17 +106,18 @@ public class Entity extends BaseEntity {
 		/**/.append(" WHERE ")
 		/**/.append(cs.renderQuery())
 		/**/;
-		return DataMapper.query((IRowMapper<T>) mapper, query);
+		IRowMapper<T> mapper = getRowMapper();
+		return DataMapper.query(mapper, query);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected <T extends Entity> List<T> ploadAll(final Class<T> entityClass) {
 		log.fine("loadAll()");
 		final QueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
 		/**/;
-		return DataMapper.query((IRowMapper<T>) mapper, query);
+		IRowMapper<T> mapper = getRowMapper();
+		return DataMapper.query(mapper, query);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -232,8 +232,9 @@ public class Entity extends BaseEntity {
 		return DataMapper.aggregate(query).longValue();
 	}
 
-	public IRowMapper<Entity> getRowMapper() {
-		return mapper;
+	@SuppressWarnings("unchecked")
+	public <T extends Entity> IRowMapper<T> getRowMapper() {
+		return (IRowMapper<T>) entityMapper;
 	}
 
 }

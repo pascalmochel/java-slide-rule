@@ -19,7 +19,6 @@ public class DataMapper {
 
 	public static <T extends Entity> T queryUnique(final IRowMapper<T> rowMapper, final QueryObject query) {
 		LOG.fine(query.toString());
-		// return queryUnique(rowMapper, query.getQuery(), query.getParams());
 
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
