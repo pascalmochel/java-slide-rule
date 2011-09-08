@@ -20,7 +20,7 @@ public class NoKeyTest {
 
 	@Before
 	public void before() {
-		SessionFactory.getCurrentSession().openTransaction();
+		SessionFactory.getCurrentSession().open();
 
 		DataMapper.executeDDLIgnoringErrors("DROP TABLE DOG");
 
@@ -37,14 +37,14 @@ public class NoKeyTest {
 	@After
 	public void after() {
 
-		SessionFactory.getCurrentSession().openTransaction();
+		SessionFactory.getCurrentSession().open();
 		DataMapper.executeDDL("DROP TABLE DOG");
 		SessionFactory.getCurrentSession().commit();
 	}
 
 	@Test
 	public void testname() throws Exception {
-		SessionFactory.getCurrentSession().openTransaction();
+		SessionFactory.getCurrentSession().open();
 
 		new NoKeyDog(5, "din", 9).insert();
 		assertEquals("[[ID_DOG=5, NAME=din, AGE=9]]", Entity.loadAll(NoKeyDog.class).toString());

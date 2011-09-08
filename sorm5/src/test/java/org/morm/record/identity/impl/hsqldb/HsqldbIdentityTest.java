@@ -20,7 +20,7 @@ public class HsqldbIdentityTest {
 
 	@Before
 	public void before() {
-		SessionFactory.getCurrentSession().openTransaction();
+		SessionFactory.getCurrentSession().open();
 
 		DataMapper.executeDDLIgnoringErrors("DROP TABLE DOG");
 
@@ -37,14 +37,14 @@ public class HsqldbIdentityTest {
 	@After
 	public void after() {
 
-		SessionFactory.getCurrentSession().openTransaction();
+		SessionFactory.getCurrentSession().open();
 		DataMapper.executeDDL("DROP TABLE DOG");
 		SessionFactory.getCurrentSession().commit();
 	}
 
 	@Test
 	public void testname() throws Exception {
-		SessionFactory.getCurrentSession().openTransaction();
+		SessionFactory.getCurrentSession().open();
 
 		new IdentityDog(null, "din", 9).store();
 		assertEquals("[[ID_DOG=100, NAME=din, AGE=9]]", Entity.loadAll(IdentityDog.class).toString());
