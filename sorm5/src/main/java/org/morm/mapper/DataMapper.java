@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.morm.exception.SormException;
+import org.morm.query.IQueryObject;
+import org.morm.query.QueryObject;
 import org.morm.record.Entity;
-import org.morm.record.IQueryObject;
-import org.morm.record.QueryObject;
 import org.morm.session.SessionFactory;
 
 public class DataMapper {

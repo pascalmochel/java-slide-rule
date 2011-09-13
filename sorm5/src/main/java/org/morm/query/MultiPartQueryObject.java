@@ -1,4 +1,4 @@
-package org.morm.record;
+package org.morm.query;
 
 import java.util.Arrays;
 import java.util.LinkedList;

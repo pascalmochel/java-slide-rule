@@ -1,4 +1,4 @@
-package org.morm.record;
+package org.morm.query;
 
 public interface IQueryObject {
 

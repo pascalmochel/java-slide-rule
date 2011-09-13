@@ -3,9 +3,9 @@ package org.morm.criteria;
 import org.morm.criteria.impl.ColumnToValueRestriction;
 import org.morm.criteria.impl.MultiRestriction;
 import org.morm.criteria.impl.OrderByField;
-import org.morm.record.IQueryObject;
+import org.morm.query.IQueryObject;
+import org.morm.query.QueryObject;
 import org.morm.record.QueryGenUtils;
-import org.morm.record.QueryObject;
 import org.morm.record.field.FieldDef;
 
 // TODO afegir limitacio/windowing de rows de select (ROWNUM,LIMIT,...) pero depen del dialecte
