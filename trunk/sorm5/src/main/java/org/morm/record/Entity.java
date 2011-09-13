@@ -6,6 +6,7 @@ import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.EntityMapper;
 import org.morm.mapper.IRowMapper;
+import org.morm.query.IQueryObject;
 import org.morm.query.QueryObject;
 import org.morm.record.compo.ManyToOne;
 import org.morm.record.compo.OneToMany;
@@ -53,30 +54,30 @@ public class Entity extends BaseEntity {
 		return (List<T>) SessionFactory.getSession().getIdentityMap().loadOrStore((List<Entity>) r);
 	}
 
-	protected int sqlStatement(final Class<Entity> entityClass, final QueryObject query) {
+	public int sqlStatement(final Class<Entity> entityClass, final QueryObject query) {
 		return SingletonFactory.get(entityClass).psqlStatement(query);
 	}
 
-	protected <T extends Entity> T ploadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
+	private <T extends Entity> T ploadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
 		log.fine("loadUniqueByQuery(" + query + ")");
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.queryUnique(mapper, query);
 	}
 
-	protected <T extends Entity> List<T> ploadByQuery(final Class<T> entityClass, final QueryObject query) {
+	private <T extends Entity> List<T> ploadByQuery(final Class<T> entityClass, final QueryObject query) {
 		log.fine("loadByQuery(" + query + ")");
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.query(mapper, query);
 	}
 
-	protected int psqlStatement(final QueryObject query) {
+	private int psqlStatement(final QueryObject query) {
 		log.fine("sqlStatement()");
 		return DataMapper.update(query);
 	}
 
-	protected <T extends Entity> T ploadById(final Class<T> entityClass, final Object id) {
+	private <T extends Entity> T ploadById(final Class<T> entityClass, final Object id) {
 		log.fine("loadById(" + id + ")");
-		final QueryObject query = new QueryObject()
+		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
 		/**/.append(" WHERE ")
@@ -88,23 +89,23 @@ public class Entity extends BaseEntity {
 		return DataMapper.queryUnique(mapper, query);
 	}
 
-	protected <T extends Entity> List<T> ploadBy(final Class<T> entityClass, final Criterion... criterions) {
+	private <T extends Entity> List<T> ploadBy(final Class<T> entityClass, final Criterion... criterions) {
 		log.fine("loadBy(Criterion[])");
 		final Criterion cs = Criteria.concate(criterions);
-		final QueryObject query = new QueryObject()
+		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
-		//TODO aquest " WHERE " l'hauria de generar el Criterion!!!
-		/**/.append(" WHERE ")
-		/**/.append(cs.renderQuery())
+		// TODO aquest " WHERE " l'hauria de generar el Criterion!!!
+				/**/.append(" WHERE ")
+				/**/.append(cs.renderQuery())
 		/**/;
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.query(mapper, query);
 	}
 
-	protected <T extends Entity> List<T> ploadAll(final Class<T> entityClass) {
+	private <T extends Entity> List<T> ploadAll(final Class<T> entityClass) {
 		log.fine("loadAll()");
-		final QueryObject query = new QueryObject()
+		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
 		/**/;
@@ -159,7 +160,7 @@ public class Entity extends BaseEntity {
 			getIdField().assignGeneratedValue();
 		}
 
-		final QueryObject query = new QueryObject()
+		final IQueryObject query = new QueryObject()
 		/**/.append("INSERT INTO ")
 		/**/.append(getTableName())
 		/**/.append(" (")
@@ -176,9 +177,9 @@ public class Entity extends BaseEntity {
 		}
 	}
 
-	protected void update() {
+	private void update() {
 		log.fine("update()");
-		final QueryObject query = new QueryObject()
+		final IQueryObject query = new QueryObject()
 		/**/.append("UPDATE ")
 		/**/.append(getTableName())
 		/**/.append(" SET ")
@@ -202,7 +203,7 @@ public class Entity extends BaseEntity {
 			}
 		}
 		log.fine("delete()");
-		final QueryObject query = new QueryObject()
+		final IQueryObject query = new QueryObject()
 		/**/.append("DELETE FROM ")
 		/**/.append(getTableName())
 		/**/.append(" WHERE ")
@@ -215,7 +216,7 @@ public class Entity extends BaseEntity {
 
 	public void delete(final Criterion criterion) {
 		log.fine("delete(Criterion[])");
-		final QueryObject query = new QueryObject()
+		final IQueryObject query = new QueryObject()
 		/**/.append("DELETE FROM ")
 		/**/.append(getTableName())
 		/**/.append(" WHERE ")
@@ -226,7 +227,7 @@ public class Entity extends BaseEntity {
 
 	public Long count(final Criterion criterion) {
 		log.fine("count(Criterion[])");
-		final QueryObject query = new QueryObject()
+		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT COUNT(*) FROM ")
 		/**/.append(getTableName())
 		/**/.append(" WHERE ")

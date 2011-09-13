@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
+import org.morm.query.IQueryObject;
 import org.morm.query.QueryObject;
 import org.morm.record.Entity;
 import org.morm.record.SingletonFactory;
@@ -14,7 +15,7 @@ import org.morm.session.SessionFactory;
 
 public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 
-	protected Field<TID> selfFkField;
+	protected final Field<TID> selfFkField;
 	protected final Class<E> foreignEntityClass;
 	protected String foreignIdFieldColumnName;
 	protected E foreignEntity;
@@ -52,6 +53,7 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 		selfFkField.load(rs);
 	}
 
+	// @SuppressWarnings("unchecked")
 	@SuppressWarnings("unchecked")
 	public E getCollaboration() {
 		if (!isInit) {
@@ -64,7 +66,7 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 			this.foreignEntity = SingletonFactory.get(castedForeignEntityClass);
 			this.foreignIdFieldColumnName = foreignEntity.getIdField().getColumnName();
 
-			final QueryObject q = new QueryObject()
+			final IQueryObject q = new QueryObject()
 			/**/.append("SELECT * FROM ")
 			/**/.append(foreignEntity.getTableName())
 			/**/.append(" WHERE ")
@@ -72,6 +74,7 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 			/**/.append("=?")
 			/**/.addParams(selfFkField.getValue())
 			/**/;
+
 			final IRowMapper<E> rowMapper = this.foreignEntity.getRowMapper();
 			this.collaboration = DataMapper.queryUnique(rowMapper, q);
 			this.collaboration = (E) SessionFactory.getSession().getIdentityMap().loadOrStore(

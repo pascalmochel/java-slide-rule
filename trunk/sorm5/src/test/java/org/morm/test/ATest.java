@@ -1,13 +1,13 @@
 package org.morm.test;
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.morm.mapper.DataMapper;
 import org.morm.record.Entity;
 import org.morm.session.SessionFactory;
+
+import static org.junit.Assert.*;
 
 public class ATest {
 
@@ -35,9 +35,9 @@ public class ATest {
 		DataMapper.executeDDL("INSERT INTO RABBIT (ID_RABBIT,NAME,AGE,NUM_DOG) VALUES (203,'c22',2, 101)");
 
 		try {
-			Dog d1 = Entity.loadById(Dog.class, 100);
+			final Dog d1 = Entity.loadById(Dog.class, 100);
 			d1.getRabbits();
-			Dog d2 = Entity.loadById(Dog.class, 101);
+			final Dog d2 = Entity.loadById(Dog.class, 101);
 			d2.getRabbits();
 
 			assertEquals(
@@ -53,13 +53,13 @@ public class ATest {
 
 			SessionFactory.getSession().getIdentityMap().clear();
 
-			Rabbit r1 = Entity.loadById(Rabbit.class, 200);
+			final Rabbit r1 = Entity.loadById(Rabbit.class, 200);
 			r1.getDog();
-			Rabbit r2 = Entity.loadById(Rabbit.class, 201);
+			final Rabbit r2 = Entity.loadById(Rabbit.class, 201);
 			r2.getDog();
-			Rabbit r3 = Entity.loadById(Rabbit.class, 202);
+			final Rabbit r3 = Entity.loadById(Rabbit.class, 202);
 			r3.getDog();
-			Rabbit r4 = Entity.loadById(Rabbit.class, 203);
+			final Rabbit r4 = Entity.loadById(Rabbit.class, 203);
 			r4.getDog();
 
 			assertEquals(
@@ -74,6 +74,13 @@ public class ATest {
 			assertEquals(
 			/**/"[ID_RABBIT=203, NAME=c22, AGE=2, NUM_DOG=101=>[ID_DOG=101, NAME=d2, AGE=2, [...]]]"
 			/**/, r4.toString());
+
+			r1.getDog().getRabbits();
+			try {
+				r1.toString();
+				fail();
+			} catch (final StackOverflowError e) {
+			}
 
 		} finally {
 			SessionFactory.getSession().rollback();
