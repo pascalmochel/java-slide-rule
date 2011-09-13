@@ -1,6 +1,7 @@
 package org.morm.criteria.impl;
 
 import org.morm.criteria.Criterion;
+import org.morm.record.IQueryObject;
 import org.morm.record.QueryObject;
 
 public class MultiRestriction implements Criterion {
@@ -14,7 +15,7 @@ public class MultiRestriction implements Criterion {
 		this.abstractRs = abstractRs.clone();
 	}
 
-	public QueryObject renderQuery() {
+	public IQueryObject renderQuery() {
 		final QueryObject r = new QueryObject().append("(");
 		for (int i = 0; i < abstractRs.length; i++) {
 			r.append(abstractRs[i].renderQuery());

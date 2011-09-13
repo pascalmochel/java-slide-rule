@@ -1,19 +1,20 @@
 package org.morm.test;
 
+import static org.junit.Assert.*;
+import static org.morm.criteria.Criteria.*;
+
 import org.junit.Test;
-import org.morm.criteria.impl.OrderBy;
+import org.morm.criteria.impl.OrderByField;
 import org.morm.datasource.HsqldbDataSourceFactory;
 import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
 import org.morm.record.Entity;
 import org.morm.session.SessionFactory;
 
-import static org.junit.Assert.*;
-import static org.morm.criteria.Criteria.*;
-
 public class EntityTest {
 
 	static {
+		new EntityTest2();
 		new SessionFactory().setDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
@@ -72,8 +73,8 @@ public class EntityTest {
 			System.out.println(Entity.loadBy(Rabbit.class, and(eq(Rabbit.id, 5), eq(Rabbit.name, "jou"))));
 
 			System.out.println(
-			/**/Entity
-					.loadBy(Rabbit.class, eq(Rabbit.id, 100), orderBy(OrderBy.ASC, Rabbit.name, Rabbit.id))
+			/**/Entity.loadBy(Rabbit.class, eq(Rabbit.id, 100), orderBy(OrderByField.asc(Rabbit.name),
+					OrderByField.asc(Rabbit.id)))
 			/**/);
 
 			System.out.println(X.count(eq(Rabbit.id, 4)));

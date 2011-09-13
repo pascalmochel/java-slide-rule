@@ -3,15 +3,15 @@ package org.morm.mapper;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-import org.morm.exception.SormException;
-import org.morm.record.Entity;
-import org.morm.record.QueryObject;
-import org.morm.session.SessionFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
+import org.morm.exception.SormException;
+import org.morm.record.Entity;
+import org.morm.record.IQueryObject;
+import org.morm.record.QueryObject;
+import org.morm.session.SessionFactory;
 
 public class DataMapper {
 
@@ -77,7 +77,7 @@ public class DataMapper {
 		}
 	}
 
-	public static Number aggregate(final QueryObject query) {
+	public static Number aggregate(final IQueryObject query) {
 		LOG.fine(query.toString());
 		PreparedStatement pstm = null;
 		ResultSet rs = null;

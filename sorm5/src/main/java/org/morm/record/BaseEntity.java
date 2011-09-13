@@ -78,7 +78,7 @@ public class BaseEntity {
 	}
 
 	protected <TID> void registerOneToMany(final OneToMany<TID, ?> oneToMany) {
-		IdentityGenerator<TID> idField= getIdField();
+		IdentityGenerator<TID> idField = getIdField();
 		oneToMany.setSelfIdFieldRef(idField);
 		final OneToMany<TID, ?> c = oneToMany.doCloneCollaboration();
 		if (this.oneToManies.containsKey(c.getColumnName())) {

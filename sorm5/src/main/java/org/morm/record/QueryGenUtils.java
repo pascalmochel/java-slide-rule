@@ -72,13 +72,13 @@ public class QueryGenUtils {
 		return r;
 	}
 
-	public static String dup(final String s, final int times) {
+	public static String join(final String s, String sep, final int times) {
 
 		final StringBuilder r = new StringBuilder();
 		for (int i = 0; i < times; i++) {
-			r.append(s);
+			r.append(s).append(sep);
 		}
-		return r.deleteCharAt(r.length() - 1).toString();
+		return r.deleteCharAt(r.length() - sep.length()).toString();
 	}
 
 }

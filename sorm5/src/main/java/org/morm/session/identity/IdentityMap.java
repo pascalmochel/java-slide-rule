@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class IdentityMap<T extends Entity> {
 
-	protected Map<Class<T>, HashMap<Object, T>> entityMap;
+	protected final Map<Class<T>, HashMap<Object, T>> entityMap;
 
 	public IdentityMap() {
 		super();

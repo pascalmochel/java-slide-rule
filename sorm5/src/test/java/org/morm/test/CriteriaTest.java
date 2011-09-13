@@ -3,7 +3,9 @@ package org.morm.test;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.morm.criteria.Criteria;
+import static org.morm.criteria.Criteria.*;
+
+import org.morm.criteria.impl.OrderByField;
 import org.morm.mapper.DataMapper;
 import static org.morm.record.Entity.*;
 import org.morm.session.SessionFactory;
@@ -62,20 +64,20 @@ public class CriteriaTest {
 		DataMapper.executeDDL("INSERT INTO DOG (ID_DOG,NAME,AGE) VALUES (56,'chucho',3)");
 
 		try {
-			assertEquals(7, loadBy(Dog.class, Criteria.all()).size());
+			assertEquals(7, loadBy(Dog.class, all()).size());
 
-			final List<Dog> d1 = loadBy(Dog.class, Criteria.in(Dog.name, "faria", "gossa"));
+			final List<Dog> d1 = loadBy(Dog.class, in(Dog.name, "faria", "gossa"));
 			assertEquals(
 			/**/"[[ID_DOG=51, NAME=faria, AGE=9, [...]], " +
 			/**/"[ID_DOG=52, NAME=gossa, AGE=8, [...]]]"
 			/**/, d1.toString());
 
-			final List<Dog> d2 = loadBy(Dog.class, Criteria.like(Dog.name, "%egra%"));
+			final List<Dog> d2 = loadBy(Dog.class, like(Dog.name, "%egra%"));
 			assertEquals(
 			/**/"[[ID_DOG=54, NAME=negra, AGE=6, [...]]]"
 			/**/, d2.toString());
 
-			final List<Dog> d3 = loadBy(Dog.class, Criteria.all(), Criteria.orderBy("ASC", Dog.age));
+			final List<Dog> d3 = loadBy(Dog.class, all(), orderBy(OrderByField.asc(Dog.age)));
 			assertEquals(
 			/**/"[[ID_DOG=56, NAME=chucho, AGE=3, [...]], " +
 			/**/"[ID_DOG=55, NAME=pelut, AGE=5, [...]], " +
@@ -85,6 +87,22 @@ public class CriteriaTest {
 			/**/"[ID_DOG=51, NAME=faria, AGE=9, [...]], " +
 			/**/"[ID_DOG=50, NAME=din, AGE=10, [...]]]"
 			/**/, d3.toString());
+
+			final List<Dog> d4 = loadBy(Dog.class, between(Dog.age, 3, 5));
+			assertEquals(
+			/**/"[[ID_DOG=55, NAME=pelut, AGE=5, [...]], " +
+			/**/"[ID_DOG=56, NAME=chucho, AGE=3, [...]]]"
+			/**/, d4.toString());
+
+			final List<Dog> d5 = loadBy(Dog.class, not(lt(Dog.age, 10)));
+			assertEquals(
+			/**/"[[ID_DOG=50, NAME=din, AGE=10, [...]]]"
+			/**/, d5.toString());
+
+			// TODO polir això
+			final List<Dog> d6 = loadBy(Dog.class, all(), custom("LIMIT 2"));
+			System.out.println(d6);
+			assertEquals(2, d6.size());
 
 		} finally {
 			SessionFactory.getSession().rollback();

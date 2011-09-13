@@ -19,7 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.morm.exception.SormException;
-import org.morm.record.QueryObject;
+import org.morm.record.IQueryObject;
 import org.morm.record.field.Field;
 
 public abstract class IdentityGenerator<T> extends Field<T> {
@@ -29,7 +29,7 @@ public abstract class IdentityGenerator<T> extends Field<T> {
 	protected static final String ERROR_OBTAINING_IDENTITY_KEY = "error obtaining identity key: ";
 
 	protected final Field<T> field;
-	protected QueryObject query;
+	protected IQueryObject query;
 
 	public IdentityGenerator(final Field<T> field) {
 		super(field.getColumnName());
@@ -46,7 +46,7 @@ public abstract class IdentityGenerator<T> extends Field<T> {
 
 	protected abstract void setGeneratedValue();
 
-	protected abstract QueryObject getQuery();
+	protected abstract IQueryObject getQuery();
 
 	public abstract boolean generateBefore();
 
