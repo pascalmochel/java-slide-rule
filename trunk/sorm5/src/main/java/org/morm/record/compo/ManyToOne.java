@@ -14,15 +14,16 @@ import org.morm.session.SessionFactory;
 
 public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 
-	protected final Field<TID> selfFkField;
+	protected Field<TID> selfFkField;
 	protected final Class<E> foreignEntityClass;
-	protected String foreigIdFieldColumnName;
-
+	protected String foreignIdFieldColumnName;
 	protected E foreignEntity;
+
+	protected E collaboration;
+	protected boolean isInit = false;
 
 	public ManyToOne(final Field<TID> selfFkField, final Class<E> foreignEntityClass) {
 		super(selfFkField.getColumnName());
-
 		this.selfFkField = selfFkField;
 		this.foreignEntityClass = foreignEntityClass;
 	}
@@ -51,11 +52,6 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 		selfFkField.load(rs);
 	}
 
-	// -------------
-
-	protected E collaboration;
-	protected boolean isInit = false;
-
 	@SuppressWarnings("unchecked")
 	public E getCollaboration() {
 		if (!isInit) {
@@ -66,13 +62,13 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 
 			final Class<? extends E> castedForeignEntityClass = foreignEntityClass;
 			this.foreignEntity = SingletonFactory.get(castedForeignEntityClass);
-			this.foreigIdFieldColumnName = foreignEntity.getIdField().getColumnName();
+			this.foreignIdFieldColumnName = foreignEntity.getIdField().getColumnName();
 
 			final QueryObject q = new QueryObject()
 			/**/.append("SELECT * FROM ")
 			/**/.append(foreignEntity.getTableName())
 			/**/.append(" WHERE ")
-			/**/.append(foreigIdFieldColumnName)
+			/**/.append(foreignIdFieldColumnName)
 			/**/.append("=?")
 			/**/.addParams(selfFkField.getValue())
 			/**/;

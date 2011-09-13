@@ -1,26 +1,29 @@
 package org.morm.record.compo;
 
+import java.util.List;
+
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
 import org.morm.record.Entity;
 import org.morm.record.QueryObject;
 import org.morm.record.SingletonFactory;
-import org.morm.record.field.Field;
+import org.morm.record.field.FieldDef;
 import org.morm.record.identity.IdentityGenerator;
 import org.morm.session.SessionFactory;
-
-import java.util.List;
 
 public class OneToMany<TID, E extends Entity> {
 
 	protected IdentityGenerator<TID> selfIdFieldRef;
 	protected final Class<E> foreignEntityClass;
-	protected final Field<TID> foreignField;
+	protected final FieldDef<TID> foreignFieldDef;
 	protected E foreignEntity;
 
-	public OneToMany(final Class<E> foreignEntityClass, final Field<TID> foreignField) {
+	protected List<E> collaboration;
+	protected boolean isInit = false;
+
+	public OneToMany(final Class<E> foreignEntityClass, final FieldDef<TID> foreignField) {
 		this.foreignEntityClass = foreignEntityClass;
-		this.foreignField = foreignField;
+		this.foreignFieldDef = foreignField;
 	}
 
 	public void setSelfIdFieldRef(final IdentityGenerator<TID> selfIdFieldRef) {
@@ -32,13 +35,10 @@ public class OneToMany<TID, E extends Entity> {
 	}
 
 	public OneToMany<TID, E> doCloneCollaboration() {
-		final OneToMany<TID, E> r = new OneToMany<TID, E>(foreignEntityClass, foreignField);
+		final OneToMany<TID, E> r = new OneToMany<TID, E>(foreignEntityClass, foreignFieldDef);
 		r.setSelfIdFieldRef(selfIdFieldRef);
 		return r;
 	}
-
-	protected List<E> collaboration;
-	protected boolean isInit = false;
 
 	@SuppressWarnings("unchecked")
 	public List<E> getCollaboration() {
@@ -50,11 +50,12 @@ public class OneToMany<TID, E extends Entity> {
 			final Class<E> casterForeignEntityClass = foreignEntityClass;
 			this.foreignEntity = SingletonFactory.get(casterForeignEntityClass);
 
+			// TODO aquesta QueryObject és constant, no cal construir-la cada cop
 			final QueryObject q = new QueryObject()
 			/**/.append("SELECT * FROM ")
 			/**/.append(foreignEntity.getTableName())
 			/**/.append(" WHERE ")
-			/**/.append(foreignField.getColumnName())
+			/**/.append(foreignFieldDef.getColumnName())
 			/**/.append("=?")
 			/**/.addParams(this.selfIdFieldRef.getValue())
 			/**/;
@@ -80,8 +81,8 @@ public class OneToMany<TID, E extends Entity> {
 		/**/"[...]";
 	}
 
-	public Field<TID> getForeignField() {
-		return foreignField;
+	public FieldDef<TID> getForeignField() {
+		return foreignFieldDef;
 	}
 
 	public boolean getIsInit() {

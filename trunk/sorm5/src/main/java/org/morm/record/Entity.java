@@ -13,27 +13,6 @@ import org.morm.session.SessionFactory;
 
 import java.util.List;
 
-/**
- * <pre>
- * 
- * Dog 1-----* Rabbits
- * 
- * 
- * 
- * Dog.List&lt;Rabbit&gt; = SELECT * FROM RABBIT WHERE ID_DOG=$dog.idDog
- * 
- * 	tableNameOf(Rabbit.class)
- *  foreignOf(RABBIT).toPkOf(DOG)
- * 
- * 
- * Rabbit.Dog = SELECT 1 FROM DOG WHERE ID_DOG=rabbit.idDog
- * 
- * 	tableNameOf(Dog.class)
- *  pkOf(DOG).toFkOf(RABBIT)
- * 
- * 
- * </pre>
- */
 public class Entity extends BaseEntity {
 
 	private final EntityMapper entityMapper;
@@ -114,6 +93,7 @@ public class Entity extends BaseEntity {
 		final QueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
+		//TODO aquest " WHERE " l'hauria de generar el Criterion!!!
 		/**/.append(" WHERE ")
 		/**/.append(cs.renderQuery())
 		/**/;
@@ -133,11 +113,11 @@ public class Entity extends BaseEntity {
 
 	public void store() {
 		SessionFactory.getSession().getStoredSet().clear();
-		alterStore();
+		innerStore();
 	}
 
 	@SuppressWarnings("unchecked")
-	private void alterStore() {
+	private void innerStore() {
 
 		if (SessionFactory.getSession().getStoredSet().isStored(this)) {
 			return;
@@ -146,7 +126,7 @@ public class Entity extends BaseEntity {
 		for (final ManyToOne<?, ?> c : getManyToOnes()) {
 			if (c.getIsInit()) {
 				final Entity v = c.getCollaboration();
-				v.alterStore();
+				v.innerStore();
 				set((Field<Object>) c, v.getIdField().getValue());
 			}
 		}
@@ -164,7 +144,7 @@ public class Entity extends BaseEntity {
 				if (cs != null) {
 					for (final Entity e : cs) {
 						e.set(((Field<Object>) c.getForeignField()), getIdField().getValue());
-						e.alterStore();
+						e.innerStore();
 					}
 				}
 			}

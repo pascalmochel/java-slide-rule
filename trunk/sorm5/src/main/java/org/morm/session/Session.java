@@ -26,6 +26,7 @@ public class Session implements ISession {
 	protected final IdentityMap<Entity> identityMap = new IdentityMap<Entity>();
 	protected final StoredSet storedSet = new StoredSet();
 
+	//TODO i readOnly transactions? 
 	/**
 	 * C'tor
 	 * 

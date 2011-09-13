@@ -1,9 +1,9 @@
 package org.morm.criteria;
 
-import org.morm.record.QueryObject;
+import org.morm.record.IQueryObject;
 
 public interface Criterion {
 
-	QueryObject renderQuery();
+	IQueryObject renderQuery();
 
 }

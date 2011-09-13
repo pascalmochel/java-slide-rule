@@ -1,5 +1,6 @@
 package org.morm.criteria.impl;
 
+import org.morm.record.IQueryObject;
 import org.morm.record.QueryObject;
 
 public class ColumnToValueRestriction extends AbstractColumnRestriction {
@@ -11,7 +12,7 @@ public class ColumnToValueRestriction extends AbstractColumnRestriction {
 		this.value = value;
 	}
 
-	public QueryObject renderQuery() {
+	public IQueryObject renderQuery() {
 		return new QueryObject()
 		/**/.append(column)
 		/**/.append(op)

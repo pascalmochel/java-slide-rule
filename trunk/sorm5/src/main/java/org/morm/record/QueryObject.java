@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class QueryObject {
+public class QueryObject implements IQueryObject {
 
-	public static final QueryObject VOID = new QueryObject();
+	public static final IQueryObject VOID = new QueryObject();
 
 	protected final StringBuilder query;
 	protected final List<Object> params;
@@ -34,7 +34,13 @@ public class QueryObject {
 		return this;
 	}
 
-	public QueryObject append(final QueryObject query) {
+	public IQueryObject setParams(final Object... params) {
+		this.params.clear();
+		this.params.addAll(Arrays.asList(params));
+		return this;
+	}
+
+	public QueryObject append(final IQueryObject query) {
 		this.query.append(query.getQuery());
 		for (final Object o : query.getParams()) {
 			this.params.add(o);
@@ -42,10 +48,16 @@ public class QueryObject {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.morm.record.IQueryObject#getQuery()
+	 */
 	public String getQuery() {
 		return query.toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.morm.record.IQueryObject#getParams()
+	 */
 	public Object[] getParams() {
 		return params.toArray();
 	}
