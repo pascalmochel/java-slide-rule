@@ -19,7 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.morm.exception.SormException;
-import org.morm.record.IQueryObject;
+import org.morm.query.IQueryObject;
 import org.morm.record.field.Field;
 
 public abstract class IdentityGenerator<T> extends Field<T> {

@@ -6,6 +6,7 @@ import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.EntityMapper;
 import org.morm.mapper.IRowMapper;
+import org.morm.query.QueryObject;
 import org.morm.record.compo.ManyToOne;
 import org.morm.record.compo.OneToMany;
 import org.morm.record.field.Field;

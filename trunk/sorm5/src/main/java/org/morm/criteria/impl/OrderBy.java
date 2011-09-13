@@ -1,8 +1,8 @@
 package org.morm.criteria.impl;
 
 import org.morm.criteria.Criterion;
+import org.morm.query.QueryObject;
 import org.morm.record.QueryGenUtils;
-import org.morm.record.QueryObject;
 import org.morm.record.field.FieldDef;
 
 public class OrderBy implements Criterion {

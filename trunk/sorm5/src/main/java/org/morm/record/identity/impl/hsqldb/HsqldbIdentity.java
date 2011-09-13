@@ -17,8 +17,8 @@ package org.morm.record.identity.impl.hsqldb;
 
 import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
-import org.morm.record.IQueryObject;
-import org.morm.record.QueryObject;
+import org.morm.query.IQueryObject;
+import org.morm.query.QueryObject;
 import org.morm.record.field.Field;
 import org.morm.record.identity.IdentityGenerator;
 

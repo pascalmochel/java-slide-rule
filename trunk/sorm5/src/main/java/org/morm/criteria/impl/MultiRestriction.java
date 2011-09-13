@@ -1,8 +1,8 @@
 package org.morm.criteria.impl;
 
 import org.morm.criteria.Criterion;
-import org.morm.record.IQueryObject;
-import org.morm.record.QueryObject;
+import org.morm.query.IQueryObject;
+import org.morm.query.QueryObject;
 
 public class MultiRestriction implements Criterion {
 

@@ -3,8 +3,8 @@ package org.morm.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.morm.query.QueryObject;
 import org.morm.record.Entity;
-import org.morm.record.QueryObject;
 
 import java.util.List;
 

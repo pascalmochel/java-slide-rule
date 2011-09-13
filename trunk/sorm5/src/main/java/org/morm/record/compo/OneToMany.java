@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
+import org.morm.query.QueryObject;
 import org.morm.record.Entity;
-import org.morm.record.QueryObject;
 import org.morm.record.SingletonFactory;
 import org.morm.record.field.FieldDef;
 import org.morm.record.identity.IdentityGenerator;
@@ -50,7 +50,7 @@ public class OneToMany<TID, E extends Entity> {
 			final Class<E> casterForeignEntityClass = foreignEntityClass;
 			this.foreignEntity = SingletonFactory.get(casterForeignEntityClass);
 
-			// TODO aquesta QueryObject és constant, no cal construir-la cada cop
+			// TODO aquesta QueryObject ï¿½s constant, no cal construir-la cada cop
 			final QueryObject q = new QueryObject()
 			/**/.append("SELECT * FROM ")
 			/**/.append(foreignEntity.getTableName())
