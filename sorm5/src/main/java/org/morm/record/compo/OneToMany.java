@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
+import org.morm.query.IQueryObject;
 import org.morm.query.QueryObject;
 import org.morm.record.Entity;
 import org.morm.record.SingletonFactory;
@@ -52,7 +53,7 @@ public class OneToMany<TID, E extends Entity> {
 
 			// TODO aquesta QueryObject és constant, no cal construir-la cada
 			// cop
-			final QueryObject q = new QueryObject()
+			final IQueryObject q = new QueryObject()
 			/**/.append("SELECT * FROM ")
 			/**/.append(foreignEntity.getTableName())
 			/**/.append(" WHERE ")

@@ -3,21 +3,21 @@ package org.morm.mapper;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
 
 import org.morm.exception.SormException;
 import org.morm.query.IQueryObject;
-import org.morm.query.QueryObject;
 import org.morm.record.Entity;
 import org.morm.session.SessionFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class DataMapper {
 
 	protected static final Logger LOG = Logger.getLogger(DataMapper.class.getName());
 
-	public static <T extends Entity> T queryUnique(final IRowMapper<T> rowMapper, final QueryObject query) {
+	public static <T extends Entity> T queryUnique(final IRowMapper<T> rowMapper, final IQueryObject query) {
 		LOG.fine(query.toString());
 
 		PreparedStatement pstm = null;
@@ -50,7 +50,7 @@ public class DataMapper {
 		}
 	}
 
-	public static <T extends Entity> List<T> query(final IRowMapper<T> rowMapper, final QueryObject query) {
+	public static <T extends Entity> List<T> query(final IRowMapper<T> rowMapper, final IQueryObject query) {
 		LOG.fine(query.toString());
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -110,7 +110,7 @@ public class DataMapper {
 		}
 	}
 
-	public static int update(final QueryObject query) {
+	public static int update(final IQueryObject query) {
 		LOG.fine(query.toString());
 		PreparedStatement pstm = null;
 		try {

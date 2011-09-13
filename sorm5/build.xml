@@ -2,7 +2,7 @@
 
 <project name="sorm5" basedir="." default="build-sorm5">
 
-	<property name="jarname" value="morm" />
+	<property name="jarname" value="orm" />
 	<property name="version" value="0.1.1" />
 
 	<!--
