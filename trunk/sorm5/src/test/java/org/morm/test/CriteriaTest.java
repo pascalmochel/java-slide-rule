@@ -99,7 +99,7 @@ public class CriteriaTest {
 			/**/"[[ID_DOG=50, NAME=din, AGE=10, [...]]]"
 			/**/, d5.toString());
 
-			// TODO polir això
+			// TODO polir aixÃ²
 			final List<Dog> d6 = loadBy(Dog.class, all(), custom("LIMIT 2"));
 			System.out.println(d6);
 			assertEquals(2, d6.size());

@@ -130,7 +130,7 @@ public class NestedTransactionsTest {
 			SessionFactory.getSession().open();
 			break;
 		case '+':
-			// cityDao.create(new City(null, "city2")); TODO
+			// cityDao.create(new City(null, "city2"));
 			new Dog(null, "jou", 29).store();
 			break;
 		case '}':
