@@ -49,4 +49,9 @@
 //		return getQuery() + " -- " + params.toString();
 //	}
 //
+//	@Override
+//	public List<Object> getParamsList() {
+//		return params;
+//	}
+//
 // }

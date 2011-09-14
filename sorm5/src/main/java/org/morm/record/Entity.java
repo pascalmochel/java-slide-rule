@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Entity extends BaseEntity {
 
-	private final EntityMapper entityMapper;
+	private final IRowMapper<Entity> entityMapper;
 
 	public Entity() {
 		super();
@@ -96,7 +96,7 @@ public class Entity extends BaseEntity {
 		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
-				/**/.append(cs.renderQuery())
+		/**/.append(cs.renderQuery())
 		/**/;
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.query(mapper, query);
@@ -194,7 +194,7 @@ public class Entity extends BaseEntity {
 		}
 	}
 
-	public static void updateFields(FieldDef<?> field, Criterion criterion) {
+	public static void updateFields(final FieldDef<?> field, final Criterion criterion) {
 		// TODO implementar chachi
 	}
 
