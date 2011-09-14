@@ -4,7 +4,6 @@ import org.morm.criteria.Criteria;
 import org.morm.criteria.Criterion;
 import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
-import org.morm.mapper.EntityMapper;
 import org.morm.mapper.IRowMapper;
 import org.morm.query.IQueryObject;
 import org.morm.query.QueryObject;
@@ -17,13 +16,6 @@ import org.morm.session.SessionFactory;
 import java.util.List;
 
 public class Entity extends BaseEntity {
-
-	private final IRowMapper<Entity> entityMapper;
-
-	public Entity() {
-		super();
-		this.entityMapper = new EntityMapper(getClass());
-	}
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Entity> T loadById(final Class<T> entityClass, final Object id) {
@@ -239,7 +231,7 @@ public class Entity extends BaseEntity {
 
 	@SuppressWarnings("unchecked")
 	public <T extends Entity> IRowMapper<T> getRowMapper() {
-		return (IRowMapper<T>) entityMapper;
+		return (IRowMapper<T>) SingletonFactory.getMapper(getClass());
 	}
 
 }

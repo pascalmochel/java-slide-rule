@@ -27,7 +27,7 @@ public class QueryObject implements IQueryObject {
 		return this;
 	}
 
-	public QueryObject append(IQueryObject q) {
+	public QueryObject append(final IQueryObject q) {
 		this.query.append(q.getQuery());
 		params.addAll(q.getParamsList());
 		return this;
@@ -39,20 +39,6 @@ public class QueryObject implements IQueryObject {
 		}
 		return this;
 	}
-
-//	public IQueryObject setParams(final Object... params) {
-//		this.params.clear();
-//		this.params.addAll(new ArrayList<Object>(Arrays.asList(params)));
-//		return this;
-//	}
-
-	// public QueryObject append(final IQueryObject query) {
-	// this.query.append(query.getQuery());
-	// for (final Object o : query.getParams()) {
-	// this.params.add(o);
-	// }
-	// return this;
-	// }
 
 	public String getQuery() {
 		return query.toString();
