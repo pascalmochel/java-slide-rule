@@ -46,15 +46,15 @@ public class HsqldbDataSourceFactory {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("HsqldbDataSourceFactory [pass=");
-		builder.append(pass);
-		builder.append(", url=");
-		builder.append(url);
-		builder.append(", user=");
-		builder.append(user);
-		builder.append("]");
-		return builder.toString();
+		return new StringBuilder()
+		/**/.append(getClass().getSimpleName())
+		/**/.append(" ")
+		/**/.append(", url=")
+		/**/.append(url)
+		/**/.append(", user=")
+		/**/.append(user)
+		/**/.append(", pass=***]")
+		/**/.toString();
 	}
 
 }

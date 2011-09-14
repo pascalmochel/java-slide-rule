@@ -23,8 +23,6 @@ public class BaseEntity {
 	protected Logger log = Logger.getLogger(getClass().getName());
 
 	private String tableName;
-	// TODO i nom d'esquema, per DB2 això és imprescindible; i especificar com a
-	// tableName com fins ara?
 
 	private IdentityGenerator<?> idField;
 	private final Map<String, Field<?>> fields;
