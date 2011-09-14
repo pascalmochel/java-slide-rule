@@ -25,7 +25,7 @@ public class SingletonFactory {
 	};
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Entity> T get(final Class<T> c) {
+	public static <T extends Entity> T getEntity(final Class<T> c) {
 		final Map<Class<? extends Entity>, Entity> entMap = ENTITIES.get();
 		if (!entMap.containsKey(c)) {
 			try {
@@ -39,7 +39,7 @@ public class SingletonFactory {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Entity> IRowMapper<T> getMapper(final Class<T> c) {
+	public static <T extends Entity> IRowMapper<T> getEntityMapper(final Class<T> c) {
 		final Map<Class<? extends Entity>, IRowMapper<Entity>> mappersMap = ENTITY_MAPPERS.get();
 		if (!mappersMap.containsKey(c)) {
 			try {

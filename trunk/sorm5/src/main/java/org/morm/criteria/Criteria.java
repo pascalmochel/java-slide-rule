@@ -114,7 +114,7 @@ public class Criteria {
 	public static Criterion all() {
 		return new Criterion() {
 			public IQueryObject renderQuery() {
-				return new QueryObject("1=1");
+				return QueryObject.VOID;
 			}
 		};
 	}

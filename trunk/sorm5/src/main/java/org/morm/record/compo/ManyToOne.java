@@ -63,7 +63,7 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 			}
 
 			final Class<? extends E> castedForeignEntityClass = foreignEntityClass;
-			this.foreignEntity = SingletonFactory.get(castedForeignEntityClass);
+			this.foreignEntity = SingletonFactory.getEntity(castedForeignEntityClass);
 			this.foreignIdFieldColumnName = foreignEntity.getIdField().getColumnName();
 
 			final IQueryObject q = new QueryObject()

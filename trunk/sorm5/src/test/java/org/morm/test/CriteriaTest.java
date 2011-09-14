@@ -64,7 +64,7 @@ public class CriteriaTest {
 		DataMapper.executeDDL("INSERT INTO DOG (ID_DOG,NAME,AGE) VALUES (56,'chucho',3)");
 
 		try {
-			assertEquals(7, loadBy(Dog.class, where(all())).size());
+			assertEquals(7, loadBy(Dog.class, all()).size());
 
 			final List<Dog> d1 = loadBy(Dog.class, where(in(Dog.name, "faria", "gossa")));
 			assertEquals(
@@ -77,7 +77,7 @@ public class CriteriaTest {
 			/**/"[[ID_DOG=54, NAME=negra, AGE=6, [...]]]"
 			/**/, d2.toString());
 
-			final List<Dog> d3 = loadBy(Dog.class, where(all()), orderBy(asc(Dog.age), asc(Dog.name)));
+			final List<Dog> d3 = loadBy(Dog.class, all(), orderBy(asc(Dog.age), asc(Dog.name)));
 			assertEquals(
 			/**/"[[ID_DOG=56, NAME=chucho, AGE=3, [...]], " +
 			/**/"[ID_DOG=55, NAME=pelut, AGE=5, [...]], " +
@@ -99,8 +99,7 @@ public class CriteriaTest {
 			/**/"[[ID_DOG=50, NAME=din, AGE=10, [...]]]"
 			/**/, d5.toString());
 
-			// TODO polir això
-			final List<Dog> d6 = loadBy(Dog.class, where(all()), custom("LIMIT 2"));
+			final List<Dog> d6 = loadBy(Dog.class, custom("WHERE 1=1 LIMIT 2"));
 			System.out.println(d6);
 			assertEquals(2, d6.size());
 

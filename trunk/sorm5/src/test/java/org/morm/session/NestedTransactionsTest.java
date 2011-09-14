@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.morm.criteria.Criteria;
 import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
+import org.morm.record.Entity;
 import org.morm.test.Dog;
 import org.morm.test.EntityTest2;
 
@@ -140,7 +141,8 @@ public class NestedTransactionsTest {
 			SessionFactory.getSession().commit();
 			break;
 		default:
-			assertEquals(Long.valueOf(String.valueOf(c)), new Dog().count(Criteria.where(Criteria.all())));
+			assertEquals(Long.valueOf(String.valueOf(c)), Entity.count(Dog.class, Criteria.all()));
 		}
 	}
+
 }

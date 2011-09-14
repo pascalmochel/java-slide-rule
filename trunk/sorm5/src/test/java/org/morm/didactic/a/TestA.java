@@ -26,7 +26,7 @@ public class TestA {
 
 		try {
 			DataMapper.executeDDL("INSERT INTO CITY (ID_CITY,NAME) VALUES (100,'SBD')");
-			DataMapper.executeDDL("INSERT INTO CITY (ID_CITY,NAME) VALUES (101,'TRS')");
+			Entity.sqlStatement("INSERT INTO CITY (ID_CITY,NAME) VALUES (?,?)", 101, "TRS");
 
 			City sbd = Entity.loadUniqueBy(City.class, where(eq(City.name, "SBD")));
 			assertEquals("[ID_CITY=100, NAME=SBD]", sbd.toString());
@@ -36,6 +36,12 @@ public class TestA {
 
 			sbd = Entity.loadById(City.class, sbd.getId());
 			assertEquals("[ID_CITY=100, NAME=Sabadell]", sbd.toString());
+
+			assertEquals("[[ID_CITY=100, NAME=Sabadell], [ID_CITY=101, NAME=TRS]]",
+			/**/Entity.loadAll(City.class).toString());
+
+			final long no = Entity.count(City.class, all());
+			assertEquals(2, no);
 
 		} finally {
 			SessionFactory.getSession().rollback();

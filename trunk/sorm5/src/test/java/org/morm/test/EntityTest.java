@@ -1,8 +1,5 @@
 package org.morm.test;
 
-import static org.junit.Assert.*;
-import static org.morm.criteria.Criteria.*;
-
 import org.junit.Test;
 import org.morm.criteria.impl.Order;
 import org.morm.datasource.HsqldbDataSourceFactory;
@@ -10,6 +7,9 @@ import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
 import org.morm.record.Entity;
 import org.morm.session.SessionFactory;
+
+import static org.junit.Assert.*;
+import static org.morm.criteria.Criteria.*;
 
 public class EntityTest {
 
@@ -43,8 +43,6 @@ public class EntityTest {
 
 		}
 		{
-			new Dog();
-			final Rabbit X = new Rabbit();
 
 			final Rabbit a = new Rabbit(null, "din", 9);
 			a.store();
@@ -70,15 +68,16 @@ public class EntityTest {
 
 			System.out.println(Entity.loadBy(Rabbit.class, where(eq(Rabbit.id, 4))));
 			System.out.println(Entity.loadBy(Rabbit.class, where(eq(Rabbit.id, 100))));
-			System.out.println(Entity.loadBy(Rabbit.class, where(and(eq(Rabbit.id, 5), eq(Rabbit.name, "jou")))));
+			System.out.println(Entity.loadBy(Rabbit.class,
+					where(and(eq(Rabbit.id, 5), eq(Rabbit.name, "jou")))));
 
 			System.out.println(
-			/**/Entity.loadBy(Rabbit.class, where(eq(Rabbit.id, 100)), orderBy(Order.asc(Rabbit.name),
-					Order.asc(Rabbit.id)))
+			/**/Entity.loadBy(Rabbit.class, where(eq(Rabbit.id, 100)), orderBy(Order.asc(Rabbit.name), Order
+					.asc(Rabbit.id)))
 			/**/);
 
-			System.out.println(X.count(where(eq(Rabbit.id, 4))));
-			System.out.println(X.count(where(eq(Rabbit.id, 100))));
+			System.out.println(Entity.count(Rabbit.class, where(eq(Rabbit.id, 4))));
+			System.out.println(Entity.count(Rabbit.class, where(eq(Rabbit.id, 100))));
 
 			rabbit.delete();
 
