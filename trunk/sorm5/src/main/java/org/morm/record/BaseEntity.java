@@ -23,7 +23,8 @@ public class BaseEntity {
 	protected Logger log = Logger.getLogger(getClass().getName());
 
 	private String tableName;
-	//TODO i nom d'esquema, per DB2 això és imprescindible; ó especificar com a tableName com fins ara?
+	// TODO i nom d'esquema, per DB2 aixÃ² Ã©s imprescindible; i especificar com a
+	// tableName com fins ara?
 
 	private IdentityGenerator<?> idField;
 	private final Map<String, Field<?>> fields;
@@ -79,7 +80,7 @@ public class BaseEntity {
 	}
 
 	protected <TID> void registerOneToMany(final OneToMany<TID, ?> oneToMany) {
-		IdentityGenerator<TID> idField = getIdField();
+		final IdentityGenerator<TID> idField = getIdField();
 		oneToMany.setSelfIdFieldRef(idField);
 		final OneToMany<TID, ?> c = oneToMany.doCloneCollaboration();
 		if (this.oneToManies.containsKey(c.getColumnName())) {
