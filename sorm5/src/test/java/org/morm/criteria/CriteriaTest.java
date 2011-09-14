@@ -12,8 +12,8 @@ public class CriteriaTest {
 	@Test
 	public void testname() throws Exception {
 
-		final Criterion c1 = where(all());
-		assertEquals(" WHERE 1=1 -- []", c1.renderQuery().toString());
+		final Criterion c1 = all();
+		assertEquals(" -- []", c1.renderQuery().toString());
 
 		final Criterion c2 = where(or(eq(Dog.age, 5), lt(Dog.age, 100)));
 		assertEquals(" WHERE (AGE=? OR AGE<?) -- [5, 100]", c2.renderQuery().toString());

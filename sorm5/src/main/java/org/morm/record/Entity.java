@@ -14,48 +14,53 @@ import org.morm.session.SessionFactory;
 
 import java.util.List;
 
+//TODO té sentit un TxInterceptor?
 public class Entity extends BaseEntity {
 
 	public static final boolean CASCADED_DELETE = true;
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Entity> T loadById(final Class<T> entityClass, final Object id) {
-		final T r = SingletonFactory.get(entityClass).ploadById(entityClass, id);
+		final T r = SingletonFactory.getEntity(entityClass).ploadById(entityClass, id);
 		return (T) SessionFactory.getSession().getIdentityMap().loadOrStore(r);
 	}
 
 	@SuppressWarnings("unchecked")
 	public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
-		final T r = SingletonFactory.get(entityClass).ploadUniqueByQuery(entityClass, query);
+		final T r = SingletonFactory.getEntity(entityClass).ploadUniqueByQuery(entityClass, query);
 		return (T) SessionFactory.getSession().getIdentityMap().loadOrStore(r);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Entity> List<T> loadBy(final Class<T> entityClass, final Criterion... criterions) {
-		final List<T> r = SingletonFactory.get(entityClass).ploadBy(entityClass, criterions);
+		final List<T> r = SingletonFactory.getEntity(entityClass).ploadBy(entityClass, criterions);
 		return (List<T>) SessionFactory.getSession().getIdentityMap().loadOrStore((List<Entity>) r);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Entity> T loadUniqueBy(final Class<T> entityClass, final Criterion... criterions) {
-		final T r = SingletonFactory.get(entityClass).ploadUniqueBy(entityClass, criterions);
+		final T r = SingletonFactory.getEntity(entityClass).ploadUniqueBy(entityClass, criterions);
 		return (T) SessionFactory.getSession().getIdentityMap().loadOrStore(r);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Entity> List<T> loadAll(final Class<T> entityClass) {
-		final List<T> r = SingletonFactory.get(entityClass).ploadAll(entityClass);
+		final List<T> r = SingletonFactory.getEntity(entityClass).ploadAll(entityClass);
 		return (List<T>) SessionFactory.getSession().getIdentityMap().loadOrStore((List<Entity>) r);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Entity> List<T> loadByQuery(final Class<T> entityClass, final QueryObject query) {
-		final List<T> r = SingletonFactory.get(entityClass).ploadByQuery(entityClass, query);
+	public static <T extends Entity> List<T> loadByQuery(final Class<T> entityClass, final QueryObject query) {
+		final List<T> r = SingletonFactory.getEntity(entityClass).ploadByQuery(entityClass, query);
 		return (List<T>) SessionFactory.getSession().getIdentityMap().loadOrStore((List<Entity>) r);
 	}
 
-	public int sqlStatement(final Class<Entity> entityClass, final QueryObject query) {
-		return SingletonFactory.get(entityClass).psqlStatement(query);
+	public static int sqlStatement(final QueryObject query) {
+		return DataMapper.update(query);
+	}
+
+	public static int sqlStatement(final String query, final Object... params) {
+		return DataMapper.update(new QueryObject(query, params));
 	}
 
 	private <T extends Entity> T ploadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
@@ -70,10 +75,10 @@ public class Entity extends BaseEntity {
 		return DataMapper.query(mapper, query);
 	}
 
-	private int psqlStatement(final QueryObject query) {
-		log.fine("sqlStatement()");
-		return DataMapper.update(query);
-	}
+	// private int psqlStatement(final QueryObject query) {
+	// log.fine("sqlStatement()");
+	// return DataMapper.update(query);
+	// }
 
 	private <T extends Entity> T ploadById(final Class<T> entityClass, final Object id) {
 		log.fine("loadById(" + id + ")");
@@ -264,11 +269,11 @@ public class Entity extends BaseEntity {
 		DataMapper.update(query);
 	}
 
-	public Long count(final Criterion criterion) {
-		log.fine("count(Criterion[])");
+	public static <T extends Entity> Long count(final Class<T> c, final Criterion criterion) {
+		// log.fine("count(Criterion[])");
 		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT COUNT(*) FROM ")
-		/**/.append(getTableName())
+		/**/.append(SingletonFactory.getEntity(c).getTableName())
 		/**/.append(criterion.renderQuery())
 		/**/;
 		return DataMapper.aggregate(query).longValue();
@@ -276,7 +281,7 @@ public class Entity extends BaseEntity {
 
 	@SuppressWarnings("unchecked")
 	public <T extends Entity> IRowMapper<T> getRowMapper() {
-		return (IRowMapper<T>) SingletonFactory.getMapper(getClass());
+		return (IRowMapper<T>) SingletonFactory.getEntityMapper(getClass());
 	}
 
 }

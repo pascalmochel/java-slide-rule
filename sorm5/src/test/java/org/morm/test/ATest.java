@@ -82,7 +82,8 @@ public class ATest {
 			} catch (final StackOverflowError e) {
 			}
 
-		} finally {
+			SessionFactory.getSession().commit();
+		} catch (final Exception e) {
 			SessionFactory.getSession().rollback();
 		}
 	}

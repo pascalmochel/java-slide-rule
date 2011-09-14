@@ -49,7 +49,7 @@ public class OneToMany<TID, E extends Entity> {
 				return null;
 			}
 			final Class<E> casterForeignEntityClass = foreignEntityClass;
-			this.foreignEntity = SingletonFactory.get(casterForeignEntityClass);
+			this.foreignEntity = SingletonFactory.getEntity(casterForeignEntityClass);
 
 			// TODO aquesta QueryObject és constant, no cal construir-la cada
 			// cop
