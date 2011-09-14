@@ -8,7 +8,7 @@ import org.morm.query.QueryObject;
 import org.morm.record.QueryGenUtils;
 import org.morm.record.field.FieldDef;
 
-// TODO afegir limitacio/windowing de rows de select (ROWNUM,LIMIT,...) pero depen del dialecte
+// XXX deixar-ho a criterias manuals: afegir limitacio/windowing de rows de select (ROWNUM,LIMIT,...) pero depen del dialecte
 public class Criteria {
 
 	public static final String ORDER_ASC = "ASC";
@@ -142,7 +142,7 @@ public class Criteria {
 	public static Criterion where(final Criterion criterion) {
 		return new Criterion() {
 			public IQueryObject renderQuery() {
-				IQueryObject q = criterion.renderQuery();
+				final IQueryObject q = criterion.renderQuery();
 				return new QueryObject(" WHERE ").append(q);
 			}
 		};

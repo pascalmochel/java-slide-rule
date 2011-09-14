@@ -72,7 +72,7 @@ public class QueryGenUtils {
 		return r;
 	}
 
-	public static String join(final String s, String sep, final int times) {
+	public static String join(final String s, final String sep, final int times) {
 
 		final StringBuilder r = new StringBuilder();
 		for (int i = 0; i < times; i++) {
