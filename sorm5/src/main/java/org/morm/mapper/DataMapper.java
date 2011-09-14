@@ -11,14 +11,22 @@ import org.morm.session.SessionFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DataMapper {
 
 	protected static final Logger LOG = Logger.getLogger(DataMapper.class.getName());
 
+	public static final boolean SHOW_SQL = false;
+
 	public static <T extends Entity> T queryUnique(final IRowMapper<T> rowMapper, final IQueryObject query) {
-		LOG.fine(query.toString());
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine(query.toString());
+		}
+		if (SHOW_SQL) {
+			System.out.println(query.toString());
+		}
 
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -51,7 +59,13 @@ public class DataMapper {
 	}
 
 	public static <T extends Entity> List<T> query(final IRowMapper<T> rowMapper, final IQueryObject query) {
-		LOG.fine(query.toString());
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine(query.toString());
+		}
+		if (SHOW_SQL) {
+			System.out.println(query.toString());
+		}
+
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try {
@@ -78,7 +92,13 @@ public class DataMapper {
 	}
 
 	public static Number aggregate(final IQueryObject query) {
-		LOG.fine(query.toString());
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine(query.toString());
+		}
+		if (SHOW_SQL) {
+			System.out.println(query.toString());
+		}
+
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try {
@@ -111,7 +131,13 @@ public class DataMapper {
 	}
 
 	public static int update(final IQueryObject query) {
-		LOG.fine(query.toString());
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine(query.toString());
+		}
+		if (SHOW_SQL) {
+			System.out.println(query.toString());
+		}
+
 		PreparedStatement pstm = null;
 		try {
 			final Connection c = SessionFactory.getSession().getConnection();
@@ -136,7 +162,12 @@ public class DataMapper {
 
 	public static int executeDDLIgnoringErrors(final String sqlQuery) {
 
-		LOG.fine("DDL: " + sqlQuery);
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("DDL: " + sqlQuery);
+		}
+		if (SHOW_SQL) {
+			System.out.println(sqlQuery);
+		}
 
 		PreparedStatement pstm = null;
 		try {
@@ -152,7 +183,12 @@ public class DataMapper {
 
 	public static int executeDDL(final String sqlQuery) {
 
-		LOG.fine("DDL: " + sqlQuery);
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("DDL: " + sqlQuery);
+		}
+		if (SHOW_SQL) {
+			System.out.println(sqlQuery);
+		}
 
 		PreparedStatement pstm = null;
 		try {

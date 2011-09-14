@@ -1,35 +1,32 @@
 package org.morm.criteria;
 
-import static org.morm.criteria.Criteria.*;
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 import org.morm.criteria.impl.Order;
-import org.morm.record.field.impl.FObject;
 import org.morm.test.Dog;
+
+import static org.junit.Assert.*;
+import static org.morm.criteria.Criteria.*;
 
 public class CriteriaTest {
 
 	@Test
 	public void testname() throws Exception {
 
-		final FObject a = new FObject("A");
-		final FObject b = new FObject("B");
-
 		final Criterion c1 = where(all());
 		assertEquals(" WHERE 1=1 -- []", c1.renderQuery().toString());
 
-		final Criterion c2 = where(or(eq(a, 5), lt(b, 100)));
-		assertEquals(" WHERE (A=? OR B<?) -- [5, 100]", c2.renderQuery().toString());
+		final Criterion c2 = where(or(eq(Dog.age, 5), lt(Dog.age, 100)));
+		assertEquals(" WHERE (AGE=? OR AGE<?) -- [5, 100]", c2.renderQuery().toString());
 
-		final Criterion c3 = where(not(and(eq(a, 5), lt(b, 100))));
-		assertEquals(" WHERE NOT((A=? AND B<?)) -- [5, 100]", c3.renderQuery().toString());
+		final Criterion c3 = where(not(and(eq(Dog.age, 5), lt(Dog.age, 100))));
+		assertEquals(" WHERE NOT((AGE=? AND AGE<?)) -- [5, 100]", c3.renderQuery().toString());
 
-		final Criterion c4 = where(or(in(a, 1, 2, 3), isNull(b)));
-		assertEquals(" WHERE (A IN (?,?,?) OR B IS NULL) -- [1, 2, 3]", c4.renderQuery().toString());
+		final Criterion c4 = where(or(in(Dog.age, 1, 2, 3), isNull(Dog.age)));
+		assertEquals(" WHERE (AGE IN (?,?,?) OR AGE IS NULL) -- [1, 2, 3]", c4.renderQuery().toString());
 
-		final Criterion c5 = where(and(between(a, 5, 9), isNotNull(b)));
-		assertEquals(" WHERE ((A BETWEEN ? AND ?) AND B IS NOT NULL) -- [5, 9]", c5.renderQuery().toString());
+		final Criterion c5 = where(and(between(Dog.age, 5, 9), isNotNull(Dog.age)));
+		assertEquals(" WHERE ((AGE BETWEEN ? AND ?) AND AGE IS NOT NULL) -- [5, 9]", c5.renderQuery()
+				.toString());
 
 		final Criterion c6 = where(or(like(Dog.name, "%a%"), like(Dog.name, "%b%")));
 		assertEquals(" WHERE (NAME like ? OR NAME like ?) -- [%a%, %b%]", c6.renderQuery().toString());

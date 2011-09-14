@@ -55,7 +55,10 @@ public class RecursiveTest {
 				.executeDDL("INSERT INTO RABBIT (ID_RABBIT,NAME,AGE,NUM_DOG) VALUES (600,'cornill',5, 500)");
 
 		try {
-
+			/**
+			 * demostra que havent-hi recursió infinita (s'evidencia amb el
+			 * fallo en toString()), el mètode store() està controlat
+			 */
 			final Dog d = Entity.loadById(Dog.class, 500);
 			try {
 				d.getRabbits().get(0).getDog().toString();
