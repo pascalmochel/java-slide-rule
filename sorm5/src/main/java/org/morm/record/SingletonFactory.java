@@ -9,14 +9,14 @@ import java.util.Map;
 
 public class SingletonFactory {
 
-	protected static final ThreadLocal<Map<Class<? extends Entity>, Entity>> entities =
+	protected static final ThreadLocal<Map<Class<? extends Entity>, Entity>> ENTITIES =
 	/**/new ThreadLocal<Map<Class<? extends Entity>, Entity>>() {
 		@Override
 		protected Map<java.lang.Class<? extends Entity>, Entity> initialValue() {
 			return new HashMap<Class<? extends Entity>, Entity>();
 		};
 	};
-	protected static final ThreadLocal<Map<Class<? extends Entity>, IRowMapper<Entity>>> entityMappers =
+	protected static final ThreadLocal<Map<Class<? extends Entity>, IRowMapper<Entity>>> ENTITY_MAPPERS =
 	/**/new ThreadLocal<Map<Class<? extends Entity>, IRowMapper<Entity>>>() {
 		@Override
 		protected Map<java.lang.Class<? extends Entity>, IRowMapper<Entity>> initialValue() {
@@ -26,7 +26,7 @@ public class SingletonFactory {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Entity> T get(final Class<T> c) {
-		final Map<Class<? extends Entity>, Entity> entMap = entities.get();
+		final Map<Class<? extends Entity>, Entity> entMap = ENTITIES.get();
 		if (!entMap.containsKey(c)) {
 			try {
 				final Entity r = c.newInstance();
@@ -40,7 +40,7 @@ public class SingletonFactory {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Entity> IRowMapper<T> getMapper(final Class<T> c) {
-		final Map<Class<? extends Entity>, IRowMapper<Entity>> mappersMap = entityMappers.get();
+		final Map<Class<? extends Entity>, IRowMapper<Entity>> mappersMap = ENTITY_MAPPERS.get();
 		if (!mappersMap.containsKey(c)) {
 			try {
 				mappersMap.put(c, new EntityMapper(c));

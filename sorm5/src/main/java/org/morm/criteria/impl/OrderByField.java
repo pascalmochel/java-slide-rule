@@ -10,17 +10,17 @@ public class OrderByField implements Criterion {
 	protected String columnName;
 	protected String order;
 
-	protected OrderByField(String columnName, String order) {
+	protected OrderByField(final String columnName, final String order) {
 		super();
 		this.columnName = columnName;
 		this.order = order;
 	}
 
-	public static OrderByField asc(Field<?> field) {
+	public static OrderByField asc(final Field<?> field) {
 		return new OrderByField(field.getColumnName(), " ASC");
 	}
 
-	public static OrderByField desc(Field<?> field) {
+	public static OrderByField desc(final Field<?> field) {
 		return new OrderByField(field.getColumnName(), " DESC");
 	}
 
