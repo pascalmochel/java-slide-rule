@@ -16,6 +16,8 @@ import java.util.List;
 
 public class Entity extends BaseEntity {
 
+	public static final boolean CASCADED_DELETE = true;
+
 	@SuppressWarnings("unchecked")
 	public static <T extends Entity> T loadById(final Class<T> entityClass, final Object id) {
 		final T r = SingletonFactory.get(entityClass).ploadById(entityClass, id);
@@ -32,6 +34,12 @@ public class Entity extends BaseEntity {
 	public static <T extends Entity> List<T> loadBy(final Class<T> entityClass, final Criterion... criterions) {
 		final List<T> r = SingletonFactory.get(entityClass).ploadBy(entityClass, criterions);
 		return (List<T>) SessionFactory.getSession().getIdentityMap().loadOrStore((List<Entity>) r);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends Entity> T loadUniqueBy(final Class<T> entityClass, final Criterion... criterions) {
+		final T r = SingletonFactory.get(entityClass).ploadUniqueBy(entityClass, criterions);
+		return (T) SessionFactory.getSession().getIdentityMap().loadOrStore(r);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -83,7 +91,17 @@ public class Entity extends BaseEntity {
 
 	private <T extends Entity> List<T> ploadBy(final Class<T> entityClass, final Criterion... criterions) {
 		log.fine("loadBy(Criterion[])");
-		final Criterion cs = Criteria.concate(criterions);
+
+		final Criterion cs;
+		if (criterions.length == 0) {
+			throw new SormException("this method requires almost one Criterion parameter");
+		} else {
+			if (criterions.length == 1) {
+				cs = criterions[0];
+			} else {
+				cs = Criteria.concate(criterions);
+			}
+		}
 		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
@@ -91,6 +109,28 @@ public class Entity extends BaseEntity {
 		/**/;
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.query(mapper, query);
+	}
+
+	private <T extends Entity> T ploadUniqueBy(final Class<T> entityClass, final Criterion... criterions) {
+		log.fine("loadBy(Criterion[])");
+
+		final Criterion cs;
+		if (criterions.length == 0) {
+			throw new SormException("this method requires almost one Criterion parameter");
+		} else {
+			if (criterions.length == 1) {
+				cs = criterions[0];
+			} else {
+				cs = Criteria.concate(criterions);
+			}
+		}
+		final IQueryObject query = new QueryObject()
+		/**/.append("SELECT * FROM ")
+		/**/.append(getTableName())
+		/**/.append(cs.renderQuery())
+		/**/;
+		final IRowMapper<T> mapper = getRowMapper();
+		return DataMapper.queryUnique(mapper, query);
 	}
 
 	private <T extends Entity> List<T> ploadAll(final Class<T> entityClass) {
@@ -186,10 +226,12 @@ public class Entity extends BaseEntity {
 	}
 
 	public void delete() {
-		for (final ManyToOne<?, ?> c : getManyToOnes()) {
-			final Entity collaboration = c.getCollaboration();
-			if (collaboration != null) {
-				collaboration.delete();
+		if (CASCADED_DELETE) {
+			for (final ManyToOne<?, ?> c : getManyToOnes()) {
+				final Entity collaboration = c.getCollaboration();
+				if (collaboration != null) {
+					collaboration.delete();
+				}
 			}
 		}
 		log.fine("delete()");
@@ -205,6 +247,14 @@ public class Entity extends BaseEntity {
 	}
 
 	public void delete(final Criterion criterion) {
+		if (CASCADED_DELETE) {
+			for (final ManyToOne<?, ?> c : getManyToOnes()) {
+				final Entity collaboration = c.getCollaboration();
+				if (collaboration != null) {
+					collaboration.delete();
+				}
+			}
+		}
 		log.fine("delete(Criterion[])");
 		final IQueryObject query = new QueryObject()
 		/**/.append("DELETE FROM ")
