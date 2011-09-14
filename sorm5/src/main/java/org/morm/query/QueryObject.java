@@ -1,7 +1,7 @@
 package org.morm.query;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class QueryObject implements IQueryObject {
@@ -13,17 +13,23 @@ public class QueryObject implements IQueryObject {
 
 	public QueryObject() {
 		query = new StringBuilder();
-		params = new LinkedList<Object>();
+		params = new ArrayList<Object>();
 	}
 
 	public QueryObject(final String query, final Object... params) {
 		super();
 		this.query = new StringBuilder().append(query);
-		this.params = Arrays.asList(params);
+		this.params = new ArrayList<Object>(Arrays.asList(params));
 	}
 
 	public QueryObject append(final String s) {
 		query.append(s);
+		return this;
+	}
+
+	public QueryObject append(IQueryObject q) {
+		this.query.append(q.getQuery());
+		params.addAll(q.getParamsList());
 		return this;
 	}
 
@@ -34,30 +40,24 @@ public class QueryObject implements IQueryObject {
 		return this;
 	}
 
-	public IQueryObject setParams(final Object... params) {
-		this.params.clear();
-		this.params.addAll(Arrays.asList(params));
-		return this;
-	}
+//	public IQueryObject setParams(final Object... params) {
+//		this.params.clear();
+//		this.params.addAll(new ArrayList<Object>(Arrays.asList(params)));
+//		return this;
+//	}
 
-	public QueryObject append(final IQueryObject query) {
-		this.query.append(query.getQuery());
-		for (final Object o : query.getParams()) {
-			this.params.add(o);
-		}
-		return this;
-	}
+	// public QueryObject append(final IQueryObject query) {
+	// this.query.append(query.getQuery());
+	// for (final Object o : query.getParams()) {
+	// this.params.add(o);
+	// }
+	// return this;
+	// }
 
-	/* (non-Javadoc)
-	 * @see org.morm.record.IQueryObject#getQuery()
-	 */
 	public String getQuery() {
 		return query.toString();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.morm.record.IQueryObject#getParams()
-	 */
 	public Object[] getParams() {
 		return params.toArray();
 	}
@@ -65,6 +65,10 @@ public class QueryObject implements IQueryObject {
 	@Override
 	public String toString() {
 		return query + " -- " + params.toString();
+	}
+
+	public List<Object> getParamsList() {
+		return this.params;
 	}
 
 }

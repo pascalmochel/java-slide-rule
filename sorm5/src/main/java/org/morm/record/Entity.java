@@ -11,6 +11,7 @@ import org.morm.query.QueryObject;
 import org.morm.record.compo.ManyToOne;
 import org.morm.record.compo.OneToMany;
 import org.morm.record.field.Field;
+import org.morm.record.field.FieldDef;
 import org.morm.session.SessionFactory;
 
 import java.util.List;
@@ -95,8 +96,6 @@ public class Entity extends BaseEntity {
 		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
-		// TODO aquest " WHERE " l'hauria de generar el Criterion!!!
-				/**/.append(" WHERE ")
 				/**/.append(cs.renderQuery())
 		/**/;
 		final IRowMapper<T> mapper = getRowMapper();
@@ -195,6 +194,10 @@ public class Entity extends BaseEntity {
 		}
 	}
 
+	public static void updateFields(FieldDef<?> field, Criterion criterion) {
+		// TODO implementar chachi
+	}
+
 	public void delete() {
 		for (final ManyToOne<?, ?> c : getManyToOnes()) {
 			final Entity collaboration = c.getCollaboration();
@@ -219,7 +222,6 @@ public class Entity extends BaseEntity {
 		final IQueryObject query = new QueryObject()
 		/**/.append("DELETE FROM ")
 		/**/.append(getTableName())
-		/**/.append(" WHERE ")
 		/**/.append(criterion.renderQuery())
 		/**/;
 		DataMapper.update(query);
@@ -230,7 +232,6 @@ public class Entity extends BaseEntity {
 		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT COUNT(*) FROM ")
 		/**/.append(getTableName())
-		/**/.append(" WHERE ")
 		/**/.append(criterion.renderQuery())
 		/**/;
 		return DataMapper.aggregate(query).longValue();

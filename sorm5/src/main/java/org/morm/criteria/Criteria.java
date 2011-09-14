@@ -2,7 +2,7 @@ package org.morm.criteria;
 
 import org.morm.criteria.impl.ColumnToValueRestriction;
 import org.morm.criteria.impl.MultiRestriction;
-import org.morm.criteria.impl.OrderByField;
+import org.morm.criteria.impl.Order;
 import org.morm.query.IQueryObject;
 import org.morm.query.QueryObject;
 import org.morm.record.QueryGenUtils;
@@ -64,9 +64,30 @@ public class Criteria {
 		return new Criterion() {
 			public IQueryObject renderQuery() {
 				return new QueryObject()
+				/**/.append("(")
 				/**/.append(field.getColumnName())
-				/**/.append(" BETWEEN ? AND ?")
+				/**/.append(" BETWEEN ? AND ?)")
 				/**/.addParams(value1, value2);
+			}
+		};
+	}
+
+	public static <T> Criterion isNull(final FieldDef<T> field) {
+		return new Criterion() {
+			public IQueryObject renderQuery() {
+				return new QueryObject()
+				/**/.append(field.getColumnName())
+				/**/.append(" IS NULL");
+			}
+		};
+	}
+
+	public static <T> Criterion isNotNull(final FieldDef<T> field) {
+		return new Criterion() {
+			public IQueryObject renderQuery() {
+				return new QueryObject()
+				/**/.append(field.getColumnName())
+				/**/.append(" IS NOT NULL");
 			}
 		};
 	}
@@ -90,18 +111,18 @@ public class Criteria {
 		return new MultiRestriction(" OR ", abstractRs);
 	}
 
-	public static Criterion orderBy(final OrderByField... orderByFields) {
+	public static Criterion all() {
 		return new Criterion() {
 			public IQueryObject renderQuery() {
-				final QueryObject r = new QueryObject(" ORDER BY ");
-				for (int i = 0; i < orderByFields.length; i++) {
-					final OrderByField o = orderByFields[i];
-					r.append(o.renderQuery());
-					if (i < orderByFields.length - 1) {
-						r.append(",");
-					}
-				}
-				return r;
+				return new QueryObject("1=1");
+			}
+		};
+	}
+
+	public static Criterion custom(final String sqlPart) {
+		return new Criterion() {
+			public IQueryObject renderQuery() {
+				return new QueryObject(" " + sqlPart);
 			}
 		};
 	}
@@ -118,18 +139,27 @@ public class Criteria {
 		};
 	}
 
-	public static Criterion all() {
+	public static Criterion where(final Criterion criterion) {
 		return new Criterion() {
 			public IQueryObject renderQuery() {
-				return new QueryObject("1=1");
+				IQueryObject q = criterion.renderQuery();
+				return new QueryObject(" WHERE ").append(q);
 			}
 		};
 	}
 
-	public static Criterion custom(final String sqlPart) {
+	public static Criterion orderBy(final Order... orderByFields) {
 		return new Criterion() {
 			public IQueryObject renderQuery() {
-				return new QueryObject(" " + sqlPart);
+				final QueryObject r = new QueryObject(" ORDER BY ");
+				for (int i = 0; i < orderByFields.length; i++) {
+					final Order o = orderByFields[i];
+					r.append(o.renderQuery());
+					if (i < orderByFields.length - 1) {
+						r.append(",");
+					}
+				}
+				return r;
 			}
 		};
 	}

@@ -140,7 +140,7 @@ public class NestedTransactionsTest {
 			SessionFactory.getSession().commit();
 			break;
 		default:
-			assertEquals(Long.valueOf(String.valueOf(c)), new Dog().count(Criteria.all()));
+			assertEquals(Long.valueOf(String.valueOf(c)), new Dog().count(Criteria.where(Criteria.all())));
 		}
 	}
 }
