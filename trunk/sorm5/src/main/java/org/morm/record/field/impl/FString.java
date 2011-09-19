@@ -11,7 +11,6 @@ public class FString extends Field<String> {
 		super(columnName);
 	}
 
-	@Override
 	public Field<String> doClone() {
 		return new FString(getColumnName());
 	}

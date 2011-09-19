@@ -60,7 +60,6 @@ public abstract class IdentityGenerator<T> extends Field<T> {
 		field.setValue(value);
 	}
 
-	@Override
 	public Field<T> doClone() {
 		throw new SormException("internal error, invoking " + getClass() + "#doClone()");
 	}

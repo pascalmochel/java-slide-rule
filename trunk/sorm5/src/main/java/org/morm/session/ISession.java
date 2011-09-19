@@ -21,5 +21,4 @@ public interface ISession {
 	IdentityMap<Entity> getIdentityMap();
 
 	StoredSet getStoredSet();
-
 }

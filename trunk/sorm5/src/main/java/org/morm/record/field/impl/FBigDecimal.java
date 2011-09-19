@@ -12,7 +12,7 @@ public class FBigDecimal extends Field<BigDecimal> {
 		super(columnName);
 	}
 
-	@Override
+ 
 	public Field<BigDecimal> doClone() {
 		return new FBigDecimal(getColumnName());
 	}

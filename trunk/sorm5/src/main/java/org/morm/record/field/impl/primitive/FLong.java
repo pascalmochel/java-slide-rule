@@ -11,13 +11,13 @@ public class FLong extends Field<Long> {
 		super(columnName);
 	}
 
-	@Override
+ 
 	public void load(final ResultSet rs) throws SQLException {
 		final Long v = rs.getObject(getColumnName()) != null ? rs.getLong(getColumnName()) : null;
 		setValue(v);
 	}
 
-	@Override
+
 	public Field<Long> doClone() {
 		return new FLong(getColumnName());
 	}

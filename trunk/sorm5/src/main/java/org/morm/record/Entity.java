@@ -10,6 +10,7 @@ import org.morm.query.QueryObject;
 import org.morm.record.compo.ManyToOne;
 import org.morm.record.compo.OneToMany;
 import org.morm.record.field.Field;
+import org.morm.record.field.FieldDef;
 import org.morm.session.SessionFactory;
 
 import java.util.List;
@@ -164,7 +165,7 @@ public class Entity extends BaseEntity {
 			if (c.getIsInit()) {
 				final Entity v = c.getCollaboration();
 				v.innerStore();
-				set((Field<Object>) c, v.getIdField().getValue());
+				set((FieldDef<Object>) c, v.getIdField().getValue());
 			}
 		}
 

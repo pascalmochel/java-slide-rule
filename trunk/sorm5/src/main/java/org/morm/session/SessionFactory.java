@@ -65,6 +65,7 @@ public class SessionFactory {
 			throw new SormException("configuration error: bean " + SessionFactory.class.getName()
 					+ " requires 'dataSourceReference' property injection.");
 		}
+//		return new Session(dataSourceReference, transactionIsolation);
 		return new Session(dataSourceReference, transactionIsolation);
 	}
 
