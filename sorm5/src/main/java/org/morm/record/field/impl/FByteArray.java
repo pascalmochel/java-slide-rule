@@ -11,7 +11,7 @@ public class FByteArray extends Field<byte[]> {
 		super(columnName);
 	}
 
-	@Override
+ 
 	public Field<byte[]> doClone() {
 		return new FByteArray(getColumnName());
 	}

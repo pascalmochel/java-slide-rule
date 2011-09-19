@@ -18,7 +18,7 @@ public class FTime extends Field<Time> {
 		setValue(v);
 	}
 
-	@Override
+
 	public Field<Time> doClone() {
 		return new FTime(getColumnName());
 	}

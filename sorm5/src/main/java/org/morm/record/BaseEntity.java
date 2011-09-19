@@ -80,7 +80,7 @@ public class BaseEntity {
 	protected <TID> void registerOneToMany(final OneToMany<TID, ?> oneToMany) {
 		final IdentityGenerator<TID> idField = getIdField();
 		oneToMany.setSelfIdFieldRef(idField);
-		final OneToMany<TID, ?> c = oneToMany.doCloneCollaboration();
+		final OneToMany<TID, ?> c = oneToMany.doClone();
 		if (this.oneToManies.containsKey(c.getColumnName())) {
 			throw new SormException("duplicated column name: " + getClass().getName() + "#"
 					+ c.getColumnName());

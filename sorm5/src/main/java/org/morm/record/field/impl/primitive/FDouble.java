@@ -11,13 +11,13 @@ public class FDouble extends Field<Double> {
 		super(columnName);
 	}
 
-	@Override
+ 
 	public void load(final ResultSet rs) throws SQLException {
 		final Double v = rs.getObject(getColumnName()) != null ? rs.getDouble(getColumnName()) : null;
 		setValue(v);
 	}
 
-	@Override
+
 	public Field<Double> doClone() {
 		return new FDouble(getColumnName());
 	}

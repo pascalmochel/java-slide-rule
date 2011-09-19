@@ -11,13 +11,13 @@ public class FFloat extends Field<Float> {
 		super(columnName);
 	}
 
-	@Override
+ 
 	public void load(final ResultSet rs) throws SQLException {
 		final Float v = rs.getObject(getColumnName()) != null ? rs.getFloat(getColumnName()) : null;
 		setValue(v);
 	}
 
-	@Override
+
 	public Field<Float> doClone() {
 		return new FFloat(getColumnName());
 	}

@@ -1,6 +1,7 @@
 package org.morm.record.field;
 
-public abstract class FieldDef<T> {
+
+public abstract class FieldDef<T> implements Clonable<Field<T>>{
 
 	protected final String columnName;
 
@@ -12,7 +13,5 @@ public abstract class FieldDef<T> {
 	public String getColumnName() {
 		return columnName;
 	}
-
-	public abstract Field<T> doClone();
 
 }

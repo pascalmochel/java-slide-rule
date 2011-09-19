@@ -11,7 +11,6 @@ public class FObject extends Field<Object> {
 		super(columnName);
 	}
 
-	@Override
 	public Field<Object> doClone() {
 		return new FObject(getColumnName());
 	}

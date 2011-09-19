@@ -18,7 +18,7 @@ public class FDate extends Field<Date> {
 		setValue(v);
 	}
 
-	@Override
+
 	public Field<Date> doClone() {
 		return new FDate(getColumnName());
 	}

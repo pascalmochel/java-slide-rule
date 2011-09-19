@@ -35,7 +35,7 @@ public class OneToMany<TID, E extends Entity> {
 		return selfIdFieldRef.getColumnName();
 	}
 
-	public OneToMany<TID, E> doCloneCollaboration() {
+	public OneToMany<TID, E> doClone() {
 		final OneToMany<TID, E> r = new OneToMany<TID, E>(foreignEntityClass, foreignFieldDef);
 		r.setSelfIdFieldRef(selfIdFieldRef);
 		return r;

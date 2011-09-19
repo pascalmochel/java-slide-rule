@@ -10,17 +10,17 @@ public class Order implements Criterion {
 	protected String columnName;
 	protected String order;
 
-	protected Order(final String columnName, final String order) {
+	protected Order(String columnName, String order) {
 		super();
 		this.columnName = columnName;
 		this.order = order;
 	}
 
-	public static Order asc(final Field<?> field) {
+	public static Order asc(Field<?> field) {
 		return new Order(field.getColumnName(), " ASC");
 	}
 
-	public static Order desc(final Field<?> field) {
+	public static Order desc(Field<?> field) {
 		return new Order(field.getColumnName(), " DESC");
 	}
 

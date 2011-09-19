@@ -11,13 +11,13 @@ public class FInteger extends Field<Integer> {
 		super(columnName);
 	}
 
-	@Override
+ 
 	public void load(final ResultSet rs) throws SQLException {
 		final Integer v = rs.getObject(getColumnName()) != null ? rs.getInt(getColumnName()) : null;
 		setValue(v);
 	}
 
-	@Override
+
 	public Field<Integer> doClone() {
 		return new FInteger(getColumnName());
 	}
