@@ -11,7 +11,8 @@ public class SessionFactory {
 	protected final static Logger LOG = Logger.getLogger(SessionFactory.class.getName());
 
 	/**
-	 * the session is stored in a thread-variable; every thread will have his own {@link ISession} instance.
+	 * the session is stored in a thread-variable; every thread will have his
+	 * own {@link ISession} instance.
 	 */
 	protected static ThreadLocal<ISession> threadSession = new ThreadLocal<ISession>();
 
@@ -39,8 +40,10 @@ public class SessionFactory {
 	}
 
 	/**
-	 * @return the current {@link ISession} instance, or if it is inactive, creates a new one.
-	 * @throws DataMapperException if dataSourceReference is not being injected
+	 * @return the current {@link ISession} instance, or if it is inactive,
+	 *         creates a new one.
+	 * @throws DataMapperException
+	 *             if dataSourceReference is not being injected
 	 */
 	public static ISession getSession() {
 		ISession session = threadSession.get();
@@ -53,20 +56,20 @@ public class SessionFactory {
 
 	protected static boolean isSessionActive() {
 		return threadSession != null && threadSession.get() != null
-		&& threadSession.get().isTransactionActive();
+				&& threadSession.get().isTransactionActive();
 	}
 
 	/**
 	 * @return creates a new {@link ISession} instance
-	 * @throws DataMapperException if dataSourceReference is not being injected
+	 * @throws DataMapperException
+	 *             if dataSourceReference is not being injected
 	 */
 	protected static ISession createNewSession() {
 		if (dataSourceReference == null) {
 			throw new SormException("configuration error: bean " + SessionFactory.class.getName()
 					+ " requires 'dataSourceReference' property injection.");
 		}
-//		return new Session(dataSourceReference, transactionIsolation);
-		return new Session(dataSourceReference, transactionIsolation);
+		return new NestableSession(dataSourceReference, transactionIsolation);
 	}
 
 }

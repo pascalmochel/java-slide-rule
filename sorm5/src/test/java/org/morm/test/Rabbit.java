@@ -20,7 +20,7 @@ public class Rabbit extends Entity {
 		setTableName("RABBIT");
 		registerIdField(id);
 		registerFields(name, age);
-		registerManyToOne(dog);
+		registerManyToOnes(dog);
 	}
 
 	public Rabbit(final Integer id, final String name, final Integer age) {

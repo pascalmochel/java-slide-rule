@@ -11,12 +11,10 @@ public class FDouble extends Field<Double> {
 		super(columnName);
 	}
 
- 
 	public void load(final ResultSet rs) throws SQLException {
 		final Double v = rs.getObject(getColumnName()) != null ? rs.getDouble(getColumnName()) : null;
 		setValue(v);
 	}
-
 
 	public Field<Double> doClone() {
 		return new FDouble(getColumnName());

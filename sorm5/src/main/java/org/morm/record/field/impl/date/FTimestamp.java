@@ -18,7 +18,6 @@ public class FTimestamp extends Field<Timestamp> {
 		setValue(v);
 	}
 
-
 	public Field<Timestamp> doClone() {
 		return new FTimestamp(getColumnName());
 	}

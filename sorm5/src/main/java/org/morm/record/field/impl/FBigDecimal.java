@@ -12,7 +12,6 @@ public class FBigDecimal extends Field<BigDecimal> {
 		super(columnName);
 	}
 
- 
 	public Field<BigDecimal> doClone() {
 		return new FBigDecimal(getColumnName());
 	}

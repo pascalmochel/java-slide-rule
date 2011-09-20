@@ -18,7 +18,6 @@ public class FDate extends Field<Date> {
 		setValue(v);
 	}
 
-
 	public Field<Date> doClone() {
 		return new FDate(getColumnName());
 	}

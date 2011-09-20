@@ -25,8 +25,8 @@ public class ThrowableRenderer {
 				strb.append(";\n[cause is:] ");
 			}
 			strb.append(throwable.getClass().getSimpleName()) //
-			.append(": ") //
-			.append(throwable.getMessage());
+					.append(": ") //
+					.append(throwable.getMessage());
 
 			throwable = throwable.getCause();
 		}
