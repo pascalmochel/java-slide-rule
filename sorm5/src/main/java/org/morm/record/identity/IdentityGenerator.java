@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import org.morm.exception.SormException;
 import org.morm.query.IQueryObject;
 import org.morm.record.field.Field;
+import org.morm.record.field.IdentifiableField;
 
 public abstract class IdentityGenerator<T> extends Field<T> {
 
@@ -28,10 +29,10 @@ public abstract class IdentityGenerator<T> extends Field<T> {
 	protected static final String NO_IDENTITY_KEY_PRODUCED = "no identity key produced?: ";
 	protected static final String ERROR_OBTAINING_IDENTITY_KEY = "error obtaining identity key: ";
 
-	protected final Field<T> field;
+	protected final IdentifiableField<T> field;
 	protected IQueryObject query;
 
-	public IdentityGenerator(final Field<T> field) {
+	public IdentityGenerator(final IdentifiableField<T> field) {
 		super(field.getColumnName());
 		this.field = field;
 		this.query = null;

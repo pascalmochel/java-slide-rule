@@ -2,12 +2,12 @@ package org.morm.record.identity.impl;
 
 import org.morm.query.IQueryObject;
 import org.morm.query.QueryObject;
-import org.morm.record.field.Field;
+import org.morm.record.field.IdentifiableField;
 import org.morm.record.identity.IdentityGenerator;
 
 public class NoKeyGenerator<T> extends IdentityGenerator<T> {
 
-	public NoKeyGenerator(final Field<T> field) {
+	public NoKeyGenerator(final IdentifiableField<T> field) {
 		super(field);
 	}
 
@@ -27,7 +27,7 @@ public class NoKeyGenerator<T> extends IdentityGenerator<T> {
 
 	@Override
 	public IdentityGenerator<T> doCloneId() {
-		return new NoKeyGenerator<T>(field.doClone());
+		return new NoKeyGenerator<T>((IdentifiableField<T>) field.doClone());
 	}
 
 }

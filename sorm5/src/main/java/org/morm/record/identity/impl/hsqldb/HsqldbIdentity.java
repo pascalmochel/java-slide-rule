@@ -19,12 +19,12 @@ import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
 import org.morm.query.IQueryObject;
 import org.morm.query.QueryObject;
-import org.morm.record.field.Field;
+import org.morm.record.field.IdentifiableField;
 import org.morm.record.identity.IdentityGenerator;
 
 public class HsqldbIdentity<T> extends IdentityGenerator<T> {
 
-	public HsqldbIdentity(final Field<T> field) {
+	public HsqldbIdentity(final IdentifiableField<T> field) {
 		super(field);
 	}
 
@@ -41,7 +41,7 @@ public class HsqldbIdentity<T> extends IdentityGenerator<T> {
 
 		try {
 
-			field.setUncheckedValue(DataMapper.aggregate(super.query));
+			DataMapper.aggregateIdentityField(super.query, field);
 
 		} catch (final Exception e) {
 			throw new SormException(ERROR_OBTAINING_IDENTITY_KEY + query, e);
@@ -56,7 +56,7 @@ public class HsqldbIdentity<T> extends IdentityGenerator<T> {
 
 	@Override
 	public IdentityGenerator<T> doCloneId() {
-		return new HsqldbIdentity<T>(field.doClone());
+		return new HsqldbIdentity<T>((IdentifiableField<T>) field.doClone());
 	}
 
 }

@@ -4,8 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.morm.record.field.Field;
+import org.morm.record.field.IdentifiableField;
 
-public class FString extends Field<String> {
+public class FString extends IdentifiableField<String> {
 
 	public FString(final String columnName) {
 		super(columnName);
@@ -18,6 +19,11 @@ public class FString extends Field<String> {
 	@Override
 	public void load(final ResultSet rs) throws SQLException {
 		setValue(rs.getString(getColumnName()));
+	}
+
+	@Override
+	public void loadIdentity(final ResultSet rs) throws SQLException {
+		setValue(rs.getString(1));
 	}
 
 }
