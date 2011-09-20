@@ -1,16 +1,10 @@
 package org.morm.record.compo;
 
-import java.util.List;
-
-import org.morm.mapper.DataMapper;
-import org.morm.mapper.IRowMapper;
-import org.morm.query.IQueryObject;
-import org.morm.query.QueryObject;
 import org.morm.record.Entity;
-import org.morm.record.SingletonFactory;
 import org.morm.record.field.FieldDef;
 import org.morm.record.identity.IdentityGenerator;
-import org.morm.session.SessionFactory;
+
+import java.util.List;
 
 public class OneToMany<TID, E extends Entity> {
 
@@ -41,30 +35,39 @@ public class OneToMany<TID, E extends Entity> {
 		return r;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<E> getCollaboration() {
 		if (!isInit) {
 			if (selfIdFieldRef.getValue() == null) {
 				this.isInit = true;
 				return null;
 			}
-			final Class<E> casterForeignEntityClass = foreignEntityClass;
-			this.foreignEntity = SingletonFactory.getEntity(casterForeignEntityClass);
 
-			// TODO aquesta QueryObject és constant, no cal construir-la cada
-			// cop
-			final IQueryObject q = new QueryObject()
-			/**/.append("SELECT * FROM ")
-			/**/.append(foreignEntity.getTableName())
-			/**/.append(" WHERE ")
-			/**/.append(foreignFieldDef.getColumnName())
-			/**/.append("=?")
-			/**/.addParams(this.selfIdFieldRef.getValue())
-			/**/;
-			final IRowMapper<E> rowMapper = this.foreignEntity.getRowMapper();
-			this.collaboration = DataMapper.query(rowMapper, q);
-			this.collaboration = (List<E>) SessionFactory.getSession().getIdentityMap().loadOrStore(
-					(List<Entity>) this.collaboration);
+			// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
+			// final Class<E> casterForeignEntityClass = foreignEntityClass;
+			// this.foreignEntity =
+			// SingletonFactory.getEntity(casterForeignEntityClass);
+			//
+			// // TODO aquesta QueryObject és constant, no cal construir-la cada
+			// // cop
+			// final IQueryObject q = new QueryObject()
+			// /**/.append("SELECT * FROM ")
+			// /**/.append(foreignEntity.getTableName())
+			// /**/.append(" WHERE ")
+			// /**/.append(foreignFieldDef.getColumnName())
+			// /**/.append("=?")
+			// /**/.addParams(this.selfIdFieldRef.getValue())
+			// /**/;
+			// final IRowMapper<E> rowMapper =
+			// this.foreignEntity.getRowMapper();
+			// this.collaboration = DataMapper.query(rowMapper, q);
+			//
+			// this.collaboration = (List<E>)
+			// SessionFactory.getSession().getIdentityMap().loadOrStore(
+			// (List<Entity>) this.collaboration);
+			// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
+
+			this.collaboration = Entity.loadByColumn(foreignEntityClass, foreignFieldDef.getColumnName(),
+					selfIdFieldRef.getValue());
 
 			this.isInit = true;
 		}

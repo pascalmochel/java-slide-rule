@@ -56,6 +56,13 @@ public class Entity extends BaseEntity {
 		return (List<T>) SessionFactory.getSession().getIdentityMap().loadOrStore((List<Entity>) r);
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <T extends Entity> List<T> loadByColumn(final Class<T> entityClass, final String column,
+			final Object value) {
+		final List<T> r = SingletonFactory.getEntity(entityClass).ploadByColumn(entityClass, column, value);
+		return (List<T>) SessionFactory.getSession().getIdentityMap().loadOrStore((List<Entity>) r);
+	}
+
 	public static int sqlStatement(final QueryObject query) {
 		return DataMapper.update(query);
 	}
@@ -80,6 +87,21 @@ public class Entity extends BaseEntity {
 	// log.fine("sqlStatement()");
 	// return DataMapper.update(query);
 	// }
+
+	private <T extends Entity> List<T> ploadByColumn(final Class<T> entityClass, final String column,
+			final Object value) {
+		log.fine("loadByColumn(" + column + "=" + value + ")");
+		final IQueryObject query = new QueryObject()
+		/**/.append("SELECT * FROM ")
+		/**/.append(getTableName())
+		/**/.append(" WHERE ")
+		/**/.append(column)
+		/**/.append("=?")
+		/**/.addParams(value)
+		/**/;
+		final IRowMapper<T> mapper = getRowMapper();
+		return DataMapper.query(mapper, query);
+	}
 
 	private <T extends Entity> T ploadById(final Class<T> entityClass, final Object id) {
 		log.fine("loadById(" + id + ")");

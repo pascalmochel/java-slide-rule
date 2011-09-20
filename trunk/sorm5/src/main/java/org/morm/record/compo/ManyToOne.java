@@ -4,14 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.morm.exception.SormException;
-import org.morm.mapper.DataMapper;
-import org.morm.mapper.IRowMapper;
-import org.morm.query.IQueryObject;
-import org.morm.query.QueryObject;
 import org.morm.record.Entity;
-import org.morm.record.SingletonFactory;
 import org.morm.record.field.Field;
-import org.morm.session.SessionFactory;
 
 public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 	// implements Clonable<ManyToOne<TID, E>> {
@@ -30,10 +24,12 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 		this.foreignEntityClass = foreignEntityClass;
 	}
 
+	@Override
 	public TID getValue() {
 		return selfFkField.getValue();
 	}
 
+	@Override
 	public void setValue(final TID value) {
 		this.selfFkField.setValue(value);
 	}
@@ -47,11 +43,11 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 		return new ManyToOne<TID, E>(selfFkField.doClone(), foreignEntityClass);
 	}
 
+	@Override
 	public void load(final ResultSet rs) throws SQLException {
 		selfFkField.load(rs);
 	}
 
-	@SuppressWarnings("unchecked")
 	public E getCollaboration() {
 		if (!isInit) {
 			if (selfFkField.getValue() == null) {
@@ -59,23 +55,33 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 				return null;
 			}
 
-			final Class<? extends E> castedForeignEntityClass = foreignEntityClass;
-			this.foreignEntity = SingletonFactory.getEntity(castedForeignEntityClass);
-			this.foreignIdFieldColumnName = foreignEntity.getIdField().getColumnName();
+			// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
+			// final Class<? extends E> castedForeignEntityClass =
+			// foreignEntityClass;
+			// this.foreignEntity =
+			// SingletonFactory.getEntity(castedForeignEntityClass);
+			// this.foreignIdFieldColumnName =
+			// foreignEntity.getIdField().getColumnName();
+			//
+			// final IQueryObject q = new QueryObject()
+			// /**/.append("SELECT * FROM ")
+			// /**/.append(foreignEntity.getTableName())
+			// /**/.append(" WHERE ")
+			// /**/.append(foreignIdFieldColumnName)
+			// /**/.append("=?")
+			// /**/.addParams(selfFkField.getValue())
+			// /**/;
+			//
+			// final IRowMapper<E> rowMapper =
+			// this.foreignEntity.getRowMapper();
+			// this.collaboration = DataMapper.queryUnique(rowMapper, q);
+			//			
+			// this.collaboration = (E)
+			// SessionFactory.getSession().getIdentityMap().loadOrStore(
+			// this.collaboration);
+			// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
 
-			final IQueryObject q = new QueryObject()
-			/**/.append("SELECT * FROM ")
-			/**/.append(foreignEntity.getTableName())
-			/**/.append(" WHERE ")
-			/**/.append(foreignIdFieldColumnName)
-			/**/.append("=?")
-			/**/.addParams(selfFkField.getValue())
-			/**/;
-
-			final IRowMapper<E> rowMapper = this.foreignEntity.getRowMapper();
-			this.collaboration = DataMapper.queryUnique(rowMapper, q);
-			this.collaboration = (E) SessionFactory.getSession().getIdentityMap().loadOrStore(
-					this.collaboration);
+			this.collaboration = Entity.loadById(foreignEntityClass, selfFkField.getValue());
 
 			this.isInit = true;
 		}
@@ -87,6 +93,7 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 		this.isInit = true;
 	}
 
+	@Override
 	public String toString() {
 		return getColumnName() + "=" + getValue() + "=>" + (isInit ? getCollaboration() : "[...]");
 	}
