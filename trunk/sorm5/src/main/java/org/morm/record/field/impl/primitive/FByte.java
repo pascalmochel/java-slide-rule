@@ -11,12 +11,10 @@ public class FByte extends Field<Byte> {
 		super(columnName);
 	}
 
- 
 	public void load(final ResultSet rs) throws SQLException {
 		final Byte v = rs.getObject(getColumnName()) != null ? rs.getByte(getColumnName()) : null;
 		setValue(v);
 	}
-
 
 	public Field<Byte> doClone() {
 		return new FByte(getColumnName());

@@ -67,14 +67,16 @@ public class BaseEntity {
 		}
 	}
 
-	protected void registerManyToOne(final ManyToOne<?, ?> manyToOne) {
-		final ManyToOne<?, ?> c = manyToOne.doCloneCollaboration();
-		this.manyToOnes.add(c);
-		if (this.fields.containsKey(c.getColumnName())) {
-			throw new SormException("duplicated column name: " + getClass().getName() + "#"
-					+ c.getColumnName());
+	protected void registerManyToOnes(final ManyToOne<?, ?>... manyToOnes) {
+		for (ManyToOne<?, ?> manyToOne : manyToOnes) {
+			final ManyToOne<?, ?> c = manyToOne.doCloneCollaboration();
+			this.manyToOnes.add(c);
+			if (this.fields.containsKey(c.getColumnName())) {
+				throw new SormException("duplicated column name: " + getClass().getName() + "#"
+						+ c.getColumnName());
+			}
+			this.fields.put(c.getColumnName(), c);
 		}
-		this.fields.put(c.getColumnName(), c);
 	}
 
 	protected <TID> void registerOneToMany(final OneToMany<TID, ?> oneToMany) {
@@ -126,14 +128,14 @@ public class BaseEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <E extends Entity> void setCollaborations(final OneToMany<?, E> collaborableField,
+	protected <E extends Entity> void setCollaboration(final OneToMany<?, E> collaborableField,
 			final List<E> value) {
 		final OneToMany<?, E> self = (OneToMany<?, E>) oneToManies.get(collaborableField.getColumnName());
 		self.setCollaboration(value);
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <E extends Entity> List<E> getCollaborations(final OneToMany<?, E> collaborableField) {
+	protected <E extends Entity> List<E> getCollaboration(final OneToMany<?, E> collaborableField) {
 		final OneToMany<?, E> self = (OneToMany<?, E>) oneToManies.get(collaborableField.getColumnName());
 		return self.getCollaboration();
 	}

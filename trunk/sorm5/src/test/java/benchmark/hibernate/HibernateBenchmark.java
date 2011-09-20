@@ -50,6 +50,7 @@ public class HibernateBenchmark {
 			tx.rollback();
 			throw e;
 		} finally {
+			s.flush();
 			s.close();
 		}
 		

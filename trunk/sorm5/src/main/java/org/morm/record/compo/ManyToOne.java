@@ -24,18 +24,15 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 	protected E collaboration;
 	protected boolean isInit = false;
 
-	public ManyToOne(final Field<TID> selfFkField,
-			final Class<E> foreignEntityClass) {
+	public ManyToOne(final Field<TID> selfFkField, final Class<E> foreignEntityClass) {
 		super(selfFkField.getColumnName());
 		this.selfFkField = selfFkField;
 		this.foreignEntityClass = foreignEntityClass;
 	}
 
-
 	public TID getValue() {
 		return selfFkField.getValue();
 	}
-
 
 	public void setValue(final TID value) {
 		this.selfFkField.setValue(value);
@@ -43,14 +40,12 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 
 	public Field<TID> doClone() {
 		// TODO
-		throw new SormException("internal error, invoking " + getClass()
-				+ "#doClone()");
+		throw new SormException("internal error, invoking " + getClass() + "#doClone()");
 	}
 
 	public ManyToOne<TID, E> doCloneCollaboration() {
 		return new ManyToOne<TID, E>(selfFkField.doClone(), foreignEntityClass);
 	}
-
 
 	public void load(final ResultSet rs) throws SQLException {
 		selfFkField.load(rs);
@@ -65,10 +60,8 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 			}
 
 			final Class<? extends E> castedForeignEntityClass = foreignEntityClass;
-			this.foreignEntity = SingletonFactory
-					.getEntity(castedForeignEntityClass);
-			this.foreignIdFieldColumnName = foreignEntity.getIdField()
-					.getColumnName();
+			this.foreignEntity = SingletonFactory.getEntity(castedForeignEntityClass);
+			this.foreignIdFieldColumnName = foreignEntity.getIdField().getColumnName();
 
 			final IQueryObject q = new QueryObject()
 			/**/.append("SELECT * FROM ")
@@ -81,8 +74,8 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 
 			final IRowMapper<E> rowMapper = this.foreignEntity.getRowMapper();
 			this.collaboration = DataMapper.queryUnique(rowMapper, q);
-			this.collaboration = (E) SessionFactory.getSession()
-					.getIdentityMap().loadOrStore(this.collaboration);
+			this.collaboration = (E) SessionFactory.getSession().getIdentityMap().loadOrStore(
+					this.collaboration);
 
 			this.isInit = true;
 		}
@@ -94,10 +87,8 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 		this.isInit = true;
 	}
 
-
 	public String toString() {
-		return getColumnName() + "=" + getValue() + "=>"
-				+ (isInit ? getCollaboration() : "[...]");
+		return getColumnName() + "=" + getValue() + "=>" + (isInit ? getCollaboration() : "[...]");
 	}
 
 	public boolean getIsInit() {

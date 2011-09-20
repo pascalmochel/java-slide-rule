@@ -51,8 +51,7 @@ public class Criteria {
 			public IQueryObject renderQuery() {
 				return new QueryObject()
 				/**/.append(field.getColumnName())
-				/**/.append(" IN ")
-				/**/.append("(")
+				/**/.append(" IN (")
 				/**/.append(QueryGenUtils.join("?", ",", values.length))
 				/**/.append(")")
 				/**/.addParams(values);

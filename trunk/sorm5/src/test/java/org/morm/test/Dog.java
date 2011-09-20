@@ -53,11 +53,11 @@ public class Dog extends Entity {
 	}
 
 	public List<Rabbit> getRabbits() {
-		return getCollaborations(rabbits);
+		return getCollaboration(rabbits);
 	}
 
 	public void setRabbits(final List<Rabbit> rabbits) {
-		setCollaborations(Dog.rabbits, rabbits);
+		setCollaboration(Dog.rabbits, rabbits);
 	}
 
 	public void setAge(final Integer age) {

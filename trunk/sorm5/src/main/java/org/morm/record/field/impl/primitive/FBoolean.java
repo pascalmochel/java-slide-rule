@@ -11,12 +11,10 @@ public class FBoolean extends Field<Boolean> {
 		super(columnName);
 	}
 
- 
 	public void load(final ResultSet rs) throws SQLException {
 		final Boolean v = rs.getObject(getColumnName()) != null ? rs.getBoolean(getColumnName()) : null;
 		setValue(v);
 	}
-
 
 	public Field<Boolean> doClone() {
 		return new FBoolean(getColumnName());
