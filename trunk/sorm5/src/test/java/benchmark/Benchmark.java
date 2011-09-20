@@ -11,14 +11,14 @@ public class Benchmark {
 	static {
 		new EntityTest2();
 	}
-	int N = 500;
+	int N = 100;
 
 	@Test
 	public void testname() throws Exception {
 		final long t1 = testHibernate();
 		final long t2 = testSorm();
 		final long max = Math.max(t1, t2);
-		System.out.println(t1 + "ms:" + t2+"ms");
+		System.out.println(t1 + "ms:" + t2 + "ms");
 		System.out.println(100 * t1 / max + ":" + 100 * t2 / max);
 	}
 
