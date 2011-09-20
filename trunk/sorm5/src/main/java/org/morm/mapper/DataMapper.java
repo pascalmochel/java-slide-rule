@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import org.morm.exception.SormException;
 import org.morm.query.IQueryObject;
 import org.morm.record.Entity;
+import org.morm.record.field.IdentifiableField;
 import org.morm.session.SessionFactory;
 
 import java.util.ArrayList;
@@ -122,6 +123,46 @@ public class DataMapper {
 			}
 
 			return r;
+
+		} catch (final Exception e) {
+			throw new SormException("error in query: " + query, e);
+		} finally {
+			close(pstm, rs);
+		}
+	}
+
+	public static void aggregateIdentityField(final IQueryObject query, final IdentifiableField<?> field) {
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine(query.toString());
+		}
+		if (SHOW_SQL) {
+			System.out.println(query.toString());
+		}
+
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		try {
+
+			final Connection c = SessionFactory.getSession().getConnection();
+			pstm = c.prepareStatement(query.getQuery());
+
+			int columnIndex = 1;
+			for (final Object p : query.getParams()) {
+				pstm.setObject(columnIndex++, p);
+			}
+
+			rs = pstm.executeQuery();
+			if (!rs.next()) {
+				throw new SormException("no row produced");
+			}
+			field.loadIdentity(rs);
+			// final Number r = (Number) rs.getObject(1);
+
+			if (rs.next()) {
+				throw new SormException("more than 1 row produced");
+			}
+
+			// return r;
 
 		} catch (final Exception e) {
 			throw new SormException("error in query: " + query, e);

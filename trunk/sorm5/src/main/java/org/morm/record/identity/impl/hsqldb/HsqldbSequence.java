@@ -19,14 +19,14 @@ import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
 import org.morm.query.IQueryObject;
 import org.morm.query.QueryObject;
-import org.morm.record.field.Field;
+import org.morm.record.field.IdentifiableField;
 import org.morm.record.identity.IdentityGenerator;
 
 public class HsqldbSequence<T> extends IdentityGenerator<T> {
 
 	protected final String sequenceName;
 
-	public HsqldbSequence(final Field<T> field, final String sequenceName) {
+	public HsqldbSequence(final IdentifiableField<T> field, final String sequenceName) {
 		super(field);
 		this.sequenceName = sequenceName;
 	}
@@ -63,7 +63,7 @@ public class HsqldbSequence<T> extends IdentityGenerator<T> {
 
 	@Override
 	public IdentityGenerator<T> doCloneId() {
-		return new HsqldbSequence<T>(field.doClone(), sequenceName);
+		return new HsqldbSequence<T>((IdentifiableField<T>) field.doClone(), sequenceName);
 	}
 
 }
