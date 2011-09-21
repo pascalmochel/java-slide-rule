@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.morm.exception.SormException;
 import org.morm.record.Entity;
 import org.morm.record.field.Field;
+import org.morm.session.SessionFactory;
 
 public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 	// implements Clonable<ManyToOne<TID, E>> {
@@ -81,7 +82,9 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 			// this.collaboration);
 			// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
 
+			SessionFactory.getSession().open();
 			this.collaboration = Entity.loadById(foreignEntityClass, selfFkField.getValue());
+			SessionFactory.getSession().rollback();
 
 			this.isInit = true;
 		}

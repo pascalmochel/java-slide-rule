@@ -26,8 +26,7 @@ public class SimpleSession implements ISession {
 	/**
 	 * C'tor
 	 * 
-	 * @param dataSource
-	 *            the {@link DataSource} reference
+	 * @param dataSource the {@link DataSource} reference
 	 */
 	public SimpleSession(final DataSource dataSource, final Integer transactionIsolation) {
 		super();
@@ -42,10 +41,9 @@ public class SimpleSession implements ISession {
 
 	public Connection open() {
 
-		identityMap.clear();
-
 		if (!isTransactionActive()) {
 			try {
+				identityMap.clear();
 				connection = dataSource.getConnection();
 				connection.setAutoCommit(false);
 				connection.setTransactionIsolation(transactionIsolation);

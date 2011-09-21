@@ -30,23 +30,16 @@ public class HsqldbIdentity<T> extends IdentityGenerator<T> {
 
 	@Override
 	public IQueryObject getQuery() {
-
-		return new QueryObject()
-		/**/.append("CALL IDENTITY()")
-		/**/;
+		return new QueryObject("CALL IDENTITY()");
 	}
 
 	@Override
 	public void setGeneratedValue() {
-
 		try {
-
 			DataMapper.aggregateIdentityField(super.query, field);
-
 		} catch (final Exception e) {
 			throw new SormException(ERROR_OBTAINING_IDENTITY_KEY + query, e);
 		}
-
 	}
 
 	@Override

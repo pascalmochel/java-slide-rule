@@ -33,20 +33,13 @@ public class HsqldbSequence<T> extends IdentityGenerator<T> {
 
 	@Override
 	public IQueryObject getQuery() {
-
-		return new QueryObject()
-		/**/.append("CALL NEXT VALUE FOR ")
-		/**/.append(sequenceName)
-		/**/;
+		return new QueryObject("CALL NEXT VALUE FOR " + sequenceName);
 	}
 
 	@Override
 	public void setGeneratedValue() {
-
 		try {
-
-			field.setUncheckedValue(DataMapper.aggregate(query));
-
+			DataMapper.aggregateIdentityField(super.query, field);
 		} catch (final Exception e) {
 			throw new SormException(ERROR_OBTAINING_IDENTITY_KEY + query, e);
 		}
