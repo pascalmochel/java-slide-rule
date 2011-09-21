@@ -8,7 +8,7 @@ import org.morm.record.identity.IdentityGenerator;
 public class SequenceDog extends Entity {
 
 	public static IdentityGenerator<Integer> id = new HsqldbSequence<Integer>(new FInteger("ID_DOG"),
-	"DOG_SEQUENCE");
+			"DOG_SEQUENCE");
 	public static FString name = new FString("NAME");
 	public static FInteger age = new FInteger("AGE");
 

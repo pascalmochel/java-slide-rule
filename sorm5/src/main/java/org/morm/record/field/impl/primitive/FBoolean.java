@@ -11,6 +11,7 @@ public class FBoolean extends Field<Boolean> {
 		super(columnName);
 	}
 
+	@Override
 	public void load(final ResultSet rs) throws SQLException {
 		final Boolean v = rs.getObject(getColumnName()) != null ? rs.getBoolean(getColumnName()) : null;
 		setValue(v);

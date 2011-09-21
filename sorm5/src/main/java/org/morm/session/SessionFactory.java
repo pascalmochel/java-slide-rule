@@ -42,8 +42,7 @@ public class SessionFactory {
 	/**
 	 * @return the current {@link ISession} instance, or if it is inactive,
 	 *         creates a new one.
-	 * @throws DataMapperException
-	 *             if dataSourceReference is not being injected
+	 * @throws DataMapperException if dataSourceReference is not being injected
 	 */
 	public static ISession getSession() {
 		ISession session = threadSession.get();
@@ -61,8 +60,7 @@ public class SessionFactory {
 
 	/**
 	 * @return creates a new {@link ISession} instance
-	 * @throws DataMapperException
-	 *             if dataSourceReference is not being injected
+	 * @throws DataMapperException if dataSourceReference is not being injected
 	 */
 	protected static ISession createNewSession() {
 		if (dataSourceReference == null) {
