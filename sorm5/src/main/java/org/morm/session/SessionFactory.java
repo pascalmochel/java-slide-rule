@@ -27,6 +27,7 @@ public class SessionFactory {
 	 * 
 	 * @param dataSource
 	 */
+	// TODO i com fer per a varis dataSources?
 	public void setDataSource(final DataSource dataSource) {
 		synchronized (dataSource) {
 			SessionFactory.dataSourceReference = dataSource;
