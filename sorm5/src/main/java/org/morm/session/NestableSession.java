@@ -30,8 +30,7 @@ public class NestableSession implements ISession {
 	/**
 	 * C'tor
 	 * 
-	 * @param dataSource
-	 *            the {@link DataSource} reference
+	 * @param dataSource the {@link DataSource} reference
 	 */
 	public NestableSession(final DataSource dataSource, final Integer transactionIsolation) {
 		super();
@@ -47,8 +46,6 @@ public class NestableSession implements ISession {
 
 	public Connection open() {
 
-		identityMap.clear();
-
 		if (isTransactionActive()) {
 			final String savePointName = String.valueOf(txStack.size());
 			try {
@@ -62,6 +59,7 @@ public class NestableSession implements ISession {
 			}
 		} else {
 			try {
+				// identityMap.clear();
 				connection = dataSource.getConnection();
 				connection.setAutoCommit(false);
 				connection.setTransactionIsolation(transactionIsolation);
@@ -76,7 +74,7 @@ public class NestableSession implements ISession {
 	public Connection getConnection() {
 		if (connection == null) {
 			throw new SormException("business operation are ocurred outside of a transaction bounds");
-			// return openTransaction();
+			// return open();
 		}
 		return connection;
 	}
@@ -134,6 +132,7 @@ public class NestableSession implements ISession {
 	protected void close() {
 		try {
 			if (!connection.isClosed()) {
+				identityMap.clear();
 				connection.close();
 			}
 		} catch (final SQLException exc) {

@@ -28,11 +28,11 @@ public class B extends Entity {
 	}
 
 	public void setAbs(final List<AB> abs) {
-		setCollaboration(A.abs, abs);
+		setCollaboration(B.abs, abs);
 	}
 
 	public List<AB> getAbs() {
-		return getCollaboration(A.abs);
+		return getCollaboration(B.abs);
 	}
 
 }

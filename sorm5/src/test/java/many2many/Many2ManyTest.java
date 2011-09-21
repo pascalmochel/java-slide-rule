@@ -94,7 +94,9 @@ public class Many2ManyTest {
 				assertEquals("[ID_A=100, [[ID_AB=100, ID_A=100=>[...], ID_B=100=>[ID_B=100, [...]]]]]", q
 						.toString());
 
-				assertTrue(a == a.getAbs().get(0).getA());
+				// funciona si està dins de transacció
+				assertTrue(q == q.getAbs().get(0).getA());
+				assertTrue(q == q.getAbs().get(0).getB().getAbs().get(0).getA());
 			}
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -135,6 +137,45 @@ public class Many2ManyTest {
 
 		} finally {
 			SessionFactory.getSession().rollback();
+		}
+	}
+
+	@Test
+	public void testLoadOutsideTX() throws Exception {
+
+		SessionFactory.getSession().open();
+		try {
+			final A a = new A();
+			final B b = new B();
+			final AB ab = new AB();
+
+			a.setAbs(Arrays.asList(ab));
+			ab.setB(b);
+			a.store();
+
+			SessionFactory.getSession().getIdentityMap().clear();
+		} finally {
+			SessionFactory.getSession().commit();
+		}
+
+		SessionFactory.getSession().open();
+		A a2;
+		try {
+			a2 = Entity.loadById(A.class, 100);
+		} finally {
+			SessionFactory.getSession().rollback();
+		}
+
+		// fora de Tx worka!
+		a2.getAbs().get(0).getB().getAbs().get(0).getA();
+
+		// falla fora de Tx pq en recuperar colaboradors s'inicia sessió i es
+		// perd la identityMap
+		try {
+			assertTrue(a2 == a2.getAbs().get(0).getA()); // TODO
+			assertTrue(a2 == a2.getAbs().get(0).getB().getAbs().get(0).getA()); // TODO
+			fail();
+		} catch (final AssertionError e) {
 		}
 	}
 

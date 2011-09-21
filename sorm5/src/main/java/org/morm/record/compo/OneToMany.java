@@ -3,6 +3,7 @@ package org.morm.record.compo;
 import org.morm.record.Entity;
 import org.morm.record.field.FieldDef;
 import org.morm.record.identity.IdentityGenerator;
+import org.morm.session.SessionFactory;
 
 import java.util.List;
 
@@ -66,8 +67,10 @@ public class OneToMany<TID, E extends Entity> {
 			// (List<Entity>) this.collaboration);
 			// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
 
+			SessionFactory.getSession().open();
 			this.collaboration = Entity.loadByColumn(foreignEntityClass, foreignFieldDef.getColumnName(),
 					selfIdFieldRef.getValue());
+			SessionFactory.getSession().rollback();
 
 			this.isInit = true;
 		}
