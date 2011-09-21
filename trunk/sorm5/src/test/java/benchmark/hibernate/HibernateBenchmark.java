@@ -53,7 +53,7 @@ public class HibernateBenchmark {
 			s.flush();
 			s.close();
 		}
-		
+
 	}
 
 }

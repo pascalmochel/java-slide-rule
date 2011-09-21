@@ -16,8 +16,8 @@ import org.hibernate.criterion.Order;
 import java.util.List;
 
 /**
- * Classe genèrica que implementa les funcions DAO més tipiques que es puguin necessitar per a desenvolupar un
- * CRUD
+ * Classe genèrica que implementa les funcions DAO més tipiques que es puguin
+ * necessitar per a desenvolupar un CRUD
  * 
  * @author jfabre
  * @param <T> Tipus de dada de la entitat

@@ -138,8 +138,9 @@ public class BaseEntity {
 	protected <E extends Entity> List<E> getCollaboration(final OneToMany<?, E> collaborableField) {
 		final OneToMany<?, E> self = (OneToMany<?, E>) oneToManies.get(collaborableField.getColumnName());
 		// FIXME
-		if (self==null) {
-			System.out.println(collaborableField+"/"+collaborableField.getColumnName()+" not found in: "+oneToManies);
+		if (self == null) {
+			System.out.println(collaborableField + "/" + collaborableField.getColumnName()
+					+ " not found in: " + oneToManies);
 		}
 		return self.getCollaboration();
 	}

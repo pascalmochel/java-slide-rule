@@ -38,16 +38,16 @@ public class SingleLineFormatter extends Formatter {
 
 		strb.setLength(0);
 		return strb //
-		.append('[') //
-		.append(rec.getLevel().getName()) //
-		.append("] ") //
-		.append(calcDate(rec.getMillis())) //
-		.append(' ') //
-		.append(classSimpleName) //
-		.append(' ') //
-		.append(formatMessage(rec)) //
-		.append('\n') //
-		.toString();
+				.append('[') //
+				.append(rec.getLevel().getName()) //
+				.append("] ") //
+				.append(calcDate(rec.getMillis())) //
+				.append(' ') //
+				.append(classSimpleName) //
+				.append(' ') //
+				.append(formatMessage(rec)) //
+				.append('\n') //
+				.toString();
 	}
 
 	protected String calcDate(final long millisecs) {
