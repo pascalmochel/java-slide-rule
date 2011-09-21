@@ -32,26 +32,43 @@ public class HibernateBenchmark {
 	@Test
 	public void testname() throws Exception {
 
-		final Transaction tx = HibernateSessionFactory.getSession().beginTransaction();
-		tx.begin();
+		final HibernateDog d;
+		{
+			final Transaction tx = HibernateSessionFactory.getSession().beginTransaction();
+			tx.begin();
+			final Session s = HibernateSessionFactory.getSession();
+			try {
 
-		final Session s = HibernateSessionFactory.getSession();
-		try {
-			HibernateDog d = new HibernateDog(null, "din", 9);
-			s.save(d);
+				d = new HibernateDog(null, "din", 9);
+				s.save(d);
 
-			d = (HibernateDog) s.load(HibernateDog.class, d.getIdDog());
+				tx.commit();
+			} catch (final Exception e) {
+				tx.rollback();
+				throw e;
+			} finally {
+				s.flush();
+				s.close();
+			}
+		}
+		{
+			final Transaction tx = HibernateSessionFactory.getSession().beginTransaction();
+			tx.begin();
+			final Session s = HibernateSessionFactory.getSession();
+			try {
 
-			assertEquals("HibernateDog [idDog=*, name=din, age=9]", d.toString().replaceAll("idDog=\\d+",
-					"idDog=*"));
+				final HibernateDog d2 = (HibernateDog) s.load(HibernateDog.class, d.getIdDog());
+				assertEquals("HibernateDog [idDog=*, name=din, age=9]", d2.toString().replaceAll(
+						"idDog=\\d+", "idDog=*"));
 
-			tx.commit();
-		} catch (final Exception e) {
-			tx.rollback();
-			throw e;
-		} finally {
-			s.flush();
-			s.close();
+				tx.commit();
+			} catch (final Exception e) {
+				tx.rollback();
+				throw e;
+			} finally {
+				s.flush();
+				s.close();
+			}
 		}
 
 	}

@@ -95,9 +95,12 @@ public class Entity extends BaseEntity {
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
 		/**/.append(" WHERE ")
-		/**/.append(column)
-		/**/.append("=?")
-		/**/.addParams(value)
+		// TODO multipart
+				// /**/.append(column)
+				// /**/.append("=?")
+				/**/.append("?=")
+				/**/.append(column)
+				/**/.addParams(value)
 		/**/;
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.query(mapper, query);
@@ -109,9 +112,12 @@ public class Entity extends BaseEntity {
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
 		/**/.append(" WHERE ")
-		/**/.append(getIdField().getColumnName())
-		/**/.append("=?")
-		/**/.addParams(id)
+		// /**/.append(getIdField().getColumnName())
+				// /**/.append("=?")
+				/**/.append("?=")
+				// TODO multipart
+				/**/.append(getIdField().getColumnName())
+				/**/.addParams(id)
 		/**/;
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.queryUnique(mapper, query);
@@ -133,7 +139,8 @@ public class Entity extends BaseEntity {
 		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
-		/**/.append(cs.renderQuery())
+		// TODO multipart
+				/**/.append(cs.renderQuery())
 		/**/;
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.query(mapper, query);
@@ -155,7 +162,8 @@ public class Entity extends BaseEntity {
 		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
-		/**/.append(cs.renderQuery())
+		// TODO multipart
+				/**/.append(cs.renderQuery())
 		/**/;
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.queryUnique(mapper, query);
@@ -226,7 +234,8 @@ public class Entity extends BaseEntity {
 		/**/.append(") VALUES (")
 		/**/.append(QueryGenUtils.parametersJoin(getFields()))
 		/**/.append(")")
-		/**/.addParams(QueryGenUtils.fieldValues(getFields()))
+		// TODO multipart
+				/**/.addParams(QueryGenUtils.fieldValues(getFields()))
 		/**/;
 		DataMapper.update(query);
 
@@ -245,7 +254,8 @@ public class Entity extends BaseEntity {
 		/**/.append(" WHERE ")
 		/**/.append(getIdField().getColumnName())
 		/**/.append("=?")
-		/**/.addParams(QueryGenUtils.fieldValuesIdLast(getIdField(), getFields()))
+		// TODO multipart
+				/**/.addParams(QueryGenUtils.fieldValuesIdLast(getIdField(), getFields()))
 		/**/;
 		final int affectedRows = DataMapper.update(query);
 		if (affectedRows > 1) {
@@ -269,7 +279,8 @@ public class Entity extends BaseEntity {
 		/**/.append(" WHERE ")
 		/**/.append(getIdField().getColumnName())
 		/**/.append("=?")
-		/**/.addParams(getIdField().getValue())
+		// TODO multipart
+				/**/.addParams(getIdField().getValue())
 		/**/;
 		DataMapper.update(query);
 	}
@@ -287,7 +298,8 @@ public class Entity extends BaseEntity {
 		final IQueryObject query = new QueryObject()
 		/**/.append("DELETE FROM ")
 		/**/.append(getTableName())
-		/**/.append(criterion.renderQuery())
+		// TODO multipart
+				/**/.append(criterion.renderQuery())
 		/**/;
 		DataMapper.update(query);
 	}
@@ -297,7 +309,8 @@ public class Entity extends BaseEntity {
 		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT COUNT(*) FROM ")
 		/**/.append(SingletonFactory.getEntity(c).getTableName())
-		/**/.append(criterion.renderQuery())
+		// TODO multipart
+				/**/.append(criterion.renderQuery())
 		/**/;
 		return DataMapper.aggregate(query).longValue();
 	}

@@ -31,6 +31,7 @@ public class SingletonFactory {
 			try {
 				final Entity r = c.newInstance();
 				entMap.put(c, r);
+				return (T) r;
 			} catch (final Exception e) {
 				throw new SormException("error instancing: " + c.getName(), e);
 			}
@@ -43,7 +44,9 @@ public class SingletonFactory {
 		final Map<Class<? extends Entity>, IRowMapper<Entity>> mappersMap = ENTITY_MAPPERS.get();
 		if (!mappersMap.containsKey(c)) {
 			try {
-				mappersMap.put(c, new EntityMapper(c));
+				final EntityMapper r = new EntityMapper(c);
+				mappersMap.put(c, r);
+				return (IRowMapper<T>) r;
 			} catch (final Exception e) {
 				throw new SormException("error obtaining EntityMapper for entity: " + c.getName(), e);
 			}
