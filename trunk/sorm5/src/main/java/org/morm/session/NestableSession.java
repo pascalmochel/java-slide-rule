@@ -129,10 +129,23 @@ public class NestableSession implements ISession {
 		}
 	}
 
+	public void closeReadOnly() {
+		if (connection == null) {
+			throw new SormException("null connection; transaction not opened");
+		}
+		if (txStack.isEmpty()) {
+			LOG.finest("tx closeReadOnly");
+			close();
+		} else {
+			final String savePointName = null;
+			txStack.pop();
+			LOG.finest("tx closeReadOnly: " + savePointName);
+		}
+	}
+
 	protected void close() {
 		try {
 			if (!connection.isClosed()) {
-				identityMap.clear();
 				connection.close();
 			}
 		} catch (final SQLException exc) {

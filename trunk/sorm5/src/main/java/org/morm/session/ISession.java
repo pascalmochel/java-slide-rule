@@ -16,6 +16,8 @@ public interface ISession {
 
 	void rollback();
 
+	void closeReadOnly();
+
 	boolean isTransactionActive();
 
 	IdentityMap<Entity> getIdentityMap();

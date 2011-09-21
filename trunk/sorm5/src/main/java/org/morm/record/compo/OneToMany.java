@@ -70,7 +70,7 @@ public class OneToMany<TID, E extends Entity> {
 			SessionFactory.getSession().open();
 			this.collaboration = Entity.loadByColumn(foreignEntityClass, foreignFieldDef.getColumnName(),
 					selfIdFieldRef.getValue());
-			SessionFactory.getSession().rollback();
+			SessionFactory.getSession().closeReadOnly();
 
 			this.isInit = true;
 		}
