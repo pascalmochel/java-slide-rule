@@ -6,9 +6,6 @@
 //
 //public class MultiPartQueryObject implements IQueryObject {
 //
-//	// public static final MultiPartQueryObject VOID = new
-//	// MultiPartQueryObject();
-//
 //	protected final String query;
 //	protected String query2;
 //	protected final List<Object> params;
@@ -16,7 +13,15 @@
 //	public MultiPartQueryObject(final String query) {
 //		super();
 //		this.query = query;
+//		this.query2 = "";
 //		this.params = new LinkedList<Object>();
+//	}
+//
+//	public MultiPartQueryObject(IQueryObject query) {
+//		super();
+//		this.query = query.getQuery();
+//		this.query2 = "";
+//		this.params = query.getParamsList();
 //	}
 //
 //	public MultiPartQueryObject setPart(final String query2) {
@@ -44,14 +49,13 @@
 //		return params.toArray();
 //	}
 //
+//	public List<Object> getParamsList() {
+//		return params;
+//	}
+//
 //	@Override
 //	public String toString() {
 //		return getQuery() + " -- " + params.toString();
 //	}
 //
-//	@Override
-//	public List<Object> getParamsList() {
-//		return params;
-//	}
-//
-// }
+//}

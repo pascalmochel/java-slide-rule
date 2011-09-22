@@ -42,10 +42,16 @@ public class SaveTest {
 
 	@After
 	public void after() {
-		SessionFactory.getSession().open();
-		DataMapper.executeDDL("DROP TABLE RABBIT");
-		DataMapper.executeDDL("DROP TABLE DOG");
-		SessionFactory.getSession().commit();
+		// TODO embolcallar amb trys els afters i chupant l'excepció. Si peta el
+		// test, fa petar això i l'excepció original es perd
+		try {
+			SessionFactory.getSession().open();
+			DataMapper.executeDDL("DROP TABLE RABBIT");
+			DataMapper.executeDDL("DROP TABLE DOG");
+			SessionFactory.getSession().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
