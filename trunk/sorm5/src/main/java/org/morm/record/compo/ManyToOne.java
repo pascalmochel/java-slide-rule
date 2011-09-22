@@ -84,7 +84,7 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 
 			SessionFactory.getSession().open();
 			this.collaboration = Entity.loadById(foreignEntityClass, selfFkField.getValue());
-			SessionFactory.getSession().closeReadOnly();
+			SessionFactory.getSession().closeAsReadOnly();
 
 			this.isInit = true;
 		}

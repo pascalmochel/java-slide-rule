@@ -22,7 +22,6 @@
 //	protected final IdentityMap<Entity> identityMap = new IdentityMap<Entity>();
 //	protected final StoredSet storedSet = new StoredSet();
 //
-//	// XXX i readOnly transactions? open-commit i open-close
 //	/**
 //	 * C'tor
 //	 * 
