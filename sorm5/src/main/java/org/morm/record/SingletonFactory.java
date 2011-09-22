@@ -3,20 +3,21 @@ package org.morm.record;
 import org.morm.exception.SormException;
 import org.morm.mapper.EntityMapper;
 import org.morm.mapper.IRowMapper;
+import org.morm.query.MutableQueryObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SingletonFactory {
 
-	protected static final ThreadLocal<Map<Class<? extends Entity>, Entity>> ENTITIES =
+	protected static final ThreadLocal<Map<Class<? extends Entity>, Entity>> entities =
 	/**/new ThreadLocal<Map<Class<? extends Entity>, Entity>>() {
 		@Override
 		protected Map<java.lang.Class<? extends Entity>, Entity> initialValue() {
 			return new HashMap<Class<? extends Entity>, Entity>();
 		};
 	};
-	protected static final ThreadLocal<Map<Class<? extends Entity>, IRowMapper<Entity>>> ENTITY_MAPPERS =
+	protected static final ThreadLocal<Map<Class<? extends Entity>, IRowMapper<Entity>>> entityMappers =
 	/**/new ThreadLocal<Map<Class<? extends Entity>, IRowMapper<Entity>>>() {
 		@Override
 		protected Map<java.lang.Class<? extends Entity>, IRowMapper<Entity>> initialValue() {
@@ -24,9 +25,17 @@ public class SingletonFactory {
 		};
 	};
 
+	protected static final ThreadLocal<Map<Class<? extends Entity>, Map<String, MutableQueryObject>>> threadLocalQueries =
+	/**/new ThreadLocal<Map<Class<? extends Entity>, Map<String, MutableQueryObject>>>() {
+		@Override
+		protected Map<Class<? extends Entity>, Map<String, MutableQueryObject>> initialValue() {
+			return new HashMap<Class<? extends Entity>, Map<String, MutableQueryObject>>();
+		};
+	};
+
 	@SuppressWarnings("unchecked")
 	public static <T extends Entity> T getEntity(final Class<T> c) {
-		final Map<Class<? extends Entity>, Entity> entMap = ENTITIES.get();
+		final Map<Class<? extends Entity>, Entity> entMap = entities.get();
 		if (!entMap.containsKey(c)) {
 			try {
 				final Entity r = c.newInstance();
@@ -41,7 +50,7 @@ public class SingletonFactory {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Entity> IRowMapper<T> getEntityMapper(final Class<T> c) {
-		final Map<Class<? extends Entity>, IRowMapper<Entity>> mappersMap = ENTITY_MAPPERS.get();
+		final Map<Class<? extends Entity>, IRowMapper<Entity>> mappersMap = entityMappers.get();
 		if (!mappersMap.containsKey(c)) {
 			try {
 				final EntityMapper r = new EntityMapper(c);
@@ -52,6 +61,33 @@ public class SingletonFactory {
 			}
 		}
 		return (IRowMapper<T>) mappersMap.get(c);
+	}
+
+	public static <T extends Entity> boolean queryIsDefined(final Class<T> c, String name) {
+		final Map<Class<? extends Entity>, Map<String, MutableQueryObject>> entMap = threadLocalQueries.get();
+		if (!entMap.containsKey(c)) {
+			Map<String, MutableQueryObject> queriesMap = new HashMap<String, MutableQueryObject>();
+			entMap.put(c, queriesMap);
+			return false;
+		}
+		Map<String, MutableQueryObject> queriesMap = entMap.get(c);
+		return queriesMap.containsKey(name);
+	}
+
+	public static <T extends Entity> MutableQueryObject queryGet(final Class<T> c, String name) {
+		final Map<Class<? extends Entity>, Map<String, MutableQueryObject>> entMap = threadLocalQueries.get();
+		Map<String, MutableQueryObject> queriesMap = entMap.get(c);
+		return queriesMap.get(name);
+	}
+
+	public static <T extends Entity> void querySet(final Class<T> c, String name, MutableQueryObject query) {
+		final Map<Class<? extends Entity>, Map<String, MutableQueryObject>> entMap = threadLocalQueries.get();
+		if (!entMap.containsKey(c)) {
+			Map<String, MutableQueryObject> queriesMap = new HashMap<String, MutableQueryObject>();
+			entMap.put(c, queriesMap);
+		}
+		Map<String, MutableQueryObject> queriesMap = entMap.get(c);
+		queriesMap.put(name, query);
 	}
 
 }

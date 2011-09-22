@@ -1,19 +1,20 @@
 package org.morm.record;
 
+import java.util.List;
+
 import org.morm.criteria.Criteria;
 import org.morm.criteria.Criterion;
 import org.morm.exception.SormException;
 import org.morm.mapper.DataMapper;
 import org.morm.mapper.IRowMapper;
 import org.morm.query.IQueryObject;
+import org.morm.query.MutableQueryObject;
 import org.morm.query.QueryObject;
 import org.morm.record.compo.ManyToOne;
 import org.morm.record.compo.OneToMany;
 import org.morm.record.field.Field;
 import org.morm.record.field.FieldDef;
 import org.morm.session.SessionFactory;
-
-import java.util.List;
 
 //TODO té sentit un TxInterceptor?
 public class Entity extends BaseEntity {
@@ -83,42 +84,38 @@ public class Entity extends BaseEntity {
 		return DataMapper.query(mapper, query);
 	}
 
-	// private int psqlStatement(final QueryObject query) {
-	// log.fine("sqlStatement()");
-	// return DataMapper.update(query);
-	// }
-
 	private <T extends Entity> List<T> ploadByColumn(final Class<T> entityClass, final String column,
 			final Object value) {
-		log.fine("loadByColumn(" + column + "=" + value + ")");
-		final IQueryObject query = new QueryObject()
-		/**/.append("SELECT * FROM ")
-		/**/.append(getTableName())
-		/**/.append(" WHERE ")
-		// TODO multipart
-				// /**/.append(column)
-				// /**/.append("=?")
-				/**/.append("?=")
-				/**/.append(column)
-				/**/.addParams(value)
-		/**/;
+
 		final IRowMapper<T> mapper = getRowMapper();
+
+		if (!SingletonFactory.queryIsDefined(getClass(), "ploadByColumn")) {
+			MutableQueryObject query = new MutableQueryObject(new QueryObject()
+			/**/.append("SELECT * FROM ")
+			/**/.append(getTableName())
+			/**/.append(" WHERE ")
+			/**/.append("?="));
+			SingletonFactory.querySet(getClass(), "ploadByColumn", query);
+		}
+		IQueryObject query = SingletonFactory.queryGet(getClass(), "ploadByColumn").mutate(column, value);
+
 		return DataMapper.query(mapper, query);
 	}
 
 	private <T extends Entity> T ploadById(final Class<T> entityClass, final Object id) {
 		log.fine("loadById(" + id + ")");
-		final IQueryObject query = new QueryObject()
-		/**/.append("SELECT * FROM ")
-		/**/.append(getTableName())
-		/**/.append(" WHERE ")
-		// /**/.append(getIdField().getColumnName())
-				// /**/.append("=?")
-				/**/.append("?=")
-				// TODO multipart
-				/**/.append(getIdField().getColumnName())
-				/**/.addParams(id)
-		/**/;
+
+		if (!SingletonFactory.queryIsDefined(getClass(), "ploadById")) {
+			MutableQueryObject query = new MutableQueryObject(new QueryObject()
+			/**/.append("SELECT * FROM ")
+			/**/.append(getTableName())
+			/**/.append(" WHERE ")
+			/**/.append("?=")
+			/**/.append(getIdField().getColumnName()));
+			SingletonFactory.querySet(getClass(), "ploadById", query);
+		}
+		IQueryObject query = SingletonFactory.queryGet(getClass(), "ploadById").mutateParams(id);
+
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.queryUnique(mapper, query);
 	}
@@ -226,17 +223,21 @@ public class Entity extends BaseEntity {
 			getIdField().assignGeneratedValue();
 		}
 
-		final IQueryObject query = new QueryObject()
-		/**/.append("INSERT INTO ")
-		/**/.append(getTableName())
-		/**/.append(" (")
-		/**/.append(QueryGenUtils.columnNamesJoin(getFields()))
-		/**/.append(") VALUES (")
-		/**/.append(QueryGenUtils.parametersJoin(getFields()))
-		/**/.append(")")
-		// TODO multipart
-				/**/.addParams(QueryGenUtils.fieldValues(getFields()))
-		/**/;
+		if (!SingletonFactory.queryIsDefined(getClass(), "insert")) {
+			MutableQueryObject q = new MutableQueryObject(new QueryObject()
+			/**/.append("INSERT INTO ")
+			/**/.append(getTableName())
+			/**/.append(" (")
+			/**/.append(QueryGenUtils.columnNamesJoin(getFields()))
+			/**/.append(") VALUES (")
+			/**/.append(QueryGenUtils.parametersJoin(getFields()))
+			/**/.append(")"));
+			SingletonFactory.querySet(getClass(), "insert", q);
+		}
+
+		IQueryObject query = SingletonFactory.queryGet(getClass(), "insert").mutateParams(
+				QueryGenUtils.fieldValues(getFields()));
+
 		DataMapper.update(query);
 
 		if (!getIdField().generateBefore()) {
@@ -246,17 +247,21 @@ public class Entity extends BaseEntity {
 
 	private void update() {
 		log.fine("update()");
-		final IQueryObject query = new QueryObject()
-		/**/.append("UPDATE ")
-		/**/.append(getTableName())
-		/**/.append(" SET ")
-		/**/.append(QueryGenUtils.setColumnNamesExceptId(getIdField(), getFields()))
-		/**/.append(" WHERE ")
-		/**/.append(getIdField().getColumnName())
-		/**/.append("=?")
-		// TODO multipart
-				/**/.addParams(QueryGenUtils.fieldValuesIdLast(getIdField(), getFields()))
-		/**/;
+
+		if (!SingletonFactory.queryIsDefined(getClass(), "update")) {
+			final MutableQueryObject query = new MutableQueryObject(new QueryObject()
+			/**/.append("UPDATE ")
+			/**/.append(getTableName())
+			/**/.append(" SET ")
+			/**/.append(QueryGenUtils.setColumnNamesExceptId(getIdField(), getFields()))
+			/**/.append(" WHERE ")
+			/**/.append(getIdField().getColumnName())
+			/**/.append("=?"));
+			SingletonFactory.querySet(getClass(), "update", query);
+		}
+		IQueryObject query = SingletonFactory.queryGet(getClass(), "update").mutateParams(
+				QueryGenUtils.fieldValuesIdLast(getIdField(), getFields()));
+
 		final int affectedRows = DataMapper.update(query);
 		if (affectedRows > 1) {
 			throw new SormException("updated more than 1 row");
