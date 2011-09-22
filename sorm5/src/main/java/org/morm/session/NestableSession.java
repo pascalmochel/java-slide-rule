@@ -26,7 +26,6 @@ public class NestableSession implements ISession {
 	protected final IdentityMap<Entity> identityMap = new IdentityMap<Entity>();
 	protected final StoredSet storedSet = new StoredSet();
 
-	// XXX i readOnly transactions? open-commit i open-close
 	/**
 	 * C'tor
 	 * 
@@ -129,7 +128,7 @@ public class NestableSession implements ISession {
 		}
 	}
 
-	public void closeReadOnly() {
+	public void closeAsReadOnly() {
 		if (connection == null) {
 			throw new SormException("null connection; transaction not opened");
 		}

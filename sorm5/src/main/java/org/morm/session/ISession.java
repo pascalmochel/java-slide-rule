@@ -16,7 +16,7 @@ public interface ISession {
 
 	void rollback();
 
-	void closeReadOnly();
+	void closeAsReadOnly();
 
 	boolean isTransactionActive();
 

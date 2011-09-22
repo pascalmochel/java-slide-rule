@@ -45,10 +45,14 @@ public class CriteriaTest {
 
 	@After
 	public void after() {
-		SessionFactory.getSession().open();
-		DataMapper.executeDDL("DROP TABLE RABBIT");
-		DataMapper.executeDDL("DROP TABLE DOG");
-		SessionFactory.getSession().commit();
+		try {
+			SessionFactory.getSession().open();
+			DataMapper.executeDDL("DROP TABLE RABBIT");
+			DataMapper.executeDDL("DROP TABLE DOG");
+			SessionFactory.getSession().commit();
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test

@@ -27,12 +27,6 @@ import org.morm.test.EntityTest2;
 
 import static org.junit.Assert.*;
 
-/**
- * verifica exhaustivament la possibilitat de transaccions anidades, i de la
- * propagació d'excepcions que causa el rollback massiu.
- * 
- * @author lechouga
- */
 public class NestedTransactionsTest {
 
 	static {
@@ -117,9 +111,11 @@ public class NestedTransactionsTest {
 	public void testMachine(final String symbolProgram) {
 
 		try {
+			SessionFactory.getSession().open();
 			for (int i = 0; i < symbolProgram.length(); i++) {
 				execSymbol(symbolProgram.charAt(i));
 			}
+			SessionFactory.getSession().rollback();
 		} catch (final Exception e) {
 			throw new SormException("in program: " + symbolProgram, e);
 		}
@@ -131,7 +127,6 @@ public class NestedTransactionsTest {
 			SessionFactory.getSession().open();
 			break;
 		case '+':
-			// cityDao.create(new City(null, "city2"));
 			new Dog(null, "jou", 29).store();
 			break;
 		case '}':

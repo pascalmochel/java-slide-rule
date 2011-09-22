@@ -90,14 +90,15 @@ public class Entity extends BaseEntity {
 		final IRowMapper<T> mapper = getRowMapper();
 
 		if (!SingletonFactory.queryIsDefined(getClass(), "ploadByColumn")) {
-			MutableQueryObject query = new MutableQueryObject(new QueryObject()
+			final MutableQueryObject query = new MutableQueryObject(new QueryObject()
 			/**/.append("SELECT * FROM ")
 			/**/.append(getTableName())
 			/**/.append(" WHERE ")
 			/**/.append("?="));
 			SingletonFactory.querySet(getClass(), "ploadByColumn", query);
 		}
-		IQueryObject query = SingletonFactory.queryGet(getClass(), "ploadByColumn").mutate(column, value);
+		final IQueryObject query = SingletonFactory.queryGet(getClass(), "ploadByColumn").mutate(column,
+				value);
 
 		return DataMapper.query(mapper, query);
 	}
@@ -106,7 +107,7 @@ public class Entity extends BaseEntity {
 		log.fine("loadById(" + id + ")");
 
 		if (!SingletonFactory.queryIsDefined(getClass(), "ploadById")) {
-			MutableQueryObject query = new MutableQueryObject(new QueryObject()
+			final MutableQueryObject query = new MutableQueryObject(new QueryObject()
 			/**/.append("SELECT * FROM ")
 			/**/.append(getTableName())
 			/**/.append(" WHERE ")
@@ -114,7 +115,7 @@ public class Entity extends BaseEntity {
 			/**/.append(getIdField().getColumnName()));
 			SingletonFactory.querySet(getClass(), "ploadById", query);
 		}
-		IQueryObject query = SingletonFactory.queryGet(getClass(), "ploadById").mutateParams(id);
+		final IQueryObject query = SingletonFactory.queryGet(getClass(), "ploadById").mutateParams(id);
 
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.queryUnique(mapper, query);
@@ -136,8 +137,7 @@ public class Entity extends BaseEntity {
 		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
-		// TODO multipart
-				/**/.append(cs.renderQuery())
+		/**/.append(cs.renderQuery())
 		/**/;
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.query(mapper, query);
@@ -159,8 +159,7 @@ public class Entity extends BaseEntity {
 		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
-		// TODO multipart
-				/**/.append(cs.renderQuery())
+		/**/.append(cs.renderQuery())
 		/**/;
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.queryUnique(mapper, query);
@@ -224,7 +223,7 @@ public class Entity extends BaseEntity {
 		}
 
 		if (!SingletonFactory.queryIsDefined(getClass(), "insert")) {
-			MutableQueryObject q = new MutableQueryObject(new QueryObject()
+			final MutableQueryObject q = new MutableQueryObject(new QueryObject()
 			/**/.append("INSERT INTO ")
 			/**/.append(getTableName())
 			/**/.append(" (")
@@ -235,7 +234,7 @@ public class Entity extends BaseEntity {
 			SingletonFactory.querySet(getClass(), "insert", q);
 		}
 
-		IQueryObject query = SingletonFactory.queryGet(getClass(), "insert").mutateParams(
+		final IQueryObject query = SingletonFactory.queryGet(getClass(), "insert").mutateParams(
 				QueryGenUtils.fieldValues(getFields()));
 
 		DataMapper.update(query);
@@ -259,7 +258,7 @@ public class Entity extends BaseEntity {
 			/**/.append("=?"));
 			SingletonFactory.querySet(getClass(), "update", query);
 		}
-		IQueryObject query = SingletonFactory.queryGet(getClass(), "update").mutateParams(
+		final IQueryObject query = SingletonFactory.queryGet(getClass(), "update").mutateParams(
 				QueryGenUtils.fieldValuesIdLast(getIdField(), getFields()));
 
 		final int affectedRows = DataMapper.update(query);
@@ -277,16 +276,19 @@ public class Entity extends BaseEntity {
 				}
 			}
 		}
-		log.fine("delete()");
-		final IQueryObject query = new QueryObject()
-		/**/.append("DELETE FROM ")
-		/**/.append(getTableName())
-		/**/.append(" WHERE ")
-		/**/.append(getIdField().getColumnName())
-		/**/.append("=?")
-		// TODO multipart
-				/**/.addParams(getIdField().getValue())
-		/**/;
+
+		if (!SingletonFactory.queryIsDefined(getClass(), "delete")) {
+			final MutableQueryObject query = new MutableQueryObject(new QueryObject()
+			/**/.append("DELETE FROM ")
+			/**/.append(getTableName())
+			/**/.append(" WHERE ")
+			/**/.append(getIdField().getColumnName())
+			/**/.append("=?"));
+			SingletonFactory.querySet(getClass(), "delete", query);
+		}
+		final IQueryObject query = SingletonFactory.queryGet(getClass(), "delete").mutateParams(
+				getIdField().getValue());
+
 		DataMapper.update(query);
 	}
 
@@ -303,8 +305,7 @@ public class Entity extends BaseEntity {
 		final IQueryObject query = new QueryObject()
 		/**/.append("DELETE FROM ")
 		/**/.append(getTableName())
-		// TODO multipart
-				/**/.append(criterion.renderQuery())
+		/**/.append(criterion.renderQuery())
 		/**/;
 		DataMapper.update(query);
 	}
@@ -314,8 +315,7 @@ public class Entity extends BaseEntity {
 		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT COUNT(*) FROM ")
 		/**/.append(SingletonFactory.getEntity(c).getTableName())
-		// TODO multipart
-				/**/.append(criterion.renderQuery())
+		/**/.append(criterion.renderQuery())
 		/**/;
 		return DataMapper.aggregate(query).longValue();
 	}

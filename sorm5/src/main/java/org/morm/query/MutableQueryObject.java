@@ -30,6 +30,7 @@ public class MutableQueryObject implements IQueryObject {
 	public MutableQueryObject mutate(final String query, final Object... params) {
 		return new MutableQueryObject(this.query + query, new LinkedList<Object>(Arrays.asList(params)));
 	}
+
 	public MutableQueryObject mutateParams(final Object... params) {
 		return new MutableQueryObject(this.query, new LinkedList<Object>(Arrays.asList(params)));
 	}
