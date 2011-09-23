@@ -68,7 +68,7 @@ public class BaseEntity {
 	}
 
 	protected void registerManyToOnes(final ManyToOne<?, ?>... manyToOnes) {
-		for (final ManyToOne<?, ?> manyToOne : manyToOnes) {
+		for (ManyToOne<?, ?> manyToOne : manyToOnes) {
 			final ManyToOne<?, ?> c = manyToOne.doCloneCollaboration();
 			this.manyToOnes.add(c);
 			if (this.fields.containsKey(c.getColumnName())) {
@@ -93,40 +93,24 @@ public class BaseEntity {
 	@SuppressWarnings("unchecked")
 	protected <T> void set(final FieldDef<T> fieldDef, final T value) {
 		final Field<T> self = (Field<T>) fields.get(fieldDef.getColumnName());
-		if (self == null) {
-			throw new SormException("regular field aliased as " + fieldDef.getColumnName()
-					+ " not defined in " + getClass().getName());
-		}
 		self.setValue(value);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <T> T get(final FieldDef<T> fieldDef) {
 		final Field<T> self = (Field<T>) fields.get(fieldDef.getColumnName());
-		if (self == null) {
-			throw new SormException("regular field aliased as " + fieldDef.getColumnName()
-					+ " not defined in " + getClass().getName());
-		}
 		return self.getValue();
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <T extends Enum<T>> T getEnum(final FEnum<T> enumField) {
 		final FEnum<T> self = (FEnum<T>) fields.get(enumField.getColumnName());
-		if (self == null) {
-			throw new SormException("enum field aliased as " + enumField.getColumnName() + " not defined in "
-					+ getClass().getName());
-		}
 		return self.getEnumValue();
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <T extends Enum<T>> void setEnum(final FEnum<T> enumField, final T value) {
 		final FEnum<T> self = (FEnum<T>) fields.get(enumField.getColumnName());
-		if (self == null) {
-			throw new SormException("enum field aliased as " + enumField.getColumnName() + " not defined in "
-					+ getClass().getName());
-		}
 		self.setEnumValue(value);
 	}
 
@@ -134,20 +118,12 @@ public class BaseEntity {
 	protected <TID, E extends Entity> void setCollaboration(final ManyToOne<TID, E> manyToOneField,
 			final E value) {
 		final ManyToOne<TID, E> self = (ManyToOne<TID, E>) fields.get(manyToOneField.getColumnName());
-		if (self == null) {
-			throw new SormException("manyToOne field aliased as " + manyToOneField.getColumnName()
-					+ " not defined in " + getClass().getName());
-		}
 		self.setCollaboration(value);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <TID, E extends Entity> E getCollaboration(final ManyToOne<TID, E> manyToOneField) {
 		final ManyToOne<TID, E> self = (ManyToOne<TID, E>) fields.get(manyToOneField.getColumnName());
-		if (self == null) {
-			throw new SormException("manyToOne field aliased as " + manyToOneField.getColumnName()
-					+ " not defined in " + getClass().getName());
-		}
 		return self.getCollaboration();
 	}
 
@@ -155,19 +131,16 @@ public class BaseEntity {
 	protected <E extends Entity> void setCollaboration(final OneToMany<?, E> collaborableField,
 			final List<E> value) {
 		final OneToMany<?, E> self = (OneToMany<?, E>) oneToManies.get(collaborableField.getColumnName());
-		if (self == null) {
-			throw new SormException("field aliased as " + collaborableField.getColumnName()
-					+ " not defined in " + getClass().getName());
-		}
 		self.setCollaboration(value);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <E extends Entity> List<E> getCollaboration(final OneToMany<?, E> collaborableField) {
 		final OneToMany<?, E> self = (OneToMany<?, E>) oneToManies.get(collaborableField.getColumnName());
+		// FIXME
 		if (self == null) {
-			throw new SormException("field aliased as " + collaborableField.getColumnName()
-					+ " not defined in " + getClass().getName());
+			System.out.println(collaborableField + "/" + collaborableField.getColumnName()
+					+ " not found in: " + oneToManies);
 		}
 		return self.getCollaboration();
 	}

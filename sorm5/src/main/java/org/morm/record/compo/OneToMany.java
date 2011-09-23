@@ -48,6 +48,7 @@ public class OneToMany<TID, E extends Entity> {
 			// this.foreignEntity =
 			// SingletonFactory.getEntity(casterForeignEntityClass);
 			//
+			// // TODO aquesta QueryObject és constant, no cal construir-la cada
 			// // cop
 			// final IQueryObject q = new QueryObject()
 			// /**/.append("SELECT * FROM ")
@@ -69,7 +70,7 @@ public class OneToMany<TID, E extends Entity> {
 			SessionFactory.getSession().open();
 			this.collaboration = Entity.loadByColumn(foreignEntityClass, foreignFieldDef.getColumnName(),
 					selfIdFieldRef.getValue());
-			SessionFactory.getSession().closeAsReadOnly();
+			SessionFactory.getSession().closeReadOnly();
 
 			this.isInit = true;
 		}
