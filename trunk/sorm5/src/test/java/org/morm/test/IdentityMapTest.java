@@ -40,14 +40,10 @@ public class IdentityMapTest {
 
 	@After
 	public void after() {
-		try {
-			SessionFactory.getSession().open();
-			DataMapper.executeDDL("DROP TABLE RABBIT");
-			DataMapper.executeDDL("DROP TABLE DOG");
-			SessionFactory.getSession().commit();
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
+		SessionFactory.getSession().open();
+		DataMapper.executeDDL("DROP TABLE RABBIT");
+		DataMapper.executeDDL("DROP TABLE DOG");
+		SessionFactory.getSession().commit();
 	}
 
 	@Test

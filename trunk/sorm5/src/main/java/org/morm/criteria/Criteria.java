@@ -8,6 +8,7 @@ import org.morm.query.QueryObject;
 import org.morm.record.QueryGenUtils;
 import org.morm.record.field.FieldDef;
 
+// XXX deixar-ho a criterias manuals: afegir limitacio/windowing de rows de select (ROWNUM,LIMIT,...) pero depen del dialecte
 public class Criteria {
 
 	public static final String ORDER_ASC = "ASC";
