@@ -63,30 +63,30 @@ public class SingletonFactory {
 		return (IRowMapper<T>) mappersMap.get(c);
 	}
 
-	public static <T extends Entity> boolean queryIsDefined(final Class<T> c, String name) {
+	public static <T extends Entity> boolean queryIsDefined(final Class<T> c, final String name) {
 		final Map<Class<? extends Entity>, Map<String, MutableQueryObject>> entMap = threadLocalQueries.get();
 		if (!entMap.containsKey(c)) {
-			Map<String, MutableQueryObject> queriesMap = new HashMap<String, MutableQueryObject>();
+			final Map<String, MutableQueryObject> queriesMap = new HashMap<String, MutableQueryObject>();
 			entMap.put(c, queriesMap);
 			return false;
 		}
-		Map<String, MutableQueryObject> queriesMap = entMap.get(c);
+		final Map<String, MutableQueryObject> queriesMap = entMap.get(c);
 		return queriesMap.containsKey(name);
 	}
 
-	public static <T extends Entity> MutableQueryObject queryGet(final Class<T> c, String name) {
+	public static <T extends Entity> MutableQueryObject queryGet(final Class<T> c, final String name) {
 		final Map<Class<? extends Entity>, Map<String, MutableQueryObject>> entMap = threadLocalQueries.get();
-		Map<String, MutableQueryObject> queriesMap = entMap.get(c);
+		final Map<String, MutableQueryObject> queriesMap = entMap.get(c);
 		return queriesMap.get(name);
 	}
 
-	public static <T extends Entity> void querySet(final Class<T> c, String name, MutableQueryObject query) {
+	public static <T extends Entity> void querySet(final Class<T> c, final String name, final MutableQueryObject query) {
 		final Map<Class<? extends Entity>, Map<String, MutableQueryObject>> entMap = threadLocalQueries.get();
 		if (!entMap.containsKey(c)) {
-			Map<String, MutableQueryObject> queriesMap = new HashMap<String, MutableQueryObject>();
+			final Map<String, MutableQueryObject> queriesMap = new HashMap<String, MutableQueryObject>();
 			entMap.put(c, queriesMap);
 		}
-		Map<String, MutableQueryObject> queriesMap = entMap.get(c);
+		final Map<String, MutableQueryObject> queriesMap = entMap.get(c);
 		queriesMap.put(name, query);
 	}
 

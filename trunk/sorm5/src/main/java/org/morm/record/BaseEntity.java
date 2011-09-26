@@ -68,7 +68,7 @@ public class BaseEntity {
 	}
 
 	protected void registerManyToOnes(final ManyToOne<?, ?>... manyToOnes) {
-		for (ManyToOne<?, ?> manyToOne : manyToOnes) {
+		for (final ManyToOne<?, ?> manyToOne : manyToOnes) {
 			final ManyToOne<?, ?> c = manyToOne.doCloneCollaboration();
 			this.manyToOnes.add(c);
 			if (this.fields.containsKey(c.getColumnName())) {
@@ -93,24 +93,36 @@ public class BaseEntity {
 	@SuppressWarnings("unchecked")
 	protected <T> void set(final FieldDef<T> fieldDef, final T value) {
 		final Field<T> self = (Field<T>) fields.get(fieldDef.getColumnName());
+		if (self == null) {
+			throw new SormException(fieldDef.getColumnName() + "=" + fieldDef + " not found in: " + fields);
+		}
 		self.setValue(value);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <T> T get(final FieldDef<T> fieldDef) {
 		final Field<T> self = (Field<T>) fields.get(fieldDef.getColumnName());
+		if (self == null) {
+			throw new SormException(fieldDef.getColumnName() + "=" + fieldDef + " not found in: " + fields);
+		}
 		return self.getValue();
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <T extends Enum<T>> T getEnum(final FEnum<T> enumField) {
 		final FEnum<T> self = (FEnum<T>) fields.get(enumField.getColumnName());
+		if (self == null) {
+			throw new SormException(enumField.getColumnName() + "=" + enumField + " not found in: " + fields);
+		}
 		return self.getEnumValue();
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <T extends Enum<T>> void setEnum(final FEnum<T> enumField, final T value) {
 		final FEnum<T> self = (FEnum<T>) fields.get(enumField.getColumnName());
+		if (self == null) {
+			throw new SormException(enumField.getColumnName() + "=" + enumField + " not found in: " + fields);
+		}
 		self.setEnumValue(value);
 	}
 
@@ -118,12 +130,20 @@ public class BaseEntity {
 	protected <TID, E extends Entity> void setCollaboration(final ManyToOne<TID, E> manyToOneField,
 			final E value) {
 		final ManyToOne<TID, E> self = (ManyToOne<TID, E>) fields.get(manyToOneField.getColumnName());
+		if (self == null) {
+			throw new SormException(manyToOneField.getColumnName() + "=" + manyToOneField + " not found in: "
+					+ manyToOnes);
+		}
 		self.setCollaboration(value);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <TID, E extends Entity> E getCollaboration(final ManyToOne<TID, E> manyToOneField) {
 		final ManyToOne<TID, E> self = (ManyToOne<TID, E>) fields.get(manyToOneField.getColumnName());
+		if (self == null) {
+			throw new SormException(manyToOneField.getColumnName() + "=" + manyToOneField + " not found in: "
+					+ manyToOnes);
+		}
 		return self.getCollaboration();
 	}
 
@@ -131,15 +151,18 @@ public class BaseEntity {
 	protected <E extends Entity> void setCollaboration(final OneToMany<?, E> collaborableField,
 			final List<E> value) {
 		final OneToMany<?, E> self = (OneToMany<?, E>) oneToManies.get(collaborableField.getColumnName());
+		if (self == null) {
+			throw new SormException(collaborableField.getColumnName() + "=" + collaborableField
+					+ " not found in: " + oneToManies);
+		}
 		self.setCollaboration(value);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <E extends Entity> List<E> getCollaboration(final OneToMany<?, E> collaborableField) {
 		final OneToMany<?, E> self = (OneToMany<?, E>) oneToManies.get(collaborableField.getColumnName());
-		// FIXME
 		if (self == null) {
-			System.out.println(collaborableField + "/" + collaborableField.getColumnName()
+			throw new SormException(collaborableField.getColumnName() + "=" + collaborableField
 					+ " not found in: " + oneToManies);
 		}
 		return self.getCollaboration();

@@ -251,7 +251,7 @@ public class DataMapper {
 			if (pstm != null) {
 				pstm.close();
 			}
-		} catch (final Exception e2) { // NOPMD by mhoms on 9/7/11 10:41 PM
+		} catch (final Exception e2) { 
 			// XXX ?
 		}
 	}

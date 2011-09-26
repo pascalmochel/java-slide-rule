@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * 
  * @author mhoms
  */
-public class LogFactory {// NOPMD
+public class LogFactory {
 
 	private static final String ROOT_LOGGERNAME = "";
 
