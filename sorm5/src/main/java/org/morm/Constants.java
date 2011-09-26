@@ -2,7 +2,7 @@ package org.morm;
 
 public class Constants {
 
-	public static boolean SHOW_SQL = false;
-	public static boolean CASCADED_DELETE = true;
+	public static final boolean SHOW_SQL = false;
+	public static final boolean CASCADED_DELETE = true;
 
 }

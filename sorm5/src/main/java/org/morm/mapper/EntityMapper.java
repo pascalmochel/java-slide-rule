@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.morm.exception.SormException;
 import org.morm.record.Entity;
 import org.morm.record.field.Field;
+import org.morm.session.SessionFactory;
 
 public class EntityMapper implements IRowMapper<Entity> {
 
@@ -26,7 +27,8 @@ public class EntityMapper implements IRowMapper<Entity> {
 					throw new SormException("error mapping field: " + f.toString(), e);
 				}
 			}
-			return r;
+			return SessionFactory.getSession().getIdentityMap().loadOrStore(r);
+
 		} catch (final Exception e) {
 			throw new SormException("error mapping " + getClass().getSimpleName(), e);
 		}

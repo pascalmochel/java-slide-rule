@@ -15,13 +15,13 @@ public class MutableQueryObject implements IQueryObject {
 		this.params = new LinkedList<Object>();
 	}
 
-	public MutableQueryObject(IQueryObject query) {
+	public MutableQueryObject(final IQueryObject query) {
 		super();
 		this.query = query.getQuery();
 		this.params = query.getParamsList();
 	}
 
-	public MutableQueryObject(String query, List<Object> params) {
+	public MutableQueryObject(final String query, final List<Object> params) {
 		super();
 		this.query = query;
 		this.params = params;
@@ -30,6 +30,7 @@ public class MutableQueryObject implements IQueryObject {
 	public MutableQueryObject mutate(final String query, final Object... params) {
 		return new MutableQueryObject(this.query + query, new LinkedList<Object>(Arrays.asList(params)));
 	}
+
 	public MutableQueryObject mutateParams(final Object... params) {
 		return new MutableQueryObject(this.query, new LinkedList<Object>(Arrays.asList(params)));
 	}
