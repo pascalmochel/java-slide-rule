@@ -1,13 +1,14 @@
 package org.morm.record.compo;
 
 import org.morm.record.Entity;
+import org.morm.record.field.Clonable;
 import org.morm.record.field.FieldDef;
 import org.morm.record.identity.IdentityGenerator;
 import org.morm.session.SessionFactory;
 
 import java.util.List;
 
-public class OneToMany<TID, E extends Entity> {
+public class OneToMany<TID, E extends Entity> implements Clonable<OneToMany<TID, E>> {
 
 	protected IdentityGenerator<TID> selfIdFieldRef;
 	protected final Class<E> foreignEntityClass;
