@@ -38,7 +38,7 @@ public class DataMapper {
 			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
-			for (final Object p : query.getParams()) {
+			for (final Object p : query.getParamsList()) {
 				pstm.setObject(columnIndex++, p);
 			}
 
@@ -75,7 +75,7 @@ public class DataMapper {
 			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
-			for (final Object p : query.getParams()) {
+			for (final Object p : query.getParamsList()) {
 				pstm.setObject(columnIndex++, p);
 			}
 
@@ -109,7 +109,7 @@ public class DataMapper {
 			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
-			for (final Object p : query.getParams()) {
+			for (final Object p : query.getParamsList()) {
 				pstm.setObject(columnIndex++, p);
 			}
 
@@ -148,7 +148,7 @@ public class DataMapper {
 			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
-			for (final Object p : query.getParams()) {
+			for (final Object p : query.getParamsList()) {
 				pstm.setObject(columnIndex++, p);
 			}
 
@@ -185,7 +185,7 @@ public class DataMapper {
 			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
-			for (final Object p : query.getParams()) {
+			for (final Object p : query.getParamsList()) {
 				pstm.setObject(columnIndex++, p);
 			}
 
@@ -222,7 +222,7 @@ public class DataMapper {
 			pstm = c.prepareStatement(query.getQuery());
 
 			int columnIndex = 1;
-			for (final Object p : query.getParams()) {
+			for (final Object p : query.getParamsList()) {
 				pstm.setObject(columnIndex++, p);
 			}
 

@@ -44,10 +44,6 @@ public class QueryObject implements IQueryObject {
 		return query.toString();
 	}
 
-	public Object[] getParams() {
-		return params.toArray();
-	}
-
 	@Override
 	public String toString() {
 		return query + " -- " + params.toString();

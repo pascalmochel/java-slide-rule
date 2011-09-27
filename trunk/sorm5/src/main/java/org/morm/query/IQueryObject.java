@@ -6,8 +6,6 @@ public interface IQueryObject {
 
 	String getQuery();
 
-	Object[] getParams();
-
 	List<Object> getParamsList();
 
 }
