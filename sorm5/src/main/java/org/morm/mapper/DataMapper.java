@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import org.morm.exception.SormException;
 import org.morm.query.IQueryObject;
 import org.morm.record.Entity;
+import org.morm.record.field.Field;
 import org.morm.record.field.IdentifiableField;
 import org.morm.session.SessionFactory;
 
@@ -131,7 +132,7 @@ public class DataMapper {
 		}
 	}
 
-	public static void aggregateIdentityField(final IQueryObject query, final IdentifiableField<?> field) {
+	public static void aggregateIdentityField(final IdentifiableField<?> field, final IQueryObject query) {
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.fine(query.toString());
 		}
@@ -156,13 +157,49 @@ public class DataMapper {
 				throw new SormException("no row produced");
 			}
 			field.loadIdentity(rs);
-			// final Number r = (Number) rs.getObject(1);
 
 			if (rs.next()) {
 				throw new SormException("more than 1 row produced");
 			}
 
-			// return r;
+		} catch (final Exception e) {
+			throw new SormException("error in query: " + query, e);
+		} finally {
+			close(pstm, rs);
+		}
+	}
+
+	public static <T> T aggregate(final Field<T> field, final IQueryObject query) {
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine(query.toString());
+		}
+		if (SHOW_SQL) {
+			System.out.println(query.toString());
+		}
+
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		try {
+
+			final Connection c = SessionFactory.getSession().getConnection();
+			pstm = c.prepareStatement(query.getQuery());
+
+			int columnIndex = 1;
+			for (final Object p : query.getParams()) {
+				pstm.setObject(columnIndex++, p);
+			}
+
+			rs = pstm.executeQuery();
+			if (!rs.next()) {
+				throw new SormException("no row produced");
+			}
+			field.load(rs);
+
+			if (rs.next()) {
+				throw new SormException("more than 1 row produced");
+			}
+
+			return field.getValue();
 
 		} catch (final Exception e) {
 			throw new SormException("error in query: " + query, e);
@@ -251,7 +288,7 @@ public class DataMapper {
 			if (pstm != null) {
 				pstm.close();
 			}
-		} catch (final Exception e2) { 
+		} catch (final Exception e2) {
 			// XXX ?
 		}
 	}

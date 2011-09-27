@@ -9,11 +9,11 @@ public class MutableQueryObject implements IQueryObject {
 	protected final String query;
 	protected final List<Object> params;
 
-	public MutableQueryObject(final String query) {
-		super();
-		this.query = query;
-		this.params = new LinkedList<Object>();
-	}
+	// public MutableQueryObject(final String query) {
+	// super();
+	// this.query = query;
+	// this.params = new LinkedList<Object>();
+	// }
 
 	public MutableQueryObject(final IQueryObject query) {
 		super();
