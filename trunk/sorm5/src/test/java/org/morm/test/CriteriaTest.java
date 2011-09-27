@@ -106,6 +106,12 @@ public class CriteriaTest {
 			System.out.println(d6);
 			assertEquals(2, d6.size());
 
+			final List<Dog> d7 = loadBy(Dog.class, where(or(and(lt(Dog.age, 8), gt(Dog.age, 6)), eq(Dog.name,
+					"faria"))));
+			assertEquals(
+			/**/"[[ID_DOG=51, NAME=faria, AGE=9, [...]], [ID_DOG=53, NAME=blanca, AGE=7, [...]]]"
+			/**/, d7.toString());
+
 		} finally {
 			SessionFactory.getSession().rollback();
 		}
