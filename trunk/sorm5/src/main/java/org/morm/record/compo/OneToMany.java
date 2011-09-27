@@ -44,30 +44,6 @@ public class OneToMany<TID, E extends Entity> implements Clonable<OneToMany<TID,
 				return null;
 			}
 
-			// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
-			// final Class<E> casterForeignEntityClass = foreignEntityClass;
-			// this.foreignEntity =
-			// SingletonFactory.getEntity(casterForeignEntityClass);
-			//
-			// // TODO aquesta QueryObject és constant, no cal construir-la cada
-			// // cop
-			// final IQueryObject q = new QueryObject()
-			// /**/.append("SELECT * FROM ")
-			// /**/.append(foreignEntity.getTableName())
-			// /**/.append(" WHERE ")
-			// /**/.append(foreignFieldDef.getColumnName())
-			// /**/.append("=?")
-			// /**/.addParams(this.selfIdFieldRef.getValue())
-			// /**/;
-			// final IRowMapper<E> rowMapper =
-			// this.foreignEntity.getRowMapper();
-			// this.collaboration = DataMapper.query(rowMapper, q);
-			//
-			// this.collaboration = (List<E>)
-			// SessionFactory.getSession().getIdentityMap().loadOrStore(
-			// (List<Entity>) this.collaboration);
-			// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
-
 			SessionFactory.getSession().open();
 			this.collaboration = Entity.loadByColumn(foreignEntityClass, foreignFieldDef.getColumnName(),
 					selfIdFieldRef.getValue());
