@@ -56,32 +56,6 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 				return null;
 			}
 
-			// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
-			// final Class<? extends E> castedForeignEntityClass =
-			// foreignEntityClass;
-			// this.foreignEntity =
-			// SingletonFactory.getEntity(castedForeignEntityClass);
-			// this.foreignIdFieldColumnName =
-			// foreignEntity.getIdField().getColumnName();
-			//
-			// final IQueryObject q = new QueryObject()
-			// /**/.append("SELECT * FROM ")
-			// /**/.append(foreignEntity.getTableName())
-			// /**/.append(" WHERE ")
-			// /**/.append(foreignIdFieldColumnName)
-			// /**/.append("=?")
-			// /**/.addParams(selfFkField.getValue())
-			// /**/;
-			//
-			// final IRowMapper<E> rowMapper =
-			// this.foreignEntity.getRowMapper();
-			// this.collaboration = DataMapper.queryUnique(rowMapper, q);
-			//			
-			// this.collaboration = (E)
-			// SessionFactory.getSession().getIdentityMap().loadOrStore(
-			// this.collaboration);
-			// XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
-
 			SessionFactory.getSession().open();
 			this.collaboration = Entity.loadById(foreignEntityClass, selfFkField.getValue());
 			SessionFactory.getSession().closeReadOnly();
