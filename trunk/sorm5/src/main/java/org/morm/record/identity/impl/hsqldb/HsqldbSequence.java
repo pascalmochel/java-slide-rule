@@ -39,7 +39,7 @@ public class HsqldbSequence<T> extends IdentityGenerator<T> {
 	@Override
 	public void setGeneratedValue() {
 		try {
-			DataMapper.aggregateIdentityField(super.query, field);
+			DataMapper.aggregateIdentityField(field, super.query);
 		} catch (final Exception e) {
 			throw new SormException(ERROR_OBTAINING_IDENTITY_KEY + query, e);
 		}
