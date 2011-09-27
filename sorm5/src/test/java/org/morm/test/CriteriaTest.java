@@ -64,7 +64,10 @@ public class CriteriaTest {
 		DataMapper.executeDDL("INSERT INTO DOG (ID_DOG,NAME,AGE) VALUES (56,'chucho',3)");
 
 		try {
-			assertEquals(7, loadBy(Dog.class, all()).size());
+			assertEquals(7, loadBy(Dog.class).size());
+			assertEquals(7, loadAll(Dog.class).size());
+			assertEquals(5, loadBy(Dog.class, sqlClause("WHERE 1=1 LIMIT 5")).size());
+			assertEquals(4, loadBy(Dog.class, sqlClause("WHERE 1=1 LIMIT 5 OFFSET 3")).size());
 
 			final List<Dog> d1 = loadBy(Dog.class, where(in(Dog.name, "faria", "gossa")));
 			assertEquals(
@@ -77,7 +80,7 @@ public class CriteriaTest {
 			/**/"[[ID_DOG=54, NAME=negra, AGE=6, [...]]]"
 			/**/, d2.toString());
 
-			final List<Dog> d3 = loadBy(Dog.class, all(), orderBy(asc(Dog.age), asc(Dog.name)));
+			final List<Dog> d3 = loadBy(Dog.class, orderBy(asc(Dog.age), asc(Dog.name)));
 			assertEquals(
 			/**/"[[ID_DOG=56, NAME=chucho, AGE=3, [...]], " +
 			/**/"[ID_DOG=55, NAME=pelut, AGE=5, [...]], " +
@@ -99,7 +102,7 @@ public class CriteriaTest {
 			/**/"[[ID_DOG=50, NAME=din, AGE=10, [...]]]"
 			/**/, d5.toString());
 
-			final List<Dog> d6 = loadBy(Dog.class, custom("WHERE 1=1 LIMIT 2"));
+			final List<Dog> d6 = loadBy(Dog.class, sqlClause("WHERE 1=1 LIMIT 2"));
 			System.out.println(d6);
 			assertEquals(2, d6.size());
 

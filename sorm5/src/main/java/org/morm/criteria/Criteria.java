@@ -8,14 +8,11 @@ import org.morm.query.QueryObject;
 import org.morm.record.QueryGenUtils;
 import org.morm.record.field.FieldDef;
 
-// XXX deixar-ho a criterias manuals: afegir limitacio/windowing de rows de select (ROWNUM,LIMIT,...) pero depen del dialecte
+// XXX deixar-ho a criterias manuals: afegir limitacio/windowing de rows de select (ROWNUM,LIMIT,...)
+// pero depen del dialecte
 public class Criteria {
 
-	public static final String ORDER_ASC = "ASC";
-	public static final String ORDER_DESC = "DESC";
-
 	private Criteria() {
-
 	}
 
 	public static <T> Criterion eq(final FieldDef<T> field, final T value) {
@@ -118,7 +115,7 @@ public class Criteria {
 		};
 	}
 
-	public static Criterion custom(final String sqlPart) {
+	public static Criterion sqlClause(final String sqlPart) {
 		return new Criterion() {
 			public IQueryObject renderQuery() {
 				return new QueryObject(" " + sqlPart);

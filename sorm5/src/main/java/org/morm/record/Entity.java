@@ -112,7 +112,9 @@ public class Entity extends BaseEntity {
 
 		final Criterion cs;
 		if (criterions.length == 0) {
-			throw new SormException("this method requires almost one Criterion parameter");
+			// throw new
+			// SormException("this method requires almost one Criterion parameter");
+			cs = Criteria.all();
 		} else {
 			if (criterions.length == 1) {
 				cs = criterions[0];
