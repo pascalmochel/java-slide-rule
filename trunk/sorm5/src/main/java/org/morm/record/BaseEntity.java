@@ -24,6 +24,8 @@ public class BaseEntity {
 
 	private String tableName;
 
+	// FIXME implementar array única de fields en comptes de tanta Collection,
+	// com en ujorm
 	private IdentityGenerator<?> idField;
 	private final Map<String, Field<?>> fields;
 	private final Set<ManyToOne<?, ?>> manyToOnes;
