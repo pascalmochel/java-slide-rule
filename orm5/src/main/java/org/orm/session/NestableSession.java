@@ -12,6 +12,7 @@ import org.orm.session.identity.IdentityMap;
 import org.orm.session.identity.StoredSet;
 
 import java.util.Stack;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class NestableSession implements ISession {
@@ -51,7 +52,9 @@ public class NestableSession implements ISession {
 			try {
 				final Savepoint savePoint = connection.setSavepoint(savePointName);
 				txStack.push(savePoint);
-				LOG.finest("tx begin: " + savePointName);
+				if (LOG.isLoggable(Level.FINEST)) {
+					LOG.finest("tx begin: " + savePointName);
+				}
 			} catch (final SQLException exc) {
 				throw new OrmException(
 						"throwed exception attempting to establish a transaction savepoint: savePointName="
@@ -62,7 +65,9 @@ public class NestableSession implements ISession {
 				connection = dataSource.getConnection();
 				connection.setAutoCommit(false);
 				connection.setTransactionIsolation(transactionIsolation);
-				LOG.finest("tx begin");
+				if (LOG.isLoggable(Level.FINEST)) {
+					LOG.finest("tx begin");
+				}
 			} catch (final SQLException exc) {
 				throw new OrmException("throwed exception attempting to obtain a fresh connection", exc);
 			}
@@ -81,7 +86,9 @@ public class NestableSession implements ISession {
 		if (txStack.isEmpty()) {
 			try {
 				connection.commit();
-				LOG.finest("tx commit");
+				if (LOG.isLoggable(Level.FINEST)) {
+					LOG.finest("tx commit");
+				}
 				close();
 			} catch (final SQLException exc) {
 				throw new OrmException("throwed exception during transaction commit", exc);
@@ -92,7 +99,9 @@ public class NestableSession implements ISession {
 				final Savepoint savePoint = txStack.pop();
 				savePointName = savePoint.getSavepointName();
 				connection.releaseSavepoint(savePoint);
-				LOG.finest("tx commit: " + savePointName);
+				if (LOG.isLoggable(Level.FINEST)) {
+					LOG.finest("tx commit: " + savePointName);
+				}
 			} catch (final SQLException exc) {
 				throw new OrmException(
 						"throwed exception during transaction releaseSavepoint; savePointName:"
@@ -108,7 +117,9 @@ public class NestableSession implements ISession {
 		if (txStack.isEmpty()) {
 			try {
 				connection.rollback();
-				LOG.finest("tx rollback");
+				if (LOG.isLoggable(Level.FINEST)) {
+					LOG.finest("tx rollback");
+				}
 				close();
 			} catch (final SQLException exc) {
 				throw new OrmException("throwed exception during transaction rollback", exc);
@@ -119,7 +130,9 @@ public class NestableSession implements ISession {
 				final Savepoint savePoint = txStack.pop();
 				savePointName = savePoint.getSavepointName();
 				connection.rollback(savePoint);
-				LOG.finest("tx rollback: " + savePointName);
+				if (LOG.isLoggable(Level.FINEST)) {
+					LOG.finest("tx rollback: " + savePointName);
+				}
 			} catch (final SQLException exc) {
 				throw new OrmException("throwed exception during transaction rollback. savePointName="
 						+ savePointName, exc);
@@ -132,12 +145,16 @@ public class NestableSession implements ISession {
 			throw new OrmException("null connection; transaction not opened");
 		}
 		if (txStack.isEmpty()) {
-			LOG.finest("tx closeReadOnly");
+			if (LOG.isLoggable(Level.FINEST)) {
+				LOG.finest("tx closeReadOnly");
+			}
 			close();
 		} else {
 			final String savePointName = null;
 			txStack.pop();
-			LOG.finest("tx closeReadOnly: " + savePointName);
+			if (LOG.isLoggable(Level.FINEST)) {
+				LOG.finest("tx closeReadOnly: " + savePointName);
+			}
 		}
 	}
 
@@ -149,7 +166,9 @@ public class NestableSession implements ISession {
 		} catch (final SQLException exc) {
 			throw new OrmException("throwed exception closing connection", exc);
 		}
-		LOG.finest("tx closed");
+		if (LOG.isLoggable(Level.FINEST)) {
+			LOG.finest("tx closed");
+		}
 	}
 
 	public boolean isTransactionActive() {
