@@ -1,16 +1,16 @@
 package org.orm.record.compo;
 
+import org.orm.record.BaseEntity;
 import org.orm.record.Entity;
 import org.orm.record.field.Clonable;
 import org.orm.record.field.FieldDef;
-import org.orm.record.identity.IdentityGenerator;
 import org.orm.session.SessionFactory;
 
 import java.util.List;
 
 public class OneToMany<TID, E extends Entity> implements Clonable<OneToMany<TID, E>> {
 
-	protected IdentityGenerator<TID> selfIdFieldRef;
+	// protected IdentityGenerator<TID> selfIdFieldRef;
 	protected final Class<E> foreignEntityClass;
 	protected final FieldDef<TID> foreignFieldDef;
 	protected E foreignEntity;
@@ -23,30 +23,22 @@ public class OneToMany<TID, E extends Entity> implements Clonable<OneToMany<TID,
 		this.foreignFieldDef = foreignField;
 	}
 
-	public void setSelfIdFieldRef(final IdentityGenerator<TID> selfIdFieldRef) {
-		this.selfIdFieldRef = selfIdFieldRef;
-	}
-
-	public String getColumnName() {
-		return selfIdFieldRef.getColumnName();
-	}
-
 	public OneToMany<TID, E> doClone() {
 		final OneToMany<TID, E> r = new OneToMany<TID, E>(foreignEntityClass, foreignFieldDef);
-		// r.setSelfIdFieldRef(selfIdFieldRef);
 		return r;
 	}
 
-	public List<E> getCollaboration() {
+	public List<E> getCollaboration(final BaseEntity baseEntity) {
 		if (!isInit) {
-			if (selfIdFieldRef.getValue() == null) {
+			final Object selfIdFieldValue = baseEntity.getIdField().getValue();
+			if (selfIdFieldValue == null) {
 				this.isInit = true;
 				return null;
 			}
 
 			SessionFactory.getSession().open();
 			this.collaboration = Entity.loadByColumn(foreignEntityClass, foreignFieldDef.getColumnName(),
-					selfIdFieldRef.getValue());
+					selfIdFieldValue);
 			SessionFactory.getSession().closeReadOnly();
 
 			this.isInit = true;
@@ -62,7 +54,7 @@ public class OneToMany<TID, E extends Entity> implements Clonable<OneToMany<TID,
 	@Override
 	public String toString() {
 		return isInit ?
-		/**/(getCollaboration() == null ? "null" : getCollaboration().toString()) :
+		/**/(collaboration == null ? "null" : collaboration.toString()) :
 		/**/"[...]";
 	}
 
