@@ -12,7 +12,6 @@ import static org.junit.Assert.*;
 
 public class HibernateBenchmark {
 
-	@Before
 	public void beforeHibernateTest() throws Exception {
 
 		Class.forName("org.hsqldb.jdbcDriver");
@@ -25,7 +24,6 @@ public class HibernateBenchmark {
 				);
 	}
 
-	@Test
 	public void testname() throws Exception {
 
 		final HibernateDog d;
