@@ -12,6 +12,7 @@ import org.orm.record.field.FieldDef;
 // pero depen del dialecte
 public class Criteria {
 
+	// TODO per a un DSL collonut mirar: http://code.google.com/p/sql-dsl/
 	private Criteria() {
 	}
 
