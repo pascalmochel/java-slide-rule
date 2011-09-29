@@ -82,8 +82,10 @@ public class BaseEntity {
 
 	protected <TID> void registerOneToMany(final OneToMany<TID, ?> oneToMany) {
 		final IdentityGenerator<TID> idField = getIdField();
-		oneToMany.setSelfIdFieldRef(idField);
+		oneToMany.setSelfIdFieldRef(idField);// FIXME està assignat a un
+		// estàtic! Argh!
 		final OneToMany<TID, ?> c = oneToMany.doClone();
+		c.setSelfIdFieldRef(idField);// FIXME urgent!
 		if (this.oneToManies.containsKey(c.getColumnName())) {
 			throw new OrmException("duplicated column name: " + getClass().getName() + "#"
 					+ c.getColumnName());
