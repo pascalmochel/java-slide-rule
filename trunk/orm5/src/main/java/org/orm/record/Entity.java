@@ -1,6 +1,7 @@
 package org.orm.record;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import org.orm.criteria.Criteria;
 import org.orm.criteria.Criterion;
@@ -59,13 +60,17 @@ public class Entity extends BaseEntity {
 	}
 
 	private <T extends Entity> T ploadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
-		log.fine("loadUniqueByQuery(" + query + ")");
+		if (log.isLoggable(Level.FINE)) {
+			log.fine("loadUniqueByQuery(" + query + ")");
+		}
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.queryUnique(mapper, query);
 	}
 
 	private <T extends Entity> List<T> ploadByQuery(final Class<T> entityClass, final QueryObject query) {
-		log.fine("loadByQuery(" + query + ")");
+		if (log.isLoggable(Level.FINE)) {
+			log.fine("loadByQuery(" + query + ")");
+		}
 		final IRowMapper<T> mapper = getRowMapper();
 		return DataMapper.query(mapper, query);
 	}
@@ -90,7 +95,9 @@ public class Entity extends BaseEntity {
 	}
 
 	private <T extends Entity> T ploadById(final Class<T> entityClass, final Object id) {
-		log.fine("loadById(" + id + ")");
+		if (log.isLoggable(Level.FINE)) {
+			log.fine("loadById(" + id + ")");
+		}
 
 		if (!SingletonFactory.queryIsDefined(getClass(), "ploadById")) {
 			final MutableQueryObject query = new MutableQueryObject(new QueryObject()
@@ -108,7 +115,9 @@ public class Entity extends BaseEntity {
 	}
 
 	private <T extends Entity> List<T> ploadBy(final Class<T> entityClass, final Criterion... criterions) {
-		log.fine("loadBy(Criterion[])");
+		if (log.isLoggable(Level.FINE)) {
+			log.fine("loadBy(Criterion[])");
+		}
 
 		final Criterion cs;
 		if (criterions.length == 0) {
@@ -132,7 +141,9 @@ public class Entity extends BaseEntity {
 	}
 
 	private <T extends Entity> T ploadUniqueBy(final Class<T> entityClass, final Criterion... criterions) {
-		log.fine("loadBy(Criterion[])");
+		if (log.isLoggable(Level.FINE)) {
+			log.fine("loadBy(Criterion[])");
+		}
 
 		final Criterion cs;
 		if (criterions.length == 0) {
@@ -154,7 +165,9 @@ public class Entity extends BaseEntity {
 	}
 
 	private <T extends Entity> List<T> ploadAll(final Class<T> entityClass) {
-		log.fine("loadAll()");
+		if (log.isLoggable(Level.FINE)) {
+			log.fine("loadAll()");
+		}
 		final IQueryObject query = new QueryObject()
 		/**/.append("SELECT * FROM ")
 		/**/.append(getTableName())
@@ -205,7 +218,9 @@ public class Entity extends BaseEntity {
 
 	public void insert() {
 
-		log.fine("insert()");
+		if (log.isLoggable(Level.FINE)) {
+			log.fine("insert()");
+		}
 		if (getIdField().generateBefore()) {
 			getIdField().assignGeneratedValue();
 		}
@@ -233,7 +248,9 @@ public class Entity extends BaseEntity {
 	}
 
 	private void update() {
-		log.fine("update()");
+		if (log.isLoggable(Level.FINE)) {
+			log.fine("update()");
+		}
 
 		if (!SingletonFactory.queryIsDefined(getClass(), "update")) {
 			final MutableQueryObject query = new MutableQueryObject(new QueryObject()
@@ -264,7 +281,9 @@ public class Entity extends BaseEntity {
 				}
 			}
 		}
-		log.fine("delete()");
+		if (log.isLoggable(Level.FINE)) {
+			log.fine("delete()");
+		}
 		final IQueryObject query = new QueryObject()
 		/**/.append("DELETE FROM ")
 		/**/.append(getTableName())
@@ -285,7 +304,9 @@ public class Entity extends BaseEntity {
 				}
 			}
 		}
-		log.fine("delete(Criterion[])");
+		if (log.isLoggable(Level.FINE)) {
+			log.fine("delete(Criterion[])");
+		}
 		final IQueryObject query = new QueryObject()
 		/**/.append("DELETE FROM ")
 		/**/.append(getTableName())

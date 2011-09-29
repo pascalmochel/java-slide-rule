@@ -3,8 +3,6 @@ package benchmark.hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.junit.Before;
-import org.junit.Test;
 
 import benchmark.hibernate.utils.HibernateSessionFactory;
 import benchmark.hibernate.utils.PropertiesLoader;
