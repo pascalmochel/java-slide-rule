@@ -192,7 +192,7 @@ public class Entity extends BaseEntity {
 
 		for (final OneToMany<?, ?> c : getOneToManies().values()) {
 			if (c.getIsInit()) {
-				final List<? extends Entity> cs = c.getCollaboration();
+				final List<? extends Entity> cs = c.getCollaboration(this);
 				if (cs != null) {
 					for (final Entity e : cs) {
 						e.set(((Field<Object>) c.getForeignField()), getIdField().getValue());

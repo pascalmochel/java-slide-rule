@@ -12,7 +12,7 @@ public class B extends Entity {
 
 	public static IdentityGenerator<Integer> id = new HsqldbIdentity<Integer>(new FInteger("ID_B"));
 
-	public static OneToMany<Integer, AB> abs = new OneToMany<Integer, AB>(AB.class, AB.as);
+	public static OneToMany<Integer, AB> abs = new OneToMany<Integer, AB>(AB.class, AB.bs);
 
 	public B() {
 		registerIdField(id);

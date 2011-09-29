@@ -81,16 +81,15 @@ public class BaseEntity {
 	}
 
 	protected <TID> void registerOneToMany(final OneToMany<TID, ?> oneToMany) {
-		final IdentityGenerator<TID> idField = getIdField();
-		oneToMany.setSelfIdFieldRef(idField);// FIXME està assignat a un
-		// estàtic! Argh!
 		final OneToMany<TID, ?> c = oneToMany.doClone();
-		c.setSelfIdFieldRef(idField);// FIXME urgent!
-		if (this.oneToManies.containsKey(c.getColumnName())) {
-			throw new OrmException("duplicated column name: " + getClass().getName() + "#"
-					+ c.getColumnName());
+
+		final String columnName = idField.getColumnName(); // ei, de fet són la
+		// mateixa columna!
+
+		if (this.oneToManies.containsKey(columnName)) {
+			throw new OrmException("duplicated column name: " + getClass().getName() + "#" + columnName);
 		}
-		this.oneToManies.put(c.getColumnName(), c);
+		this.oneToManies.put(columnName, c);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -153,22 +152,26 @@ public class BaseEntity {
 	@SuppressWarnings("unchecked")
 	protected <E extends Entity> void setCollaboration(final OneToMany<?, E> collaborableField,
 			final List<E> value) {
-		final OneToMany<?, E> self = (OneToMany<?, E>) oneToManies.get(collaborableField.getColumnName());
+
+		final String columnName = idField.getColumnName(); // ei, de fet són la
+		// mateixa columna!
+		final OneToMany<?, E> self = (OneToMany<?, E>) oneToManies.get(columnName);
 		if (self == null) {
-			throw new OrmException(collaborableField.getColumnName() + "=" + collaborableField
-					+ " not found in: " + oneToManies);
+			throw new OrmException(columnName + "=" + collaborableField + " not found in: " + oneToManies);
 		}
 		self.setCollaboration(value);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <E extends Entity> List<E> getCollaboration(final OneToMany<?, E> collaborableField) {
-		final OneToMany<?, E> self = (OneToMany<?, E>) oneToManies.get(collaborableField.getColumnName());
+
+		final String columnName = idField.getColumnName(); // ei, de fet són la
+		// mateixa columna!
+		final OneToMany<?, E> self = (OneToMany<?, E>) oneToManies.get(columnName);
 		if (self == null) {
-			throw new OrmException(collaborableField.getColumnName() + "=" + collaborableField
-					+ " not found in: " + oneToManies);
+			throw new OrmException(columnName + "=" + collaborableField + " not found in: " + oneToManies);
 		}
-		return self.getCollaboration();
+		return self.getCollaboration(this);
 	}
 
 	public String getTableName() {

@@ -13,7 +13,6 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 
 	protected final Field<TID> selfFkField;
 	protected final Class<E> foreignEntityClass;
-	protected String foreignIdFieldColumnName;
 	protected E foreignEntity;
 
 	protected E collaboration;
