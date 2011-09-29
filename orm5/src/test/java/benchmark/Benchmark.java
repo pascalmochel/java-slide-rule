@@ -17,8 +17,8 @@ public class Benchmark {
 
 	@Test
 	public void testname() throws Exception {
-		final long t1 = testHibernate();
 		final long t2 = testOrm();
+		final long t1 = testHibernate();
 		final long max = Math.min(t1, t2);
 		System.out.println(t1 + "ns:" + t2 + "ns");
 		System.out.println(t1 / max + ":" + t2 / max);

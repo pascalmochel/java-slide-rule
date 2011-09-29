@@ -33,7 +33,7 @@ public class OneToMany<TID, E extends Entity> implements Clonable<OneToMany<TID,
 
 	public OneToMany<TID, E> doClone() {
 		final OneToMany<TID, E> r = new OneToMany<TID, E>(foreignEntityClass, foreignFieldDef);
-		r.setSelfIdFieldRef(selfIdFieldRef);
+		// r.setSelfIdFieldRef(selfIdFieldRef);
 		return r;
 	}
 
