@@ -15,7 +15,7 @@ public class EnumTest {
 
 	static {
 		new EntityTest2();
-		new SessionFactory().setDataSource(new HsqldbDataSourceFactory().getDataSource());
+		SessionFactory.setDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
 	@Before

@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class OrmBenchmark {
 
 	static {
-		new SessionFactory().setDataSource(new HsqldbDataSourceFactory().getDataSource());
+		SessionFactory.setDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
 	public void before() {
