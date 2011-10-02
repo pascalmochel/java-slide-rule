@@ -10,7 +10,6 @@ import java.util.List;
 
 public class OneToMany<TID, E extends Entity> implements Clonable<OneToMany<TID, E>> {
 
-	// protected IdentityGenerator<TID> selfIdFieldRef;
 	protected final Class<E> foreignEntityClass;
 	protected final FieldDef<TID> foreignFieldDef;
 	protected E foreignEntity;

@@ -8,8 +8,6 @@ import org.orm.query.QueryObject;
 import org.orm.record.QueryGenUtils;
 import org.orm.record.field.FieldDef;
 
-// XXX deixar-ho a criterias manuals: afegir limitacio/windowing de rows de select (ROWNUM,LIMIT,...)
-// pero depen del dialecte
 public class Criteria {
 
 	// TODO per a un DSL collonut mirar: http://code.google.com/p/sql-dsl/

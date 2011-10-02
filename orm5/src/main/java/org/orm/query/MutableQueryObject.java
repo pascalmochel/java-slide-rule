@@ -1,7 +1,7 @@
 package org.orm.query;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class MutableQueryObject implements IQueryObject {
@@ -22,11 +22,11 @@ public class MutableQueryObject implements IQueryObject {
 	}
 
 	public MutableQueryObject mutate(final String query, final Object... params) {
-		return new MutableQueryObject(this.query + query, new LinkedList<Object>(Arrays.asList(params)));
+		return new MutableQueryObject(this.query + query, new ArrayList<Object>(Arrays.asList(params)));
 	}
 
 	public MutableQueryObject mutateParams(final Object... params) {
-		return new MutableQueryObject(this.query, new LinkedList<Object>(Arrays.asList(params)));
+		return new MutableQueryObject(this.query, new ArrayList<Object>(Arrays.asList(params)));
 	}
 
 	public String getQuery() {
