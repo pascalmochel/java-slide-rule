@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class SequenceTest {
 
 	static {
-		new SessionFactory().setDataSource(new HsqldbDataSourceFactory().getDataSource());
+		SessionFactory.setDataSource(new HsqldbDataSourceFactory().getDataSource());
 		new EntityTest2();
 	}
 

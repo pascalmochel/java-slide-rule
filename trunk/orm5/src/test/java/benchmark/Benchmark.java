@@ -10,7 +10,7 @@ import benchmark.myorm.OrmBenchmark;
 public class Benchmark {
 
 	static {
-		new SessionFactory().setDataSource(new HsqldbDataSourceFactory().getDataSource());
+		SessionFactory.setDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
 	protected int N = 100;

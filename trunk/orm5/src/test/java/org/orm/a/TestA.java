@@ -16,7 +16,7 @@ public class TestA {
 
 	static {
 		new EntityTest2();
-		new SessionFactory().setDataSource(new HsqldbDataSourceFactory().getDataSource());
+		SessionFactory.setDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
 	@Test
