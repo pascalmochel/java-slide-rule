@@ -1,8 +1,5 @@
 package org.orm.record;
 
-import java.util.List;
-import java.util.logging.Level;
-
 import org.orm.criteria.Criteria;
 import org.orm.criteria.Criterion;
 import org.orm.exception.OrmException;
@@ -15,7 +12,11 @@ import org.orm.record.compo.ManyToOne;
 import org.orm.record.compo.OneToMany;
 import org.orm.record.field.Field;
 import org.orm.record.field.FieldDef;
+import org.orm.record.field.impl.primitive.FLong;
 import org.orm.session.SessionFactory;
+
+import java.util.List;
+import java.util.logging.Level;
 
 //TODO té sentit un TxInterceptor?
 public class Entity extends BaseEntity {
@@ -23,11 +24,11 @@ public class Entity extends BaseEntity {
 	public static final boolean CASCADED_DELETE = true;
 
 	public static <T extends Entity> T loadById(final Class<T> entityClass, final Object id) {
-		return SingletonFactory.getEntity(entityClass).ploadById(id);
+		return SingletonFactory.getEntity(entityClass).ploadById(entityClass, id);
 	}
 
 	public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
-		return SingletonFactory.getEntity(entityClass).ploadUniqueByQuery(query);
+		return SingletonFactory.getEntity(entityClass).ploadUniqueByQuery(entityClass, query);
 	}
 
 	public static <T extends Entity> List<T> loadBy(final Class<T> entityClass, final Criterion... criterions) {
@@ -35,7 +36,7 @@ public class Entity extends BaseEntity {
 	}
 
 	public static <T extends Entity> T loadUniqueBy(final Class<T> entityClass, final Criterion... criterions) {
-		return SingletonFactory.getEntity(entityClass).ploadUniqueBy(criterions);
+		return SingletonFactory.getEntity(entityClass).ploadUniqueBy(entityClass, criterions);
 	}
 
 	public static <T extends Entity> List<T> loadAll(final Class<T> entityClass) {
@@ -59,7 +60,7 @@ public class Entity extends BaseEntity {
 		return DataMapper.update(new QueryObject(query, params));
 	}
 
-	private <T extends Entity> T ploadUniqueByQuery(final QueryObject query) {
+	private <T extends Entity> T ploadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
 		if (log.isLoggable(Level.FINE)) {
 			log.fine("loadUniqueByQuery(" + query + ")");
 		}
@@ -93,7 +94,7 @@ public class Entity extends BaseEntity {
 		return DataMapper.query(mapper, query);
 	}
 
-	private <T extends Entity> T ploadById(final Object id) {
+	private <T extends Entity> T ploadById(final Class<T> entityClass, final Object id) {
 		if (log.isLoggable(Level.FINE)) {
 			log.fine("loadById(" + id + ")");
 		}
@@ -139,7 +140,7 @@ public class Entity extends BaseEntity {
 		return DataMapper.query(mapper, query);
 	}
 
-	private <T extends Entity> T ploadUniqueBy(final Criterion... criterions) {
+	private <T extends Entity> T ploadUniqueBy(final Class<T> entityClass, final Criterion... criterions) {
 		if (log.isLoggable(Level.FINE)) {
 			log.fine("loadBy(Criterion[])");
 		}
@@ -315,13 +316,15 @@ public class Entity extends BaseEntity {
 	}
 
 	public static <T extends Entity> Long count(final Class<T> c, final Criterion criterion) {
+		// if (log.isLoggable(Level.FINE)) {
 		// log.fine("count(Criterion[])");
+		// }
 		final IQueryObject query = new QueryObject()
-		/**/.append("SELECT COUNT(*) FROM ")
+		/**/.append("SELECT COUNT(*) AS VALUE FROM ")
 		/**/.append(SingletonFactory.getEntity(c).getTableName())
 		/**/.append(criterion.renderQuery())
 		/**/;
-		return DataMapper.aggregate(query).longValue();
+		return DataMapper.aggregate(new FLong("VALUE"), query);
 	}
 
 	@SuppressWarnings("unchecked")
