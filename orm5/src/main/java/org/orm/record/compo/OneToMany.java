@@ -23,8 +23,7 @@ public class OneToMany<TID, E extends Entity> implements Clonable<OneToMany<TID,
 	}
 
 	public OneToMany<TID, E> doClone() {
-		final OneToMany<TID, E> r = new OneToMany<TID, E>(foreignEntityClass, foreignFieldDef);
-		return r;
+		return new OneToMany<TID, E>(foreignEntityClass, foreignFieldDef);
 	}
 
 	public List<E> getCollaboration(final BaseEntity baseEntity) {
