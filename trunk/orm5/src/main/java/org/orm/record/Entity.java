@@ -23,32 +23,32 @@ public class Entity extends BaseEntity {
 	public static final boolean CASCADED_DELETE = true;
 
 	public static <T extends Entity> T loadById(final Class<T> entityClass, final Object id) {
-		return SingletonFactory.getEntity(entityClass).ploadById(entityClass, id);
+		return SingletonFactory.getEntity(entityClass).ploadById(id);
 	}
 
 	public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
-		return SingletonFactory.getEntity(entityClass).ploadUniqueByQuery(entityClass, query);
+		return SingletonFactory.getEntity(entityClass).ploadUniqueByQuery(query);
 	}
 
 	public static <T extends Entity> List<T> loadBy(final Class<T> entityClass, final Criterion... criterions) {
-		return SingletonFactory.getEntity(entityClass).ploadBy(entityClass, criterions);
+		return SingletonFactory.getEntity(entityClass).ploadBy(criterions);
 	}
 
 	public static <T extends Entity> T loadUniqueBy(final Class<T> entityClass, final Criterion... criterions) {
-		return SingletonFactory.getEntity(entityClass).ploadUniqueBy(entityClass, criterions);
+		return SingletonFactory.getEntity(entityClass).ploadUniqueBy(criterions);
 	}
 
 	public static <T extends Entity> List<T> loadAll(final Class<T> entityClass) {
-		return SingletonFactory.getEntity(entityClass).ploadAll(entityClass);
+		return SingletonFactory.getEntity(entityClass).ploadAll();
 	}
 
 	public static <T extends Entity> List<T> loadByQuery(final Class<T> entityClass, final QueryObject query) {
-		return SingletonFactory.getEntity(entityClass).ploadByQuery(entityClass, query);
+		return SingletonFactory.getEntity(entityClass).ploadByQuery(query);
 	}
 
 	public static <T extends Entity> List<T> loadByColumn(final Class<T> entityClass, final String column,
 			final Object value) {
-		return SingletonFactory.getEntity(entityClass).ploadByColumn(entityClass, column, value);
+		return SingletonFactory.getEntity(entityClass).ploadByColumn(column, value);
 	}
 
 	public static int sqlStatement(final QueryObject query) {
@@ -59,7 +59,7 @@ public class Entity extends BaseEntity {
 		return DataMapper.update(new QueryObject(query, params));
 	}
 
-	private <T extends Entity> T ploadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
+	private <T extends Entity> T ploadUniqueByQuery(final QueryObject query) {
 		if (log.isLoggable(Level.FINE)) {
 			log.fine("loadUniqueByQuery(" + query + ")");
 		}
@@ -67,7 +67,7 @@ public class Entity extends BaseEntity {
 		return DataMapper.queryUnique(mapper, query);
 	}
 
-	private <T extends Entity> List<T> ploadByQuery(final Class<T> entityClass, final QueryObject query) {
+	private <T extends Entity> List<T> ploadByQuery(final QueryObject query) {
 		if (log.isLoggable(Level.FINE)) {
 			log.fine("loadByQuery(" + query + ")");
 		}
@@ -75,8 +75,7 @@ public class Entity extends BaseEntity {
 		return DataMapper.query(mapper, query);
 	}
 
-	private <T extends Entity> List<T> ploadByColumn(final Class<T> entityClass, final String column,
-			final Object value) {
+	private <T extends Entity> List<T> ploadByColumn(final String column, final Object value) {
 
 		final IRowMapper<T> mapper = getRowMapper();
 
@@ -94,7 +93,7 @@ public class Entity extends BaseEntity {
 		return DataMapper.query(mapper, query);
 	}
 
-	private <T extends Entity> T ploadById(final Class<T> entityClass, final Object id) {
+	private <T extends Entity> T ploadById(final Object id) {
 		if (log.isLoggable(Level.FINE)) {
 			log.fine("loadById(" + id + ")");
 		}
@@ -114,7 +113,7 @@ public class Entity extends BaseEntity {
 		return DataMapper.queryUnique(mapper, query);
 	}
 
-	private <T extends Entity> List<T> ploadBy(final Class<T> entityClass, final Criterion... criterions) {
+	private <T extends Entity> List<T> ploadBy(final Criterion... criterions) {
 		if (log.isLoggable(Level.FINE)) {
 			log.fine("loadBy(Criterion[])");
 		}
@@ -140,7 +139,7 @@ public class Entity extends BaseEntity {
 		return DataMapper.query(mapper, query);
 	}
 
-	private <T extends Entity> T ploadUniqueBy(final Class<T> entityClass, final Criterion... criterions) {
+	private <T extends Entity> T ploadUniqueBy(final Criterion... criterions) {
 		if (log.isLoggable(Level.FINE)) {
 			log.fine("loadBy(Criterion[])");
 		}
@@ -164,7 +163,7 @@ public class Entity extends BaseEntity {
 		return DataMapper.queryUnique(mapper, query);
 	}
 
-	private <T extends Entity> List<T> ploadAll(final Class<T> entityClass) {
+	private <T extends Entity> List<T> ploadAll() {
 		if (log.isLoggable(Level.FINE)) {
 			log.fine("loadAll()");
 		}
