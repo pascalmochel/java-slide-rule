@@ -7,12 +7,14 @@ import org.orm.query.QueryObject;
 import org.orm.record.Entity;
 import org.orm.record.SingletonFactory;
 
-public class Crit implements Select, OrderBy {
+import java.util.List;
+
+public class Crit<T extends Entity> implements Where, OrderBy {
 
 	protected Entity entity;
 	protected final QueryObject q = new QueryObject();
 
-	public Select select(final Class<? extends Entity> entityClass) {
+	public Where where(final Class<T> entityClass) {
 		this.entity = SingletonFactory.getEntity(entityClass);
 		q.append("SELECT * FROM " + entity.getTableName());
 		return this;
@@ -41,6 +43,14 @@ public class Crit implements Select, OrderBy {
 	@Override
 	public IQueryObject renderQuery() {
 		return q;
+	}
+
+	public Entity getUnique() {
+		return null; // TODO
+	}
+
+	public List<Entity> get() {
+		return null; // TODO
 	}
 
 }
