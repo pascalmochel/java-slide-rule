@@ -14,11 +14,19 @@ public class CTest {
 	@Test
 	public void testname() throws Exception {
 
-		final IQueryObject r = new Crit().select(Dog.class).where(Criteria.eq(Dog.name, "din")).orderBy(
-				Order.asc(Dog.name), Order.desc(Dog.age)).renderQuery();
+		{
+			final IQueryObject r = new Crit().select(Dog.class).where(Criteria.eq(Dog.name, "din"))
+					.renderQuery();
 
-		assertEquals("SELECT * FROM DOG WHERE NAME=? ORDER BY NAME ASC,AGE DESC -- [din]", r.toString());
+			assertEquals("SELECT * FROM DOG WHERE NAME=? -- [din]", r.toString());
+		}
+		// //////
+		{
+			final IQueryObject r = new Crit().select(Dog.class).where(Criteria.eq(Dog.name, "din")).orderBy(
+					Order.asc(Dog.name), Order.desc(Dog.age)).renderQuery();
 
+			assertEquals("SELECT * FROM DOG WHERE NAME=? ORDER BY NAME ASC,AGE DESC -- [din]", r.toString());
+		}
 	}
 
 }

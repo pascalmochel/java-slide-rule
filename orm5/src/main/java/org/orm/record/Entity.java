@@ -52,7 +52,7 @@ public class Entity extends BaseEntity {
 		return SingletonFactory.getEntity(entityClass).ploadByColumn(column, value);
 	}
 
-	public static int sqlStatement(final QueryObject query) {
+	public static int sqlStatement(final IQueryObject query) {
 		return DataMapper.update(query);
 	}
 
