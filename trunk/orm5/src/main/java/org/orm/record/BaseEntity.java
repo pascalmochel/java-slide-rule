@@ -48,11 +48,12 @@ public class BaseEntity {
 					+ idField.getColumnName());
 		}
 
-		final IdentityGenerator<?> id = idField.doCloneId();
+		final IdentityGenerator<?> id = idField.doClone();
 		this.idField = id;
 
 		if (this.fields.containsKey(id.getColumnName())) {
-			throw new OrmException("duplicated column name: " + getClass().getName() + "#" + id.getColumnName());
+			throw new OrmException("duplicated column name: " + getClass().getName() + "#"
+					+ id.getColumnName());
 		}
 		this.fields.put(id.getColumnName(), id);
 	}
@@ -60,7 +61,8 @@ public class BaseEntity {
 	protected void registerFields(final FieldDef<?>... fs) {
 		for (final FieldDef<?> f : fs) {
 			if (this.fields.containsKey(f.getColumnName())) {
-				throw new OrmException("duplicated column name: " + getClass().getName() + "#" + f.getColumnName());
+				throw new OrmException("duplicated column name: " + getClass().getName() + "#"
+						+ f.getColumnName());
 			}
 			this.fields.put(f.getColumnName(), f.doClone());
 		}
@@ -71,7 +73,8 @@ public class BaseEntity {
 			final ManyToOne<?, ?> c = manyToOne.doClone();
 			this.manyToOnes.add(c);
 			if (this.fields.containsKey(c.getColumnName())) {
-				throw new OrmException("duplicated column name: " + getClass().getName() + "#" + c.getColumnName());
+				throw new OrmException("duplicated column name: " + getClass().getName() + "#"
+						+ c.getColumnName());
 			}
 			this.fields.put(c.getColumnName(), c);
 		}
@@ -127,7 +130,8 @@ public class BaseEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <TID, E extends Entity> void setCollaboration(final ManyToOne<TID, E> manyToOneField, final E value) {
+	protected <TID, E extends Entity> void setCollaboration(final ManyToOne<TID, E> manyToOneField,
+			final E value) {
 		final ManyToOne<TID, E> self = (ManyToOne<TID, E>) fields.get(manyToOneField.getColumnName());
 		if (self == null) {
 			throw new OrmException(manyToOneField.getColumnName() + "=" + manyToOneField + " not found in: "
@@ -147,7 +151,8 @@ public class BaseEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <E extends Entity> void setCollaboration(final OneToMany<?, E> collaborableField, final List<E> value) {
+	protected <E extends Entity> void setCollaboration(final OneToMany<?, E> collaborableField,
+			final List<E> value) {
 
 		final String columnName = idField.getColumnName(); // ei, de fet són la
 		// mateixa columna!

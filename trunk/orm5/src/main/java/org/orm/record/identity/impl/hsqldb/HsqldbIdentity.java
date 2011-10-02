@@ -33,7 +33,7 @@ public class HsqldbIdentity<T> extends IdentityGenerator<T> {
 	}
 
 	@Override
-	public IdentityGenerator<T> doCloneId() {
+	public IdentityGenerator<T> doClone() {
 		return new HsqldbIdentity<T>((IdentifiableField<T>) field.doClone());
 	}
 

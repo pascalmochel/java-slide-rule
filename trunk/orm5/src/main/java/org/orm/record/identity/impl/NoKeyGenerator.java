@@ -26,7 +26,7 @@ public class NoKeyGenerator<T> extends IdentityGenerator<T> {
 	}
 
 	@Override
-	public IdentityGenerator<T> doCloneId() {
+	public IdentityGenerator<T> doClone() {
 		return new NoKeyGenerator<T>((IdentifiableField<T>) field.doClone());
 	}
 
