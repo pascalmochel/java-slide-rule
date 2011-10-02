@@ -3,7 +3,6 @@ package org.orm.record.identity;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.orm.exception.OrmException;
 import org.orm.query.IQueryObject;
 import org.orm.record.field.Field;
 import org.orm.record.field.IdentifiableField;
@@ -36,6 +35,8 @@ public abstract class IdentityGenerator<T> extends Field<T> {
 
 	public abstract boolean generateBefore();
 
+	public abstract IdentityGenerator<T> doClone();
+
 	@Override
 	public T getValue() {
 		return field.getValue();
@@ -45,12 +46,6 @@ public abstract class IdentityGenerator<T> extends Field<T> {
 	public void setValue(final T value) {
 		field.setValue(value);
 	}
-
-	public Field<T> doClone() {
-		throw new OrmException("internal error, invoking " + getClass() + "#doClone()");
-	}
-
-	public abstract IdentityGenerator<T> doCloneId();
 
 	@Override
 	public void load(final ResultSet rs) throws SQLException {

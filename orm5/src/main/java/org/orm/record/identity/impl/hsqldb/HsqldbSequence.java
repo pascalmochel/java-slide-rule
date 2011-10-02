@@ -40,7 +40,7 @@ public class HsqldbSequence<T> extends IdentityGenerator<T> {
 	}
 
 	@Override
-	public IdentityGenerator<T> doCloneId() {
+	public IdentityGenerator<T> doClone() {
 		return new HsqldbSequence<T>((IdentifiableField<T>) field.doClone(), sequenceName);
 	}
 
