@@ -93,45 +93,6 @@ public class DataMapper {
 		}
 	}
 
-	public static Number aggregate(final IQueryObject query) {
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.fine(query.toString());
-		}
-		if (SHOW_SQL) {
-			System.out.println(query.toString());
-		}
-
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		try {
-
-			final Connection c = SessionFactory.getSession().getConnection();
-			pstm = c.prepareStatement(query.getQuery());
-
-			int columnIndex = 1;
-			for (final Object p : query.getParamsList()) {
-				pstm.setObject(columnIndex++, p);
-			}
-
-			rs = pstm.executeQuery();
-			if (!rs.next()) {
-				throw new OrmException("no row produced");
-			}
-			final Number r = (Number) rs.getObject(1);
-
-			if (rs.next()) {
-				throw new OrmException("more than 1 row produced");
-			}
-
-			return r;
-
-		} catch (final Exception e) {
-			throw new OrmException("error in query: " + query, e);
-		} finally {
-			close(pstm, rs);
-		}
-	}
-
 	public static void aggregateIdentityField(final IdentifiableField<?> field, final IQueryObject query) {
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.fine(query.toString());
