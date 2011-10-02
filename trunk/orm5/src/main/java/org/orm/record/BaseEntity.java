@@ -1,13 +1,5 @@
 package org.orm.record;
 
-import org.orm.exception.OrmException;
-import org.orm.record.compo.ManyToOne;
-import org.orm.record.compo.OneToMany;
-import org.orm.record.field.Field;
-import org.orm.record.field.FieldDef;
-import org.orm.record.field.impl.FEnum;
-import org.orm.record.identity.IdentityGenerator;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,6 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+
+import org.orm.exception.OrmException;
+import org.orm.record.compo.ManyToOne;
+import org.orm.record.compo.OneToMany;
+import org.orm.record.field.Field;
+import org.orm.record.field.FieldDef;
+import org.orm.record.field.impl.FEnum;
+import org.orm.record.identity.IdentityGenerator;
 
 public class BaseEntity {
 
@@ -33,9 +33,9 @@ public class BaseEntity {
 	public BaseEntity() {
 		super();
 		this.tableName = getClass().getSimpleName().toUpperCase();
-		this.fields = new LinkedHashMap<String, Field<?>>();
-		this.manyToOnes = new HashSet<ManyToOne<?, ?>>();
-		this.oneToManies = new HashMap<String, OneToMany<?, ?>>();
+		this.fields = new LinkedHashMap<String, Field<?>>(5);
+		this.manyToOnes = new HashSet<ManyToOne<?, ?>>(2);
+		this.oneToManies = new HashMap<String, OneToMany<?, ?>>(2);
 	}
 
 	protected void setTableName(final String tableName) {
@@ -52,8 +52,7 @@ public class BaseEntity {
 		this.idField = id;
 
 		if (this.fields.containsKey(id.getColumnName())) {
-			throw new OrmException("duplicated column name: " + getClass().getName() + "#"
-					+ id.getColumnName());
+			throw new OrmException("duplicated column name: " + getClass().getName() + "#" + id.getColumnName());
 		}
 		this.fields.put(id.getColumnName(), id);
 	}
@@ -61,8 +60,7 @@ public class BaseEntity {
 	protected void registerFields(final FieldDef<?>... fs) {
 		for (final FieldDef<?> f : fs) {
 			if (this.fields.containsKey(f.getColumnName())) {
-				throw new OrmException("duplicated column name: " + getClass().getName() + "#"
-						+ f.getColumnName());
+				throw new OrmException("duplicated column name: " + getClass().getName() + "#" + f.getColumnName());
 			}
 			this.fields.put(f.getColumnName(), f.doClone());
 		}
@@ -70,21 +68,21 @@ public class BaseEntity {
 
 	protected void registerManyToOnes(final ManyToOne<?, ?>... manyToOnes) {
 		for (final ManyToOne<?, ?> manyToOne : manyToOnes) {
-			final ManyToOne<?, ?> c = manyToOne.doCloneCollaboration();
+			final ManyToOne<?, ?> c = manyToOne.doClone();
 			this.manyToOnes.add(c);
 			if (this.fields.containsKey(c.getColumnName())) {
-				throw new OrmException("duplicated column name: " + getClass().getName() + "#"
-						+ c.getColumnName());
+				throw new OrmException("duplicated column name: " + getClass().getName() + "#" + c.getColumnName());
 			}
 			this.fields.put(c.getColumnName(), c);
 		}
 	}
 
 	protected <TID> void registerOneToMany(final OneToMany<TID, ?> oneToMany) {
+
 		final OneToMany<TID, ?> c = oneToMany.doClone();
 
-		final String columnName = idField.getColumnName(); // ei, de fet són la
-		// mateixa columna!
+		// ei, de fet són la mateixa columna
+		final String columnName = idField.getColumnName();
 
 		if (this.oneToManies.containsKey(columnName)) {
 			throw new OrmException("duplicated column name: " + getClass().getName() + "#" + columnName);
@@ -129,8 +127,7 @@ public class BaseEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <TID, E extends Entity> void setCollaboration(final ManyToOne<TID, E> manyToOneField,
-			final E value) {
+	protected <TID, E extends Entity> void setCollaboration(final ManyToOne<TID, E> manyToOneField, final E value) {
 		final ManyToOne<TID, E> self = (ManyToOne<TID, E>) fields.get(manyToOneField.getColumnName());
 		if (self == null) {
 			throw new OrmException(manyToOneField.getColumnName() + "=" + manyToOneField + " not found in: "
@@ -150,8 +147,7 @@ public class BaseEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <E extends Entity> void setCollaboration(final OneToMany<?, E> collaborableField,
-			final List<E> value) {
+	protected <E extends Entity> void setCollaboration(final OneToMany<?, E> collaborableField, final List<E> value) {
 
 		final String columnName = idField.getColumnName(); // ei, de fet són la
 		// mateixa columna!

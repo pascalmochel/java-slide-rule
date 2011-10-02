@@ -15,14 +15,14 @@ public class SingletonFactory {
 		@Override
 		protected Map<java.lang.Class<? extends Entity>, Entity> initialValue() {
 			return new HashMap<Class<? extends Entity>, Entity>();
-		};
+		}
 	};
 	protected static final ThreadLocal<Map<Class<? extends Entity>, IRowMapper<Entity>>> entityMappers =
 	/**/new ThreadLocal<Map<Class<? extends Entity>, IRowMapper<Entity>>>() {
 		@Override
 		protected Map<java.lang.Class<? extends Entity>, IRowMapper<Entity>> initialValue() {
 			return new HashMap<Class<? extends Entity>, IRowMapper<Entity>>();
-		};
+		}
 	};
 
 	protected static final ThreadLocal<Map<Class<? extends Entity>, Map<String, MutableQueryObject>>> threadLocalQueries =
@@ -30,7 +30,7 @@ public class SingletonFactory {
 		@Override
 		protected Map<Class<? extends Entity>, Map<String, MutableQueryObject>> initialValue() {
 			return new HashMap<Class<? extends Entity>, Map<String, MutableQueryObject>>();
-		};
+		}
 	};
 
 	@SuppressWarnings("unchecked")

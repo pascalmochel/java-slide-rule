@@ -3,13 +3,11 @@ package org.orm.record.compo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.orm.exception.OrmException;
 import org.orm.record.Entity;
 import org.orm.record.field.Field;
 import org.orm.session.SessionFactory;
 
 public class ManyToOne<TID, E extends Entity> extends Field<TID> {
-	// implements Clonable<ManyToOne<TID, E>> {
 
 	protected final Field<TID> selfFkField;
 	protected final Class<E> foreignEntityClass;
@@ -34,12 +32,7 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 		this.selfFkField.setValue(value);
 	}
 
-	public Field<TID> doClone() {
-		// TODO
-		throw new OrmException("internal error, invoking " + getClass() + "#doClone()");
-	}
-
-	public ManyToOne<TID, E> doCloneCollaboration() {
+	public ManyToOne<TID, E> doClone() {
 		return new ManyToOne<TID, E>(selfFkField.doClone(), foreignEntityClass);
 	}
 

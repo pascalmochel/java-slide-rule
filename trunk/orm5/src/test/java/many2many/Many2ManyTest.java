@@ -172,8 +172,8 @@ public class Many2ManyTest {
 		// falla fora de Tx pq en recuperar colaboradors s'inicia sessió i es
 		// perd la identityMap
 		try {
-			assertTrue(a2 == a2.getAbs().get(0).getA()); // TODO
-			assertTrue(a2 == a2.getAbs().get(0).getB().getAbs().get(0).getA()); // TODO
+			assertTrue(a2 == a2.getAbs().get(0).getA());
+			assertTrue(a2 == a2.getAbs().get(0).getB().getAbs().get(0).getA());
 			fail();
 		} catch (final AssertionError e) {
 		}
