@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.orm.mapper.DataMapper;
 import org.orm.record.Entity;
 import org.orm.session.SessionFactory;
+import org.orm.test.ent.Dog;
+import org.orm.test.ent.Rabbit;
 
 import static org.junit.Assert.*;
 

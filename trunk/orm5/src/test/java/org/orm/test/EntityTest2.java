@@ -7,6 +7,8 @@ import org.orm.logging.SingleLineFormatter;
 import org.orm.mapper.DataMapper;
 import org.orm.record.Entity;
 import org.orm.session.SessionFactory;
+import org.orm.test.ent.Dog;
+import org.orm.test.ent.Rabbit;
 
 import java.util.logging.Handler;
 import java.util.logging.Level;
