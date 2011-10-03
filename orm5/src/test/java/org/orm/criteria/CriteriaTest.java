@@ -1,10 +1,12 @@
-package org.orm.test;
+package org.orm.criteria;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.orm.mapper.DataMapper;
 import org.orm.session.SessionFactory;
+import org.orm.test.EntityTest2;
+import org.orm.test.ent.Dog;
 
 import java.util.List;
 

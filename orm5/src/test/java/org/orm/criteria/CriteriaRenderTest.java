@@ -3,12 +3,12 @@ package org.orm.criteria;
 import org.junit.Test;
 import org.orm.criteria.Criterion;
 import org.orm.criteria.order.Order;
-import org.orm.test.Dog;
+import org.orm.test.ent.Dog;
 
 import static org.junit.Assert.*;
 import static org.orm.criteria.restriction.Restriction.*;
 
-public class CTest {
+public class CriteriaRenderTest {
 
 	@Test
 	public void testname() throws Exception {

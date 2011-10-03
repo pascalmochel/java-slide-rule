@@ -1,4 +1,4 @@
-package org.orm.test;
+package org.orm.test.ent;
 
 import org.orm.record.Entity;
 import org.orm.record.compo.OneToMany;

@@ -1,4 +1,4 @@
-package org.orm;
+package org.orm.criteria;
 
 import static org.junit.Assert.assertEquals;
 import static org.orm.criteria.Criteria.*;
@@ -13,10 +13,10 @@ import org.junit.Test;
 import org.orm.mapper.DataMapper;
 import org.orm.query.IQueryObject;
 import org.orm.session.SessionFactory;
-import org.orm.test.Dog;
 import org.orm.test.EntityTest2;
+import org.orm.test.ent.Dog;
 
-public class CTest {
+public class CriteriaTest2 {
 
 	@Test
 	public void testname() throws Exception {
