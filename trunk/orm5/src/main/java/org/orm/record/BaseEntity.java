@@ -18,6 +18,7 @@ import org.orm.record.field.FieldDef;
 import org.orm.record.field.impl.FEnum;
 import org.orm.record.identity.IdentityGenerator;
 
+// TODO i implementar validadors?
 public class BaseEntity {
 
 	protected Logger log = Logger.getLogger(getClass().getName());
