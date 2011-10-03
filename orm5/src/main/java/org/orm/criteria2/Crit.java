@@ -2,6 +2,7 @@ package org.orm.criteria2;
 
 import org.orm.criteria.Criterion;
 import org.orm.criteria.impl.Order;
+import org.orm.mapper.DataMapper;
 import org.orm.query.IQueryObject;
 import org.orm.query.QueryObject;
 import org.orm.record.Entity;
@@ -9,48 +10,49 @@ import org.orm.record.SingletonFactory;
 
 import java.util.List;
 
-public class Crit<T extends Entity> implements Where, OrderBy {
+public class Crit<T extends Entity> implements Where<T>, OrderBy<T> {
 
-	protected Entity entity;
-	protected final QueryObject q = new QueryObject();
+	protected Class<T> entityClass;
+	protected final QueryObject query = new QueryObject();
 
-	public Where where(final Class<T> entityClass) {
-		this.entity = SingletonFactory.getEntity(entityClass);
-		q.append("SELECT * FROM " + entity.getTableName());
+	public static <T extends Entity> Where<T> select(final Class<T> entityClass) {
+		return new Crit<T>().innerSelect(entityClass);
+	}
+
+	protected Where<T> innerSelect(final Class<T> entityClass) {
+		this.entityClass = entityClass;
+		T entity = SingletonFactory.getEntity(entityClass);
+		query.append("SELECT * FROM ").append(entity.getTableName());
 		return this;
 	}
 
-	@Override
-	public OrderBy where(final Criterion criterion) {
-		q.append(" WHERE ");
-		q.append(criterion.renderQuery());
+	public OrderBy<T> where(final Criterion criterion) {
+		query.append(" WHERE ").append(criterion.renderQuery());
 		return this;
 	}
 
-	@Override
-	public Criterion orderBy(final Order... orderByFields) {
-		q.append(" ORDER BY ");
+	public Finish<T> orderBy(final Order... orderByFields) {
+		query.append(" ORDER BY ");
 		for (int i = 0; i < orderByFields.length; i++) {
 			final Order o = orderByFields[i];
-			q.append(o.renderQuery());
+			query.append(o.renderQuery());
 			if (i < orderByFields.length - 1) {
-				q.append(",");
+				query.append(",");
 			}
 		}
 		return this;
 	}
 
-	@Override
 	public IQueryObject renderQuery() {
-		return q;
+		return query;
 	}
 
-	public Entity getUnique() {
-		return null; // TODO
+	public T getUnique() {
+		return DataMapper.queryUnique(SingletonFactory.getEntityMapper(entityClass), query);
 	}
 
-	public List<Entity> get() {
-		return null; // TODO
+	public List<T> get() {
+		return DataMapper.query(SingletonFactory.getEntityMapper(entityClass), query);
 	}
 
 }
