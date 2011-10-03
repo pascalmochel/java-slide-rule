@@ -1,162 +1,60 @@
 package org.orm.criteria;
 
-import org.orm.criteria.impl.ColumnToValueRestriction;
-import org.orm.criteria.impl.MultiRestriction;
-import org.orm.criteria.impl.Order;
+import org.orm.criteria.impl.Finish;
+import org.orm.criteria.impl.OrderBy;
+import org.orm.criteria.impl.Where;
+import org.orm.criteria.order.Order;
+import org.orm.mapper.DataMapper;
 import org.orm.query.IQueryObject;
 import org.orm.query.QueryObject;
-import org.orm.record.QueryGenUtils;
-import org.orm.record.field.FieldDef;
+import org.orm.record.Entity;
+import org.orm.record.SingletonFactory;
 
-public class Criteria {
+import java.util.List;
 
-	// TODO per a un DSL collonut mirar: http://code.google.com/p/sql-dsl/
-	private Criteria() {
+public class Criteria<T extends Entity> implements Where<T>, OrderBy<T> {
+
+	protected Class<T> entityClass;
+	protected final QueryObject query = new QueryObject();
+
+	public static <T extends Entity> Where<T> select(final Class<T> entityClass) {
+		return new Criteria<T>().innerSelect(entityClass);
 	}
 
-	public static <T> Criterion eq(final FieldDef<T> field, final T value) {
-		return new ColumnToValueRestriction(field.getColumnName(), "=", value);
+	protected Where<T> innerSelect(final Class<T> entityClass) {
+		this.entityClass = entityClass;
+		T entity = SingletonFactory.getEntity(entityClass);
+		query.append("SELECT * FROM ").append(entity.getTableName());
+		return this;
 	}
 
-	public static <T> Criterion ne(final FieldDef<T> field, final T value) {
-		return new ColumnToValueRestriction(field.getColumnName(), "<>", value);
+	public OrderBy<T> where(final Criterion criterion) {
+		query.append(" WHERE ").append(criterion.renderQuery());
+		return this;
 	}
 
-	public static <T> Criterion le(final FieldDef<T> field, final T value) {
-		return new ColumnToValueRestriction(field.getColumnName(), "<=", value);
-	}
-
-	public static <T> Criterion ge(final FieldDef<T> field, final T value) {
-		return new ColumnToValueRestriction(field.getColumnName(), ">=", value);
-	}
-
-	public static <T> Criterion lt(final FieldDef<T> field, final T value) {
-		return new ColumnToValueRestriction(field.getColumnName(), "<", value);
-	}
-
-	public static <T> Criterion gt(final FieldDef<T> field, final T value) {
-		return new ColumnToValueRestriction(field.getColumnName(), ">", value);
-	}
-
-	public static <T> Criterion like(final FieldDef<T> field, final T value) {
-		return new ColumnToValueRestriction(field.getColumnName(), " like ", value);
-	}
-
-	public static <T> Criterion in(final FieldDef<T> field, final T... values) {
-		return new Criterion() {
-			public IQueryObject renderQuery() {
-				return new QueryObject()
-				/**/.append(field.getColumnName())
-				/**/.append(" IN (")
-				/**/.append(QueryGenUtils.join("?", ",", values.length))
-				/**/.append(")")
-				/**/.addParams(values);
+	public Finish<T> orderBy(final Order... orderByFields) {
+		query.append(" ORDER BY ");
+		for (int i = 0; i < orderByFields.length; i++) {
+			final Order o = orderByFields[i];
+			query.append(o.renderQuery());
+			if (i < orderByFields.length - 1) {
+				query.append(",");
 			}
-		};
+		}
+		return this;
 	}
 
-	public static <T> Criterion between(final FieldDef<T> field, final T value1, final T value2) {
-		return new Criterion() {
-			public IQueryObject renderQuery() {
-				return new QueryObject()
-				/**/.append("(")
-				/**/.append(field.getColumnName())
-				/**/.append(" BETWEEN ? AND ?)")
-				/**/.addParams(value1, value2);
-			}
-		};
+	public IQueryObject renderQuery() {
+		return query;
 	}
 
-	public static <T> Criterion isNull(final FieldDef<T> field) {
-		return new Criterion() {
-			public IQueryObject renderQuery() {
-				return new QueryObject()
-				/**/.append(field.getColumnName())
-				/**/.append(" IS NULL");
-			}
-		};
+	public T getUnique() {
+		return DataMapper.queryUnique(SingletonFactory.getEntityMapper(entityClass), query);
 	}
 
-	public static <T> Criterion isNotNull(final FieldDef<T> field) {
-		return new Criterion() {
-			public IQueryObject renderQuery() {
-				return new QueryObject()
-				/**/.append(field.getColumnName())
-				/**/.append(" IS NOT NULL");
-			}
-		};
-	}
-
-	public static <T> Criterion not(final Criterion criterion) {
-		return new Criterion() {
-			public IQueryObject renderQuery() {
-				return new QueryObject()
-				/**/.append("NOT(")
-				/**/.append(criterion.renderQuery())
-				/**/.append(")");
-			}
-		};
-	}
-
-	public static Criterion and(final Criterion... abstractRs) {
-		return new MultiRestriction(" AND ", abstractRs);
-	}
-
-	public static Criterion or(final Criterion... abstractRs) {
-		return new MultiRestriction(" OR ", abstractRs);
-	}
-
-	public static Criterion all() {
-		return new Criterion() {
-			public IQueryObject renderQuery() {
-				return QueryObject.VOID;
-			}
-		};
-	}
-
-	public static Criterion sqlClause(final String sqlPart) {
-		return new Criterion() {
-			public IQueryObject renderQuery() {
-				return new QueryObject(" " + sqlPart);
-			}
-		};
-	}
-
-	public static Criterion concate(final Criterion[] criterions) {
-		return new Criterion() {
-			public IQueryObject renderQuery() {
-				final QueryObject r = new QueryObject();
-				for (final Criterion c : criterions) {
-					r.append(c.renderQuery());
-				}
-				return r;
-			}
-		};
-	}
-
-	public static Criterion where(final Criterion criterion) {
-		return new Criterion() {
-			public IQueryObject renderQuery() {
-				final IQueryObject q = criterion.renderQuery();
-				return new QueryObject(" WHERE ").append(q);
-			}
-		};
-	}
-
-	public static Criterion orderBy(final Order... orderByFields) {
-		return new Criterion() {
-			public IQueryObject renderQuery() {
-				final QueryObject r = new QueryObject(" ORDER BY ");
-				for (int i = 0; i < orderByFields.length; i++) {
-					final Order o = orderByFields[i];
-					r.append(o.renderQuery());
-					if (i < orderByFields.length - 1) {
-						r.append(",");
-					}
-				}
-				return r;
-			}
-		};
+	public List<T> get() {
+		return DataMapper.query(SingletonFactory.getEntityMapper(entityClass), query);
 	}
 
 }

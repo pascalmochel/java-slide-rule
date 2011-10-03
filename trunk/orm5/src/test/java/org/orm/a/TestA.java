@@ -11,6 +11,7 @@ import org.orm.test.EntityTest2;
 
 import static org.junit.Assert.*;
 import static org.orm.criteria.Criteria.*;
+import static org.orm.criteria.restriction.Restriction.*;
 
 public class TestA {
 
@@ -28,7 +29,7 @@ public class TestA {
 			DataMapper.executeDDL("INSERT INTO CITY (ID_CITY,NAME) VALUES (100,'SBD')");
 			Entity.sqlStatement("INSERT INTO CITY (ID_CITY,NAME) VALUES (?,?)", 101, "TRS");
 
-			City sbd = Entity.loadUniqueBy(City.class, where(eq(City.name, "SBD")));
+			City sbd = select(City.class).where(eq(City.name, "SBD")).getUnique();
 			assertEquals("[ID_CITY=100, NAME=SBD]", sbd.toString());
 
 			sbd.setName("Sabadell");

@@ -1,7 +1,6 @@
 package org.orm.test;
 
 import org.junit.Test;
-import org.orm.criteria.impl.Order;
 import org.orm.datasource.HsqldbDataSourceFactory;
 import org.orm.exception.OrmException;
 import org.orm.mapper.DataMapper;
@@ -9,7 +8,7 @@ import org.orm.record.Entity;
 import org.orm.session.SessionFactory;
 
 import static org.junit.Assert.*;
-import static org.orm.criteria.Criteria.*;
+import static org.orm.criteria.restriction.Restriction.*;
 
 public class EntityTest {
 
@@ -65,15 +64,18 @@ public class EntityTest {
 			System.out.println(Entity.loadById(Rabbit.class, 100));
 			System.out.println(Entity.loadAll(Rabbit.class));
 
-			System.out.println(Entity.loadBy(Rabbit.class, where(eq(Rabbit.id, 4))));
-			System.out.println(Entity.loadBy(Rabbit.class, where(eq(Rabbit.id, 100))));
-			System.out.println(Entity.loadBy(Rabbit.class,
-					where(and(eq(Rabbit.id, 5), eq(Rabbit.name, "jou")))));
-
-			System.out.println(
-			/**/Entity.loadBy(Rabbit.class, where(eq(Rabbit.id, 100)), orderBy(Order.asc(Rabbit.name), Order
-					.asc(Rabbit.id)))
-			/**/);
+			// System.out.println(Entity.loadBy(Rabbit.class,
+			// where(eq(Rabbit.id, 4))));
+			// System.out.println(Entity.loadBy(Rabbit.class,
+			// where(eq(Rabbit.id, 100))));
+			// System.out.println(Entity.loadBy(Rabbit.class,
+			// where(and(eq(Rabbit.id, 5), eq(Rabbit.name, "jou")))));
+			//
+			// System.out.println(
+			// /**/Entity.loadBy(Rabbit.class, where(eq(Rabbit.id, 100)),
+			// orderBy(Order.asc(Rabbit.name), Order
+			// .asc(Rabbit.id)))
+			// /**/);
 
 			System.out.println(Entity.count(Rabbit.class, where(eq(Rabbit.id, 4))));
 			System.out.println(Entity.count(Rabbit.class, where(eq(Rabbit.id, 100))));

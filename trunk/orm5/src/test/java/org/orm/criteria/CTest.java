@@ -2,11 +2,11 @@ package org.orm.criteria;
 
 import org.junit.Test;
 import org.orm.criteria.Criterion;
-import org.orm.criteria.impl.Order;
+import org.orm.criteria.order.Order;
 import org.orm.test.Dog;
 
 import static org.junit.Assert.*;
-import static org.orm.criteria.Criteria.*;
+import static org.orm.criteria.restriction.Restriction.*;
 
 public class CTest {
 
