@@ -110,7 +110,7 @@ public class Restriction {
 	public static Criterion all() {
 		return new Criterion() {
 			public IQueryObject renderQuery() {
-				return QueryObject.VOID;
+				return new QueryObject(" WHERE 1=1");
 			}
 		};
 	}
