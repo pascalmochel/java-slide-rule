@@ -13,7 +13,7 @@ public class Benchmark {
 		SessionFactory.setDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
-	protected int N = 100;
+	protected int N = 10;
 
 	@Test
 	public void testname() throws Exception {

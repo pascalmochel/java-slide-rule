@@ -1,6 +1,5 @@
 package org.orm.record;
 
-import org.orm.criteria.Criteria;
 import org.orm.criteria.Criterion;
 import org.orm.exception.OrmException;
 import org.orm.mapper.DataMapper;
@@ -27,24 +26,38 @@ public class Entity extends BaseEntity {
 		return SingletonFactory.getEntity(entityClass).ploadById(entityClass, id);
 	}
 
-	public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
-		return SingletonFactory.getEntity(entityClass).ploadUniqueByQuery(entityClass, query);
-	}
-
-	public static <T extends Entity> List<T> loadBy(final Class<T> entityClass, final Criterion... criterions) {
-		return SingletonFactory.getEntity(entityClass).ploadBy(criterions);
-	}
-
-	public static <T extends Entity> T loadUniqueBy(final Class<T> entityClass, final Criterion... criterions) {
-		return SingletonFactory.getEntity(entityClass).ploadUniqueBy(entityClass, criterions);
-	}
+	// public static <T extends Entity> List<T> loadBy(final Class<T>
+	// entityClass, final Criterion... criterions) {
+	// return SingletonFactory.getEntity(entityClass).ploadBy(criterions);
+	// }
+	//
+	// public static <T extends Entity> T loadUniqueBy(final Class<T>
+	// entityClass, final Criterion... criterions) {
+	// return SingletonFactory.getEntity(entityClass).ploadUniqueBy(entityClass,
+	// criterions);
+	// }
 
 	public static <T extends Entity> List<T> loadAll(final Class<T> entityClass) {
 		return SingletonFactory.getEntity(entityClass).ploadAll();
 	}
 
+	public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
+		return SingletonFactory.getEntity(entityClass).ploadUniqueByQuery(entityClass, query);
+	}
+
+	public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass, final String query,
+			final Object... queryParams) {
+		return SingletonFactory.getEntity(entityClass).ploadUniqueByQuery(entityClass,
+				new QueryObject(query, queryParams));
+	}
+
 	public static <T extends Entity> List<T> loadByQuery(final Class<T> entityClass, final QueryObject query) {
 		return SingletonFactory.getEntity(entityClass).ploadByQuery(query);
+	}
+
+	public static <T extends Entity> List<T> loadByQuery(final Class<T> entityClass, final String query,
+			final Object... queryParams) {
+		return SingletonFactory.getEntity(entityClass).ploadByQuery(new QueryObject(query, queryParams));
 	}
 
 	public static <T extends Entity> List<T> loadByColumn(final Class<T> entityClass, final String column,
@@ -114,55 +127,58 @@ public class Entity extends BaseEntity {
 		return DataMapper.queryUnique(mapper, query);
 	}
 
-	private <T extends Entity> List<T> ploadBy(final Criterion... criterions) {
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("loadBy(Criterion[])");
-		}
-
-		final Criterion cs;
-		if (criterions.length == 0) {
-			// throw new
-			// OrmException("this method requires almost one Criterion parameter");
-			cs = Criteria.all();
-		} else {
-			if (criterions.length == 1) {
-				cs = criterions[0];
-			} else {
-				cs = Criteria.concate(criterions);
-			}
-		}
-		final IQueryObject query = new QueryObject()
-		/**/.append("SELECT * FROM ")
-		/**/.append(getTableName())
-		/**/.append(cs.renderQuery())
-		/**/;
-		final IRowMapper<T> mapper = getRowMapper();
-		return DataMapper.query(mapper, query);
-	}
-
-	private <T extends Entity> T ploadUniqueBy(final Class<T> entityClass, final Criterion... criterions) {
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("loadBy(Criterion[])");
-		}
-
-		final Criterion cs;
-		if (criterions.length == 0) {
-			throw new OrmException("this method requires almost one Criterion parameter");
-		} else {
-			if (criterions.length == 1) {
-				cs = criterions[0];
-			} else {
-				cs = Criteria.concate(criterions);
-			}
-		}
-		final IQueryObject query = new QueryObject()
-		/**/.append("SELECT * FROM ")
-		/**/.append(getTableName())
-		/**/.append(cs.renderQuery())
-		/**/;
-		final IRowMapper<T> mapper = getRowMapper();
-		return DataMapper.queryUnique(mapper, query);
-	}
+	// private <T extends Entity> List<T> ploadBy(final Criterion... criterions)
+	// {
+	// if (log.isLoggable(Level.FINE)) {
+	// log.fine("loadBy(Criterion[])");
+	// }
+	//
+	// final Criterion cs;
+	// if (criterions.length == 0) {
+	// // throw new
+	// // OrmException("this method requires almost one Criterion parameter");
+	// cs = Criteria.all();
+	// } else {
+	// if (criterions.length == 1) {
+	// cs = criterions[0];
+	// } else {
+	// cs = Criteria.concate(criterions);
+	// }
+	// }
+	// final IQueryObject query = new QueryObject()
+	// /**/.append("SELECT * FROM ")
+	// /**/.append(getTableName())
+	// /**/.append(cs.renderQuery())
+	// /**/;
+	// final IRowMapper<T> mapper = getRowMapper();
+	// return DataMapper.query(mapper, query);
+	// }
+	//
+	// private <T extends Entity> T ploadUniqueBy(final Class<T> entityClass,
+	// final Criterion... criterions) {
+	// if (log.isLoggable(Level.FINE)) {
+	// log.fine("loadBy(Criterion[])");
+	// }
+	//
+	// final Criterion cs;
+	// if (criterions.length == 0) {
+	// throw new
+	// OrmException("this method requires almost one Criterion parameter");
+	// } else {
+	// if (criterions.length == 1) {
+	// cs = criterions[0];
+	// } else {
+	// cs = Criteria.concate(criterions);
+	// }
+	// }
+	// final IQueryObject query = new QueryObject()
+	// /**/.append("SELECT * FROM ")
+	// /**/.append(getTableName())
+	// /**/.append(cs.renderQuery())
+	// /**/;
+	// final IRowMapper<T> mapper = getRowMapper();
+	// return DataMapper.queryUnique(mapper, query);
+	// }
 
 	private <T extends Entity> List<T> ploadAll() {
 		if (log.isLoggable(Level.FINE)) {

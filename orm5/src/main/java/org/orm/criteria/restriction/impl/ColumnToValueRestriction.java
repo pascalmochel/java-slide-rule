@@ -1,4 +1,4 @@
-package org.orm.criteria.impl;
+package org.orm.criteria.restriction.impl;
 
 import org.orm.query.IQueryObject;
 import org.orm.query.QueryObject;

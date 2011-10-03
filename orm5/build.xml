@@ -3,7 +3,7 @@
 <project name="orm5" basedir="." default="build-orm5">
 
 	<property name="jarname" value="orm" />
-	<property name="version" value="0.1.1" />
+	<property name="version" value="0.0.2" />
 
 	<!--
 	<property name="maven-repo-base-dir" value="C:\Documents and Settings\mhoms\.m2\repository" />

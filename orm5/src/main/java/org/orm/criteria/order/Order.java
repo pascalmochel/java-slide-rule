@@ -1,4 +1,4 @@
-package org.orm.criteria.impl;
+package org.orm.criteria.order;
 
 import org.orm.criteria.Criterion;
 import org.orm.query.IQueryObject;

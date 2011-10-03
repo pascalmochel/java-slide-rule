@@ -3,17 +3,15 @@ package org.orm.test;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.orm.criteria.Criteria.*;
-import static org.orm.criteria.impl.Order.*;
-import static org.orm.record.Entity.*;
-
 import org.orm.mapper.DataMapper;
 import org.orm.session.SessionFactory;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.orm.criteria.Criteria.*;
+import static org.orm.criteria.order.Order.*;
+import static org.orm.criteria.restriction.Restriction.*;
 
 public class CriteriaTest {
 
@@ -56,25 +54,20 @@ public class CriteriaTest {
 		DataMapper.executeDDL("INSERT INTO DOG (ID_DOG,NAME,AGE) VALUES (56,'chucho',3)");
 
 		try {
-			assertEquals(7, loadBy(Dog.class).size());
-			assertEquals(7, loadAll(Dog.class).size());
-			assertEquals(5, loadBy(Dog.class, sqlClause("WHERE 1=1 LIMIT 5")).size());
-			assertEquals(4, loadBy(Dog.class, sqlClause("WHERE 1=1 LIMIT 5 OFFSET 3")).size());
-
-			final List<Dog> d1 = loadBy(Dog.class, where(in(Dog.name, "faria", "gossa")));
+			final List<Dog> d1 = select(Dog.class).where(in(Dog.name, "faria", "gossa")).get();
 
 			assertEquals(
 			/**/"[[ID_DOG=51, NAME=faria, AGE=9, [...]], " +
 			/**/"[ID_DOG=52, NAME=gossa, AGE=8, [...]]]"
 			/**/, d1.toString());
 
-			final List<Dog> d2 = loadBy(Dog.class, where(like(Dog.name, "%egra%")));
+			final List<Dog> d2 = select(Dog.class).where(like(Dog.name, "%egra%")).get();
 
 			assertEquals(
 			/**/"[[ID_DOG=54, NAME=negra, AGE=6, [...]]]"
 			/**/, d2.toString());
 
-			final List<Dog> d3 = loadBy(Dog.class, orderBy(asc(Dog.age), asc(Dog.name)));
+			final List<Dog> d3 = select(Dog.class).orderBy(asc(Dog.age), asc(Dog.name)).get();
 
 			assertEquals(
 			/**/"[[ID_DOG=56, NAME=chucho, AGE=3, [...]], " +
@@ -86,26 +79,25 @@ public class CriteriaTest {
 			/**/"[ID_DOG=50, NAME=din, AGE=10, [...]]]"
 			/**/, d3.toString());
 
-			final List<Dog> d4 = loadBy(Dog.class, where(between(Dog.age, 3, 5)));
+			final List<Dog> d4 = select(Dog.class).where(between(Dog.age, 3, 5)).get();
 
 			assertEquals(
 			/**/"[[ID_DOG=55, NAME=pelut, AGE=5, [...]], " +
 			/**/"[ID_DOG=56, NAME=chucho, AGE=3, [...]]]"
 			/**/, d4.toString());
 
-			final List<Dog> d5 = loadBy(Dog.class, where(not(lt(Dog.age, 10))));
+			final List<Dog> d5 = select(Dog.class).where(not(lt(Dog.age, 10))).get();
 
 			assertEquals(
 			/**/"[[ID_DOG=50, NAME=din, AGE=10, [...]]]"
 			/**/, d5.toString());
 
-			final List<Dog> d6 = loadBy(Dog.class, sqlClause("WHERE 1=1 LIMIT 2"));
+			final List<Dog> d6 = select(Dog.class).where(sqlClause("1=1 LIMIT 2")).get();
 
-			System.out.println(d6);
 			assertEquals(2, d6.size());
 
-			final List<Dog> d7 = loadBy(Dog.class, where(or(and(lt(Dog.age, 8), gt(Dog.age, 6)), eq(Dog.name,
-					"faria"))));
+			final List<Dog> d7 = select(Dog.class).where(
+					or(and(lt(Dog.age, 8), gt(Dog.age, 6)), eq(Dog.name, "faria"))).get();
 
 			assertEquals(
 			/**/"[[ID_DOG=51, NAME=faria, AGE=9, [...]], [ID_DOG=53, NAME=blanca, AGE=7, [...]]]"

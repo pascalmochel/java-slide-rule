@@ -3,7 +3,7 @@ package org.orm.session;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.orm.criteria.Criteria;
+import org.orm.criteria.restriction.Restriction;
 import org.orm.exception.OrmException;
 import org.orm.mapper.DataMapper;
 import org.orm.record.Entity;
@@ -124,7 +124,7 @@ public class NestedTransactionsTest {
 			SessionFactory.getSession().commit();
 			break;
 		default:
-			assertEquals(Long.valueOf(String.valueOf(c)), Entity.count(Dog.class, Criteria.all()));
+			assertEquals(Long.valueOf(String.valueOf(c)), Entity.count(Dog.class, Restriction.all()));
 		}
 	}
 

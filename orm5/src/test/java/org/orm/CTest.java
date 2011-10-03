@@ -1,19 +1,9 @@
 package org.orm;
 
 import static org.junit.Assert.assertEquals;
-import static org.orm.criteria.Criteria.and;
-import static org.orm.criteria.Criteria.between;
-import static org.orm.criteria.Criteria.eq;
-import static org.orm.criteria.Criteria.gt;
-import static org.orm.criteria.Criteria.in;
-import static org.orm.criteria.Criteria.like;
-import static org.orm.criteria.Criteria.lt;
-import static org.orm.criteria.Criteria.not;
-import static org.orm.criteria.Criteria.or;
-import static org.orm.criteria.Criteria.sqlClause;
-import static org.orm.criteria.impl.Order.asc;
-import static org.orm.criteria.impl.Order.desc;
-import static org.orm.criteria2.Crit.select;
+import static org.orm.criteria.Criteria.*;
+import static org.orm.criteria.order.Order.*;
+import static org.orm.criteria.restriction.Restriction.*;
 
 import java.util.List;
 
