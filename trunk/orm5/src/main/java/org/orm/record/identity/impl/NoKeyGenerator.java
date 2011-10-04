@@ -1,7 +1,6 @@
 package org.orm.record.identity.impl;
 
 import org.orm.query.IQueryObject;
-import org.orm.query.QueryObject;
 import org.orm.record.field.IdentifiableField;
 import org.orm.record.identity.IdentityGenerator;
 
@@ -22,7 +21,7 @@ public class NoKeyGenerator<T> extends IdentityGenerator<T> {
 
 	@Override
 	public IQueryObject getQuery() {
-		return QueryObject.VOID;
+		return IQueryObject.VOID;
 	}
 
 	@Override

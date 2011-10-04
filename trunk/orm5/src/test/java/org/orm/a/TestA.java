@@ -29,7 +29,7 @@ public class TestA {
 			DataMapper.executeDDL("INSERT INTO CITY (ID_CITY,NAME) VALUES (100,'SBD')");
 			Entity.sqlStatement("INSERT INTO CITY (ID_CITY,NAME) VALUES (?,?)", 101, "TRS");
 
-			City sbd = select(City.class).where(eq(City.name, "SBD")).getUnique();
+			City sbd = select().where(eq(City.name, "SBD")).getUnique(City.class);
 			assertEquals("[ID_CITY=100, NAME=SBD]", sbd.toString());
 
 			sbd.setName("Sabadell");
