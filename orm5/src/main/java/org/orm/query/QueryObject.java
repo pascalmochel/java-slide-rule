@@ -6,8 +6,6 @@ import java.util.List;
 
 public class QueryObject implements IQueryObject {
 
-	public static final IQueryObject VOID = new QueryObject();
-
 	protected final StringBuilder query;
 	protected final List<Object> params;
 

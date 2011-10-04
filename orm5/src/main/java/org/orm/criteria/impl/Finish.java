@@ -1,15 +1,16 @@
 package org.orm.criteria.impl;
 
-import org.orm.criteria.Criterion;
+import org.orm.record.Entity;
 import org.orm.record.field.Field;
 
 import java.util.List;
 
-public interface Finish<T> extends Criterion {
+public interface Finish {
 
-	T getUnique();
+	<T extends Entity> T getUnique(final Class<T> entityClass);
 
-	List<T> get();
+	<T extends Entity> List<T> get(final Class<T> entityClass);
 
-	<T2> T2 getColumnValue(Field<T2> field);
+	<T> T getColumnValue(final Field<T> field);
+
 }
