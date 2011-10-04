@@ -23,6 +23,7 @@ public class Criteria implements Where, OrderBy {
 
 	public static Finish query(final String query, final Object... params) {
 		final Criteria r = new Criteria();
+		r.query.addTableName();
 		r.query.append(query);
 		r.query.addParams(params);
 		return r;
