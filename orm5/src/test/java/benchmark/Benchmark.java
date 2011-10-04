@@ -1,5 +1,6 @@
 package benchmark;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.orm.datasource.HsqldbDataSourceFactory;
 import org.orm.session.SessionFactory;
@@ -10,7 +11,7 @@ import benchmark.myorm.OrmBenchmark;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Ignore
+@Ignore
 public class Benchmark {
 
 	static {

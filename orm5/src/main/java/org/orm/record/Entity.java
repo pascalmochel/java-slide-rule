@@ -226,6 +226,8 @@ public class Entity extends BaseEntity {
 			update();
 		}
 		SessionFactory.getSession().getIdentityMap().store(this);
+		SessionFactory.getSession().getIdCache().attachForce((Class<Entity>) getClass(),
+				getIdField().getValue(), this);
 
 		for (final OneToMany<?, ?> c : getOneToManies().values()) {
 			if (c.getIsInit()) {
