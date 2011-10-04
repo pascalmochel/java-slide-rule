@@ -41,8 +41,8 @@ public class TestA {
 			assertEquals("[[ID_CITY=100, NAME=Sabadell], [ID_CITY=101, NAME=TRS]]",
 			/**/Entity.loadAll(City.class).toString());
 
-			final long no = Entity.count(City.class, all());
-			assertEquals(2, no);
+			// final long no = Entity.count(City.class, all());
+			// assertEquals(2, no);
 
 		} finally {
 			SessionFactory.getSession().rollback();

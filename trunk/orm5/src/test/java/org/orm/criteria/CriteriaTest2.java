@@ -1,20 +1,21 @@
 package org.orm.criteria;
 
-import static org.junit.Assert.assertEquals;
-import static org.orm.criteria.Criteria.*;
-import static org.orm.criteria.order.Order.*;
-import static org.orm.criteria.restriction.Restriction.*;
-
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.orm.mapper.DataMapper;
 import org.orm.query.IQueryObject;
+import org.orm.record.field.impl.primitive.FShort;
 import org.orm.session.SessionFactory;
 import org.orm.test.EntityTest2;
 import org.orm.test.ent.Dog;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
+import static org.orm.criteria.Criteria.*;
+import static org.orm.criteria.order.Order.*;
+import static org.orm.criteria.restriction.Restriction.*;
 
 public class CriteriaTest2 {
 
@@ -74,7 +75,7 @@ public class CriteriaTest2 {
 
 		try {
 
-			Dog d0 = select(Dog.class)
+			final Dog d0 = select(Dog.class)
 			/**/.where(eq(Dog.name, "din"))
 			/**/.orderBy(asc(Dog.name))
 			/**/.getUnique();
@@ -124,15 +125,20 @@ public class CriteriaTest2 {
 			System.out.println(d6);
 			assertEquals(2, d6.size());
 
-			final List<Dog> d7 = select(Dog.class)
-					.where(or(and(lt(Dog.age, 8), gt(Dog.age, 6)), eq(Dog.name, "faria"))).get();
+			final List<Dog> d7 = select(Dog.class).where(
+					or(and(lt(Dog.age, 8), gt(Dog.age, 6)), eq(Dog.name, "faria"))).get();
 
 			assertEquals(
 			/**/"[[ID_DOG=51, NAME=faria, AGE=9, [...]], [ID_DOG=53, NAME=blanca, AGE=7, [...]]]"
 			/**/, d7.toString());
 
+			final short count = query("SELECT COUNT(*) AS VALUE FROM DOG")
+					.getColumnValue(new FShort("VALUE"));
+			assertEquals((short) 7, count);
+
 		} finally {
 			SessionFactory.getSession().rollback();
 		}
 	}
+
 }

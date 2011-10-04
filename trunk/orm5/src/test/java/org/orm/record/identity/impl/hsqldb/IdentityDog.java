@@ -4,7 +4,6 @@ import org.orm.record.Entity;
 import org.orm.record.field.impl.FString;
 import org.orm.record.field.impl.primitive.FInteger;
 import org.orm.record.identity.IdentityGenerator;
-import org.orm.record.identity.impl.hsqldb.HsqldbIdentity;
 
 public class IdentityDog extends Entity {
 

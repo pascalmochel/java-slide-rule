@@ -19,6 +19,7 @@ public class SessionFactory {
 	/**
 	 * a DataSource reference, shared by all threads
 	 */
+	// TODO això no hauria de ser static
 	protected static DataSource dataSourceReference;
 	protected static Integer transactionIsolation;
 

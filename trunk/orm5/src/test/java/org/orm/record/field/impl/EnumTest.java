@@ -1,7 +1,5 @@
 package org.orm.record.field.impl;
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +8,8 @@ import org.orm.mapper.DataMapper;
 import org.orm.record.Entity;
 import org.orm.session.SessionFactory;
 import org.orm.test.EntityTest2;
+
+import static org.junit.Assert.*;
 
 public class EnumTest {
 

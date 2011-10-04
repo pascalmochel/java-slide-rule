@@ -1,5 +1,13 @@
 package org.orm.record;
 
+import org.orm.exception.OrmException;
+import org.orm.record.compo.ManyToOne;
+import org.orm.record.compo.OneToMany;
+import org.orm.record.field.Field;
+import org.orm.record.field.FieldDef;
+import org.orm.record.field.impl.FEnum;
+import org.orm.record.identity.IdentityGenerator;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,14 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import org.orm.exception.OrmException;
-import org.orm.record.compo.ManyToOne;
-import org.orm.record.compo.OneToMany;
-import org.orm.record.field.Field;
-import org.orm.record.field.FieldDef;
-import org.orm.record.field.impl.FEnum;
-import org.orm.record.identity.IdentityGenerator;
 
 // TODO i implementar validadors?
 public class BaseEntity {

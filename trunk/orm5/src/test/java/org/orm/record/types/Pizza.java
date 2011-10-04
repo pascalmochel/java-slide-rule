@@ -1,6 +1,7 @@
 package org.orm.record.types;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
@@ -15,8 +16,6 @@ import org.orm.record.field.impl.primitive.FInteger;
 import org.orm.record.field.impl.primitive.FShort;
 import org.orm.record.identity.IdentityGenerator;
 import org.orm.record.identity.impl.hsqldb.HsqldbIdentity;
-
-import java.sql.Date;
 
 public class Pizza extends Entity {
 
