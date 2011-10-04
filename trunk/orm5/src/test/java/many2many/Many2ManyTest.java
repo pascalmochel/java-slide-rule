@@ -83,7 +83,6 @@ public class Many2ManyTest {
 				assertTrue(a == a.getAbs().get(0).getA());
 			}
 
-			SessionFactory.getSession().getIdentityMap().clear();
 			SessionFactory.getSession().getIdCache().clear();
 
 			{
@@ -125,7 +124,6 @@ public class Many2ManyTest {
 				ab.store();
 			}
 
-			SessionFactory.getSession().getIdentityMap().clear();
 			SessionFactory.getSession().getIdCache().clear();
 
 			{
@@ -155,7 +153,6 @@ public class Many2ManyTest {
 			ab.setB(b);
 			a.store();
 
-			SessionFactory.getSession().getIdentityMap().clear();
 			SessionFactory.getSession().getIdCache().clear();
 		} finally {
 			SessionFactory.getSession().commit();

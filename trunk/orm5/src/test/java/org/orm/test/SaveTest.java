@@ -68,7 +68,7 @@ public class SaveTest {
 
 			d.store();
 			System.out.println("====================================");
-			SessionFactory.getSession().getIdentityMap().clear();
+
 			SessionFactory.getSession().getIdCache().clear();
 
 			final Dog d2 = Entity.loadById(Dog.class, 100);
@@ -99,7 +99,6 @@ public class SaveTest {
 					"[ID_RABBIT=100, NAME=corneju, AGE=6, NUM_DOG=100=>[ID_DOG=100, NAME=din, AGE=8, [...]]]",
 					r.toString());
 
-			SessionFactory.getSession().getIdentityMap().clear();
 			SessionFactory.getSession().getIdCache().clear();
 
 			final Rabbit r2 = Entity.loadById(Rabbit.class, 100);

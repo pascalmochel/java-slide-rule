@@ -225,7 +225,7 @@ public class Entity extends BaseEntity {
 		} else {
 			update();
 		}
-		SessionFactory.getSession().getIdentityMap().store(this);
+		// SessionFactory.getSession().getIdentityMap().store(this);
 		SessionFactory.getSession().getIdCache().attachForce((Class<Entity>) getClass(),
 				getIdField().getValue(), this);
 

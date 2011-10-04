@@ -72,7 +72,7 @@ public class EntityTest2 {
 				System.out.println(r);
 
 				System.out.println("====================================");
-				SessionFactory.getSession().getIdentityMap().clear();
+
 				SessionFactory.getSession().getIdCache().clear();
 
 				final Dog d = Entity.loadById(Dog.class, 500);

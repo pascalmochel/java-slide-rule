@@ -4,7 +4,6 @@ import java.sql.Connection;
 
 import org.orm.record.Entity;
 import org.orm.session.identity.IdentityCache;
-import org.orm.session.identity.IdentityMap;
 import org.orm.session.identity.StoredSet;
 
 public interface ISession {
@@ -20,8 +19,6 @@ public interface ISession {
 	void closeReadOnly();
 
 	boolean isTransactionActive();
-
-	IdentityMap<Entity> getIdentityMap();
 
 	StoredSet getStoredSet();
 
