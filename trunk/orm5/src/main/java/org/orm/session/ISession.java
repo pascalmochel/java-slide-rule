@@ -3,6 +3,7 @@ package org.orm.session;
 import java.sql.Connection;
 
 import org.orm.record.Entity;
+import org.orm.session.identity.IdentityCache;
 import org.orm.session.identity.IdentityMap;
 import org.orm.session.identity.StoredSet;
 
@@ -23,4 +24,6 @@ public interface ISession {
 	IdentityMap<Entity> getIdentityMap();
 
 	StoredSet getStoredSet();
+
+	IdentityCache<Entity> getIdCache();
 }
