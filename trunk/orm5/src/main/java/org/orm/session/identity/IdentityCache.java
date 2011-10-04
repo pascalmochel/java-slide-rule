@@ -29,6 +29,19 @@ public class IdentityCache<T extends Entity> {
 		return classMap.get(idValue);
 	}
 
+	public T attachForce(final Class<T> entClass, final Object idValue, final T entity) {
+		if (idValue == null) {
+			return entity;
+		}
+		HashMap<Object, T> classMap = cache.get(entClass);
+		if (classMap == null) {
+			classMap = new HashMap<Object, T>();
+			cache.put(entClass, classMap);
+		}
+		classMap.put(idValue, entity);
+		return entity;
+	}
+
 	public boolean isAttached(final Class<T> entClass, final Object idValue) {
 		if (idValue == null) {
 			return false;

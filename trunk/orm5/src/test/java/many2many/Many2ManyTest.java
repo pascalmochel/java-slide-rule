@@ -84,6 +84,7 @@ public class Many2ManyTest {
 			}
 
 			SessionFactory.getSession().getIdentityMap().clear();
+			SessionFactory.getSession().getIdCache().clear();
 
 			{
 				final A q = Entity.loadById(A.class, a.getId());
@@ -125,6 +126,7 @@ public class Many2ManyTest {
 			}
 
 			SessionFactory.getSession().getIdentityMap().clear();
+			SessionFactory.getSession().getIdCache().clear();
 
 			{
 				final AB q = Entity.loadById(AB.class, ab.getId());
@@ -154,6 +156,7 @@ public class Many2ManyTest {
 			a.store();
 
 			SessionFactory.getSession().getIdentityMap().clear();
+			SessionFactory.getSession().getIdCache().clear();
 		} finally {
 			SessionFactory.getSession().commit();
 		}

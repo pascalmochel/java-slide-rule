@@ -47,6 +47,7 @@ public class ATest {
 			/**/, d2.toString());
 
 			SessionFactory.getSession().getIdentityMap().clear();
+			SessionFactory.getSession().getIdCache().clear();
 
 			final Rabbit r1 = Entity.loadById(Rabbit.class, 200);
 			r1.getDog();

@@ -75,6 +75,7 @@ public class TypesTest {
 			p.store();
 
 			SessionFactory.getSession().getIdentityMap().clear();
+			SessionFactory.getSession().getIdCache().clear();
 
 			p = Entity.loadById(Pizza.class, p.getId());
 
