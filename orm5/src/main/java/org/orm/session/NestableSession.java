@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 import org.orm.exception.OrmException;
 import org.orm.record.Entity;
+import org.orm.session.identity.IdentityCache;
 import org.orm.session.identity.IdentityMap;
 import org.orm.session.identity.StoredSet;
 
@@ -26,6 +27,7 @@ public class NestableSession implements ISession {
 
 	protected final IdentityMap<Entity> identityMap = new IdentityMap<Entity>();
 	protected final StoredSet storedSet = new StoredSet();
+	protected final IdentityCache<Entity> idCache = new IdentityCache<Entity>();
 
 	/**
 	 * C'tor
@@ -184,6 +186,10 @@ public class NestableSession implements ISession {
 
 	public StoredSet getStoredSet() {
 		return storedSet;
+	}
+
+	public IdentityCache<Entity> getIdCache() {
+		return idCache;
 	}
 
 }
