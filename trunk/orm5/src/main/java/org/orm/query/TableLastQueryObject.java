@@ -15,7 +15,9 @@ public class TableLastQueryObject extends QueryObject {
 		if (this.tableIndex == null) {
 			throw new OrmException("must call addTableName() before setTableName()");
 		}
-		super.query.insert(this.tableIndex, tableName);
+		if (!this.tableIndex.equals(0)) {
+			super.query.insert(this.tableIndex, tableName);
+		}
 		return this;
 	}
 
