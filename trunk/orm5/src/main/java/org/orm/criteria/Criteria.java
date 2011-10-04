@@ -18,7 +18,10 @@ public class Criteria implements Where, OrderBy {
 	protected final TableLastQueryObject query = new TableLastQueryObject();
 
 	public static <T extends Entity> Where select() {
-		return new Criteria().innerSelect();
+		final Criteria r = new Criteria();
+		r.query.append("SELECT * FROM ");
+		r.query.addTableName();
+		return r;
 	}
 
 	public static Finish query(final String query, final Object... params) {
@@ -27,12 +30,6 @@ public class Criteria implements Where, OrderBy {
 		r.query.append(query);
 		r.query.addParams(params);
 		return r;
-	}
-
-	protected Criteria innerSelect() {
-		query.append("SELECT * FROM ");
-		query.addTableName();
-		return this;
 	}
 
 	public OrderBy where(final Criterion criterion) {
