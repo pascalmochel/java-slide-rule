@@ -22,8 +22,8 @@ public class Criteria<T extends Entity> implements Where<T>, OrderBy<T> {
 		return new Criteria<T>().innerSelect(entityClass);
 	}
 
-	public static <T extends Entity> Finish<T> query(String query, Object... params) {
-		Criteria<T> r = new Criteria<T>();
+	public static <T extends Entity> Finish<T> query(final String query, final Object... params) {
+		final Criteria<T> r = new Criteria<T>();
 		r.query.append(query);
 		r.query.addParams(params);
 		return r;
@@ -103,7 +103,7 @@ public class Criteria<T extends Entity> implements Where<T>, OrderBy<T> {
 		return DataMapper.query(SingletonFactory.getEntityMapper(entityClass), query);
 	}
 
-	public <T2> T2 getColumnValue(Field<T2> field) {
+	public <T2> T2 getColumnValue(final Field<T2> field) {
 		return DataMapper.aggregate(field, query);
 	}
 

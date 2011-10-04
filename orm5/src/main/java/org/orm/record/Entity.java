@@ -72,10 +72,9 @@ public class Entity extends BaseEntity {
 		return SingletonFactory.getEntity(entityClass).ploadByColumn(column, value);
 	}
 
-	public static int sqlStatement(final IQueryObject query) {
-		return DataMapper.update(query);
-	}
-
+	/**
+	 * @return number of affected rows
+	 */
 	public static int sqlStatement(final String query, final Object... params) {
 		return DataMapper.update(new QueryObject(query, params));
 	}
