@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 import org.orm.exception.OrmException;
 import org.orm.record.Entity;
 import org.orm.session.identity.IdentityCache;
-import org.orm.session.identity.IdentityMap;
 import org.orm.session.identity.StoredSet;
 
 import java.util.Stack;
@@ -25,9 +24,8 @@ public class NestableSession implements ISession {
 	protected Connection connection;
 	protected final Stack<Savepoint> txStack;
 
-	protected final IdentityMap<Entity> identityMap = new IdentityMap<Entity>();
-	protected final StoredSet storedSet = new StoredSet();
 	protected final IdentityCache<Entity> idCache = new IdentityCache<Entity>();
+	protected final StoredSet storedSet = new StoredSet();
 
 	/**
 	 * C'tor
@@ -178,10 +176,6 @@ public class NestableSession implements ISession {
 		} catch (final SQLException e) {
 			throw new OrmException("throwed exception reading status from a connection", e);
 		}
-	}
-
-	public IdentityMap<Entity> getIdentityMap() {
-		return identityMap;
 	}
 
 	public StoredSet getStoredSet() {

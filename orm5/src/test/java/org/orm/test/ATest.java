@@ -46,7 +46,6 @@ public class ATest {
 			/**/"[ID_RABBIT=203, NAME=c22, AGE=2, NUM_DOG=101=>[...]]]]"
 			/**/, d2.toString());
 
-			SessionFactory.getSession().getIdentityMap().clear();
 			SessionFactory.getSession().getIdCache().clear();
 
 			final Rabbit r1 = Entity.loadById(Rabbit.class, 200);
