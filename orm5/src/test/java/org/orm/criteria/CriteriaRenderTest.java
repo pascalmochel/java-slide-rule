@@ -1,8 +1,6 @@
 package org.orm.criteria;
 
 import org.junit.Test;
-import org.orm.criteria.Criterion;
-import org.orm.criteria.aggregate.Aggregate;
 import org.orm.criteria.order.Order;
 import org.orm.test.ent.Dog;
 
@@ -47,19 +45,19 @@ public class CriteriaRenderTest {
 
 	}
 
-	@Test
-	public void testnameGroupBy() throws Exception {
-
-		final Criterion c = Criteria
-		/**/.select(Dog.class, Aggregate.max(Dog.age, "VALUE"))
-		/**/.where(not(eq(Dog.name, "din")))
-		/**/.groupBy(Dog.name)
-		/**/.having(lt(Dog.age, 10))
-		/**/.orderBy(Order.asc(Dog.name));
-
-		assertEquals(
-				"SELECT MAX(AGE) AS VALUE FROM DOG WHERE NOT(NAME=?) GROUP BY NAME HAVING AGE<? ORDER BY NAME ASC -- [din, 10]",
-				/**/c.renderQuery().toString());
-	}
+	// @Test
+	// public void testnameGroupBy() throws Exception {
+	//
+	// final Criterion c = Criteria
+	// /**/.select(Dog.class, Aggregate.max(Dog.age, "VALUE"))
+	// /**/.where(not(eq(Dog.name, "din")))
+	// /**/.groupBy(Dog.name)
+	// /**/.having(lt(Dog.age, 10))
+	// /**/.orderBy(Order.asc(Dog.name));
+	//
+	// assertEquals(
+	// "SELECT MAX(AGE) AS VALUE FROM DOG WHERE NOT(NAME=?) GROUP BY NAME HAVING AGE<? ORDER BY NAME ASC -- [din, 10]",
+	// /**/c.renderQuery().toString());
+	// }
 
 }

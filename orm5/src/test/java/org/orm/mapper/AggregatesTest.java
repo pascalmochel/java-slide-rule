@@ -3,7 +3,6 @@ package org.orm.mapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.orm.mapper.DataMapper;
 import org.orm.query.QueryObject;
 import org.orm.record.field.impl.FString;
 import org.orm.record.field.impl.primitive.FShort;
@@ -58,6 +57,11 @@ public class AggregatesTest {
 			final QueryObject query = new QueryObject("SELECT COUNT(*) AS VALUE FROM DOG");
 			final short n = DataMapper.aggregate(new FShort("VALUE"), query);
 			assertEquals(7, n);
+
+			// FInteger field =new FInteger ("VALUE");
+			// int n2 = Criteria.select(Dog.class,
+			// Aggregate.countAll(field)).getColumnValue(field);
+			// assertEquals(7, n2);
 		} finally {
 			SessionFactory.getSession().closeReadOnly();
 		}

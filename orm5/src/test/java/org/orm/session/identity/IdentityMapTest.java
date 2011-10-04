@@ -2,7 +2,6 @@ package org.orm.session.identity;
 
 import org.junit.Test;
 import org.orm.record.Entity;
-import org.orm.session.identity.IdentityMap;
 import org.orm.test.ent.Dog;
 
 import static org.junit.Assert.*;

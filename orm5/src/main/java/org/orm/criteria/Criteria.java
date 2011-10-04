@@ -1,9 +1,6 @@
 package org.orm.criteria;
 
-import org.orm.criteria.aggregate.Aggregator;
 import org.orm.criteria.impl.Finish;
-import org.orm.criteria.impl.GroupBy;
-import org.orm.criteria.impl.Having;
 import org.orm.criteria.impl.OrderBy;
 import org.orm.criteria.impl.Where;
 import org.orm.criteria.order.Order;
@@ -16,7 +13,7 @@ import org.orm.record.field.Field;
 
 import java.util.List;
 
-public class Criteria<T extends Entity> implements Where<T>, GroupBy<T>, Having<T>, OrderBy<T> {
+public class Criteria<T extends Entity> implements Where<T>, OrderBy<T> {
 
 	protected Class<T> entityClass;
 	protected final QueryObject query = new QueryObject();
@@ -25,25 +22,33 @@ public class Criteria<T extends Entity> implements Where<T>, GroupBy<T>, Having<
 		return new Criteria<T>().innerSelect(entityClass);
 	}
 
-	public static <T extends Entity> Where<T> select(final Class<T> entityClass,
-			final Aggregator... aggregators) {
-
-		final Criteria<T> r = new Criteria<T>();
-
-		r.query.append("SELECT ");
-		r.entityClass = entityClass;
-		final T entity = SingletonFactory.getEntity(entityClass);
-
-		for (int i = 0; i < aggregators.length; i++) {
-			final Aggregator a = aggregators[i];
-			r.query.append(a.render());
-			if (i < aggregators.length - 1) {
-				r.query.append(",");
-			}
-		}
-		r.query.append(" FROM ").append(entity.getTableName());
+	public static <T extends Entity> Finish<T> query(String query, Object... params) {
+		Criteria<T> r = new Criteria<T>();
+		r.query.append(query);
+		r.query.addParams(params);
 		return r;
 	}
+
+	// public static <T extends Entity> Where<T> select(final Class<T>
+	// entityClass,
+	// final Aggregator... aggregators) {
+	//
+	// final Criteria<T> r = new Criteria<T>();
+	//
+	// r.query.append("SELECT ");
+	// r.entityClass = entityClass;
+	// final T entity = SingletonFactory.getEntity(entityClass);
+	//
+	// for (int i = 0; i < aggregators.length; i++) {
+	// final Aggregator a = aggregators[i];
+	// r.query.append(a.render());
+	// if (i < aggregators.length - 1) {
+	// r.query.append(",");
+	// }
+	// }
+	// r.query.append(" FROM ").append(entity.getTableName());
+	// return r;
+	// }
 
 	protected Criteria<T> innerSelect(final Class<T> entityClass) {
 		this.entityClass = entityClass;
@@ -52,29 +57,27 @@ public class Criteria<T extends Entity> implements Where<T>, GroupBy<T>, Having<
 		return this;
 	}
 
-	public GroupBy<T> where(final Criterion criterion) {
+	public OrderBy<T> where(final Criterion criterion) {
 		query.append(" WHERE ").append(criterion.renderQuery());
 		return this;
 	}
 
-	@Override
-	public Having<T> groupBy(final Field<?>... fields) {
-		query.append(" GROUP BY ");
-		for (int i = 0; i < fields.length; i++) {
-			final Field<?> f = fields[i];
-			query.append(f.getColumnName());
-			if (i < fields.length - 1) {
-				query.append(",");
-			}
-		}
-		return this;
-	}
-
-	@Override
-	public OrderBy<T> having(final Criterion criterion) {
-		query.append(" HAVING ").append(criterion.renderQuery());
-		return this;
-	}
+	// public Having<T> groupBy(final Field<?>... fields) {
+	// query.append(" GROUP BY ");
+	// for (int i = 0; i < fields.length; i++) {
+	// final Field<?> f = fields[i];
+	// query.append(f.getColumnName());
+	// if (i < fields.length - 1) {
+	// query.append(",");
+	// }
+	// }
+	// return this;
+	// }
+	//
+	// public OrderBy<T> having(final Criterion criterion) {
+	// query.append(" HAVING ").append(criterion.renderQuery());
+	// return this;
+	// }
 
 	public Finish<T> orderBy(final Order... orderByFields) {
 		query.append(" ORDER BY ");
@@ -98,6 +101,10 @@ public class Criteria<T extends Entity> implements Where<T>, GroupBy<T>, Having<
 
 	public List<T> get() {
 		return DataMapper.query(SingletonFactory.getEntityMapper(entityClass), query);
+	}
+
+	public <T2> T2 getColumnValue(Field<T2> field) {
+		return DataMapper.aggregate(field, query);
 	}
 
 }

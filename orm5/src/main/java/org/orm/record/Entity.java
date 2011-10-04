@@ -11,7 +11,6 @@ import org.orm.record.compo.ManyToOne;
 import org.orm.record.compo.OneToMany;
 import org.orm.record.field.Field;
 import org.orm.record.field.FieldDef;
-import org.orm.record.field.impl.primitive.FLong;
 import org.orm.session.SessionFactory;
 
 import java.util.List;
@@ -41,24 +40,32 @@ public class Entity extends BaseEntity {
 		return SingletonFactory.getEntity(entityClass).ploadAll();
 	}
 
-	public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
-		return SingletonFactory.getEntity(entityClass).ploadUniqueByQuery(entityClass, query);
-	}
+	// public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass,
+	// final QueryObject query) {
+	// return
+	// SingletonFactory.getEntity(entityClass).ploadUniqueByQuery(entityClass,
+	// query);
+	// }
+	//
+	// public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass,
+	// final String query,
+	// final Object... queryParams) {
+	// return
+	// SingletonFactory.getEntity(entityClass).ploadUniqueByQuery(entityClass,
+	// new QueryObject(query, queryParams));
+	// }
 
-	public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass, final String query,
-			final Object... queryParams) {
-		return SingletonFactory.getEntity(entityClass).ploadUniqueByQuery(entityClass,
-				new QueryObject(query, queryParams));
-	}
-
-	public static <T extends Entity> List<T> loadByQuery(final Class<T> entityClass, final QueryObject query) {
-		return SingletonFactory.getEntity(entityClass).ploadByQuery(query);
-	}
-
-	public static <T extends Entity> List<T> loadByQuery(final Class<T> entityClass, final String query,
-			final Object... queryParams) {
-		return SingletonFactory.getEntity(entityClass).ploadByQuery(new QueryObject(query, queryParams));
-	}
+	// public static <T extends Entity> List<T> loadByQuery(final Class<T>
+	// entityClass, final QueryObject query) {
+	// return SingletonFactory.getEntity(entityClass).ploadByQuery(query);
+	// }
+	//
+	// public static <T extends Entity> List<T> loadByQuery(final Class<T>
+	// entityClass, final String query,
+	// final Object... queryParams) {
+	// return SingletonFactory.getEntity(entityClass).ploadByQuery(new
+	// QueryObject(query, queryParams));
+	// }
 
 	public static <T extends Entity> List<T> loadByColumn(final Class<T> entityClass, final String column,
 			final Object value) {
@@ -73,21 +80,23 @@ public class Entity extends BaseEntity {
 		return DataMapper.update(new QueryObject(query, params));
 	}
 
-	private <T extends Entity> T ploadUniqueByQuery(final Class<T> entityClass, final QueryObject query) {
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("loadUniqueByQuery(" + query + ")");
-		}
-		final IRowMapper<T> mapper = getRowMapper();
-		return DataMapper.queryUnique(mapper, query);
-	}
-
-	private <T extends Entity> List<T> ploadByQuery(final QueryObject query) {
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("loadByQuery(" + query + ")");
-		}
-		final IRowMapper<T> mapper = getRowMapper();
-		return DataMapper.query(mapper, query);
-	}
+	// private <T extends Entity> T ploadUniqueByQuery(final Class<T>
+	// entityClass, final QueryObject query) {
+	// if (log.isLoggable(Level.FINE)) {
+	// log.fine("loadUniqueByQuery(" + query + ")");
+	// }
+	// final IRowMapper<T> mapper = getRowMapper();
+	// return DataMapper.queryUnique(mapper, query);
+	// }
+	//
+	// private <T extends Entity> List<T> ploadByQuery(final QueryObject query)
+	// {
+	// if (log.isLoggable(Level.FINE)) {
+	// log.fine("loadByQuery(" + query + ")");
+	// }
+	// final IRowMapper<T> mapper = getRowMapper();
+	// return DataMapper.query(mapper, query);
+	// }
 
 	private <T extends Entity> List<T> ploadByColumn(final String column, final Object value) {
 
@@ -331,17 +340,18 @@ public class Entity extends BaseEntity {
 		DataMapper.update(query);
 	}
 
-	public static <T extends Entity> Long count(final Class<T> c, final Criterion criterion) {
-		// if (log.isLoggable(Level.FINE)) {
-		// log.fine("count(Criterion[])");
-		// }
-		final IQueryObject query = new QueryObject()
-		/**/.append("SELECT COUNT(*) AS VALUE FROM ")
-		/**/.append(SingletonFactory.getEntity(c).getTableName())
-		/**/.append(criterion.renderQuery())
-		/**/;
-		return DataMapper.aggregate(new FLong("VALUE"), query);
-	}
+	// public static <T extends Entity> Long count(final Class<T> c, final
+	// Criterion criterion) {
+	// // if (log.isLoggable(Level.FINE)) {
+	// // log.fine("count(Criterion[])");
+	// // }
+	// final IQueryObject query = new QueryObject()
+	// /**/.append("SELECT COUNT(*) AS VALUE FROM ")
+	// /**/.append(SingletonFactory.getEntity(c).getTableName())
+	// /**/.append(criterion.renderQuery())
+	// /**/;
+	// return DataMapper.aggregate(new FLong("VALUE"), query);
+	// }
 
 	@SuppressWarnings("unchecked")
 	public <T extends Entity> IRowMapper<T> getRowMapper() {

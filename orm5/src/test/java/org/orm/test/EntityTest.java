@@ -9,7 +9,6 @@ import org.orm.session.SessionFactory;
 import org.orm.test.ent.Rabbit;
 
 import static org.junit.Assert.*;
-import static org.orm.criteria.restriction.Restriction.*;
 
 public class EntityTest {
 
@@ -78,8 +77,10 @@ public class EntityTest {
 			// .asc(Rabbit.id)))
 			// /**/);
 
-			System.out.println(Entity.count(Rabbit.class, where(eq(Rabbit.id, 4))));
-			System.out.println(Entity.count(Rabbit.class, where(eq(Rabbit.id, 100))));
+			// System.out.println(Entity.count(Rabbit.class, where(eq(Rabbit.id,
+			// 4))));
+			// System.out.println(Entity.count(Rabbit.class, where(eq(Rabbit.id,
+			// 100))));
 
 			rabbit.delete();
 

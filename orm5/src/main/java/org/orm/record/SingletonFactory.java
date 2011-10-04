@@ -80,7 +80,8 @@ public class SingletonFactory {
 		return queriesMap.get(name);
 	}
 
-	public static <T extends Entity> void querySet(final Class<T> c, final String name, final MutableQueryObject query) {
+	public static <T extends Entity> void querySet(final Class<T> c, final String name,
+			final MutableQueryObject query) {
 		final Map<Class<? extends Entity>, Map<String, MutableQueryObject>> entMap = threadLocalQueries.get();
 		if (!entMap.containsKey(c)) {
 			final Map<String, MutableQueryObject> queriesMap = new HashMap<String, MutableQueryObject>();

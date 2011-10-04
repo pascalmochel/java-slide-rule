@@ -1,12 +1,12 @@
 package many2many.ent;
 
-import java.util.List;
-
 import org.orm.record.Entity;
 import org.orm.record.compo.OneToMany;
 import org.orm.record.field.impl.primitive.FInteger;
 import org.orm.record.identity.IdentityGenerator;
 import org.orm.record.identity.impl.hsqldb.HsqldbIdentity;
+
+import java.util.List;
 
 public class B extends Entity {
 

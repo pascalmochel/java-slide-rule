@@ -7,21 +7,32 @@ import org.orm.session.SessionFactory;
 import benchmark.hibernate.HibernateBenchmark;
 import benchmark.myorm.OrmBenchmark;
 
+import java.util.ArrayList;
+import java.util.List;
+
+//@Ignore
 public class Benchmark {
 
 	static {
 		SessionFactory.setDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
-	protected int N = 10;
+	protected int N = 100;
 
 	@Test
 	public void testname() throws Exception {
-		final long t2 = testOrm();
-		final long t1 = testHibernate();
-		final long max = Math.min(t1, t2);
-		System.out.println(t1 + "ns:" + t2 + "ns");
-		System.out.println(100 * t1 / max + ":" + 100 * t2 / max);
+		List<String> r = new ArrayList<String>();
+		for (int i = 0; i < 5; i++) {
+			final long t2 = testOrm();
+			final long t1 = testHibernate();
+			final long min = Math.min(t1, t2);
+			System.out.println(t1 + "ns:" + t2 + "ns");
+			System.out.println(100 * t1 / min + ":" + 100 * t2 / min);
+
+			r.add(100 * t1 / min + ":" + 100 * t2 / min);
+		}
+
+		System.out.println(r);
 	}
 
 	public long testHibernate() throws Exception {

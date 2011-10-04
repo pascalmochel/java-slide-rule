@@ -3,11 +3,10 @@ package org.orm.session;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.orm.criteria.restriction.Restriction;
+import org.orm.criteria.Criteria;
 import org.orm.exception.OrmException;
 import org.orm.mapper.DataMapper;
-import org.orm.record.Entity;
-import org.orm.session.SessionFactory;
+import org.orm.record.field.impl.primitive.FLong;
 import org.orm.test.EntityTest2;
 import org.orm.test.ent.Dog;
 
@@ -124,7 +123,9 @@ public class NestedTransactionsTest {
 			SessionFactory.getSession().commit();
 			break;
 		default:
-			assertEquals(Long.valueOf(String.valueOf(c)), Entity.count(Dog.class, Restriction.all()));
+			Long count = Criteria.query("SELECT COUNT(*) AS VALUE FROM DOG").getColumnValue(
+					new FLong("VALUE"));
+			assertEquals(Long.valueOf(String.valueOf(c)), count);
 		}
 	}
 
