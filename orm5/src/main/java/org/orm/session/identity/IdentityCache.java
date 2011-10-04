@@ -42,15 +42,15 @@ public class IdentityCache<T extends Entity> {
 		return entity;
 	}
 
-	public boolean isAttached(final Class<T> entClass, final Object idValue) {
+	public T isAttached(final Class<T> entClass, final Object idValue) {
 		if (idValue == null) {
-			return false;
+			return null;
 		}
 		final HashMap<Object, T> classMap = cache.get(entClass);
 		if (classMap == null) {
-			return false;
+			return null;
 		}
-		return classMap.containsKey(idValue);
+		return classMap.get(idValue);
 	}
 
 	public void clear() {

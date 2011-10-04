@@ -21,6 +21,17 @@ public class EntityMapper implements IRowMapper<Entity> {
 		try {
 			final Entity r = tableClass.newInstance();
 
+			/**
+			 * carrega la columna d'id, i mira si la té cached
+			 */
+			r.getIdField().load(rs);
+			final Object idValue = r.getIdField().getValue();
+			final Entity attached = SessionFactory.getSession().getIdCache().isAttached(
+					(Class<Entity>) tableClass, idValue);
+			if (attached != null) {
+				return attached;
+			}
+
 			for (final Field<?> f : r.getFields()) {
 				try {
 					f.load(rs);
@@ -35,5 +46,4 @@ public class EntityMapper implements IRowMapper<Entity> {
 			throw new OrmException("error mapping " + getClass().getSimpleName(), e);
 		}
 	}
-
 }
