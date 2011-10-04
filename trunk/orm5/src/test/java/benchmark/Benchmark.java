@@ -17,11 +17,11 @@ public class Benchmark {
 		SessionFactory.setDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
-	protected int N = 100;
+	protected int N = 20;
 
 	@Test
 	public void testname() throws Exception {
-		List<String> r = new ArrayList<String>();
+		final List<String> r = new ArrayList<String>();
 		for (int i = 0; i < 5; i++) {
 			final long t2 = testOrm();
 			final long t1 = testHibernate();

@@ -13,35 +13,35 @@ public class QueryGenUtils {
 	public static String columnNamesJoin(final Collection<Field<?>> fields) {
 
 		final StringBuilder r = new StringBuilder();
-		for (final Field<?> f : fields) {
-			r.append(f.getColumnName()).append(',');
-		}
-		return r.deleteCharAt(r.length() - 1).toString();
-	}
-
-	public static String columnNamesJoin(final FieldDef<?>[] fields) {
-
-		final StringBuilder r = new StringBuilder();
 		for (final FieldDef<?> f : fields) {
 			r.append(f.getColumnName()).append(',');
 		}
 		return r.deleteCharAt(r.length() - 1).toString();
 	}
 
+	// public static String columnNamesJoin(final FieldDef<?>[] fields) {
+	//
+	// final StringBuilder r = new StringBuilder();
+	// for (final FieldDef<?> f : fields) {
+	// r.append(f.getColumnName()).append(',');
+	// }
+	// return r.deleteCharAt(r.length() - 1).toString();
+	// }
+
 	public static String parametersJoin(final Collection<Field<?>> fields) {
 
 		final StringBuilder r = new StringBuilder();
 		for (@SuppressWarnings("unused")
-		final Field<?> f : fields) {
+		final FieldDef<?> f : fields) {
 			r.append("?,");
 		}
 		return r.deleteCharAt(r.length() - 1).toString();
 	}
 
-	public static String setColumnNamesExceptId(final Field<?> idField, final Collection<Field<?>> fields) {
+	public static String setColumnNamesExceptId(final FieldDef<?> idField, final Collection<Field<?>> fields) {
 
 		final StringBuilder r = new StringBuilder();
-		for (final Field<?> f : fields) {
+		for (final FieldDef<?> f : fields) {
 			if (!f.equals(idField)) {
 				r.append(f.getColumnName()).append("=?,");
 			}

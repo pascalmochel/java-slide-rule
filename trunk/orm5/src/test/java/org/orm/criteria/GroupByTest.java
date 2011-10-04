@@ -1,24 +1,20 @@
 //package org.orm.criteria;
 //
-//import static org.junit.Assert.assertEquals;
-//import static org.orm.criteria.aggregate.Aggregate.field;
-//import static org.orm.criteria.aggregate.Aggregate.*;
-//import static org.orm.criteria.aggregate.Aggregate.nul;
-//import static org.orm.criteria.order.Order.asc;
-//import static org.orm.criteria.restriction.Restriction.*;
-//
-//import java.util.List;
-//
 //import org.junit.After;
 //import org.junit.Before;
 //import org.junit.Test;
-//import org.orm.criteria.aggregate.Aggregator;
 //import org.orm.mapper.DataMapper;
 //import org.orm.mapper.EntityMapper;
 //import org.orm.query.QueryObject;
 //import org.orm.record.Entity;
 //import org.orm.session.SessionFactory;
 //import org.orm.test.EntityTest2;
+//
+//import java.util.List;
+//
+//import static org.junit.Assert.*;
+//import static org.orm.criteria.order.Order.*;
+//import static org.orm.criteria.restriction.Restriction.*;
 //
 //public class GroupByTest {
 //
@@ -111,8 +107,8 @@
 //			/**/, r3.toString());
 //
 //			final List<A> vellsPerCity =
-//			/**/Criteria.select(A.class, nul(A.id), max(A.name, "NAME"), field(A.city), max(A.age, "AGE"))
-//			/**/.groupBy(A.city)
+//			/**/Criteria.query(
+//					"SELECT NULL AS ID_A, MAX(NAME) AS NAME, CITY, MAX(AGE) AS AGE FROM A GROUP BY CITY")
 //			/**/.get();
 //
 //			assertEquals(
