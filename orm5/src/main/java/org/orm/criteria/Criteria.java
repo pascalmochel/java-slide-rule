@@ -1,8 +1,7 @@
 package org.orm.criteria;
 
-import org.orm.criteria.impl.Finish;
-import org.orm.criteria.impl.OrderBy;
-import org.orm.criteria.impl.Where;
+import org.orm.criteria.dsl.GetResult;
+import org.orm.criteria.dsl.OrderBy;
 import org.orm.criteria.order.Order;
 import org.orm.mapper.DataMapper;
 import org.orm.mapper.IRowMapper;
@@ -13,18 +12,11 @@ import org.orm.record.field.Field;
 
 import java.util.List;
 
-public class Criteria implements Where, OrderBy {
+public class Criteria implements OrderBy {
 
 	protected final TableLastQueryObject query = new TableLastQueryObject();
 
-	public static <T extends Entity> Where select() {
-		final Criteria r = new Criteria();
-		r.query.append("SELECT * FROM ");
-		r.query.addTableName();
-		return r;
-	}
-
-	public static Finish query(final String query, final Object... params) {
+	public static GetResult query(final String query, final Object... params) {
 		final Criteria r = new Criteria();
 		r.query.addTableName();
 		r.query.append(query);
@@ -32,12 +24,24 @@ public class Criteria implements Where, OrderBy {
 		return r;
 	}
 
-	public OrderBy where(final Criterion criterion) {
-		query.append(" WHERE ").append(criterion.renderQuery());
-		return this;
+	public static <T extends Entity> OrderBy selectBy(final Criterion criterion) {
+
+		final Criteria r = new Criteria();
+		r.query.append("SELECT * FROM ");
+		r.query.addTableName();
+		r.query.append(" WHERE ").append(criterion.renderQuery());
+		return r;
 	}
 
-	public Finish orderBy(final Order... orderByFields) {
+	public static <T extends Entity> OrderBy selectAll() {
+
+		final Criteria r = new Criteria();
+		r.query.append("SELECT * FROM ");
+		r.query.addTableName();
+		return r;
+	}
+
+	public GetResult orderBy(final Order... orderByFields) {
 		query.append(" ORDER BY ");
 		for (int i = 0; i < orderByFields.length; i++) {
 			final Order o = orderByFields[i];

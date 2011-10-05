@@ -9,6 +9,7 @@ import org.orm.record.identity.impl.hsqldb.HsqldbIdentity;
 
 import java.util.List;
 
+//TODO implementar un generador d'entities?
 public class Dog extends Entity {
 
 	public static IdentityGenerator<Integer> id = new HsqldbIdentity<Integer>(new FInteger("ID_DOG"));
