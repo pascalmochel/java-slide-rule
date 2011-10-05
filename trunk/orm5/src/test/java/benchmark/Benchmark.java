@@ -1,17 +1,14 @@
 package benchmark;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.orm.datasource.HsqldbDataSourceFactory;
 import org.orm.session.SessionFactory;
 
 import benchmark.hibernate.HibernateBenchmark;
 import benchmark.myorm.OrmBenchmark;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Ignore
 public class Benchmark {
 
 	static {
@@ -19,13 +16,13 @@ public class Benchmark {
 	}
 
 	protected int N = 20;
-
-	@Test
-	public void testname() throws Exception {
+	
+	public static void main(String[] args) throws Exception {
+		
 		final List<String> r = new ArrayList<String>();
 		for (int i = 0; i < 5; i++) {
-			final long t2 = testOrm();
-			final long t1 = testHibernate();
+			final long t2 = new Benchmark().testOrm();
+			final long t1 = new Benchmark().testHibernate();
 			final long min = Math.min(t1, t2);
 			System.out.println(t1 + "ns:" + t2 + "ns");
 			System.out.println(100 * t1 / min + ":" + 100 * t2 / min);

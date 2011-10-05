@@ -3,6 +3,7 @@ package org.orm.a;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import org.orm.datasource.HsqldbDataSourceFactory;
 import org.orm.mapper.DataMapper;
 import org.orm.record.Entity;
@@ -29,7 +30,7 @@ public class TestA {
 			DataMapper.executeDDL("INSERT INTO CITY (ID_CITY,NAME) VALUES (100,'SBD')");
 			Entity.sqlStatement("INSERT INTO CITY (ID_CITY,NAME) VALUES (?,?)", 101, "TRS");
 
-			City sbd = select().where(eq(City.name, "SBD")).getUnique(City.class);
+			City sbd = selectBy(eq(City.name, "SBD")).getUnique(City.class);
 			assertEquals("[ID_CITY=100, NAME=SBD]", sbd.toString());
 
 			sbd.setName("Sabadell");

@@ -39,11 +39,12 @@ public class EntityMapper implements IRowMapper<Entity> {
 					throw new OrmException("error mapping field: " + f.toString(), e);
 				}
 			}
-			final Class<Entity> class1 = (Class<Entity>) r.getClass();
-			return SessionFactory.getSession().getIdCache().attach(class1, r.getIdField().getValue(), r);
+			final Class<Entity> entityClass = (Class<Entity>) r.getClass();
+			return SessionFactory.getSession().getIdCache().attach(entityClass, r.getIdField().getValue(), r);
 
 		} catch (final Exception e) {
 			throw new OrmException("error mapping " + getClass().getSimpleName(), e);
 		}
 	}
+	
 }
