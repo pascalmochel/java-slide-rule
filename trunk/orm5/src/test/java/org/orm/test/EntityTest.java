@@ -1,6 +1,7 @@
 package org.orm.test;
 
 import org.junit.Test;
+import org.orm.criteria.Criteria;
 import org.orm.datasource.HsqldbDataSourceFactory;
 import org.orm.exception.OrmException;
 import org.orm.mapper.DataMapper;
@@ -62,7 +63,7 @@ public class EntityTest {
 			rabbit.store();
 
 			System.out.println(Entity.loadById(Rabbit.class, 100));
-			System.out.println(Entity.loadAll(Rabbit.class));
+			System.out.println(Criteria.selectAll().get(Rabbit.class));
 
 			// System.out.println(Entity.loadBy(Rabbit.class,
 			// where(eq(Rabbit.id, 4))));
@@ -84,7 +85,7 @@ public class EntityTest {
 
 			rabbit.delete();
 
-			System.out.println(Entity.loadAll(Rabbit.class));
+			System.out.println(Criteria.selectAll().get(Rabbit.class));
 
 			System.out.println(a.getDog());
 

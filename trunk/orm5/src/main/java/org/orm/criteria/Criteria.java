@@ -9,6 +9,7 @@ import org.orm.query.TableLastQueryObject;
 import org.orm.record.Entity;
 import org.orm.record.SingletonFactory;
 import org.orm.record.field.Field;
+import org.orm.record.field.FieldDef;
 
 import java.util.List;
 
@@ -33,6 +34,15 @@ public class Criteria implements OrderBy {
 		return r;
 	}
 
+	public static <T extends Entity, F> OrderBy selectBy(final FieldDef<F> field, final F value) {
+
+		final Criteria r = new Criteria();
+		r.query.append("SELECT * FROM ");
+		r.query.addTableName();
+		r.query.append(" WHERE ?=").append(field.getColumnName()).addParams(value);
+		return r;
+	}
+
 	public static <T extends Entity> OrderBy selectAll() {
 
 		final Criteria r = new Criteria();
@@ -52,6 +62,10 @@ public class Criteria implements OrderBy {
 		}
 		return this;
 	}
+
+	/*
+	 * carga
+	 */
 
 	public <T extends Entity> T getUnique(final Class<T> entityClass) {
 		final T entity = SingletonFactory.getEntity(entityClass);

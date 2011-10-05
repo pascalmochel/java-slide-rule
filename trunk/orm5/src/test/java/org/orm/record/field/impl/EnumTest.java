@@ -3,9 +3,9 @@ package org.orm.record.field.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.orm.criteria.Criteria;
 import org.orm.datasource.HsqldbDataSourceFactory;
 import org.orm.mapper.DataMapper;
-import org.orm.record.Entity;
 import org.orm.session.SessionFactory;
 import org.orm.test.EntityTest2;
 
@@ -50,11 +50,13 @@ public class EnumTest {
 
 			final EnumDog d = new EnumDog(null, "din", EColor.RED);
 			d.store();
-			assertEquals("[[ID_DOG=100, NAME=din, COLOR=RED]]", Entity.loadAll(EnumDog.class).toString());
+			assertEquals("[[ID_DOG=100, NAME=din, COLOR=RED]]", Criteria.selectAll().get(EnumDog.class)
+					.toString());
 
 			d.setColor(EColor.WHITE);
 			d.store();
-			assertEquals("[[ID_DOG=100, NAME=din, COLOR=WHITE]]", Entity.loadAll(EnumDog.class).toString());
+			assertEquals("[[ID_DOG=100, NAME=din, COLOR=WHITE]]", Criteria.selectAll().get(EnumDog.class)
+					.toString());
 
 		} finally {
 			SessionFactory.getSession().rollback();

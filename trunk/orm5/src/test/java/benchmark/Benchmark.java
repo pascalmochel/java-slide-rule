@@ -1,13 +1,13 @@
 package benchmark;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.orm.datasource.HsqldbDataSourceFactory;
 import org.orm.session.SessionFactory;
 
 import benchmark.hibernate.HibernateBenchmark;
 import benchmark.myorm.OrmBenchmark;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Benchmark {
 
@@ -15,10 +15,10 @@ public class Benchmark {
 		SessionFactory.setDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
-	protected int N = 20;
-	
-	public static void main(String[] args) throws Exception {
-		
+	protected int N = 50;
+
+	public static void main(final String[] args) throws Exception {
+
 		final List<String> r = new ArrayList<String>();
 		for (int i = 0; i < 5; i++) {
 			final long t2 = new Benchmark().testOrm();

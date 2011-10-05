@@ -3,9 +3,9 @@ package org.orm.record.identity.impl.hsqldb;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.orm.criteria.Criteria;
 import org.orm.datasource.HsqldbDataSourceFactory;
 import org.orm.mapper.DataMapper;
-import org.orm.record.Entity;
 import org.orm.session.SessionFactory;
 import org.orm.test.EntityTest2;
 
@@ -47,7 +47,8 @@ public class HsqldbIdentityTest {
 		SessionFactory.getSession().open();
 
 		new IdentityDog(null, "din", 9).store();
-		assertEquals("[[ID_DOG=100, NAME=din, AGE=9]]", Entity.loadAll(IdentityDog.class).toString());
+		assertEquals("[[ID_DOG=100, NAME=din, AGE=9]]", Criteria.selectAll().get(IdentityDog.class)
+				.toString());
 
 		SessionFactory.getSession().rollback();
 	}
