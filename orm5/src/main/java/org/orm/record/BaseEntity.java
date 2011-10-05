@@ -16,12 +16,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 // TODO i implementar validadors?
 public class BaseEntity {
-
-	protected Logger log = Logger.getLogger(getClass().getName());
 
 	private String tableName;
 

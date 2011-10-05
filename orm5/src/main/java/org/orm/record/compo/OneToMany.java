@@ -1,5 +1,6 @@
 package org.orm.record.compo;
 
+import org.orm.criteria.Criteria;
 import org.orm.record.BaseEntity;
 import org.orm.record.Entity;
 import org.orm.record.field.Clonable;
@@ -26,17 +27,21 @@ public class OneToMany<TID, E extends Entity> implements Clonable<OneToMany<TID,
 		return new OneToMany<TID, E>(foreignEntityClass, foreignFieldDef);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<E> getCollaboration(final BaseEntity baseEntity) {
 		if (!isInit) {
-			final Object selfIdFieldValue = baseEntity.getIdField().getValue();
+			final TID selfIdFieldValue = (TID) baseEntity.getIdField().getValue();
 			if (selfIdFieldValue == null) {
 				this.isInit = true;
 				return null;
 			}
 
 			SessionFactory.getSession().open();
-			this.collaboration = Entity.loadByColumn(foreignEntityClass, foreignFieldDef.getColumnName(),
-					selfIdFieldValue);
+			this.collaboration = Criteria.<E, TID> selectBy(foreignFieldDef, selfIdFieldValue).get(
+					foreignEntityClass);
+			// this.collaboration = Entity.loadByColumn(foreignEntityClass,
+			// foreignFieldDef.getColumnName(),
+			// selfIdFieldValue);
 			SessionFactory.getSession().closeReadOnly();
 
 			this.isInit = true;

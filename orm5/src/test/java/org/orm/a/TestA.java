@@ -3,7 +3,7 @@ package org.orm.a;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
+import org.orm.criteria.Criteria;
 import org.orm.datasource.HsqldbDataSourceFactory;
 import org.orm.mapper.DataMapper;
 import org.orm.record.Entity;
@@ -40,7 +40,8 @@ public class TestA {
 			assertEquals("[ID_CITY=100, NAME=Sabadell]", sbd.toString());
 
 			assertEquals("[[ID_CITY=100, NAME=Sabadell], [ID_CITY=101, NAME=TRS]]",
-			/**/Entity.loadAll(City.class).toString());
+			// /**/Entity.loadAll(City.class).toString());
+					/**/Criteria.selectAll().get(City.class).toString());
 
 			// final long no = Entity.count(City.class, all());
 			// assertEquals(2, no);

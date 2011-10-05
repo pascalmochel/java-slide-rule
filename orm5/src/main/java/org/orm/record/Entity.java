@@ -14,7 +14,6 @@ import org.orm.record.field.FieldDef;
 import org.orm.session.SessionFactory;
 
 import java.util.List;
-import java.util.logging.Level;
 
 //TODO té sentit un TxInterceptor?
 public class Entity extends BaseEntity {
@@ -36,9 +35,10 @@ public class Entity extends BaseEntity {
 	// criterions);
 	// }
 
-	public static <T extends Entity> List<T> loadAll(final Class<T> entityClass) {
-		return SingletonFactory.getEntity(entityClass).ploadAll();
-	}
+	// public static <T extends Entity> List<T> loadAll(final Class<T>
+	// entityClass) {
+	// return SingletonFactory.getEntity(entityClass).ploadAll();
+	// }
 
 	// public <T extends Entity> T loadUniqueByQuery(final Class<T> entityClass,
 	// final QueryObject query) {
@@ -67,10 +67,12 @@ public class Entity extends BaseEntity {
 	// QueryObject(query, queryParams));
 	// }
 
-	public static <T extends Entity> List<T> loadByColumn(final Class<T> entityClass, final String column,
-			final Object value) {
-		return SingletonFactory.getEntity(entityClass).ploadByColumn(column, value);
-	}
+	// public static <T extends Entity> List<T> loadByColumn(final Class<T>
+	// entityClass, final String column,
+	// final Object value) {
+	// return SingletonFactory.getEntity(entityClass).ploadByColumn(column,
+	// value);
+	// }
 
 	/**
 	 * @return number of affected rows
@@ -97,28 +99,27 @@ public class Entity extends BaseEntity {
 	// return DataMapper.query(mapper, query);
 	// }
 
-	private <T extends Entity> List<T> ploadByColumn(final String column, final Object value) {
-
-		final IRowMapper<T> mapper = getRowMapper();
-
-		if (!SingletonFactory.queryIsDefined(getClass(), "ploadByColumn")) {
-			final MutableQueryObject query = new MutableQueryObject(new QueryObject()
-			/**/.append("SELECT * FROM ")
-			/**/.append(getTableName())
-			/**/.append(" WHERE ")
-			/**/.append("?="));
-			SingletonFactory.querySet(getClass(), "ploadByColumn", query);
-		}
-		final IQueryObject query = SingletonFactory.queryGet(getClass(), "ploadByColumn").mutate(column,
-				value);
-
-		return DataMapper.query(mapper, query);
-	}
+	// private <T extends Entity> List<T> ploadByColumn(final String column,
+	// final Object value) {
+	//
+	// final IRowMapper<T> mapper = getRowMapper();
+	//
+	// if (!SingletonFactory.queryIsDefined(getClass(), "ploadByColumn")) {
+	// final MutableQueryObject query = new MutableQueryObject(new QueryObject()
+	// /**/.append("SELECT * FROM ")
+	// /**/.append(getTableName())
+	// /**/.append(" WHERE ")
+	// /**/.append("?="));
+	// SingletonFactory.querySet(getClass(), "ploadByColumn", query);
+	// }
+	// final IQueryObject query = SingletonFactory.queryGet(getClass(),
+	// "ploadByColumn").mutate(column,
+	// value);
+	//
+	// return DataMapper.query(mapper, query);
+	// }
 
 	private <T extends Entity> T ploadById(final Class<T> entityClass, final Object id) {
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("loadById(" + id + ")");
-		}
 
 		if (!SingletonFactory.queryIsDefined(getClass(), "ploadById")) {
 			final MutableQueryObject query = new MutableQueryObject(new QueryObject()
@@ -188,17 +189,14 @@ public class Entity extends BaseEntity {
 	// return DataMapper.queryUnique(mapper, query);
 	// }
 
-	private <T extends Entity> List<T> ploadAll() {
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("loadAll()");
-		}
-		final IQueryObject query = new QueryObject()
-		/**/.append("SELECT * FROM ")
-		/**/.append(getTableName())
-		/**/;
-		final IRowMapper<T> mapper = getRowMapper();
-		return DataMapper.query(mapper, query);
-	}
+	// private <T extends Entity> List<T> ploadAll() {
+	// final IQueryObject query = new QueryObject()
+	// /**/.append("SELECT * FROM ")
+	// /**/.append(getTableName())
+	// /**/;
+	// final IRowMapper<T> mapper = getRowMapper();
+	// return DataMapper.query(mapper, query);
+	// }
 
 	public void store() {
 		SessionFactory.getSession().getStoredSet().clear();
@@ -244,9 +242,6 @@ public class Entity extends BaseEntity {
 
 	public void insert() {
 
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("insert()");
-		}
 		if (getIdField().generateBefore()) {
 			getIdField().assignGeneratedValue();
 		}
@@ -274,9 +269,6 @@ public class Entity extends BaseEntity {
 	}
 
 	private void update() {
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("update()");
-		}
 
 		if (!SingletonFactory.queryIsDefined(getClass(), "update")) {
 			final MutableQueryObject query = new MutableQueryObject(new QueryObject()
@@ -307,9 +299,6 @@ public class Entity extends BaseEntity {
 				}
 			}
 		}
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("delete()");
-		}
 		final IQueryObject query = new QueryObject()
 		/**/.append("DELETE FROM ")
 		/**/.append(getTableName())
@@ -329,9 +318,6 @@ public class Entity extends BaseEntity {
 					collaboration.delete();
 				}
 			}
-		}
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("delete(Criterion[])");
 		}
 		final IQueryObject query = new QueryObject()
 		/**/.append("DELETE FROM ")
