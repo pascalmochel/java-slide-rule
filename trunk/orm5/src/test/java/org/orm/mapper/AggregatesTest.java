@@ -3,6 +3,7 @@ package org.orm.mapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.orm.criteria.Criteria;
 import org.orm.query.QueryObject;
 import org.orm.record.field.regular.FString;
 import org.orm.record.field.regular.primitive.FShort;
@@ -67,10 +68,17 @@ public class AggregatesTest {
 		}
 
 		SessionFactory.getSession().open();
+		final String q = "SELECT NAME FROM DOG WHERE AGE IN (SELECT MAX(AGE) FROM DOG)";
 		try {
-			final QueryObject query = new QueryObject(
-					"SELECT NAME FROM DOG WHERE AGE IN (SELECT MAX(AGE) FROM DOG)");
-			final String n = DataMapper.aggregate(new FString("NAME"), query);
+			final String n = DataMapper.aggregate(new FString("NAME"), new QueryObject(q));
+			assertEquals("din", n);
+		} finally {
+			SessionFactory.getSession().closeReadOnly();
+		}
+
+		SessionFactory.getSession().open();
+		try {
+			final String n = Criteria.query(q).getColumnValue(new FString("NAME"));
 			assertEquals("din", n);
 		} finally {
 			SessionFactory.getSession().closeReadOnly();

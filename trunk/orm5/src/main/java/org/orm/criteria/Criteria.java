@@ -13,6 +13,7 @@ import org.orm.record.field.FieldDef;
 
 import java.util.List;
 
+// per a un DSL collonut mirar: http://code.google.com/p/sql-dsl/
 public class Criteria implements OrderBy {
 
 	protected final TableLastQueryObject query = new TableLastQueryObject();
