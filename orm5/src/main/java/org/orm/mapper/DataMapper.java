@@ -22,7 +22,6 @@ public class DataMapper {
 
 	public static final boolean SHOW_SQL = false;
 
-	// TODO implementar el queryFirst() ?
 	private DataMapper() {
 	}
 
@@ -262,8 +261,9 @@ public class DataMapper {
 			if (pstm != null) {
 				pstm.close();
 			}
-		} catch (final Exception e2) {
+		} catch (final Exception e) {
 			// XXX ?
+			throw new OrmException("error closing connection resources", e);
 		}
 	}
 

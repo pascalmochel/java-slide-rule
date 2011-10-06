@@ -11,7 +11,6 @@ import org.orm.record.field.FieldDef;
 
 public class Restriction {
 
-	// TODO per a un DSL collonut mirar: http://code.google.com/p/sql-dsl/
 	private Restriction() {
 	}
 
