@@ -1,10 +1,5 @@
 package org.orm.test;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.logging.Handler;
-import java.util.logging.Level;
-
 import org.junit.Test;
 import org.orm.criteria.Criteria;
 import org.orm.datasource.HsqldbDataSourceFactory;
@@ -14,6 +9,11 @@ import org.orm.mapper.DataMapper;
 import org.orm.session.SessionFactory;
 import org.orm.test.ent.Dog;
 import org.orm.test.ent.Rabbit;
+
+import java.util.logging.Handler;
+import java.util.logging.Level;
+
+import static org.junit.Assert.*;
 
 public class EntityTest2 {
 

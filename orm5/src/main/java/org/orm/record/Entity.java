@@ -20,9 +20,11 @@ public class Entity extends BaseEntity {
 
 	public static final boolean CASCADED_DELETE = true;
 
-//	public static <T extends Entity> T loadById(final Class<T> entityClass, final Object id) {
-//		return SingletonFactory.getEntity(entityClass).ploadById(entityClass, id);
-//	}
+	// public static <T extends Entity> T loadById(final Class<T> entityClass,
+	// final Object id) {
+	// return SingletonFactory.getEntity(entityClass).ploadById(entityClass,
+	// id);
+	// }
 
 	// public static <T extends Entity> List<T> loadBy(final Class<T>
 	// entityClass, final Criterion... criterions) {
@@ -119,22 +121,24 @@ public class Entity extends BaseEntity {
 	// return DataMapper.query(mapper, query);
 	// }
 
-//	private <T extends Entity> T ploadById(final Class<T> entityClass, final Object id) {
-//
-//		if (!SingletonFactory.queryIsDefined(getClass(), "ploadById")) {
-//			final MutableQueryObject query = new MutableQueryObject(new QueryObject()
-//			/**/.append("SELECT * FROM ")
-//			/**/.append(getTableName())
-//			/**/.append(" WHERE ")
-//			/**/.append("?=")
-//			/**/.append(getIdField().getColumnName()));
-//			SingletonFactory.querySet(getClass(), "ploadById", query);
-//		}
-//		final IQueryObject query = SingletonFactory.queryGet(getClass(), "ploadById").mutateParams(id);
-//
-//		final IRowMapper<T> mapper = getRowMapper();
-//		return DataMapper.queryUnique(mapper, query);
-//	}
+	// private <T extends Entity> T ploadById(final Class<T> entityClass, final
+	// Object id) {
+	//
+	// if (!SingletonFactory.queryIsDefined(getClass(), "ploadById")) {
+	// final MutableQueryObject query = new MutableQueryObject(new QueryObject()
+	// /**/.append("SELECT * FROM ")
+	// /**/.append(getTableName())
+	// /**/.append(" WHERE ")
+	// /**/.append("?=")
+	// /**/.append(getIdField().getColumnName()));
+	// SingletonFactory.querySet(getClass(), "ploadById", query);
+	// }
+	// final IQueryObject query = SingletonFactory.queryGet(getClass(),
+	// "ploadById").mutateParams(id);
+	//
+	// final IRowMapper<T> mapper = getRowMapper();
+	// return DataMapper.queryUnique(mapper, query);
+	// }
 
 	// private <T extends Entity> List<T> ploadBy(final Criterion... criterions)
 	// {
