@@ -68,7 +68,7 @@
 //
 //			d.store();
 //
-//			final Dog d2 = Entity.loadById(Dog.class, d.getId());
+//			final Dog d2 = Criteria.selectById(Dog.class, d.getId());
 //
 //			assertTrue(d == d2);
 //

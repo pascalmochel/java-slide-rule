@@ -50,13 +50,18 @@ public class EnumTest {
 
 			final EnumDog d = new EnumDog(null, "din", EColor.RED);
 			d.store();
-			assertEquals("[[ID_DOG=100, NAME=din, COLOR=RED]]", Criteria.selectAll().get(EnumDog.class)
+			assertEquals("[[ID_DOG=100, NAME=din, COLOR=RED]]", Criteria.selectAll().list(EnumDog.class)
 					.toString());
 
 			d.setColor(EColor.WHITE);
 			d.store();
-			assertEquals("[[ID_DOG=100, NAME=din, COLOR=WHITE]]", Criteria.selectAll().get(EnumDog.class)
-					.toString());
+
+			SessionFactory.getSession().getIdCache().clear();
+
+			final EnumDog d2 = Criteria.selectAll().firstResult(EnumDog.class);
+			assertEquals("[ID_DOG=100, NAME=din, COLOR=WHITE]", d2.toString());
+
+			assertTrue(EColor.WHITE == d2.getColor());
 
 		} finally {
 			SessionFactory.getSession().rollback();

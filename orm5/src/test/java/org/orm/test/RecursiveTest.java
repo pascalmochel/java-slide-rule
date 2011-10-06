@@ -1,14 +1,14 @@
 package org.orm.test;
 
+import static org.junit.Assert.fail;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.orm.criteria.Criteria;
 import org.orm.mapper.DataMapper;
-import org.orm.record.Entity;
 import org.orm.session.SessionFactory;
 import org.orm.test.ent.Dog;
-
-import static org.junit.Assert.*;
 
 public class RecursiveTest {
 
@@ -60,7 +60,7 @@ public class RecursiveTest {
 			 * demostra que havent-hi recursió infinita (s'evidencia amb el
 			 * fallo en toString()), el mètode store() està controlat
 			 */
-			final Dog d = Entity.loadById(Dog.class, 500);
+			final Dog d = Criteria.selectById(Dog.class, 500);
 			try {
 				d.getRabbits().get(0).getDog().toString();
 				fail();

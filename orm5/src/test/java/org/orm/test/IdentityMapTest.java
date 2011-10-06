@@ -1,14 +1,15 @@
 package org.orm.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.orm.criteria.Criteria;
 import org.orm.mapper.DataMapper;
-import org.orm.record.Entity;
 import org.orm.session.SessionFactory;
 import org.orm.test.ent.Dog;
-
-import static org.junit.Assert.*;
 
 public class IdentityMapTest {
 
@@ -55,8 +56,8 @@ public class IdentityMapTest {
 
 		try {
 
-			final Dog d1 = Entity.loadById(Dog.class, 500);
-			final Dog d2 = Entity.loadById(Dog.class, 500);
+			final Dog d1 = Criteria.selectById(Dog.class, 500);
+			final Dog d2 = Criteria.selectById(Dog.class, 500);
 
 			assertEquals("[ID_DOG=500, NAME=din, AGE=9, [...]]", d1.toString());
 			assertTrue(d1 == d2);
@@ -75,7 +76,7 @@ public class IdentityMapTest {
 
 			final Dog d1 = new Dog(null, "chucho", 3);
 			d1.store();
-			final Dog d2 = Entity.loadById(Dog.class, 100);
+			final Dog d2 = Criteria.selectById(Dog.class, 100);
 
 			assertEquals("[ID_DOG=100, NAME=chucho, AGE=3, [...]]", d1.toString());
 			assertTrue(d1 == d2);

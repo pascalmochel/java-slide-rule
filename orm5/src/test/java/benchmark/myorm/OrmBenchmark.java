@@ -1,12 +1,12 @@
 package benchmark.myorm;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.After;
+import org.orm.criteria.Criteria;
 import org.orm.datasource.HsqldbDataSourceFactory;
 import org.orm.mapper.DataMapper;
-import org.orm.record.Entity;
 import org.orm.session.SessionFactory;
-
-import static org.junit.Assert.*;
 
 public class OrmBenchmark {
 
@@ -38,7 +38,7 @@ public class OrmBenchmark {
 			OrmDog d = new OrmDog(null, "din", 9);
 			d.store();
 
-			d = Entity.loadById(OrmDog.class, d.getId());
+			d = Criteria.selectById(OrmDog.class, d.getId());
 
 			assertEquals("[ID_DOG=*, NAME=din, AGE=9]", d.toString().replaceAll("ID_DOG=\\d+", "ID_DOG=*"));
 

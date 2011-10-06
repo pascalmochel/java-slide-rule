@@ -1,15 +1,14 @@
 package org.orm.test;
 
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 import org.orm.criteria.Criteria;
 import org.orm.datasource.HsqldbDataSourceFactory;
 import org.orm.exception.OrmException;
 import org.orm.mapper.DataMapper;
-import org.orm.record.Entity;
 import org.orm.session.SessionFactory;
 import org.orm.test.ent.Rabbit;
-
-import static org.junit.Assert.*;
 
 public class EntityTest {
 
@@ -50,20 +49,20 @@ public class EntityTest {
 			System.out.println(a);
 
 			try {
-				Entity.loadById(Rabbit.class, 4);
+				Criteria.selectById(Rabbit.class, 4);
 				fail();
 			} catch (final OrmException e2) {
 				// no row produced
 			}
 
-			final Rabbit rabbit = Entity.loadById(Rabbit.class, 100);
+			final Rabbit rabbit = Criteria.selectById(Rabbit.class, 100);
 			System.out.println(rabbit);
 
 			rabbit.setName("jou");
 			rabbit.store();
 
-			System.out.println(Entity.loadById(Rabbit.class, 100));
-			System.out.println(Criteria.selectAll().get(Rabbit.class));
+			System.out.println(Criteria.selectById(Rabbit.class, 100));
+			System.out.println(Criteria.selectAll().list(Rabbit.class));
 
 			// System.out.println(Entity.loadBy(Rabbit.class,
 			// where(eq(Rabbit.id, 4))));
@@ -85,7 +84,7 @@ public class EntityTest {
 
 			rabbit.delete();
 
-			System.out.println(Criteria.selectAll().get(Rabbit.class));
+			System.out.println(Criteria.selectAll().list(Rabbit.class));
 
 			System.out.println(a.getDog());
 
@@ -96,7 +95,7 @@ public class EntityTest {
 				DataMapper
 						.executeDDL("INSERT INTO RABBIT (ID_RABBIT,NAME,AGE,NUM_DOG) VALUES (600,'cornill',5, 500)");
 
-				final Rabbit r = Entity.loadById(Rabbit.class, 600);
+				final Rabbit r = Criteria.selectById(Rabbit.class, 600);
 				System.out.println(r);
 				System.out.println(r.getDog());
 				System.out.println(r);

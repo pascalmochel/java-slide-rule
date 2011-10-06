@@ -1,4 +1,4 @@
-package org.orm.record.field.impl.primitive;
+package org.orm.record.field.regular.primitive;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

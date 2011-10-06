@@ -5,8 +5,8 @@ import org.orm.record.compo.ManyToOne;
 import org.orm.record.compo.OneToMany;
 import org.orm.record.field.Field;
 import org.orm.record.field.FieldDef;
-import org.orm.record.field.impl.FEnum;
-import org.orm.record.identity.IdentityGenerator;
+import org.orm.record.field.identity.IdentityGenerator;
+import org.orm.record.field.regular.FEnum;
 
 import java.util.ArrayList;
 import java.util.Collection;

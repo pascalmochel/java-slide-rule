@@ -37,11 +37,8 @@ public class OneToMany<TID, E extends Entity> implements Clonable<OneToMany<TID,
 			}
 
 			SessionFactory.getSession().open();
-			this.collaboration = Criteria.<E, TID> selectBy(foreignFieldDef, selfIdFieldValue).get(
+			this.collaboration = Criteria.<E, TID> selectBy(foreignFieldDef, selfIdFieldValue).list(
 					foreignEntityClass);
-			// this.collaboration = Entity.loadByColumn(foreignEntityClass,
-			// foreignFieldDef.getColumnName(),
-			// selfIdFieldValue);
 			SessionFactory.getSession().closeReadOnly();
 
 			this.isInit = true;

@@ -50,7 +50,7 @@ public class SequenceTest {
 		SessionFactory.getSession().open();
 
 		new SequenceDog(null, "din", 9).store();
-		assertEquals("[[ID_DOG=1, NAME=din, AGE=9]]", Criteria.selectAll().get(SequenceDog.class).toString());
+		assertEquals("[[ID_DOG=1, NAME=din, AGE=9]]", Criteria.selectAll().list(SequenceDog.class).toString());
 
 		SessionFactory.getSession().rollback();
 	}

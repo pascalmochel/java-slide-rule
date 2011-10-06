@@ -1,17 +1,17 @@
 package org.orm.test;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.orm.mapper.DataMapper;
-import org.orm.record.Entity;
-import org.orm.session.SessionFactory;
-import org.orm.test.ent.Dog;
-import org.orm.test.ent.Rabbit;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.orm.criteria.Criteria;
+import org.orm.mapper.DataMapper;
+import org.orm.session.SessionFactory;
+import org.orm.test.ent.Dog;
+import org.orm.test.ent.Rabbit;
 
 public class SaveTest {
 
@@ -71,7 +71,7 @@ public class SaveTest {
 
 			SessionFactory.getSession().getIdCache().clear();
 
-			final Dog d2 = Entity.loadById(Dog.class, 100);
+			final Dog d2 = Criteria.selectById(Dog.class, 100);
 			assertEquals("[ID_DOG=100, NAME=din, AGE=10, [...]]", d2.toString());
 			d2.getRabbits();
 			assertEquals(
@@ -101,7 +101,7 @@ public class SaveTest {
 
 			SessionFactory.getSession().getIdCache().clear();
 
-			final Rabbit r2 = Entity.loadById(Rabbit.class, 100);
+			final Rabbit r2 = Criteria.selectById(Rabbit.class, 100);
 			assertEquals("[ID_RABBIT=100, NAME=corneju, AGE=6, NUM_DOG=100=>[...]]", r2.toString());
 			r2.getDog();
 			assertEquals(

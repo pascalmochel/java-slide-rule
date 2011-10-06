@@ -1,4 +1,4 @@
-package org.orm.record.field.impl.date;
+package org.orm.record.field.regular.date;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

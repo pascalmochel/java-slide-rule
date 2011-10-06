@@ -22,7 +22,20 @@ public class DataMapper {
 
 	public static final boolean SHOW_SQL = false;
 
+	// TODO implementar el queryFirst() ?
+	private DataMapper() {
+	}
+
 	public static <T extends Entity> T queryUnique(final IRowMapper<T> rowMapper, final IQueryObject query) {
+		return innerQueryFirst(rowMapper, query, true);
+	}
+
+	public static <T extends Entity> T queryFirst(final IRowMapper<T> rowMapper, final IQueryObject query) {
+		return innerQueryFirst(rowMapper, query, false);
+	}
+
+	protected static <T extends Entity> T innerQueryFirst(final IRowMapper<T> rowMapper,
+			final IQueryObject query, final boolean unique) {
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.fine(query.toString());
 		}
@@ -48,7 +61,7 @@ public class DataMapper {
 			}
 			final T r = rowMapper.mapRow(rs);
 
-			if (rs.next()) {
+			if (unique && rs.next()) {
 				throw new OrmException("more than 1 row produced");
 			}
 

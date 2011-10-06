@@ -1,15 +1,16 @@
 package org.orm.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.orm.criteria.Criteria;
 import org.orm.mapper.DataMapper;
-import org.orm.record.Entity;
 import org.orm.session.SessionFactory;
 import org.orm.test.ent.Dog;
 import org.orm.test.ent.Rabbit;
-
-import static org.junit.Assert.*;
 
 public class ATest {
 
@@ -30,9 +31,9 @@ public class ATest {
 		DataMapper.executeDDL("INSERT INTO RABBIT (ID_RABBIT,NAME,AGE,NUM_DOG) VALUES (203,'c22',2, 101)");
 
 		try {
-			final Dog d1 = Entity.loadById(Dog.class, 100);
+			final Dog d1 = Criteria.selectById(Dog.class, 100);
 			d1.getRabbits();
-			final Dog d2 = Entity.loadById(Dog.class, 101);
+			final Dog d2 = Criteria.selectById(Dog.class, 101);
 			d2.getRabbits();
 
 			assertEquals(
@@ -48,13 +49,13 @@ public class ATest {
 
 			SessionFactory.getSession().getIdCache().clear();
 
-			final Rabbit r1 = Entity.loadById(Rabbit.class, 200);
+			final Rabbit r1 = Criteria.selectById(Rabbit.class, 200);
 			r1.getDog();
-			final Rabbit r2 = Entity.loadById(Rabbit.class, 201);
+			final Rabbit r2 = Criteria.selectById(Rabbit.class, 201);
 			r2.getDog();
-			final Rabbit r3 = Entity.loadById(Rabbit.class, 202);
+			final Rabbit r3 = Criteria.selectById(Rabbit.class, 202);
 			r3.getDog();
-			final Rabbit r4 = Entity.loadById(Rabbit.class, 203);
+			final Rabbit r4 = Criteria.selectById(Rabbit.class, 203);
 			r4.getDog();
 
 			assertEquals(
