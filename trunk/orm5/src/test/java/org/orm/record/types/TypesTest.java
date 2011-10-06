@@ -1,7 +1,5 @@
 package org.orm.record.types;
 
-import static org.junit.Assert.assertEquals;
-
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
@@ -14,6 +12,8 @@ import org.orm.criteria.Criteria;
 import org.orm.mapper.DataMapper;
 import org.orm.session.SessionFactory;
 import org.orm.test.EntityTest2;
+
+import static org.junit.Assert.*;
 
 public class TypesTest {
 

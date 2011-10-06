@@ -1,12 +1,12 @@
 package benchmark.myorm;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.After;
 import org.orm.criteria.Criteria;
 import org.orm.datasource.HsqldbDataSourceFactory;
 import org.orm.mapper.DataMapper;
 import org.orm.session.SessionFactory;
+
+import static org.junit.Assert.*;
 
 public class OrmBenchmark {
 

@@ -1,7 +1,5 @@
 package org.orm.test;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Test;
 import org.orm.criteria.Criteria;
 import org.orm.datasource.HsqldbDataSourceFactory;
@@ -9,6 +7,8 @@ import org.orm.exception.OrmException;
 import org.orm.mapper.DataMapper;
 import org.orm.session.SessionFactory;
 import org.orm.test.ent.Rabbit;
+
+import static org.junit.Assert.*;
 
 public class EntityTest {
 

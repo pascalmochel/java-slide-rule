@@ -46,5 +46,5 @@ public class EntityMapper implements IRowMapper<Entity> {
 			throw new OrmException("error mapping " + getClass().getSimpleName(), e);
 		}
 	}
-	
+
 }
