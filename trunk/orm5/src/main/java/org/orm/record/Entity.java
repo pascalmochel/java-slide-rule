@@ -16,6 +16,7 @@ import org.orm.session.SessionFactory;
 import java.util.List;
 
 //TODO té sentit un TxInterceptor?
+// TODO i que passa fent herència d'entitats?
 public class Entity extends BaseEntity {
 
 	public static final boolean CASCADED_DELETE = true;
