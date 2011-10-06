@@ -7,10 +7,10 @@ import org.orm.mapper.IRowMapper;
 import org.orm.query.IQueryObject;
 import org.orm.query.MutableQueryObject;
 import org.orm.query.QueryObject;
-import org.orm.record.compo.ManyToOne;
-import org.orm.record.compo.OneToMany;
 import org.orm.record.field.Field;
 import org.orm.record.field.FieldDef;
+import org.orm.record.field.compo.ManyToOne;
+import org.orm.record.field.compo.OneToMany;
 import org.orm.session.SessionFactory;
 
 import java.util.List;

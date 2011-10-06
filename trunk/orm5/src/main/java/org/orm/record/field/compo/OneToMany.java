@@ -1,4 +1,4 @@
-package org.orm.record.compo;
+package org.orm.record.field.compo;
 
 import org.orm.criteria.Criteria;
 import org.orm.record.BaseEntity;

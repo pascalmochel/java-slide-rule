@@ -1,4 +1,4 @@
-package org.orm.record.compo;
+package org.orm.record.field.compo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

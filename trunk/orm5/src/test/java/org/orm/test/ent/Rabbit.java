@@ -1,7 +1,7 @@
 package org.orm.test.ent;
 
 import org.orm.record.Entity;
-import org.orm.record.compo.ManyToOne;
+import org.orm.record.field.compo.ManyToOne;
 import org.orm.record.field.identity.IdentityGenerator;
 import org.orm.record.field.identity.impl.hsqldb.HsqldbIdentity;
 import org.orm.record.field.regular.FString;
