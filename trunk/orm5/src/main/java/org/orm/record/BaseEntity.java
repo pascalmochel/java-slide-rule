@@ -78,17 +78,19 @@ public class BaseEntity {
 		}
 	}
 
-	protected <TID> void registerOneToMany(final OneToMany<TID, ?> oneToMany) {
+	protected void registerOneToMany(final OneToMany<?, ?>... oneToManies) {
 
-		final OneToMany<TID, ?> c = oneToMany.doClone();
+		for (final OneToMany<?, ?> oneToMany : oneToManies) {
+			final OneToMany<?, ?> c = oneToMany.doClone();
 
-		// ei, de fet són la mateixa columna
-		final String columnName = idField.getColumnName();
+			// ei, de fet són la mateixa columna
+			final String columnName = idField.getColumnName();
 
-		if (this.oneToManies.containsKey(columnName)) {
-			throw new OrmException("duplicated column name: " + getClass().getName() + "#" + columnName);
+			if (this.oneToManies.containsKey(columnName)) {
+				throw new OrmException("duplicated column name: " + getClass().getName() + "#" + columnName);
+			}
+			this.oneToManies.put(columnName, c);
 		}
-		this.oneToManies.put(columnName, c);
 	}
 
 	@SuppressWarnings("unchecked")
