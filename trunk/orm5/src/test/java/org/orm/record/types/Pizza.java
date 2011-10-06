@@ -6,16 +6,16 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 import org.orm.record.Entity;
-import org.orm.record.field.impl.FBigDecimal;
-import org.orm.record.field.impl.date.FDate;
-import org.orm.record.field.impl.date.FTime;
-import org.orm.record.field.impl.date.FTimestamp;
-import org.orm.record.field.impl.primitive.FBoolean;
-import org.orm.record.field.impl.primitive.FDouble;
-import org.orm.record.field.impl.primitive.FInteger;
-import org.orm.record.field.impl.primitive.FShort;
-import org.orm.record.identity.IdentityGenerator;
-import org.orm.record.identity.impl.hsqldb.HsqldbIdentity;
+import org.orm.record.field.identity.IdentityGenerator;
+import org.orm.record.field.identity.impl.hsqldb.HsqldbIdentity;
+import org.orm.record.field.regular.FBigDecimal;
+import org.orm.record.field.regular.date.FDate;
+import org.orm.record.field.regular.date.FTime;
+import org.orm.record.field.regular.date.FTimestamp;
+import org.orm.record.field.regular.primitive.FBoolean;
+import org.orm.record.field.regular.primitive.FDouble;
+import org.orm.record.field.regular.primitive.FInteger;
+import org.orm.record.field.regular.primitive.FShort;
 
 public class Pizza extends Entity {
 

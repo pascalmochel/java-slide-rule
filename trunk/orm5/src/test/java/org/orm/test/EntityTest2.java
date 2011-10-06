@@ -1,19 +1,19 @@
 package org.orm.test;
 
-import org.junit.Test;
-import org.orm.datasource.HsqldbDataSourceFactory;
-import org.orm.logging.LogFactory;
-import org.orm.logging.SingleLineFormatter;
-import org.orm.mapper.DataMapper;
-import org.orm.record.Entity;
-import org.orm.session.SessionFactory;
-import org.orm.test.ent.Dog;
-import org.orm.test.ent.Rabbit;
+import static org.junit.Assert.assertEquals;
 
 import java.util.logging.Handler;
 import java.util.logging.Level;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.orm.criteria.Criteria;
+import org.orm.datasource.HsqldbDataSourceFactory;
+import org.orm.logging.LogFactory;
+import org.orm.logging.SingleLineFormatter;
+import org.orm.mapper.DataMapper;
+import org.orm.session.SessionFactory;
+import org.orm.test.ent.Dog;
+import org.orm.test.ent.Rabbit;
 
 public class EntityTest2 {
 
@@ -66,7 +66,7 @@ public class EntityTest2 {
 				DataMapper
 						.executeDDL("INSERT INTO RABBIT (ID_RABBIT,NAME,AGE,NUM_DOG) VALUES (600,'cornill',5, 500)");
 
-				final Rabbit r = Entity.loadById(Rabbit.class, 600);
+				final Rabbit r = Criteria.selectById(Rabbit.class, 600);
 				System.out.println(r);
 				System.out.println(r.getDog());
 				System.out.println(r);
@@ -75,7 +75,7 @@ public class EntityTest2 {
 
 				SessionFactory.getSession().getIdCache().clear();
 
-				final Dog d = Entity.loadById(Dog.class, 500);
+				final Dog d = Criteria.selectById(Dog.class, 500);
 				assertEquals("[ID_DOG=500, NAME=din, AGE=9, [...]]", d.toString());
 				System.out.println(d.getRabbits());
 				assertEquals(

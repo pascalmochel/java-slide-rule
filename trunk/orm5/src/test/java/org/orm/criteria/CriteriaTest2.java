@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.orm.mapper.DataMapper;
-import org.orm.record.field.impl.primitive.FShort;
+import org.orm.record.field.regular.primitive.FShort;
 import org.orm.session.SessionFactory;
 import org.orm.test.EntityTest2;
 import org.orm.test.ent.Dog;
@@ -79,24 +79,24 @@ public class CriteriaTest2 {
 
 			final Dog d0 = selectBy(eq(Dog.name, "din"))
 			/**/.orderBy(asc(Dog.name))
-			/**/.getUnique(Dog.class);
+			/**/.uniqueResult(Dog.class);
 
 			assertEquals("[ID_DOG=50, NAME=din, AGE=10, [...]]", d0.toString());
 
-			final List<Dog> d1 = selectBy(in(Dog.name, "faria", "gossa")).get(Dog.class);
+			final List<Dog> d1 = selectBy(in(Dog.name, "faria", "gossa")).list(Dog.class);
 
 			assertEquals(
 			/**/"[[ID_DOG=51, NAME=faria, AGE=9, [...]], " +
 			/**/"[ID_DOG=52, NAME=gossa, AGE=8, [...]]]"
 			/**/, d1.toString());
 
-			final List<Dog> d2 = selectBy(like(Dog.name, "%egra%")).get(Dog.class);
+			final List<Dog> d2 = selectBy(like(Dog.name, "%egra%")).list(Dog.class);
 
 			assertEquals(
 			/**/"[[ID_DOG=54, NAME=negra, AGE=6, [...]]]"
 			/**/, d2.toString());
 
-			final List<Dog> d3 = selectAll().orderBy(asc(Dog.age), asc(Dog.name)).get(Dog.class);
+			final List<Dog> d3 = selectAll().orderBy(asc(Dog.age), asc(Dog.name)).list(Dog.class);
 
 			assertEquals(
 			/**/"[[ID_DOG=56, NAME=chucho, AGE=3, [...]], " +
@@ -108,26 +108,26 @@ public class CriteriaTest2 {
 			/**/"[ID_DOG=50, NAME=din, AGE=10, [...]]]"
 			/**/, d3.toString());
 
-			final List<Dog> d4 = selectBy(between(Dog.age, 3, 5)).get(Dog.class);
+			final List<Dog> d4 = selectBy(between(Dog.age, 3, 5)).list(Dog.class);
 
 			assertEquals(
 			/**/"[[ID_DOG=55, NAME=pelut, AGE=5, [...]], " +
 			/**/"[ID_DOG=56, NAME=chucho, AGE=3, [...]]]"
 			/**/, d4.toString());
 
-			final List<Dog> d5 = selectBy(not(lt(Dog.age, 10))).get(Dog.class);
+			final List<Dog> d5 = selectBy(not(lt(Dog.age, 10))).list(Dog.class);
 
 			assertEquals(
 			/**/"[[ID_DOG=50, NAME=din, AGE=10, [...]]]"
 			/**/, d5.toString());
 
-			final List<Dog> d6 = selectBy(sqlClause("1=1 LIMIT 2")).get(Dog.class);
+			final List<Dog> d6 = selectBy(sqlClause("1=1 LIMIT 2")).list(Dog.class);
 
 			System.out.println(d6);
 			assertEquals(2, d6.size());
 
 			final List<Dog> d7 = selectBy(or(and(lt(Dog.age, 8), gt(Dog.age, 6)), eq(Dog.name, "faria")))
-					.get(Dog.class);
+					.list(Dog.class);
 
 			assertEquals(
 			/**/"[[ID_DOG=51, NAME=faria, AGE=9, [...]], [ID_DOG=53, NAME=blanca, AGE=7, [...]]]"

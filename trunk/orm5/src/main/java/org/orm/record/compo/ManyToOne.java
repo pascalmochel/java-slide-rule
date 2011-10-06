@@ -3,6 +3,7 @@ package org.orm.record.compo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.orm.criteria.Criteria;
 import org.orm.record.Entity;
 import org.orm.record.field.Field;
 import org.orm.session.SessionFactory;
@@ -49,7 +50,7 @@ public class ManyToOne<TID, E extends Entity> extends Field<TID> {
 			}
 
 			SessionFactory.getSession().open();
-			this.collaboration = Entity.loadById(foreignEntityClass, selfFkField.getValue());
+			this.collaboration = Criteria.selectById(foreignEntityClass, selfFkField.getValue());
 			SessionFactory.getSession().closeReadOnly();
 
 			this.isInit = true;

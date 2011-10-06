@@ -4,8 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.orm.query.QueryObject;
-import org.orm.record.field.impl.FString;
-import org.orm.record.field.impl.primitive.FShort;
+import org.orm.record.field.regular.FString;
+import org.orm.record.field.regular.primitive.FShort;
 import org.orm.session.SessionFactory;
 import org.orm.test.EntityTest2;
 

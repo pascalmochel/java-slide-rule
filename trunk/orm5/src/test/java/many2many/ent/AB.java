@@ -2,10 +2,10 @@ package many2many.ent;
 
 import org.orm.record.Entity;
 import org.orm.record.compo.ManyToOne;
-import org.orm.record.field.impl.primitive.FInteger;
-import org.orm.record.field.impl.primitive.FLong;
-import org.orm.record.identity.IdentityGenerator;
-import org.orm.record.identity.impl.hsqldb.HsqldbIdentity;
+import org.orm.record.field.identity.IdentityGenerator;
+import org.orm.record.field.identity.impl.hsqldb.HsqldbIdentity;
+import org.orm.record.field.regular.primitive.FInteger;
+import org.orm.record.field.regular.primitive.FLong;
 
 public class AB extends Entity {
 

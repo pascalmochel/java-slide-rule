@@ -1,5 +1,7 @@
 package org.orm.record.types;
 
+import static org.junit.Assert.assertEquals;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
@@ -8,12 +10,10 @@ import java.sql.Timestamp;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.orm.criteria.Criteria;
 import org.orm.mapper.DataMapper;
-import org.orm.record.Entity;
 import org.orm.session.SessionFactory;
 import org.orm.test.EntityTest2;
-
-import static org.junit.Assert.*;
 
 public class TypesTest {
 
@@ -76,7 +76,7 @@ public class TypesTest {
 
 			SessionFactory.getSession().getIdCache().clear();
 
-			p = Entity.loadById(Pizza.class, p.getId());
+			p = Criteria.selectById(Pizza.class, p.getId());
 
 			assertEquals(
 			/**/"[ID_PIZZA=100, T_SHORT=1, T_DOUBLE=2.1, T_BOOL=false, T_BIGDEC=12345, " +

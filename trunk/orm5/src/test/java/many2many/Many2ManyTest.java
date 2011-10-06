@@ -1,5 +1,11 @@
 package many2many;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.Arrays;
+
 import many2many.ent.A;
 import many2many.ent.AB;
 import many2many.ent.B;
@@ -7,14 +13,10 @@ import many2many.ent.B;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.orm.criteria.Criteria;
 import org.orm.mapper.DataMapper;
-import org.orm.record.Entity;
 import org.orm.session.SessionFactory;
 import org.orm.test.EntityTest2;
-
-import java.util.Arrays;
-
-import static org.junit.Assert.*;
 
 public class Many2ManyTest {
 
@@ -86,7 +88,7 @@ public class Many2ManyTest {
 			SessionFactory.getSession().getIdCache().clear();
 
 			{
-				final A q = Entity.loadById(A.class, a.getId());
+				final A q = Criteria.selectById(A.class, a.getId());
 				assertEquals("[ID_A=100, [...]]", q.toString());
 				q.getAbs(); // activa el lazy
 				assertEquals("[ID_A=100, [[ID_AB=100, ID_A=100=>[...], ID_B=100=>[...]]]]", q.toString());
@@ -127,7 +129,7 @@ public class Many2ManyTest {
 			SessionFactory.getSession().getIdCache().clear();
 
 			{
-				final AB q = Entity.loadById(AB.class, ab.getId());
+				final AB q = Criteria.selectById(AB.class, ab.getId());
 				assertEquals("[ID_AB=100, ID_A=100=>[...], ID_B=100=>[...]]", q.toString());
 				q.getA();
 				q.getB();
@@ -161,7 +163,7 @@ public class Many2ManyTest {
 		SessionFactory.getSession().open();
 		A a2;
 		try {
-			a2 = Entity.loadById(A.class, 100);
+			a2 = Criteria.selectById(A.class, 100);
 		} finally {
 			SessionFactory.getSession().rollback();
 		}

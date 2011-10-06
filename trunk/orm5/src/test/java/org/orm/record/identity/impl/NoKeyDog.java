@@ -1,9 +1,10 @@
 package org.orm.record.identity.impl;
 
 import org.orm.record.Entity;
-import org.orm.record.field.impl.FString;
-import org.orm.record.field.impl.primitive.FInteger;
-import org.orm.record.identity.IdentityGenerator;
+import org.orm.record.field.identity.IdentityGenerator;
+import org.orm.record.field.identity.impl.NoKeyGenerator;
+import org.orm.record.field.regular.FString;
+import org.orm.record.field.regular.primitive.FInteger;
 
 public class NoKeyDog extends Entity {
 

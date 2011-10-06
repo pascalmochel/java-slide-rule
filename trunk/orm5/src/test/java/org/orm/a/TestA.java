@@ -30,18 +30,18 @@ public class TestA {
 			DataMapper.executeDDL("INSERT INTO CITY (ID_CITY,NAME) VALUES (100,'SBD')");
 			Entity.sqlStatement("INSERT INTO CITY (ID_CITY,NAME) VALUES (?,?)", 101, "TRS");
 
-			City sbd = selectBy(eq(City.name, "SBD")).getUnique(City.class);
+			City sbd = selectBy(eq(City.name, "SBD")).uniqueResult(City.class);
 			assertEquals("[ID_CITY=100, NAME=SBD]", sbd.toString());
 
 			sbd.setName("Sabadell");
 			sbd.store();
 
-			sbd = Entity.loadById(City.class, sbd.getId());
+			sbd = Criteria.selectById(City.class, sbd.getId());
 			assertEquals("[ID_CITY=100, NAME=Sabadell]", sbd.toString());
 
 			assertEquals("[[ID_CITY=100, NAME=Sabadell], [ID_CITY=101, NAME=TRS]]",
 			// /**/Entity.loadAll(City.class).toString());
-					/**/Criteria.selectAll().get(City.class).toString());
+					/**/Criteria.selectAll().list(City.class).toString());
 
 			// final long no = Entity.count(City.class, all());
 			// assertEquals(2, no);

@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.orm.criteria.Criteria;
 import org.orm.exception.OrmException;
 import org.orm.mapper.DataMapper;
-import org.orm.record.field.impl.primitive.FLong;
+import org.orm.record.field.regular.primitive.FLong;
 import org.orm.test.EntityTest2;
 import org.orm.test.ent.Dog;
 

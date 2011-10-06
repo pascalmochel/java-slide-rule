@@ -1,8 +1,8 @@
-package org.orm.record.identity.impl;
+package org.orm.record.field.identity.impl;
 
 import org.orm.query.IQueryObject;
 import org.orm.record.field.IdentifiableField;
-import org.orm.record.identity.IdentityGenerator;
+import org.orm.record.field.identity.IdentityGenerator;
 
 public class NoKeyGenerator<T> extends IdentityGenerator<T> {
 

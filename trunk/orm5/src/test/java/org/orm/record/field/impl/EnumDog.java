@@ -1,9 +1,11 @@
 package org.orm.record.field.impl;
 
 import org.orm.record.Entity;
-import org.orm.record.field.impl.primitive.FInteger;
-import org.orm.record.identity.IdentityGenerator;
-import org.orm.record.identity.impl.hsqldb.HsqldbIdentity;
+import org.orm.record.field.identity.IdentityGenerator;
+import org.orm.record.field.identity.impl.hsqldb.HsqldbIdentity;
+import org.orm.record.field.regular.FEnum;
+import org.orm.record.field.regular.FString;
+import org.orm.record.field.regular.primitive.FInteger;
 import org.orm.test.ent.Dog;
 
 public class EnumDog extends Entity {

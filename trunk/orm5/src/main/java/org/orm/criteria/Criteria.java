@@ -26,7 +26,6 @@ public class Criteria implements OrderBy {
 	}
 
 	public static <T extends Entity> OrderBy selectBy(final Criterion criterion) {
-
 		final Criteria r = new Criteria();
 		r.query.append("SELECT * FROM ");
 		r.query.addTableName();
@@ -35,7 +34,6 @@ public class Criteria implements OrderBy {
 	}
 
 	public static <T extends Entity, F> OrderBy selectBy(final FieldDef<F> field, final F value) {
-
 		final Criteria r = new Criteria();
 		r.query.append("SELECT * FROM ");
 		r.query.addTableName();
@@ -43,8 +41,16 @@ public class Criteria implements OrderBy {
 		return r;
 	}
 
-	public static <T extends Entity> OrderBy selectAll() {
+	public static <T extends Entity, F> T selectById(final Class<T> entityClass, final F value) {
+		final T entity = SingletonFactory.getEntity(entityClass);
+		final Criteria r = new Criteria();
+		r.query.append("SELECT * FROM ");
+		r.query.addTableName();
+		r.query.append(" WHERE ?=").append(entity.getIdField().getColumnName()).addParams(value);
+		return r.uniqueResult(entityClass);
+	}
 
+	public static <T extends Entity> OrderBy selectAll() {
 		final Criteria r = new Criteria();
 		r.query.append("SELECT * FROM ");
 		r.query.addTableName();
@@ -67,7 +73,7 @@ public class Criteria implements OrderBy {
 	 * carga
 	 */
 
-	public <T extends Entity> T getUnique(final Class<T> entityClass) {
+	public <T extends Entity> T uniqueResult(final Class<T> entityClass) {
 		final T entity = SingletonFactory.getEntity(entityClass);
 		this.query.setTableName(entity.getTableName());
 
@@ -75,7 +81,15 @@ public class Criteria implements OrderBy {
 		return DataMapper.queryUnique(entityMapper, query);
 	}
 
-	public <T extends Entity> List<T> get(final Class<T> entityClass) {
+	public <T extends Entity> T firstResult(final Class<T> entityClass) {
+		final T entity = SingletonFactory.getEntity(entityClass);
+		this.query.setTableName(entity.getTableName());
+
+		final IRowMapper<T> entityMapper = SingletonFactory.getEntityMapper(entityClass);
+		return DataMapper.queryFirst(entityMapper, query);
+	}
+
+	public <T extends Entity> List<T> list(final Class<T> entityClass) {
 		final T entity = SingletonFactory.getEntity(entityClass);
 		this.query.setTableName(entity.getTableName());
 

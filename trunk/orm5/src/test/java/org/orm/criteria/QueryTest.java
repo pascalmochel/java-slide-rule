@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.orm.mapper.DataMapper;
-import org.orm.record.field.impl.primitive.FShort;
+import org.orm.record.field.regular.primitive.FShort;
 import org.orm.session.SessionFactory;
 import org.orm.test.EntityTest2;
 
@@ -62,7 +62,7 @@ public class QueryTest {
 
 			final List<A> vellsPerCity =
 			/**/query("SELECT NULL AS ID_A, MAX(NAME) AS NAME, CITY, MAX(AGE) AS AGE FROM A GROUP BY CITY")
-			/**/.get(A.class);
+			/**/.list(A.class);
 
 			assertEquals(
 			/**/"[[ID_A=null, NAME=MH, CITY=SBD, AGE=29], " +

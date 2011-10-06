@@ -47,7 +47,7 @@ public class HsqldbIdentityTest {
 		SessionFactory.getSession().open();
 
 		new IdentityDog(null, "din", 9).store();
-		assertEquals("[[ID_DOG=100, NAME=din, AGE=9]]", Criteria.selectAll().get(IdentityDog.class)
+		assertEquals("[[ID_DOG=100, NAME=din, AGE=9]]", Criteria.selectAll().list(IdentityDog.class)
 				.toString());
 
 		SessionFactory.getSession().rollback();

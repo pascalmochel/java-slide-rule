@@ -47,7 +47,7 @@ public class NoKeyTest {
 		SessionFactory.getSession().open();
 
 		new NoKeyDog(5, "din", 9).insert();
-		assertEquals("[[ID_DOG=5, NAME=din, AGE=9]]", Criteria.selectAll().get(NoKeyDog.class).toString());
+		assertEquals("[[ID_DOG=5, NAME=din, AGE=9]]", Criteria.selectAll().list(NoKeyDog.class).toString());
 
 		SessionFactory.getSession().rollback();
 	}

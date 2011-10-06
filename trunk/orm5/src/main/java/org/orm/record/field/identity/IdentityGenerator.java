@@ -1,4 +1,4 @@
-package org.orm.record.identity;
+package org.orm.record.field.identity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
