@@ -1,12 +1,11 @@
 //package org.orm.record.config;
 //
+//import java.util.Arrays;
+//
 //import org.orm.record.field.Field;
-//import org.orm.record.field.FieldDef;
 //import org.orm.record.field.compo.ManyToOne;
 //import org.orm.record.field.compo.OneToMany;
 //import org.orm.record.field.identity.IdentityGenerator;
-//
-//import java.util.Arrays;
 //
 //public class ConfigurableEntity implements IConfigurableEntity {
 //
@@ -42,34 +41,31 @@
 //	}
 //
 //	public Config configure() {
-//		final Field<?>[] fields = cons(idField, concate(fs, manyToOnes));
-//		final int[] manyToOneFieldIndexes = new int[manyToOnes.length];
-//		for (int i = 0; i < manyToOnes.length; i++) {
-//
+//		int fieldsIndex = 0;
+//		final Field<?>[] fields = new Field<?>[1 + fs.length + manyToOnes.length];
+//		final int[] manies = new int[manyToOnes.length];
+//		fields[fieldsIndex++] = idField;
+//		for (Field<?> f : fs) {
+//			// f.setFieldIndex(fieldsIndex);
+//			fields[fieldsIndex] = f;
+//			fieldsIndex++;
 //		}
-//		return this;
+//		int maniesIndex = 0;
+//		for (Field<?> f : manyToOnes) {
+//			// f.setFieldIndex(fieldsIndex);
+//			fields[fieldsIndex] = f;
+//			manies[maniesIndex] = fieldsIndex;
+//			fieldsIndex++;
+//			maniesIndex++;
+//		}
+//		OneToMany<?, ?>[] ones = new OneToMany<?, ?>[oneToManies.length];
+//		for (OneToMany<?, ?> f : oneToManies) {
+//			// f.setFieldIndex(fieldsIndex);
+//			ones[fieldsIndex] = f;
+//			fieldsIndex++;
+//		}
+//
+//		return new Config(tableName, idField, fields, manies, ones);
 //	}
 //
-//	// TODO ubicar
-//	public static <T> T[] cons(final T element, final T[] array) {
-//		final T[] r = Arrays.copyOf(array, array.length + 1);
-//		r[0] = element;
-//		System.arraycopy(array, 0, r, 1, array.length);
-//		return r;
-//	}
-//
-//	// TODO ubicar
-//	public static <T> T[] append(final T[] array, final T element) {
-//		final T[] r = Arrays.copyOf(array, array.length + 1);
-//		r[array.length] = element;
-//		return r;
-//	}
-//
-//	// TODO ubicar
-//	public static <T> T[] concate(final T[] array1, final T[] array2) {
-//		final T[] r = Arrays.copyOf(array1, array1.length + array2.length);
-//		System.arraycopy(array2, 0, r, array1.length, array2.length);
-//		return r;
-//	}
-//
-// }
+//}

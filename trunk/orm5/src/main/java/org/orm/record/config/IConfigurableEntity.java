@@ -1,6 +1,6 @@
 //package org.orm.record.config;
 //
-//import org.orm.record.field.FieldDef;
+//import org.orm.record.field.Field;
 //import org.orm.record.field.compo.ManyToOne;
 //import org.orm.record.field.compo.OneToMany;
 //import org.orm.record.field.identity.IdentityGenerator;
@@ -11,7 +11,7 @@
 //
 //	IConfigurableEntity registerIdField(final IdentityGenerator<?> idField);
 //
-//	IConfigurableEntity registerFields(final FieldDef<?>... fs);
+//	IConfigurableEntity registerFields(final Field<?>... fs);
 //
 //	IConfigurableEntity registerManyToOnes(final ManyToOne<?, ?>... manyToOnes);
 //
