@@ -1,13 +1,5 @@
 package org.orm.record;
 
-import org.orm.exception.OrmException;
-import org.orm.record.field.Field;
-import org.orm.record.field.FieldDef;
-import org.orm.record.field.compo.ManyToOne;
-import org.orm.record.field.compo.OneToMany;
-import org.orm.record.field.identity.IdentityGenerator;
-import org.orm.record.field.regular.FEnum;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,6 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.orm.exception.OrmException;
+import org.orm.record.field.Field;
+import org.orm.record.field.FieldDef;
+import org.orm.record.field.compo.ManyToOne;
+import org.orm.record.field.compo.OneToMany;
+import org.orm.record.field.identity.IdentityGenerator;
+import org.orm.record.field.regular.FEnum;
+
 // TODO i implementar validadors?
 public class BaseEntity {
 
@@ -24,9 +24,9 @@ public class BaseEntity {
 
 	// FIXME implementar array única de fields en comptes de tanta Collection,
 	private IdentityGenerator<?> idField;
-	private final Map<String, Field<?>> fields;
-	private final Set<ManyToOne<?, ?>> manyToOnes;
-	private final Map<String, OneToMany<?, ?>> oneToManies;
+	private /*final*/ Map<String, Field<?>> fields;
+	private /*final*/ Set<ManyToOne<?, ?>> manyToOnes;
+	private /*final*/ Map<String, OneToMany<?, ?>> oneToManies;
 
 	public BaseEntity() {
 		super();
@@ -35,6 +35,10 @@ public class BaseEntity {
 		this.manyToOnes = new HashSet<ManyToOne<?, ?>>(2);
 		this.oneToManies = new HashMap<String, OneToMany<?, ?>>(2);
 	}
+
+//	public BaseEntity(Config c) {
+//		// TODO Auto-generated constructor stub
+//	}
 
 	protected void setTableName(final String tableName) {
 		this.tableName = tableName;

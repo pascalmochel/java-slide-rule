@@ -1,5 +1,7 @@
 package org.orm.record;
 
+import java.util.List;
+
 import org.orm.criteria.Criterion;
 import org.orm.exception.OrmException;
 import org.orm.mapper.DataMapper;
@@ -12,8 +14,6 @@ import org.orm.record.field.FieldDef;
 import org.orm.record.field.compo.ManyToOne;
 import org.orm.record.field.compo.OneToMany;
 import org.orm.session.SessionFactory;
-
-import java.util.List;
 
 //TODO té sentit un TxInterceptor?
 // TODO i que passa fent herència d'entitats?
@@ -75,6 +75,15 @@ public class Entity extends BaseEntity {
 	// final Object value) {
 	// return SingletonFactory.getEntity(entityClass).ploadByColumn(column,
 	// value);
+	// }
+
+	//
+	// public Entity() {
+	// super();
+	// }
+
+	// public Entity(Config c) {
+	// super(c);
 	// }
 
 	/**
