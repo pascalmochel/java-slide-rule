@@ -3,7 +3,6 @@ package org.orm.record;
 import org.orm.exception.OrmException;
 import org.orm.mapper.EntityMapper;
 import org.orm.mapper.IRowMapper;
-import org.orm.query.MutableQueryObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,14 +21,6 @@ public class SingletonFactory {
 		@Override
 		protected Map<java.lang.Class<? extends Entity>, IRowMapper<Entity>> initialValue() {
 			return new HashMap<Class<? extends Entity>, IRowMapper<Entity>>();
-		}
-	};
-
-	protected static final ThreadLocal<Map<Class<? extends Entity>, Map<String, MutableQueryObject>>> threadLocalQueries =
-	/**/new ThreadLocal<Map<Class<? extends Entity>, Map<String, MutableQueryObject>>>() {
-		@Override
-		protected Map<Class<? extends Entity>, Map<String, MutableQueryObject>> initialValue() {
-			return new HashMap<Class<? extends Entity>, Map<String, MutableQueryObject>>();
 		}
 	};
 
@@ -61,34 +52,6 @@ public class SingletonFactory {
 			}
 		}
 		return (IRowMapper<T>) mappersMap.get(c);
-	}
-
-	public static <T extends Entity> boolean queryIsDefined(final Class<T> c, final String name) {
-		final Map<Class<? extends Entity>, Map<String, MutableQueryObject>> entMap = threadLocalQueries.get();
-		if (!entMap.containsKey(c)) {
-			final Map<String, MutableQueryObject> queriesMap = new HashMap<String, MutableQueryObject>();
-			entMap.put(c, queriesMap);
-			return false;
-		}
-		final Map<String, MutableQueryObject> queriesMap = entMap.get(c);
-		return queriesMap.containsKey(name);
-	}
-
-	public static <T extends Entity> MutableQueryObject queryGet(final Class<T> c, final String name) {
-		final Map<Class<? extends Entity>, Map<String, MutableQueryObject>> entMap = threadLocalQueries.get();
-		final Map<String, MutableQueryObject> queriesMap = entMap.get(c);
-		return queriesMap.get(name);
-	}
-
-	public static <T extends Entity> void querySet(final Class<T> c, final String name,
-			final MutableQueryObject query) {
-		final Map<Class<? extends Entity>, Map<String, MutableQueryObject>> entMap = threadLocalQueries.get();
-		if (!entMap.containsKey(c)) {
-			final Map<String, MutableQueryObject> queriesMap = new HashMap<String, MutableQueryObject>();
-			entMap.put(c, queriesMap);
-		}
-		final Map<String, MutableQueryObject> queriesMap = entMap.get(c);
-		queriesMap.put(name, query);
 	}
 
 }

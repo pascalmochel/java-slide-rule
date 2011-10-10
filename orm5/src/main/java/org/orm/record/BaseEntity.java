@@ -24,9 +24,9 @@ public class BaseEntity {
 
 	// FIXME implementar array única de fields en comptes de tanta Collection,
 	private IdentityGenerator<?> idField;
-	private /*final*/ Map<String, Field<?>> fields;
-	private /*final*/ Set<ManyToOne<?, ?>> manyToOnes;
-	private /*final*/ Map<String, OneToMany<?, ?>> oneToManies;
+	private final Map<String, Field<?>> fields;
+	private final Set<ManyToOne<?, ?>> manyToOnes;
+	private final Map<String, OneToMany<?, ?>> oneToManies;
 
 	public BaseEntity() {
 		super();
@@ -35,10 +35,6 @@ public class BaseEntity {
 		this.manyToOnes = new HashSet<ManyToOne<?, ?>>(2);
 		this.oneToManies = new HashMap<String, OneToMany<?, ?>>(2);
 	}
-
-//	public BaseEntity(Config c) {
-//		// TODO Auto-generated constructor stub
-//	}
 
 	protected void setTableName(final String tableName) {
 		this.tableName = tableName;
