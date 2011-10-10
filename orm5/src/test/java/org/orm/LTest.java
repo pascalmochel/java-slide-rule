@@ -1,10 +1,8 @@
 package org.orm;
 
-import java.awt.Color;
-
 import org.junit.Test;
-import org.orm.record.HasheMap;
-import org.orm.record.LinkeRow;
+import org.orm.collection.HasheMap;
+import org.orm.collection.LinkeRow;
 
 import static org.junit.Assert.*;
 
