@@ -1,4 +1,4 @@
-package org.orm.record;
+package org.orm.collection;
 
 import java.lang.reflect.Array;
 
