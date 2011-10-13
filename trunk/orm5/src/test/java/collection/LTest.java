@@ -1,4 +1,4 @@
-package org.orm;
+package collection;
 
 import org.junit.Test;
 import org.orm.collection.HasheMap;
