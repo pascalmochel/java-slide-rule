@@ -14,8 +14,9 @@ import org.orm.session.SessionFactory;
 
 import java.util.List;
 
-// TODO té sentit un TxInterceptor?
-// TODO i que passa fent herència d'entitats?
+// TODO té sentit un BO? es podria proxejar amb un TxInterceptor? on posar els mètodes de servei? 
+// a la pròpia entitat? no seria legal, millor en un BO 
+// TODO i que passa fent herència d'entitats? en principi OK
 public class Entity extends BaseEntity {
 
 	public static final boolean CASCADED_DELETE = true;
@@ -93,7 +94,7 @@ public class Entity extends BaseEntity {
 		}
 	}
 
-	private void update() {
+	protected void update() {
 
 		final IQueryObject query = new QueryObject()
 		/**/.append("UPDATE ")
