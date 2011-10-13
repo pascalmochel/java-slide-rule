@@ -71,4 +71,12 @@
 //		};
 //	}
 //
+//	public void clear() {
+//		this.size = 0;
+//	}
+//
+//	public int getSize() {
+//		return size;
+//	}
+//
 // }

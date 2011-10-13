@@ -2,6 +2,7 @@
 //
 //import java.lang.reflect.Array;
 //
+//
 //import java.util.ArrayList;
 //import java.util.Iterator;
 //import java.util.List;
@@ -76,6 +77,20 @@
 //
 //	public Iterator<T> iterator() {
 //		return new I(h);
+//	}
+//
+//	public void clear() {
+//		for (int i = 0; i < capacity; i++) {
+//			this.h[i].clear();
+//		}
+//	}
+//
+//	public int getSize() {
+//		int n = 0;
+//		for (int i = 0; i < capacity; i++) {
+//			n += this.h[i].getSize();
+//		}
+//		return n;
 //	}
 //
 // }
