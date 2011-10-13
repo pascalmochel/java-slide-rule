@@ -9,8 +9,9 @@ public class M<K, V> implements Map<K, V>, Iterable<V> {
 
 	protected final H<V> h;
 
-	public M(final Class<V> elementClass) {
-		this.h = new H<V>(elementClass, 6, 3);
+	@SuppressWarnings("unchecked")
+	public M(final Class<? extends V> elementClass) {
+		this.h = new H<V>((Class<V>) elementClass, 6, 3);
 	}
 
 	@Deprecated
