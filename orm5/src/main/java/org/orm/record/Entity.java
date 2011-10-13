@@ -56,7 +56,7 @@ public class Entity extends BaseEntity {
 		SessionFactory.getSession().getIdCache().attachForce((Class<Entity>) getClass(),
 				getIdField().getValue(), this);
 
-		for (final OneToMany<?, ?> c : getOneToManies().values()) {
+		for (final OneToMany<?, ?> c : getOneToManies()) {
 			if (c.getIsInit()) {
 				final List<? extends Entity> cs = c.getCollaboration(this);
 				if (cs != null) {

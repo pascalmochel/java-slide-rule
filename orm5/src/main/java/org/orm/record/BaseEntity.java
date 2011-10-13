@@ -188,21 +188,21 @@ public class BaseEntity {
 		return fields.values();
 	}
 
-	public Set<ManyToOne<?, ?>> getManyToOnes() {
+	public Collection<ManyToOne<?, ?>> getManyToOnes() {
 		return manyToOnes;
 	}
 
-	public Map<String, OneToMany<?, ?>> getOneToManies() {
-		return oneToManies;
+	public Collection<OneToMany<?, ?>> getOneToManies() {
+		return oneToManies.values();
 	}
 
 	@Override
 	public String toString() {
 		final List<String> r = new ArrayList<String>();
-		for (final Field<?> i : getFields()) {
+		for (Field<?> i : getFields()) {
 			r.add(i.toString());
 		}
-		for (final OneToMany<?, ?> i : oneToManies.values()) {
+		for (final OneToMany<?, ?> i : getOneToManies()) {
 			r.add(i.toString());
 		}
 		return r.toString();
