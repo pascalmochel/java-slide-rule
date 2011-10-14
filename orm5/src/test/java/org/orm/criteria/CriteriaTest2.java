@@ -18,25 +18,6 @@ import static org.orm.criteria.restriction.Restriction.*;
 
 public class CriteriaTest2 {
 
-	// @Test
-	// public void testname() throws Exception {
-	//
-	// {
-	// final IQueryObject r = where(eq(Dog.name,
-	// "din")).renderQuery(Dog.class);
-	//
-	// assertEquals("SELECT * FROM DOG WHERE NAME=? -- [din]", r.toString());
-	// }
-	// {
-	// final IQueryObject r = where(eq(Dog.name,
-	// "din")).orderBy(asc(Dog.name), desc(Dog.age))
-	// .renderQuery(Dog.class);
-	//
-	// assertEquals("SELECT * FROM DOG WHERE NAME=? ORDER BY NAME ASC,AGE DESC -- [din]",
-	// r.toString());
-	// }
-	// }
-
 	static {
 		new EntityTest2();
 	}
@@ -126,15 +107,14 @@ public class CriteriaTest2 {
 			System.out.println(d6);
 			assertEquals(2, d6.size());
 
-			final List<Dog> d7 = selectBy(or(and(lt(Dog.age, 8), gt(Dog.age, 6)), eq(Dog.name, "faria")))
-					.list(Dog.class);
+			final List<Dog> d7 = selectBy(or(and(lt(Dog.age, 8), gt(Dog.age, 6)), eq(Dog.name, "faria"))).list(
+					Dog.class);
 
 			assertEquals(
 			/**/"[[ID_DOG=51, NAME=faria, AGE=9, [...]], [ID_DOG=53, NAME=blanca, AGE=7, [...]]]"
 			/**/, d7.toString());
 
-			final short count = query("SELECT COUNT(*) AS VALUE FROM DOG")
-					.getColumnValue(new FShort("VALUE"));
+			final short count = query("SELECT COUNT(*) AS VALUE FROM DOG").getColumnValue(new FShort("VALUE"));
 			assertEquals((short) 7, count);
 
 		} finally {

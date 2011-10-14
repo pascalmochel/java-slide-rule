@@ -26,7 +26,7 @@ public class EntityTest2 {
 		}
 		LogFactory.getRootLogger().setLevel(Level.FINE);
 
-		SessionFactory.setDataSource(new HsqldbDataSourceFactory().getDataSource());
+		SessionFactory.configDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
 	@Test

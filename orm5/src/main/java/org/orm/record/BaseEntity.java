@@ -94,7 +94,7 @@ public class BaseEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <T> void set(final FieldDef<T> fieldDef, final T value) {
+	public <T> void set(final FieldDef<T> fieldDef, final T value) {
 		final Field<T> self = (Field<T>) fields.get(fieldDef.getColumnName());
 		if (self == null) {
 			throw new OrmException(fieldDef.getColumnName() + "=" + fieldDef + " not found in: " + fields);
@@ -103,7 +103,7 @@ public class BaseEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <T> T get(final FieldDef<T> fieldDef) {
+	public <T> T get(final FieldDef<T> fieldDef) {
 		final Field<T> self = (Field<T>) fields.get(fieldDef.getColumnName());
 		if (self == null) {
 			throw new OrmException(fieldDef.getColumnName() + "=" + fieldDef + " not found in: " + fields);
@@ -112,7 +112,7 @@ public class BaseEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <T extends Enum<T>> T getEnum(final FEnum<T> enumField) {
+	public <T extends Enum<T>> T getEnum(final FEnum<T> enumField) {
 		final FEnum<T> self = (FEnum<T>) fields.get(enumField.getColumnName());
 		if (self == null) {
 			throw new OrmException(enumField.getColumnName() + "=" + enumField + " not found in: " + fields);
@@ -121,7 +121,7 @@ public class BaseEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <T extends Enum<T>> void setEnum(final FEnum<T> enumField, final T value) {
+	public <T extends Enum<T>> void setEnum(final FEnum<T> enumField, final T value) {
 		final FEnum<T> self = (FEnum<T>) fields.get(enumField.getColumnName());
 		if (self == null) {
 			throw new OrmException(enumField.getColumnName() + "=" + enumField + " not found in: " + fields);
@@ -130,7 +130,7 @@ public class BaseEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <TID, E extends Entity> void setCollaboration(final ManyToOne<TID, E> manyToOneField,
+	public <TID, E extends Entity> void setCollaboration(final ManyToOne<TID, E> manyToOneField,
 			final E value) {
 		final ManyToOne<TID, E> self = (ManyToOne<TID, E>) fields.get(manyToOneField.getColumnName());
 		if (self == null) {
@@ -141,7 +141,7 @@ public class BaseEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <TID, E extends Entity> E getCollaboration(final ManyToOne<TID, E> manyToOneField) {
+	public <TID, E extends Entity> E getCollaboration(final ManyToOne<TID, E> manyToOneField) {
 		final ManyToOne<TID, E> self = (ManyToOne<TID, E>) fields.get(manyToOneField.getColumnName());
 		if (self == null) {
 			throw new OrmException(manyToOneField.getColumnName() + "=" + manyToOneField + " not found in: "
@@ -151,7 +151,7 @@ public class BaseEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <E extends Entity> void setCollaboration(final OneToMany<?, E> collaborableField,
+	public <E extends Entity> void setCollaboration(final OneToMany<?, E> collaborableField,
 			final List<E> value) {
 
 		final String columnName = idField.getColumnName(); // ei, de fet són la
@@ -164,7 +164,7 @@ public class BaseEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <E extends Entity> List<E> getCollaboration(final OneToMany<?, E> collaborableField) {
+	public <E extends Entity> List<E> getCollaboration(final OneToMany<?, E> collaborableField) {
 
 		final String columnName = idField.getColumnName(); // ei, de fet són la
 		// mateixa columna!

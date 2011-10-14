@@ -21,13 +21,6 @@ public class Entity extends BaseEntity {
 
 	public static final boolean CASCADED_DELETE = true;
 
-	/**
-	 * @return number of affected rows
-	 */
-	public static int sqlStatement(final String query, final Object... params) {
-		return DataMapper.update(new QueryObject(query, params));
-	}
-
 	public void store() {
 		SessionFactory.getSession().getStoredSet().clear();
 		innerStore();
@@ -54,8 +47,7 @@ public class Entity extends BaseEntity {
 			update();
 		}
 
-		SessionFactory.getSession().getIdCache().attachForce((Class<Entity>) getClass(),
-				getIdField().getValue(), this);
+		SessionFactory.getSession().getIdCache().attachForce((Class<Entity>) getClass(), getIdField().getValue(), this);
 
 		for (final OneToMany<?, ?> c : getOneToManies()) {
 			if (c.getIsInit()) {

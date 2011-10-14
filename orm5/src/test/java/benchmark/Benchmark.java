@@ -12,7 +12,7 @@ import java.util.List;
 public class Benchmark {
 
 	static {
-		SessionFactory.setDataSource(new HsqldbDataSourceFactory().getDataSource());
+		SessionFactory.configDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
 	protected int N = 50;
