@@ -114,17 +114,14 @@
 //		return new Iterator<T>() {
 //			protected int i = 0;
 //
-//			@Override
 //			public boolean hasNext() {
-//				return i < size - 1;
+//				return i < size;
 //			}
 //
-//			@Override
 //			public T next() {
 //				return values[i++];
 //			}
 //
-//			@Override
 //			public void remove() {
 //				throw new RuntimeException("rrr");
 //			}
@@ -135,4 +132,4 @@
 //		return size;
 //	}
 //
-// }
+//}

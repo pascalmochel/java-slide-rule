@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 
 import org.orm.exception.OrmException;
 import org.orm.query.IQueryObject;
+import org.orm.query.QueryObject;
 import org.orm.record.Entity;
 import org.orm.record.field.Field;
 import org.orm.record.field.IdentifiableField;
@@ -33,8 +34,8 @@ public class DataMapper {
 		return innerQueryFirst(rowMapper, query, false);
 	}
 
-	protected static <T extends Entity> T innerQueryFirst(final IRowMapper<T> rowMapper,
-			final IQueryObject query, final boolean unique) {
+	protected static <T extends Entity> T innerQueryFirst(final IRowMapper<T> rowMapper, final IQueryObject query,
+			final boolean unique) {
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.fine(query.toString());
 		}
@@ -179,6 +180,13 @@ public class DataMapper {
 		} finally {
 			close(pstm, rs);
 		}
+	}
+
+	/**
+	 * @return number of affected rows
+	 */
+	public static int sqlStatement(final String query, final Object... params) {
+		return update(new QueryObject(query, params));
 	}
 
 	public static int update(final IQueryObject query) {

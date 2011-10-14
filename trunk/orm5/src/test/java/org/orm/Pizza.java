@@ -14,7 +14,7 @@
 //	public static FString name = new FString("NAME");
 //	public static FInteger price = new FInteger("PRICE");
 //
-//	// TODO aquí, estàticament s'assignen els índexos de camp
+//	// XXX aquí, estàticament s'assignen els índexos de camp
 //	public static final Config c;
 //	static {
 //		c = new ConfigurableEntity()
@@ -24,7 +24,7 @@
 //	}
 //
 //	public Pizza() {
-//		// TODO aquí es passa la config a la Entity, i es clonen els fields
+//		// XXX aquí es passa la config a la Entity, i es clonen els fields
 //		super(c/* .doClone() */);
 //		// // super.setConfig(c);
 //		//

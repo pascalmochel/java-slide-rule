@@ -29,12 +29,16 @@ public class SessionFactory {
 	 * @param dataSource
 	 */
 	// TODO i com fer per a varis dataSources?
-	public static void setDataSource(final DataSource dataSource) {
+	public static void configDataSource(final DataSource dataSource) {
 		synchronized (dataSource) {
 			SessionFactory.dataSourceReference = dataSource;
 			LOG.info("SessionFactory properly configured with DataSource: " + dataSource.getClass().getName()
 					+ ":" + dataSource.toString());
 		}
+	}
+
+	public void setDataSource(final DataSource dataSource) {
+		configDataSource(dataSource);
 	}
 
 	public static void setTransactionIsolation(final Integer transactionIsolation) {

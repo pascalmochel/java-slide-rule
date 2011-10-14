@@ -15,7 +15,7 @@ public class NoKeyTest {
 
 	static {
 		new EntityTest2();
-		SessionFactory.setDataSource(new HsqldbDataSourceFactory().getDataSource());
+		SessionFactory.configDataSource(new HsqldbDataSourceFactory().getDataSource());
 	}
 
 	@Before
