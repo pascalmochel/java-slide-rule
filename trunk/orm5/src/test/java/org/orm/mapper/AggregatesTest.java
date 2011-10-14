@@ -3,11 +3,12 @@ package org.orm.mapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.orm.criteria.Criteria;
-import org.orm.query.QueryObject;
-import org.orm.record.field.regular.FString;
-import org.orm.record.field.regular.primitive.FShort;
-import org.orm.session.SessionFactory;
+import org.mb.criteria.Criteria;
+import org.mb.mapper.DataMapper;
+import org.mb.query.QueryObject;
+import org.mb.record.field.regular.FString;
+import org.mb.record.field.regular.primitive.FShort;
+import org.mb.session.SessionFactory;
 import org.orm.test.EntityTest2;
 
 import static org.junit.Assert.*;

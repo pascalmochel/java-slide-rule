@@ -1,7 +1,7 @@
 package benchmark;
 
-import org.orm.datasource.HsqldbDataSourceFactory;
-import org.orm.session.SessionFactory;
+import org.mb.datasource.HsqldbDataSourceFactory;
+import org.mb.session.SessionFactory;
 
 import benchmark.hibernate.HibernateBenchmark;
 import benchmark.myorm.OrmBenchmark;

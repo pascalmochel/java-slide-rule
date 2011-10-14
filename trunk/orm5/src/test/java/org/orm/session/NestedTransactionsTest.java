@@ -3,10 +3,11 @@ package org.orm.session;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.orm.criteria.Criteria;
-import org.orm.exception.OrmException;
-import org.orm.mapper.DataMapper;
-import org.orm.record.field.regular.primitive.FLong;
+import org.mb.criteria.Criteria;
+import org.mb.exception.OrmException;
+import org.mb.mapper.DataMapper;
+import org.mb.record.field.regular.primitive.FLong;
+import org.mb.session.SessionFactory;
 import org.orm.test.EntityTest2;
 import org.orm.test.ent.Dog;
 

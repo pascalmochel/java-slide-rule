@@ -2,8 +2,8 @@ package org.orm.bo;
 
 import org.junit.After;
 import org.junit.Before;
-import org.orm.mapper.DataMapper;
-import org.orm.session.SessionFactory;
+import org.mb.mapper.DataMapper;
+import org.mb.session.SessionFactory;
 import org.orm.test.EntityTest2;
 
 public abstract class AbstractBoTest {

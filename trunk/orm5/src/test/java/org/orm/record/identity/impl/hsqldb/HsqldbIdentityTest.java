@@ -3,10 +3,10 @@ package org.orm.record.identity.impl.hsqldb;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.orm.criteria.Criteria;
-import org.orm.datasource.HsqldbDataSourceFactory;
-import org.orm.mapper.DataMapper;
-import org.orm.session.SessionFactory;
+import org.mb.criteria.Criteria;
+import org.mb.datasource.HsqldbDataSourceFactory;
+import org.mb.mapper.DataMapper;
+import org.mb.session.SessionFactory;
 import org.orm.test.EntityTest2;
 
 import static org.junit.Assert.*;

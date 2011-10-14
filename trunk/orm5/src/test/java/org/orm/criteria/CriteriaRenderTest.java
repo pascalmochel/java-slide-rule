@@ -1,11 +1,12 @@
 package org.orm.criteria;
 
 import org.junit.Test;
-import org.orm.criteria.order.Order;
+import org.mb.criteria.Criterion;
+import org.mb.criteria.order.Order;
 import org.orm.test.ent.Dog;
 
 import static org.junit.Assert.*;
-import static org.orm.criteria.restriction.Restriction.*;
+import static org.mb.criteria.restriction.Restriction.*;
 
 public class CriteriaRenderTest {
 

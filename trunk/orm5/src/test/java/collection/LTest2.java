@@ -4,13 +4,13 @@
 //import static org.junit.Assert.assertNull;
 //
 //import org.junit.Test;
-//import org.orm.collection.H;
-//import org.orm.collection.M;
-//import org.orm.record.field.Field;
-//import org.orm.record.field.identity.impl.hsqldb.HsqldbIdentity;
-//import org.orm.record.field.regular.FString;
-//import org.orm.record.field.regular.primitive.FInteger;
-//import org.orm.record.field.regular.primitive.FLong;
+//import org.mb.collection.H;
+//import org.mb.collection.M;
+//import org.mb.record.field.Field;
+//import org.mb.record.field.identity.impl.hsqldb.HsqldbIdentity;
+//import org.mb.record.field.regular.FString;
+//import org.mb.record.field.regular.primitive.FInteger;
+//import org.mb.record.field.regular.primitive.FLong;
 //
 //public class LTest2 {
 //

@@ -3,7 +3,7 @@ package benchmark.hibernate.utils;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.orm.exception.OrmException;
+import org.mb.exception.OrmException;
 
 import java.util.Locale;
 import java.util.Properties;

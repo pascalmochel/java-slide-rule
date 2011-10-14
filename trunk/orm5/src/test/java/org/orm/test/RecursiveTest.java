@@ -3,9 +3,9 @@ package org.orm.test;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.orm.criteria.Criteria;
-import org.orm.mapper.DataMapper;
-import org.orm.session.SessionFactory;
+import org.mb.criteria.Criteria;
+import org.mb.mapper.DataMapper;
+import org.mb.session.SessionFactory;
 import org.orm.test.ent.Dog;
 
 import static org.junit.Assert.*;

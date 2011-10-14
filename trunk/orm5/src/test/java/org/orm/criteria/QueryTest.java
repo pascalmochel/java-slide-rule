@@ -3,15 +3,15 @@ package org.orm.criteria;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.orm.mapper.DataMapper;
-import org.orm.record.field.regular.primitive.FShort;
-import org.orm.session.SessionFactory;
+import org.mb.mapper.DataMapper;
+import org.mb.record.field.regular.primitive.FShort;
+import org.mb.session.SessionFactory;
 import org.orm.test.EntityTest2;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.orm.criteria.Criteria.*;
+import static org.mb.criteria.Criteria.*;
 
 public class QueryTest {
 
