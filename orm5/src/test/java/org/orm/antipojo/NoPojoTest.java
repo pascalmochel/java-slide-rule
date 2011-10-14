@@ -1,18 +1,17 @@
 package org.orm.antipojo;
 
 import static org.junit.Assert.assertEquals;
-import static org.orm.criteria.Criteria.query;
-import static org.orm.criteria.Criteria.selectBy;
-import static org.orm.criteria.restriction.Restriction.eq;
+import static org.mb.criteria.Criteria.*;
+import static org.mb.criteria.restriction.Restriction.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.orm.criteria.Criteria;
-import org.orm.datasource.HsqldbDataSourceFactory;
-import org.orm.mapper.DataMapper;
-import org.orm.record.field.regular.primitive.FLong;
-import org.orm.session.SessionFactory;
+import org.mb.criteria.Criteria;
+import org.mb.datasource.HsqldbDataSourceFactory;
+import org.mb.mapper.DataMapper;
+import org.mb.record.field.regular.primitive.FLong;
+import org.mb.session.SessionFactory;
 import org.orm.test.EntityTest2;
 
 public class NoPojoTest {

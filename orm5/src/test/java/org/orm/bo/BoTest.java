@@ -1,6 +1,7 @@
 package org.orm.bo;
 
 import org.junit.Test;
+import org.mb.bo.TxInterceptor;
 import org.orm.bo.dao.DogDao;
 import org.orm.bo.dao.RabbitDao;
 import org.orm.bo.service.IService;

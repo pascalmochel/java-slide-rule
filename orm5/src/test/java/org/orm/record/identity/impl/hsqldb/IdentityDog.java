@@ -1,10 +1,10 @@
 package org.orm.record.identity.impl.hsqldb;
 
-import org.orm.record.Entity;
-import org.orm.record.field.identity.IdentityGenerator;
-import org.orm.record.field.identity.impl.hsqldb.HsqldbIdentity;
-import org.orm.record.field.regular.FString;
-import org.orm.record.field.regular.primitive.FInteger;
+import org.mb.record.Entity;
+import org.mb.record.field.identity.IdentityGenerator;
+import org.mb.record.field.identity.impl.hsqldb.HsqldbIdentity;
+import org.mb.record.field.regular.FString;
+import org.mb.record.field.regular.primitive.FInteger;
 
 public class IdentityDog extends Entity {
 

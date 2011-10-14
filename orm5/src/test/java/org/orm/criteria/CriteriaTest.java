@@ -3,17 +3,17 @@ package org.orm.criteria;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.orm.mapper.DataMapper;
-import org.orm.session.SessionFactory;
+import org.mb.mapper.DataMapper;
+import org.mb.session.SessionFactory;
 import org.orm.test.EntityTest2;
 import org.orm.test.ent.Dog;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.orm.criteria.Criteria.*;
-import static org.orm.criteria.order.Order.*;
-import static org.orm.criteria.restriction.Restriction.*;
+import static org.mb.criteria.Criteria.*;
+import static org.mb.criteria.order.Order.*;
+import static org.mb.criteria.restriction.Restriction.*;
 
 public class CriteriaTest {
 

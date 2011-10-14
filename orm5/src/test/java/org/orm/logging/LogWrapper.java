@@ -1,6 +1,6 @@
 package org.orm.logging;
 
-import org.orm.exception.ThrowableRenderer;
+import org.mb.exception.ThrowableRenderer;
 
 import java.util.Arrays;
 import java.util.ResourceBundle;

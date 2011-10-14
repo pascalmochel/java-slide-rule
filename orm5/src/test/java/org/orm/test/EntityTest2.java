@@ -1,12 +1,12 @@
 package org.orm.test;
 
 import org.junit.Test;
-import org.orm.criteria.Criteria;
-import org.orm.datasource.HsqldbDataSourceFactory;
+import org.mb.criteria.Criteria;
+import org.mb.datasource.HsqldbDataSourceFactory;
+import org.mb.mapper.DataMapper;
+import org.mb.session.SessionFactory;
 import org.orm.logging.LogFactory;
 import org.orm.logging.SingleLineFormatter;
-import org.orm.mapper.DataMapper;
-import org.orm.session.SessionFactory;
 import org.orm.test.ent.Dog;
 import org.orm.test.ent.Rabbit;
 

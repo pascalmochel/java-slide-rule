@@ -1,8 +1,8 @@
-//package org.orm.session.identity;
+//package org.mb.session.identity;
 //
 //import org.junit.Test;
-//import org.orm.record.Entity;
-//import org.orm.test.ent.Dog;
+//import org.mb.record.Entity;
+//import org.mb.test.ent.Dog;
 //
 //import static org.junit.Assert.*;
 //
